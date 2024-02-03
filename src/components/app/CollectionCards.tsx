@@ -83,7 +83,7 @@ const CollectionCards = () => {
         <div 
           style={cardStyle} 
           key={collection.id} 
-          onClick={() => router.push(`/collections/${collection.id}`)}
+          onClick={() => router.push(`/app/collections/${collection.id}`)}
         >
           {collection.title}
         </div>

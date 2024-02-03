@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { auth } from '../../firebaseConfig'
-import ProblemsList from '../../components/app/ProblemsList'
+import { auth } from '../../../firebaseConfig'
+import ProblemsList from '../../../components/app/ProblemsList'
 
 const CollectionPage = () => {
   const router = useRouter();

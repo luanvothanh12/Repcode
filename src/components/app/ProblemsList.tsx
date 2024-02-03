@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import ProblemModal from './ProblemModal';
+import { useRouter } from 'next/router'; 
+import Link from 'next/link';
+
 
 const ProblemsList = ({ collectionId }: {collectionId:any}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [problems, setProblems] = useState([]);
+    const router = useRouter();
+
 
     useEffect(() => {
         const fetchProblems = async () => {
@@ -30,8 +35,10 @@ const ProblemsList = ({ collectionId }: {collectionId:any}) => {
             <ProblemModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} collectionId={collectionId} setProblems={setProblems} />
             <div>
                 {problems.map((problem:any) => (
-                    <div key={problem.id}>
-                        {problem.name} - {problem.difficulty}
+                    <div key={problem.id} style={{cursor: 'pointer'}}>
+                        <Link href={`/app/collections/${collectionId}/problems/${problem.id}`}>
+                            {problem.name} - {problem.difficulty}
+                        </Link>
                     </div>
                 ))}
             </div>
