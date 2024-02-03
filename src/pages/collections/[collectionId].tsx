@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { auth } from '../../firebaseConfig'
+import ProblemsList from '../../components/app/ProblemsList'
 
 const CollectionPage = () => {
   const router = useRouter();
@@ -29,7 +30,7 @@ const CollectionPage = () => {
   return (
     <div>
       <h1>{collectionName}</h1>
-      {/* Render the rest of your collection page content here */}
+      <ProblemsList collectionId={collectionId} /> 
     </div>
   );
 };
