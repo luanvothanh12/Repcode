@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint", 
+    "lint": "next lint",
     "postinstall": "prisma generate"
   },
   "dependencies": {
@@ -14,10 +14,12 @@
     "firebase": "^10.8.0",
     "firebase-admin": "^12.0.0",
     "next": "14.1.0",
+    "preline": "^2.0.3",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
