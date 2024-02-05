@@ -14,6 +14,7 @@ const config: Config = {
       backdrop: '#003045',
 
       base_100: '#121C22', 
+      hover: '#0A151B', 
       neutral: '#1b1d1d', 
       primary: '#9FB9D0', 
       white: '#FFF', 
@@ -21,6 +22,8 @@ const config: Config = {
       divide: '#3D4951', 
       success: '#87cf3a', 
       error: '#ff6b6b', 
+      warning: "#e1d460", 
+      cards: '#3D4951', 
 
     }, 
     extend: {
