@@ -28,8 +28,8 @@ model Collection {
 model Problem {
   id            Int      @id @default(autoincrement())
   name          String
-  question      String
-  solution      String
+  question      String   @db.Text
+  solution      String   @db.Text
   difficulty    Difficulty
   collectionId  Int
   collection    Collection @relation(fields: [collectionId], references: [id])

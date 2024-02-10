@@ -43,7 +43,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
             <ProblemModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} collectionId={collectionId} setProblems={setProblems} />
             <ul className="max-w-full flex flex-col">
                 {problems.map((problem: any) => (
-                    <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-base_100 border border-divide text-white -mt-px first:rounded-t-lg last:rounded-b-lg dark:bg-slate-900 dark:border-gray-700 dark:text-white hover:bg-hover dark:hover:bg-gray-800 transition-colors duration-300">
+                    <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-base_100 border border-divide text-white -mt-px first:rounded-t-lg last:rounded-b-lg dark:bg-slate-900 dark:border-gray-700 dark:text-white hover:bg-hover dark:hover:bg-gray-800 transition-colors duration-100">
                         <div className="flex items-center gap-x-3.5">
                             <span className="material-icons text-xl">more_vert</span>
                             <Link href={`/app/collections/${collectionId}/problems/${problem.id}`}>

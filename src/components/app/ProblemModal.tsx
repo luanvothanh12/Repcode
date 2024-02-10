@@ -29,6 +29,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, setProblems  }: {isOpen:a
         const newProblem = await response.json(); // Assuming your API returns the created problem
         setProblems((prevProblems:any) => [...prevProblems, newProblem]); // Update the list
         onClose();
+        
       } else {
         console.error('Failed to create problem');
       }

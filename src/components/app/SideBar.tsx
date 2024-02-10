@@ -35,16 +35,8 @@ const SideBar = () => {
           {isExpanded && <span className="ml-2">Collections</span>}
         </div>
         <div className="flex items-center my-2">
-          <span className="material-icons text-5xl transition duration-300 ease-in-out hover:scale-110 text-success">sync</span>
-          {isExpanded && <span className="ml-2">Random Easy</span>}
-        </div>
-        <div className="flex items-center my-2">
-          <span className="material-icons text-5xl transition duration-300 ease-in-out hover:scale-110 text-warning">sync</span>
-          {isExpanded && <span className="ml-2">Random Medium</span>}
-        </div>
-        <div className="flex items-center my-2">
-          <span className="material-icons text-5xl transition duration-300 ease-in-out hover:scale-110 text-error">sync</span>
-          {isExpanded && <span className="ml-2">Random Hard</span>}
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '50px' }}>bar_chart</span>
+          {isExpanded && <span className="ml-2">Stats</span>}
         </div>
         <div className="flex items-center my-2">
           <span className="material-icons text-5xl transition duration-300 ease-in-out hover:scale-110 text-white">sync</span>
