@@ -12,7 +12,7 @@ const CollectionPage = () => {
 
   useEffect(() => {
     if (!auth.currentUser) {
-      router.push('/home/SignInUp');
+      //router.push('/home/SignInUp');
     }
     const fetchCollectionDetails = async () => {
       const response = await fetch(`/api/getCollectionDetails?collectionId=${collectionId}`);

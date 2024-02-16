@@ -5,8 +5,10 @@ import Link from 'next/link';
 
 const ProblemsList = ({ collectionId }: { collectionId: any }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [problems, setProblems] = useState([]);
-    const router = useRouter();
+    const [problems, setProblems] = useState<{id: any}[]>([]);
+    const [visibleMenuId, setVisibleMenuId] = useState(null);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [problemToEdit, setProblemToEdit] = useState(null);
 
     useEffect(() => {
         const fetchProblems = async () => {
@@ -27,25 +29,49 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
     const getDifficultyColor = (difficulty: string) => {
         switch (difficulty.toLowerCase()) {
             case 'easy':
-                return 'text-success';
+                return 'text-easy';
             case 'medium':
-                return 'text-warning';
+                return 'text-medium';
             case 'hard':
-                return 'text-error';
+                return 'text-hard';
             default:
                 return 'text-white';
         }
     };
 
+    const toggleMenu = (id:any) => {
+        setVisibleMenuId(visibleMenuId === id ? null : id);
+      };
+
+      const deleteProblem = async (problemId:any) => {
+        const response = await fetch(`/api/deleteProblem?problemId=${problemId}`, { method: 'DELETE' });
+        if (response.ok) {
+          // Remove the problem from your state to update the UI
+          // Assuming you have a state called `problems` that holds the list
+          setProblems(problems.filter(problem => problem.id !== problemId));
+        }
+      };
+
+      const openEditModal = (problem:any) => {
+        setProblemToEdit(problem);
+        setIsEditModalOpen(true);
+      };
 
     return (
         <>
+            <ProblemModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} collectionId={collectionId} setProblems={setProblems} isEditMode={true} problemToEdit={problemToEdit} />
             <ProblemModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} collectionId={collectionId} setProblems={setProblems} />
             <ul className="max-w-full flex flex-col">
                 {problems.map((problem: any) => (
                     <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-base_100 border border-divide text-white -mt-px first:rounded-t-lg last:rounded-b-lg dark:bg-slate-900 dark:border-gray-700 dark:text-white hover:bg-hover dark:hover:bg-gray-800 transition-colors duration-100">
                         <div className="flex items-center gap-x-3.5">
-                            <span className="material-icons text-xl">more_vert</span>
+                        <span className="material-icons text-xl" onClick={() => toggleMenu(problem.id)}>more_vert</span>
+                            {visibleMenuId === problem.id && (
+                            <div className="hs-dropdown relative inline-flex">
+                                <button className="cursor:pointer text-error text-decoration-line: underline mr-2" onClick={() => deleteProblem(problem.id)}>Delete</button>
+                                <button className="cursor:pointer text-link text-decoration-line: underline mr-2" onClick={() => openEditModal(problem)}>Edit</button>
+                            </div>
+                            )}
                             <Link href={`/app/collections/${collectionId}/problems/${problem.id}`}>
                                 {problem.name}
                             </Link>

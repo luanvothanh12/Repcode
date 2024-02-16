@@ -23,6 +23,10 @@ const config: Config = {
       success: '#87cf3a', 
       error: '#ff6b6b', 
       warning: "#e1d460", 
+      easy: "#59FF00", 
+      medium: "#FFBF1A", 
+      hard: "#FF395F", 
+      link: "#79ADDC", 
       cards: '#3D4951', 
 
     }, 

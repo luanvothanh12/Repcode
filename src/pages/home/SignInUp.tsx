@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { auth } from '../../firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { useRouter } from 'next/router'; 
 
 import '../../app/globals.css';
@@ -15,6 +15,7 @@ const SignInUp = () => {
 
   const signUp = async () => {
     try {
+      await setPersistence(auth, browserLocalPersistence); // Set persistence before signing up
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log('User created:', user);
@@ -37,8 +38,8 @@ const SignInUp = () => {
 
   const signIn = async () => {
     try {
+      await setPersistence(auth, browserLocalPersistence); // Set persistence before signing in
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      // Signed in
       const user = userCredential.user;
       console.log('User signed in:', user);
       router.push('/app/main');
@@ -47,6 +48,7 @@ const SignInUp = () => {
       // Show error message to user here
     }
   };
+
 
   return (
     
