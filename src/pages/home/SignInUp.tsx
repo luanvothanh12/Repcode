@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { auth } from '../../firebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { useRouter } from 'next/router'; 
-import { setCookie } from 'nookies';
 
 
 import '../../app/globals.css';
@@ -20,14 +19,6 @@ const SignInUp = () => {
       await setPersistence(auth, browserLocalPersistence); // Set persistence before signing up
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      const userToken = await user.getIdToken();
-      setCookie(null, '__session', userToken, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/',
-        secure: true, // Ensure this is true to send the cookie over HTTPS only
-        httpOnly: true, // Optional based on your security requirements
-      });
       console.log('User created:', user);
   
       // Call your API endpoint to create the user in your MySQL database
@@ -51,14 +42,6 @@ const SignInUp = () => {
       await setPersistence(auth, browserLocalPersistence); // Set persistence before signing in
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      const userToken = await user.getIdToken();
-      setCookie(null, '__session', userToken, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/',
-        secure: true, // Ensure this is true to send the cookie over HTTPS only
-        httpOnly: true, // Optional based on your security requirements
-      });
       console.log('User signed in:', user);
       router.push('/app/main');
     } catch (error) {

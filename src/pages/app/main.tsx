@@ -7,35 +7,8 @@ import CollectionCards from '../../components/app/CollectionCards';
 import SideBar from '../../components/app/SideBar'; 
 import '../../app/globals.css'; 
 import firebaseAdmin from '../../../firebaseAdmin'; 
-import { parseCookies } from 'nookies';
+import nookies from "nookies"; 
 
-export const getServerSideProps = async (context:any) => {
-  try {
-    const cookies = parseCookies(context);
-    const token = cookies.__session; // Assuming the token is stored in a cookie named '__session'
-    const decodedToken = await firebaseAdmin.auth().verifyIdToken(token);
-
-    if (!decodedToken) {
-      return {
-        redirect: {
-          destination: '/home/SignInUp', // Redirect to sign-in page if token is not valid
-          permanent: false,
-        },
-      };
-    }
-
-    // Optionally, pass user data as props or perform other server-side logic
-    return { props: { /* user data or other props */ } };
-  } catch (err) {
-    // In case of error or no token, redirect to sign-in page
-    return {
-      redirect: {
-        destination: '/home/SignInUp',
-        permanent: false,
-      },
-    };
-  }
-};
 
   const Main = () => {
 
@@ -52,6 +25,28 @@ export const getServerSideProps = async (context:any) => {
       </>
     );
   };
+
+  export async function getServerSideProps(context:any) {
+    try {
+      const cookies = nookies.get(context);
+      const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+      
+      // Optionally fetch more data for your page using token.uid or other identifiers
+  
+      // If the token is valid, return empty props (or props based on token/user data)
+      return {
+        props: {},
+      };
+    } catch (err) {
+      // If token verification fails or token doesn't exist, redirect to sign-in page
+      return {
+        redirect: {
+          destination: '/home/SignInUp',
+          permanent: false,
+        },
+      };
+    }
+  }
 
 export default Main;
 

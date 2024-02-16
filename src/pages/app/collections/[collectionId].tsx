@@ -11,9 +11,13 @@ const CollectionPage = () => {
   const [collectionName, setCollectionName] = useState('');
 
   useEffect(() => {
-    if (!auth.currentUser) {
-      //router.push('/home/SignInUp');
-    }
+    // This needs to be replaced with SSR using cookies (you need cookies to pass the users ID from client to server)
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (!user) {
+        router.push('/home/SignInUp');
+      }
+    });
+        
     const fetchCollectionDetails = async () => {
       const response = await fetch(`/api/getCollectionDetails?collectionId=${collectionId}`);
       if (response.ok) {
@@ -25,6 +29,7 @@ const CollectionPage = () => {
     if (collectionId) {
       fetchCollectionDetails();
     }
+    return () => unsubscribe(); 
   }, [collectionId, router]);
 
   return (

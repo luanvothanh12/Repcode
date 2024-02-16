@@ -18,9 +18,12 @@ const ProblemDetailPage = () => {
   const [editorContent, setEditorContent] = useState('');
 
   useEffect(() => {
-    if (!auth.currentUser) {
-      //router.push('/home/SignInUp');
-    }
+    // This needs to be replaced with SSR using cookies (you need cookies to pass the users ID from client to server)
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (!user) {
+        router.push('/home/SignInUp');
+      }
+    });
 
     const fetchProblemDetails = async () => {
       if (problemId) {
@@ -48,6 +51,7 @@ const ProblemDetailPage = () => {
 
     fetchProblemDetails();
     fetchCollectionName();
+    return () => unsubscribe(); 
   }, [problemId, collectionId, router]);
 
   if (!problem) return(
