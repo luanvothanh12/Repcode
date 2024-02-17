@@ -7,9 +7,11 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
+import nookies from "nookies"; 
+import firebaseAdmin from "../../../../../../firebaseAdmin";
 
 const ProblemDetailPage = () => {
-  const router = useRouter();
+  const router = useRouter(); 
   const { collectionId, problemId } = router.query;
 
   const [problem, setProblem] = useState<{ name: string, question: string, difficulty: any, solution: any}>();
@@ -18,12 +20,6 @@ const ProblemDetailPage = () => {
   const [editorContent, setEditorContent] = useState('');
 
   useEffect(() => {
-    // This needs to be replaced with SSR using cookies (you need cookies to pass the users ID from client to server)
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (!user) {
-        router.push('/home/SignInUp');
-      }
-    });
 
     const fetchProblemDetails = async () => {
       if (problemId) {
@@ -51,8 +47,7 @@ const ProblemDetailPage = () => {
 
     fetchProblemDetails();
     fetchCollectionName();
-    return () => unsubscribe(); 
-  }, [problemId, collectionId, router]);
+  }, [problemId, collectionId]);
 
   if (!problem) return(
   <div>
@@ -128,6 +123,28 @@ const ProblemDetailPage = () => {
     </>
   );
 };
+
+export async function getServerSideProps(context:any) {
+  try {
+    const cookies = nookies.get(context);
+    const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+    
+    // Optionally fetch more data for your page using token.uid or other identifiers
+
+    // If the token is valid, return empty props (or props based on token/user data)
+    return {
+      props: {},
+    };
+  } catch (err) {
+    // If token verification fails or token doesn't exist, redirect to sign-in page
+    return {
+      redirect: {
+        destination: '/home/SignInUp',
+        permanent: false,
+      },
+    };
+  }
+}
 
 
 export default ProblemDetailPage;

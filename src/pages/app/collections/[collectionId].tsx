@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { auth } from '../../../firebaseConfig'; // Ensure the path is correct
+import { auth } from '../../../firebaseConfig'; 
 import ProblemsList from '../../../components/app/ProblemsList'; 
-import SideBar from '../../../components/app/SideBar'; // Ensure you import SideBar correctly
+import SideBar from '../../../components/app/SideBar'; 
 import '../../../app/globals.css'; 
+import nookies from "nookies"; 
+import firebaseAdmin from "../../../../firebaseAdmin"; 
 
 const CollectionPage = () => {
   const router = useRouter();
@@ -11,12 +13,6 @@ const CollectionPage = () => {
   const [collectionName, setCollectionName] = useState('');
 
   useEffect(() => {
-    // This needs to be replaced with SSR using cookies (you need cookies to pass the users ID from client to server)
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (!user) {
-        router.push('/home/SignInUp');
-      }
-    });
         
     const fetchCollectionDetails = async () => {
       const response = await fetch(`/api/getCollectionDetails?collectionId=${collectionId}`);
@@ -29,7 +25,6 @@ const CollectionPage = () => {
     if (collectionId) {
       fetchCollectionDetails();
     }
-    return () => unsubscribe(); 
   }, [collectionId, router]);
 
   return (
@@ -45,5 +40,27 @@ const CollectionPage = () => {
     </>
   );
 };
+
+export async function getServerSideProps(context:any) {
+  try {
+    const cookies = nookies.get(context);
+    const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+    
+    // Optionally fetch more data for your page using token.uid or other identifiers
+
+    // If the token is valid, return empty props (or props based on token/user data)
+    return {
+      props: {},
+    };
+  } catch (err) {
+    // If token verification fails or token doesn't exist, redirect to sign-in page
+    return {
+      redirect: {
+        destination: '/home/SignInUp',
+        permanent: false,
+      },
+    };
+  }
+}
 
 export default CollectionPage;

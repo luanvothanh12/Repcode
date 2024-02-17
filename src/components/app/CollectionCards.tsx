@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import CollectionModal from './CollectionModal';
 import { auth } from '../../firebaseConfig';
 import { useRouter } from 'next/router';
+import { AuthContext } from '@/auth/AuthContext';
 
 const CollectionCards = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,28 +14,37 @@ const CollectionCards = () => {
   const [collectionToDelete, setCollectionToDelete] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [collectionToEdit, setCollectionToEdit] = useState(null);
+  const { user } = useContext(AuthContext); // Access the user from AuthContext
+
 
   const router = useRouter();
 
   useEffect(() => {
     const fetchCollections = async () => {
+      if (!user) {
+        console.log('No user found, skipping fetch');
+        setIsLoading(false);
+        return;
+      }
+      
       setIsLoading(true);
-      if (auth.currentUser) {
-        const response = await fetch(`/api/getUserCollections?userEmail=${auth.currentUser.email}`);
+      try {
+        const response = await fetch(`/api/getUserCollections?userEmail=${user.email}`);
         if (response.ok) {
           const data = await response.json();
           setCollections(data);
         } else {
-          console.error('Failed to fetch collections');
+          throw new Error('Failed to fetch collections');
         }
-      } else {
-        // router.push('/home/SignInUp');
+      } catch (error:any) {
+        console.error(error.message);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     fetchCollections();
-  }, [router]);
+  }, [user]); // Depend on the user state
 
   if (isLoading) {
     return (
