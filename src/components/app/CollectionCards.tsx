@@ -4,8 +4,12 @@ import { auth } from "../../firebaseConfig";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/auth/AuthContext";
 import Link from 'next/link'; // Import Link from Next.js
+import Toast from "./Toast";
 
 const CollectionCards = () => {
+  const [toastMessage, setToastMessage] = useState('');
+  const [isToastVisible, setIsToastVisible] = useState(false);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [collectionName, setCollectionName] = useState("");
   const [collections, setCollections] = useState<
@@ -109,7 +113,13 @@ const CollectionCards = () => {
             (collection) => collection.id !== collectionToDelete
           )
         );
-        closeDeleteConfirmation();
+
+        showToast(
+          <>
+            <span className="inline-block mr-2 bg-error rounded-full" style={{ width: '10px', height: '10px' }}></span>
+            Collection deleted successfully
+          </>
+        );
       } else {
         console.error("Failed to delete collection");
         // Handle failure
@@ -122,6 +132,12 @@ const CollectionCards = () => {
   const openEditModal = (collection: any) => {
     setCollectionToEdit(collection);
     setIsEditModalOpen(true);
+  };
+
+  const showToast = (message: any) => {
+    setToastMessage(message);
+    setIsToastVisible(true);
+    setTimeout(() => setIsToastVisible(false), 3000); // Hide after 3 seconds
   };
 
   return (
@@ -140,7 +156,7 @@ const CollectionCards = () => {
               </Link>
             </div>
             <span
-              className="material-icons text-3xl absolute top-0 left-0 m-2 cursor-pointer"
+              className="material-icons text-3xl text-white absolute top-0 left-0 m-2 cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
                 toggleMenu(collection.id);
@@ -149,7 +165,7 @@ const CollectionCards = () => {
               more_vert
             </span>
             {visibleMenuId === collection.id && (
-              <div className="absolute top-0 left-10 mt-2 flex flex-row cursor-pointer">
+            <div className={`absolute top-0 left-10 mt-2 ml-2 flex flex-row cursor-pointer ${visibleMenuId === collection.id ? 'hs-dropdown-enter' : ''}`}>
                 <button
                   className="mr-2 py-2 text-error text-decoration-line: underline text-sm"
                   onClick={() => openDeleteConfirmation(collection.id)}
@@ -194,11 +210,13 @@ const CollectionCards = () => {
         setCollections={setCollections}
         isEditMode={true}
         collectionToEdit={collectionToEdit}
+        showToast={showToast}
       />
       <CollectionModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         setCollections={setCollections}
+        showToast={showToast}
       />
 
       {deleteConfirmationOpen && (
@@ -223,8 +241,10 @@ const CollectionCards = () => {
           </div>
         </div>
       )}
+          <Toast message={toastMessage} isVisible={isToastVisible} />
     </>
   );
 };
 
 export default CollectionCards;
+

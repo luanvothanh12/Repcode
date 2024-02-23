@@ -6,3 +6,45 @@ body {
     background-color: #121C22; 
 }
 
+@keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(15vh);
+    }
+  }
+  
+  .modalEnter {
+    animation: slideDown 0.5s ease-out forwards;
+  }
+
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-50%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0%);
+      opacity: 1;
+    }
+  }
+  
+  .hs-dropdown-enter {
+    animation: slideInLeft 0.5s ease-out forwards;
+  }
+
+  @keyframes toastEnter {
+    from {
+      transform: translate(-50%, 100%); /* Combine horizontal centering with vertical animation */
+      opacity: 0;
+    }
+    to {
+      transform: translate(-50%, 0); /* Maintain horizontal centering after animation */
+      opacity: 1;
+    }
+  }
+  
+  .animate-toastEnter {
+    animation: toastEnter 0.5s ease-out forwards;
+  }

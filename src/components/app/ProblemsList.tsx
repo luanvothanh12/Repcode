@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ProblemModal from './ProblemModal';
+import Toast from './Toast';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 const ProblemsList = ({ collectionId }: { collectionId: any }) => {
+  const [toastMessage, setToastMessage] = useState('');
+  const [isToastVisible, setIsToastVisible] = useState(false);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [problems, setProblems] = useState<{id: any}[]>([]);
     const [visibleMenuId, setVisibleMenuId] = useState(null);
@@ -80,8 +84,13 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         const response = await fetch(`/api/deleteProblem?problemId=${problemId}`, { method: 'DELETE' });
         if (response.ok) {
           // Remove the problem from your state to update the UI
-          // Assuming you have a state called `problems` that holds the list
           setProblems(problems.filter(problem => problem.id !== problemId));
+          showToast(
+            <>
+              <span className="inline-block mr-2 bg-error rounded-full" style={{ width: '10px', height: '10px' }}></span>
+              Problem deleted successfully
+            </>
+          );
         }
       };
 
@@ -90,17 +99,23 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         setIsEditModalOpen(true);
       };
 
+      const showToast = (message: any) => {
+        setToastMessage(message);
+        setIsToastVisible(true);
+        setTimeout(() => setIsToastVisible(false), 5000); 
+      };
+
     return (
         <>
-            <ProblemModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} collectionId={collectionId} setProblems={setProblems} isEditMode={true} problemToEdit={problemToEdit} />
-            <ProblemModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} collectionId={collectionId} setProblems={setProblems} />
+            <ProblemModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} collectionId={collectionId} setProblems={setProblems} isEditMode={true} problemToEdit={problemToEdit} showToast={showToast} />
+            <ProblemModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} collectionId={collectionId} setProblems={setProblems} showToast={showToast} />
             <ul className="max-w-full flex flex-col">
                 {problems.map((problem: any) => (
                     <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-base_100 border border-divide text-white -mt-px first:rounded-t-lg last:rounded-b-lg dark:bg-slate-900 dark:border-gray-700 dark:text-white hover:bg-hover dark:hover:bg-gray-800 transition-colors duration-100">
                         <div className="flex items-center gap-x-3.5">
                         <span className="material-icons text-xl hover:cursor-pointer" onClick={() => toggleMenu(problem.id)}>more_vert</span>
                             {visibleMenuId === problem.id && (
-                            <div className="hs-dropdown relative inline-flex">
+                            <div className="hs-dropdown-enter relative inline-flex">
                                 <button className="cursor:pointer text-error text-decoration-line: underline mr-2" onClick={() => deleteProblem(problem.id)}>Delete</button>
                                 <button className="cursor:pointer text-link text-decoration-line: underline mr-2" onClick={() => openEditModal(problem)}>Edit</button>
                             </div>
@@ -125,6 +140,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
     </svg>
   </button>
 </div>
+<Toast message={toastMessage} isVisible={isToastVisible} />
         </>
     );
 };

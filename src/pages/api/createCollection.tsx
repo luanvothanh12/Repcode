@@ -3,12 +3,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 const prisma = new PrismaClient();
 
-const images = ['pattern1.svg', 'pattern2.svg', 'pattern3.svg', 'pattern4.svg'];
-const randomImage = images[Math.floor(Math.random() * images.length)];
-
 export default async function handler(req: any, res: any) {
+
   if (req.method === 'POST') {
     const { title, userEmail } = req.body;
+    const images = ['pattern1.svg', 'pattern2.svg', 'pattern3.svg', 'pattern4.svg'];
+    const randomImage = images[Math.floor(Math.random() * images.length)];
 
     try {
       // Find the user by email

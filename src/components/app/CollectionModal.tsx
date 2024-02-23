@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { auth } from '../../firebaseConfig';
+import '../../app/globals.css'; 
 
-const CollectionModal = ({ isOpen, onClose, setCollections, isEditMode = false, collectionToEdit = null }: { isOpen: boolean, isEditMode?:any, collectionToEdit?:any, onClose: any, setCollections: any }) => {
+const CollectionModal = ({ isOpen, onClose, setCollections, isEditMode = false, collectionToEdit = null, showToast }: { isOpen: boolean, isEditMode?:any, collectionToEdit?:any, onClose: any, setCollections: any, showToast:any }) => {
   const [collectionName, setCollectionName] = useState(isEditMode && collectionToEdit ? collectionToEdit.title : '');
 
   useEffect(() => {
@@ -14,6 +15,7 @@ const CollectionModal = ({ isOpen, onClose, setCollections, isEditMode = false, 
   }, [isEditMode, collectionToEdit]);
 
   const handleCreateCollection = async () => {
+    onClose(); 
     if (!auth.currentUser) {
       console.error('No user logged in');
       return;
@@ -47,7 +49,12 @@ const CollectionModal = ({ isOpen, onClose, setCollections, isEditMode = false, 
           setCollections((prevCollections:any) => [...prevCollections, newOrUpdatedCollection]);
         }
         setCollectionName('');
-        onClose(); // Close modal after creation or update
+        showToast(
+          <>
+            <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>
+            {isEditMode ? 'Collection updated successfully' : 'Collection created successfully'}
+          </>
+        );
       } else {
         console.error('Failed to create or update collection');
       }
@@ -58,9 +65,10 @@ const CollectionModal = ({ isOpen, onClose, setCollections, isEditMode = false, 
 
   if (!isOpen) return null;
 
+  const modalClass = isOpen ? "modalEnter" : "";
   return (
-    <div className={`${isOpen ? '' : 'hidden'} fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full`}>
-      <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-neutral">
+    <div className={`${isOpen ? '' : 'hidden'} fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full`} style={{ opacity: isOpen ? 1 : 0 }}>
+    <div className={`relative top-0 mx-auto p-5 w-96 shadow-lg rounded-md bg-neutral ${modalClass}`} style={{ animationDuration: '0.5s' }}>
         <div className="mt-3 text-center">
           <h3 className="text-lg leading-6 font-medium text-white">{isEditMode ? 'Edit Collection' : 'New Collection'}</h3>
           <div className="mt-2 px-7 py-3">
@@ -84,3 +92,5 @@ const CollectionModal = ({ isOpen, onClose, setCollections, isEditMode = false, 
 };
 
 export default CollectionModal;
+
+

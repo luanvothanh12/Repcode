@@ -123,7 +123,7 @@ const SideBar = () => {
         <hr className="my-2 w-full text-divide" />
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover dark:hover:bg-gray-800' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goHome}>
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '35px' }}>home</span>
-          {isExpanded && <span className="ml-2 text-white">Dashboard</span>}
+          {isExpanded && <span className={`ml-2 text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Dashboard</span>}
         </div>
   
         {/* Master Collections Dropdown */}
@@ -131,7 +131,7 @@ const SideBar = () => {
           <div onClick={toggleMasterCollectionsDropdown} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover dark:hover:bg-gray-800' : ''} transition-colors duration-100 cursor-pointer rounded justify-between width-full`}>
             <div className="flex items-center">
               <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '35px' }}>style</span>
-              {isExpanded && <span className="ml-2 text-white">Collections</span>}
+              {isExpanded && <span className={`ml-2 text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Collections</span>}
             </div>
             {isExpanded && (
               <span className="material-icons transition duration-300 ease-in-out text-white" style={{ fontSize: '24px' }}>
@@ -178,12 +178,12 @@ const SideBar = () => {
         </div>
   
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover dark:hover:bg-gray-800' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '35px' }}>bar_chart</span>
-          {isExpanded && <span className="ml-2 text-white">Stats</span>}
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '35px' }}>query_stats</span>
+          {isExpanded && <span className={`ml-2 text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Statistics</span>}
         </div>
-        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover dark:hover:bg-gray-800' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-error" onClick={logOut} style={{ fontSize: '35px' }}>person</span>
-          {isExpanded && <span className="ml-2 text-white">Log Out</span>}
+        <div onClick={logOut} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover dark:hover:bg-gray-800' : ''} transition-colors duration-100 cursor-pointer rounded`}>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-error" style={{ fontSize: '35px' }}>person</span>
+          {isExpanded && <span className={`ml-2 text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Logout</span>}
         </div>
       </div>
     </div>

@@ -20,6 +20,8 @@ const config: Config = {
       white: '#FFF', 
       pop: '#FF865B', 
       divide: '#3D4951', 
+      divide2: '#A3AAB5',
+      feintwhite: '#CECECE', 
       success: '#87cf3a', 
       error: '#ff6b6b', 
       warning: "#e1d460", 
