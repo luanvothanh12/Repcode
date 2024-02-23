@@ -20,6 +20,7 @@ model User {
 model Collection {
   id        Int      @id @default(autoincrement())
   title     String
+  image     String @default("pattern1.svg")
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   problems  Problem[]

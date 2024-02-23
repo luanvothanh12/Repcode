@@ -46,6 +46,7 @@ const CollectionModal = ({ isOpen, onClose, setCollections, isEditMode = false, 
           // Add the new collection to the state
           setCollections((prevCollections:any) => [...prevCollections, newOrUpdatedCollection]);
         }
+        setCollectionName('');
         onClose(); // Close modal after creation or update
       } else {
         console.error('Failed to create or update collection');

@@ -43,8 +43,18 @@ const ProblemModal = ({ isOpen, onClose, collectionId, setProblems, isEditMode =
       });
 
       if (response.ok) {
-        const newProblem = await response.json(); // Assuming your API returns the created problem
-        setProblems((prevProblems:any) => [...prevProblems, newProblem]); // Update the list
+        const newOrUpdatedProblem = await response.json();
+        if (isEditMode) {
+          // Update the problem in the existing list
+          setProblems((prevProblems:any) => prevProblems.map((p:any) => p.id === problemToEdit.id ? newOrUpdatedProblem : p));
+        } else {
+          // Add new problem to the list
+          setProblems((prevProblems:any) => [...prevProblems, newOrUpdatedProblem]);
+        }
+        setName('');
+        setQuestion('');
+        setSolution('');
+        setDifficulty('EASY');
         onClose();
         
       } else {

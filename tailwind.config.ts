@@ -28,6 +28,7 @@ const config: Config = {
       hard: "#FF395F", 
       link: "#79ADDC", 
       cards: '#3D4951', 
+      load: '#2563EB',
 
     }, 
     extend: {

@@ -13,7 +13,6 @@ const CollectionPage = () => {
   const [collectionName, setCollectionName] = useState('');
 
   useEffect(() => {
-        
     const fetchCollectionDetails = async () => {
       const response = await fetch(`/api/getCollectionDetails?collectionId=${collectionId}`);
       if (response.ok) {

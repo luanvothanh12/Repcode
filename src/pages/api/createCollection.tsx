@@ -3,7 +3,10 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 const prisma = new PrismaClient();
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+const images = ['pattern1.svg', 'pattern2.svg', 'pattern3.svg', 'pattern4.svg'];
+const randomImage = images[Math.floor(Math.random() * images.length)];
+
+export default async function handler(req: any, res: any) {
   if (req.method === 'POST') {
     const { title, userEmail } = req.body;
 
@@ -24,6 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         data: {
           title,
           userId: user.id,
+          image: randomImage,
         },
       });
 
