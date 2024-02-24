@@ -9,11 +9,12 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   const [isToastVisible, setIsToastVisible] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [problems, setProblems] = useState<{id: any}[]>([]);
+    const [problems, setProblems] = useState<{id: any, name:any, difficulty:any}[]>([]);
     const [visibleMenuId, setVisibleMenuId] = useState(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [problemToEdit, setProblemToEdit] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
       const fetchProblems = async () => {
@@ -109,8 +110,25 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         <>
             <ProblemModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} collectionId={collectionId} setProblems={setProblems} isEditMode={true} problemToEdit={problemToEdit} showToast={showToast} />
             <ProblemModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} collectionId={collectionId} setProblems={setProblems} showToast={showToast} />
+            <div className='max-w-md mx-auto'>
+              
+    <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-base_100 overflow-hidden m-5">
+        <div className="grid place-items-center h-full w-12 text-feintwhite">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+        </div>
+        <input
+        type="text"
+        placeholder="Search problems..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="peer h-full w-full outline-none text-sm text-white pr-2 bg-base_100"
+        /> 
+    </div>
+</div>
             <ul className="max-w-full flex flex-col">
-                {problems.map((problem: any) => (
+                {problems.filter(problem => problem.name.toLowerCase().includes(searchTerm.toLowerCase())).map((problem) => (
                     <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-base_100 border border-divide text-white -mt-px first:rounded-t-lg last:rounded-b-lg dark:bg-slate-900 dark:border-gray-700 dark:text-white hover:bg-hover dark:hover:bg-gray-800 transition-colors duration-100">
                         <div className="flex items-center gap-x-3.5">
                         <span className="material-icons text-xl hover:cursor-pointer" onClick={() => toggleMenu(problem.id)}>more_vert</span>

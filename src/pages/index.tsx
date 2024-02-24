@@ -10,7 +10,7 @@ import "../app/globals.css";
 
 export default function Home() {
   return (
-    <div>
+    <div className="bg-white dark:bg-base_100">
       <NavBar />
     <div className="flex justify-center items-center h-screen"> 
         <Logo />

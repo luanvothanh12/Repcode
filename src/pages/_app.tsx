@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import { AuthProvider } from '../auth/AuthContext';
 
 function App({ Component, pageProps }: AppProps) {
+
   return (
     <AuthProvider>
       <Component {...pageProps} />

@@ -1,10 +1,13 @@
 import React from 'react';
 import Link from 'next/link'; 
+import useDarkMode from '../../../useDarkMode'
 
 
 const NavBar = () => {
+  const [colorTheme, setTheme] = useDarkMode() as any; 
+
   return (
-    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-base_100 border-b border-divide text-sm py-3 sm:py-0 dark:bg-gray-800 dark:border-gray-700">
+    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-feintwhite dark:border-divide text-sm py-3 sm:py-0 dark:bg-base_100 dark:border-gray-700">
     <nav className="relative max-w-7xl w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8" aria-label="Global">
       <div className="flex items-center justify-between">
         <a className="flex-none text-xl font-semibold dark:text-white text-primary" href="#" aria-label="Brand">
@@ -23,6 +26,39 @@ const NavBar = () => {
       </div>
       <div id="navbar-collapse-with-animation" className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block">
         <div className="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:ps-7">
+        {colorTheme === "light" ? (
+  <svg
+    onClick={() => setTheme("light")}
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-6 w-6"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+    />
+  </svg>
+) : (
+  <svg
+    onClick={() => setTheme("dark")}
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-6 w-6"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+    />
+  </svg>
+)}
           <a className="font-medium text-white hover:text-primary sm:py-6 dark:text-blue-500" href="#" aria-current="page">Guide</a>
           <a className="font-medium text-white hover:text-primary sm:py-6 dark:text-gray-400 dark:hover:text-gray-500" href="#">Changelog</a>
           <a className="font-medium text-white hover:text-primary sm:py-6 dark:text-gray-400 dark:hover:text-gray-500" href="#">Github</a>

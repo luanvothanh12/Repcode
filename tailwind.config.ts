@@ -7,6 +7,7 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     'node_modules/preline/dist/*.js', 
   ],
+  darkMode: 'class',
   theme: {
     colors: {
       cream: '#BEB9B0', 
