@@ -1,7 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-import type { NextApiRequest, NextApiResponse } from 'next';
-
-const prisma = new PrismaClient();
+import prisma from "../../../prisma_client"; 
 
 export default async function handler(req: any, res: any) {
 
@@ -31,6 +28,7 @@ export default async function handler(req: any, res: any) {
         },
       });
 
+      console.log("CALLED: /createCollection")
       return res.status(200).json(collection);
     } catch (error) {
       console.error('Failed to create collection:', error);

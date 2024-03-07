@@ -1,9 +1,6 @@
-import { PrismaClient } from '@prisma/client';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import prisma from "../../../prisma_client"; 
 
-const prisma = new PrismaClient();
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: any, res: any) {
     if (req.method === 'GET') {
       // Extract collectionId from the query parameters
       const { collectionId } = req.query;
@@ -17,6 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
   
         // Return the fetched problems
+        console.log("CALLED: /getCollectionProblems"); 
         return res.status(200).json(problems);
       } catch (error) {
         console.error('Failed to fetch problems:', error);

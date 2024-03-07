@@ -60,7 +60,7 @@ const CollectionCards = () => {
         <div role="status">
           <svg
             aria-hidden="true"
-            className="w-12 h-12 text-white animate-spin dark:text-gray-600 fill-load"
+            className="w-12 h-12 text-white animate-spin dark:text-base_100 fill-load"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +146,7 @@ const CollectionCards = () => {
         {collections.map((collection) => (
           <div
             key={collection.id}
-            className="relative font-bold text-white text-2xl min-w-[20vw] aspect-square flex justify-center items-center bg-cards border border-divide rounded-lg shadow-md"
+            className="relative font-bold text-white text-2xl min-w-[20vw] aspect-square flex justify-center items-center bg-cards rounded-lg shadow-md"
           >
             <img src={`/${collection.image}`} alt="Collection" className="absolute top-0 left-0 w-full h-3/4 object-cover" />
             <div className="absolute bottom-0 left-0 p-4 w-full bg-gradient-to-t from-black to-transparent flex justify-center items-end h-1/4">
@@ -183,7 +183,7 @@ const CollectionCards = () => {
           </div>
         ))}
         <button
-          className="flex justify-center items-center bg-pop rounded-full h-20 w-20 shadow-md cursor-pointer m-auto transition duration-300 ease-in-out hover:scale-95"
+          className="flex justify-center items-center bg-pop2 dark:bg-pop rounded-full h-20 w-20 shadow-md cursor-pointer m-auto transition duration-300 ease-in-out hover:scale-95"
           onClick={() => setIsModalOpen(true)}
         >
           {/* SVG for Plus Icon */}

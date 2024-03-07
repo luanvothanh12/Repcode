@@ -1,73 +1,58 @@
 import React, { useState, useEffect } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 
-const ProblemModal = ({ isOpen, onClose, collectionId, setProblems, isEditMode = false, problemToEdit = null, showToast }: {isOpen:any, onClose:any, collectionId:any, setProblems:any, isEditMode?:boolean, problemToEdit?:any, showToast?:any}) => {
+
+const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, problemToEdit = null, showToast }: {isOpen:any, onClose:any, collectionId:any, isEditMode?:boolean, problemToEdit?:any, showToast?:any}) => {
   const [name, setName] = useState(isEditMode && problemToEdit ? problemToEdit.name : '');
   const [question, setQuestion] = useState(isEditMode && problemToEdit ? problemToEdit.question : '');
   const [solution, setSolution] = useState(isEditMode && problemToEdit ? problemToEdit.solution : '');
   const [difficulty, setDifficulty] = useState(isEditMode && problemToEdit ? problemToEdit.difficulty : 'EASY');
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (isEditMode && problemToEdit) {
-      setName(problemToEdit.name);
-      setQuestion(problemToEdit.question);
-      setSolution(problemToEdit.solution);
-      setDifficulty(problemToEdit.difficulty);
-    } else {
-      // Reset fields if not in edit mode or problemToEdit is null
-      setName('');
-      setQuestion('');
-      setSolution('');
-      setDifficulty('EASY');
-    }
-  }, [isEditMode, problemToEdit]);
-
-  if (!isOpen) return null;
-
-  const handleSubmit = async (e:any) => {
-    e.preventDefault(); 
-    onClose();
-    const url = isEditMode ? `/api/updateProblem?problemId=${problemToEdit.id}` : '/api/createProblem';
-    const method = isEditMode ? 'PUT' : 'POST';
-    try {
+  const mutation = useMutation(
+    async (problemData: any) => {
+      const url = isEditMode ? `/api/updateProblem?problemId=${problemToEdit.id}` : '/api/createProblem';
+      const method = isEditMode ? 'PUT' : 'POST';
       const response = await fetch(url, {
         method: method,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name,
-          question,
-          solution,
-          difficulty,
-          collectionId, 
-        }),
+        body: JSON.stringify(problemData),
       });
-
-      if (response.ok) {
-        const newOrUpdatedProblem = await response.json();
-        if (isEditMode) {
-          // Update the problem in the existing list
-          setProblems((prevProblems:any) => prevProblems.map((p:any) => p.id === problemToEdit.id ? newOrUpdatedProblem : p));
-        } else {
-          // Add new problem to the list
-          setProblems((prevProblems:any) => [...prevProblems, newOrUpdatedProblem]);
-        }
-        setName('');
-        setQuestion('');
-        setSolution('');
-        setDifficulty('EASY');
+      if (!response.ok) throw new Error('Failed to submit problem');
+      return response.json();
+    },
+    {
+      onSuccess: () => {
+        // Invalidate and refetch problems list
+        queryClient.invalidateQueries(['collectionProblems', collectionId]);
         showToast(
           <>
             <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>
             {isEditMode ? 'Problem updated successfully' : 'Problem created successfully'}
           </>
         );
-      } else {
-        console.error('Failed to create problem');
-      }
-    } catch (error) {
-      console.error('Failed to submit problem:', error);
+        onClose(); // Close the modal on success
+      },
+      onError: (error: any) => {
+        console.error('Failed to submit problem:', error);
+        // Optionally, show an error toast
+      },
     }
+  );
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    mutation.mutate({
+      name,
+      question,
+      solution,
+      difficulty,
+      collectionId,
+    });
   };
 
   const modalClass = isOpen ? "modalEnter" : "";

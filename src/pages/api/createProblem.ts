@@ -1,10 +1,6 @@
-// pages/api/createProblem.ts
-import { PrismaClient } from '@prisma/client';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import prisma from "../../../prisma_client"; 
 
-const prisma = new PrismaClient();
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: any, res: any) {
   if (req.method === 'POST') {
     const { name, question, solution, difficulty, collectionId } = req.body;
 
@@ -20,6 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       });
 
+      console.log("CALLED: /createProblem")
       return res.status(200).json(problem);
     } catch (error) {
       console.error('Failed to create problem:', error);

@@ -1,7 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-import type { NextApiRequest, NextApiResponse } from 'next';
-
-const prisma = new PrismaClient();
+import prisma from "../../../prisma_client"; 
 
 export default async function handler(req: any, res: any) {
   if (req.method === 'GET') {
@@ -18,6 +15,7 @@ export default async function handler(req: any, res: any) {
       });
 
       if (collection) {
+        console.log("CALLED: /getCollectionDetails"); 
         return res.status(200).json(collection);
       } else {
         return res.status(404).json({ error: 'Collection not found' });

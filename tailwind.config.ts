@@ -10,19 +10,18 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     colors: {
-      cream: '#BEB9B0', 
-      bluey: '#ABD2FA', 
-      backdrop: '#003045',
-
       base_100: '#121C22', 
       hover: '#0A151B', 
       neutral: '#1b1d1d', 
       primary: '#9FB9D0', 
+      primary2: '#4B5563', 
       white: '#FFF', 
       pop: '#FF865B', 
+      pop2: '#f9d72f', 
       divide: '#3D4951', 
-      divide2: '#A3AAB5',
+      divide2: '#D8E0E9',
       feintwhite: '#CECECE', 
+      grey: '#A5A9AE', 
       success: '#87cf3a', 
       error: '#ff6b6b', 
       warning: "#e1d460", 
@@ -32,6 +31,10 @@ const config: Config = {
       link: "#79ADDC", 
       cards: '#3D4951', 
       load: '#2563EB',
+      blue: '#2563EB',
+      new: '#4DBEE8', 
+      learning: '#CF7150',
+      review: '#0FB20C'
 
     }, 
     extend: {

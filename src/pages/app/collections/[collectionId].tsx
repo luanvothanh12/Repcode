@@ -6,33 +6,34 @@ import SideBar from '../../../components/app/SideBar';
 import '../../../app/globals.css'; 
 import nookies from "nookies"; 
 import firebaseAdmin from "../../../../firebaseAdmin"; 
+import { useQuery } from 'react-query';
+
 
 const CollectionPage = () => {
   const router = useRouter();
   const { collectionId } = router.query;
-  const [collectionName, setCollectionName] = useState('');
 
-  useEffect(() => {
-    const fetchCollectionDetails = async () => {
-      const response = await fetch(`/api/getCollectionDetails?collectionId=${collectionId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setCollectionName(data.title);
-      }
-    };
 
-    if (collectionId) {
-      fetchCollectionDetails();
-    }
-  }, [collectionId, router]);
+  const fetchCollectionDetails = async () => {
+    const response = await fetch(`/api/getCollectionDetails?collectionId=${collectionId}`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    return response.json();
+  };
+
+  const { data, isLoading, error } = useQuery(['collectionDetails', collectionId], fetchCollectionDetails, {
+    enabled: !!collectionId,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {(error as Error).message}</div>;
 
   return (
     <>
-      <div className="flex min-h-screen"> 
+      <div className="flex min-h-screen bg-white dark:bg-base_100 transition-width duration-300"> 
         <SideBar /> 
         <div className="flex-grow p-8">
-          <div className="text-white text-4xl font-bold mb-4 flex justify-center">:collections/{collectionName}</div>
-          <hr className="border-divide mb-8"/>
+          <div className="text-neutral dark:text-white text-4xl font-bold mb-4 flex justify-center">:collections/{data.title}</div>
+          <hr className="border-feintwhite dark:border-divide mb-8 transition-width duration-300"/>
           <ProblemsList collectionId={collectionId} />
         </div>
       </div>

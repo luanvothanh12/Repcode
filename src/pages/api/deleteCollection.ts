@@ -1,7 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-import type { NextApiRequest, NextApiResponse } from 'next';
-
-const prisma = new PrismaClient();
+import prisma from "../../../prisma_client"; 
 
 export default async function handler(req: any, res: any) {
   if (req.method === 'DELETE') {
@@ -22,6 +19,7 @@ export default async function handler(req: any, res: any) {
         },
       });
 
+      console.log("CALLED: /deleteCollection"); 
       res.status(200).json({ message: 'Collection and associated problems deleted successfully' });
     } catch (error) {
       console.error('Failed to delete collection:', error);

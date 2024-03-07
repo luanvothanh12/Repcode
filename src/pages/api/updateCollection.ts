@@ -1,9 +1,6 @@
-import { PrismaClient } from '@prisma/client';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import prisma from "../../../prisma_client"; 
 
-const prisma = new PrismaClient();
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: any, res: any) {
   if (req.method === 'PUT') {
     const { collectionId } = req.query; // Assuming collectionId is passed as a query parameter
     const { title, userEmail } = req.body;
@@ -31,6 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       });
 
+      console.log("CALLED: /updateCollection"); 
       return res.status(200).json(updatedCollection);
     } catch (error) {
       console.error('Failed to update collection:', error);

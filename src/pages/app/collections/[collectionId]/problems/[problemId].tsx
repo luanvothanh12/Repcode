@@ -1,9 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { auth } from '../../../../../firebaseConfig'; 
 import '../../../../../app/globals.css'; 
 import SideBar from '@/components/app/SideBar';
-import AceEditor from "react-ace";
 import nookies from "nookies"; 
 import firebaseAdmin from "../../../../../../firebaseAdmin";
 import Problem from '@/components/app/Problem';
@@ -49,11 +47,11 @@ const ProblemDetailPage = () => {
 
   return (
     <>
-      <div className="flex min-h-screen h-auto max-h-screen overflow-hidden">
+      <div className="flex min-h-screen h-auto max-h-screen overflow-hidden bg-white dark:bg-base_100 transition-width duration-300">
         <SideBar />
         <div className="flex-grow p-8">
-          <div className="text-white text-4xl font-bold mb-4 flex justify-center">:collections/{collectionName}/{problem?.name}</div>
-            <hr className="border-divide mb-8"/>
+          <div className="text-neutral dark:text-white text-4xl font-bold mb-4 flex justify-center">:collections/{collectionName}/{problem?.name}</div>
+            <hr className="border-feintwhite dark:border-divide mb-8 transition-width duration-300"/>
             <Problem
       problem={problem}
       contentActive={contentActive}

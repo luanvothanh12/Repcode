@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from "../../../prisma_client"; 
 
 export default async function handler(req:any, res:any) {
   if (req.method === 'POST') {
@@ -11,6 +9,7 @@ export default async function handler(req:any, res:any) {
           email,
         },
       });
+      console.log("CALLED: /createUser");
       res.status(200).json(user);
     } catch (error) {
       console.error('Error creating user:', error);

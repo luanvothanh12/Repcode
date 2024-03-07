@@ -11,10 +11,21 @@ datasource db {
 }
 
 model User {
-  id        Int         @id @default(autoincrement())
-  email     String      @unique
-  password  String?
-  collections Collection[]
+  id                      Int         @id @default(autoincrement())
+  email                   String      @unique
+  password                String?
+  collections             Collection[]
+  learnSteps              String      @default("10m 1d")
+  relearnSteps            String      @default("10m") 
+  relearnGraduatingInterval Float     @default(0.75) 
+  graduatingInterval      Int         @default(3) 
+  easyInterval            Int         @default(4) 
+  startingEase            Float       @default(2.5)
+  minimumEase             Float       @default(1.3) 
+  easyBonus               Float       @default(1.3) 
+  intervalModifier        Float       @default(1.0) 
+  maximumInterval         Int         @default(180) 
+  maximumNewPerDay        Int         @default(9999)
 }
 
 model Collection {
@@ -27,13 +38,19 @@ model Collection {
 }
 
 model Problem {
-  id            Int      @id @default(autoincrement())
-  name          String
-  question      String   @db.Text
-  solution      String   @db.Text
-  difficulty    Difficulty
-  collectionId  Int
-  collection    Collection @relation(fields: [collectionId], references: [id])
+  id                      Int         @id @default(autoincrement())
+  name                    String
+  question                String      @db.Text
+  solution                String      @db.Text
+  difficulty              Difficulty
+  collectionId            Int
+  collection              Collection  @relation(fields: [collectionId], references: [id])
+  creationDate            DateTime    @default(now())
+  type                    String      @default("New")
+  interval                Int         @default(1) 
+  relearnInterval         Int         @default(0)
+  ease                    Float       @default(2.5) 
+  dueDate                 DateTime    @default(now()) 
 }
 
 enum Difficulty {
