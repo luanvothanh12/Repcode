@@ -96,7 +96,7 @@ const ProblemTypeInfo = () => {
             Study Now
             </button>
         ) : (
-            <p className="text:neutral dark:text-primary">You don't have any problems due today, go relax and drink a sody pop!</p>
+            <p className="text:neutral dark:text-primary">You do not have any problems due today, go relax and drink a sody pop!</p>
         )}
         </div>
     );
