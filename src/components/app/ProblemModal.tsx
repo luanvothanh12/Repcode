@@ -11,6 +11,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
 
   const mutation = useMutation(
     async (problemData: any) => {
+      onClose(); 
       const url = isEditMode ? `/api/updateProblem?problemId=${problemToEdit.id}` : '/api/createProblem';
       const method = isEditMode ? 'PUT' : 'POST';
       const response = await fetch(url, {
@@ -27,13 +28,14 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
       onSuccess: () => {
         // Invalidate and refetch problems list
         queryClient.invalidateQueries(['collectionProblems', collectionId]);
+        queryClient.invalidateQueries(['allProblems']); // for dashboard numbers 
+        queryClient.invalidateQueries(['dueTodayProblems']); // for the ProblemQueue 
         showToast(
           <>
             <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>
             {isEditMode ? 'Problem updated successfully' : 'Problem created successfully'}
           </>
         );
-        onClose(); // Close the modal on success
       },
       onError: (error: any) => {
         console.error('Failed to submit problem:', error);

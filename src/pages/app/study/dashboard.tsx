@@ -15,7 +15,7 @@ const StudyProblemPage = () => {
       <div className="flex-grow p-8">
         <div className="text-neutral dark:text-white text-4xl font-bold mb-4 flex justify-center">Study</div>
         <hr className="border-feintwhite dark:border-divide mb-8 transition-width duration-300"/>
-        <ProblemTypeInfo></ProblemTypeInfo>
+        <ProblemTypeInfo />
 
       </div>
     </div>

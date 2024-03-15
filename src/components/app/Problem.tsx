@@ -6,131 +6,37 @@ import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-solarized_light";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
-import useDarkMode from '../../../useDarkMode';
 import { AuthContext } from '@/auth/AuthContext';
   
-  const Problem = ({ problem, contentActive, setContentActive, editorContent, setEditorContent, buttons, onButtonClick }: {problem:any, contentActive:any, setContentActive:any, editorContent:any, setEditorContent:any, buttons?:any, onButtonClick?:any}) => {
+  const Problem = ({ problem, contentActive, setContentActive, editorContent, setEditorContent }: {problem:any, contentActive:any, setContentActive:any, editorContent:any, setEditorContent:any}) => {
 
-    const [problemDetails, setProblemDetails] = useState<any>();
-    const [userSettings, setUserSettings] = useState<any>(); 
-    const [againText, setAgainText] = useState<any>();
-    const [hardText, setHardText] = useState<any>(); 
-    const [goodText, setGoodText] = useState<any>(); 
-    const [easyText, setEasyText] = useState<any>();  
-    const { user } = useContext(AuthContext);
-
-    useEffect(() => {
-      const fetchProblemDetails = async () => {
-        try {
-          const response = await fetch(`/api/getProblemDetails?problemId=${problem.id}`);
-          if (response.ok) {
-            const data = await response.json();
-            setProblemDetails(data);
-            
-          } else {
-            throw new Error("Failed to fetch problem details");
-          }
-        } catch (error: any) {
-          console.error(error.message);
-        } 
+    const getDifficultyColor = (difficulty: string) => {
+      switch (difficulty.toLowerCase()) {
+          case 'easy':
+              return 'text-easy';
+          case 'medium':
+              return 'text-medium';
+          case 'hard':
+              return 'text-hard';
+          default:
+              return 'text-white';
       }
+  };
 
-      const fetchUserSettings = async () => {
-        if (!user) {
-          console.log("No user found, skipping fetch");
-          return;
-        }
-        try {
-          const response = await fetch(`/api/getUserSettings?userEmail=${user.email}`);
-          if (response.ok) {
-            const data = await response.json();
-            setUserSettings(data);
-          } else {
-            throw new Error("Failed to fetch user info");
-          }
-        } catch (error: any) {
-          console.error("Failed to fetch user info:", error.message);
-        }
-      };
-
-      fetchUserSettings(); 
-      fetchProblemDetails();
-
-      // Calculate the next due date of the problem 
-      if (buttons && problemDetails && userSettings) {
-        switch (problemDetails.type) {
-          case 'New': {
-            const stepsArray = userSettings.learnSteps.split(' ');
-            const firstLearningStep = stepsArray[0];
-            const secondLearningStep = stepsArray[1]; 
-            setAgainText(firstLearningStep);
-            setGoodText(secondLearningStep);
-            setEasyText(userSettings.easyInterval + "d"); 
-            break; 
-          }
-          case 'Learning': {
-            const stepsArray = userSettings.learnSteps.split(' ');
-            const firstLearningStep = stepsArray[0];
-
-            const currentIndex = stepsArray.findIndex((step: any) => step === problem.interval);
-            let nextInterval;
-            if (currentIndex >= 0 && currentIndex < stepsArray.length - 1) {
-              // If there is a next step, use it
-              nextInterval = stepsArray[currentIndex + 1];
-            } else {
-              // If the current interval is the last one, or not found, use the graduating interval
-              nextInterval = userSettings.graduatingInterval + "d";
-              const easyint = userSettings.easyInterval + "d"; 
-
-              setAgainText(firstLearningStep);
-              setGoodText(nextInterval);
-              setEasyText(easyint);
-              break;
-            }
-          }
-          case 'Relearning': {
-            const relearnStepsArray = userSettings.relearnSteps.split(' '); 
-            const firstStep = relearnStepsArray[0]; 
-
-            const currentIndex = relearnStepsArray.findIndex((step: any) => step === problem.interval);
-            // Determine the next interval
-            let nextInterval;
-            if (currentIndex >= 0 && currentIndex < relearnStepsArray.length - 1) {
-              // If there is a next step, use it
-              nextInterval = relearnStepsArray[currentIndex + 1];
-            } else {
-              // If the current interval is the last one, or not found, use the relearnGraduating interval (which is a percent)
-              nextInterval = problem.relearnInterval * userSettings.relearnGraduatingInterval
-            }
-            
-            const easyint = problem.relearnInterval * userSettings.relearnGraduatingInterval; 
-
-            setAgainText(firstStep); 
-            setGoodText(nextInterval); 
-            setEasyText(easyint); 
-            break;
-          }
-          case 'Review': {
-            const relearnStepsArray = userSettings.learnSteps.split(' '); 
-            const firstRelearnStep = relearnStepsArray[0]; 
-
-            const intervalHard = Math.floor((problem.interval * 1.2 * userSettings.intervalModifier) / 1440);
-            const intervalGood = Math.floor((problem.interval * problem.ease * userSettings.intervalModifier) / 1440); 
-            const intervalEasy = Math.floor((problem.interval * problem.ease * userSettings.easyBonus * userSettings.intervalModifier) / 1440);
-
-            setAgainText(firstRelearnStep); 
-            setHardText(intervalHard + "d"); 
-            setGoodText(intervalGood + "d"); 
-            setEasyText(intervalEasy + "d"); 
-            break;
-          }
-          default: {
-            // Optional: handle unknown problem types or log an error
-            break;
-          }
-        }
-      }
-    }, []); 
+  const getTypeColor = (type: string) => {
+    switch (type.toLowerCase()) {
+        case 'new':
+            return 'text-new'; 
+        case 'learning':
+            return 'text-warning'; 
+        case 'relearning':
+            return 'text-warning'; 
+        case 'review':
+            return 'text-success'; 
+        default:
+            return 'text-neutral dark:text-white'; 
+    }
+};
   
     if (!problem) {
       return (
@@ -165,35 +71,20 @@ import { AuthContext } from '@/auth/AuthContext';
           <div className="mb-4">
             <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${contentActive === 'question' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContentActive('question')}>Problem</button>
             <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${contentActive === 'solution' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContentActive('solution')}>Solution</button>
-            {contentActive === 'solution' && buttons?.length > 0 && buttons.map((button: any, index: any) => (
-              <button
-                key={index}
-                className="mx-2 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700"
-                onClick={() => onButtonClick(button.value)}
-              >
-                {button.label}(
-                  {(() => {
-                    switch (button.label) {
-                      case 'Again':
-                        return againText;
-                      case 'Hard':
-                        return hardText;
-                      case 'Good':
-                        return goodText;
-                      case 'Easy':
-                        return easyText;
-                      default:
-                        return '';
-                    }
-                  })()}
-                )
-              </button>
-            ))}
+
         </div>
         {/* Left side content (The question) */}
         <div className="flex justify-between items-center text-neutral dark:text-white">
           <h1 className="text-xl font-bold">{problem.name}</h1>
-          <span className="text-sm m-5">{problem.difficulty}</span>
+          <div className="text-right m-5">
+                <span className={getDifficultyColor(problem.difficulty)}>
+                    {problem.difficulty}
+                </span> 
+                <span className="text-divide2 dark:text-divide"> / </span> 
+                <span className={getTypeColor(problem.type)}>
+                    {problem.type}
+                </span>
+          </div>
         </div>
         {contentActive === 'question' ? (
           <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{problem.question}</p>

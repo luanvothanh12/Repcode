@@ -5,55 +5,88 @@ import { useRouter } from "next/router";
 import { AuthContext } from "@/auth/AuthContext";
 import Link from 'next/link'; // Import Link from Next.js
 import Toast from "./Toast";
+import { useQuery, useMutation, useQueryClient } from 'react-query'; 
+
 
 const CollectionCards = () => {
   const [toastMessage, setToastMessage] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [collectionName, setCollectionName] = useState("");
-  const [collections, setCollections] = useState<
-    { id: string; title: string; image: string }[]
-  >([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [visibleMenuId, setVisibleMenuId] = useState(null); // Added state to manage visibility of dropdown
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [collectionToDelete, setCollectionToDelete] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [collectionToEdit, setCollectionToEdit] = useState(null);
-  const { user } = useContext(AuthContext); // Access the user from AuthContext
+  const { user } = useContext(AuthContext); 
+  const queryClient = useQueryClient();
 
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchCollections = async () => {
-      if (!user) {
-        console.log("No user found, skipping fetch");
-        setIsLoading(false);
-        return;
-      }
+  const fetchCollections = async () => {
+    if (!user) return null; 
+    const response = await fetch(`/api/getUserCollections?userEmail=${user.email}`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    return response.json();
+  };
 
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `/api/getUserCollections?userEmail=${user.email}`
+  const { isLoading, data: collections = [], error } = useQuery(['collections', user?.email], fetchCollections, {
+    enabled: !!user?.email,
+  })
+
+
+  const toggleMenu = (id: any) => {
+    setVisibleMenuId(visibleMenuId === id ? null : id);
+  };
+
+  // Function to open the delete confirmation modal
+  const openDeleteConfirmation = (collectionId: any) => {
+    setCollectionToDelete(collectionId);
+    setDeleteConfirmationOpen(true);
+  };
+
+  // Function to close the delete confirmation modal
+  const closeDeleteConfirmation = () => {
+    setDeleteConfirmationOpen(false);
+    setCollectionToDelete(null);
+  };
+
+  const deleteCollectionMutation = useMutation(
+    async (collectionId: any) => {
+      setDeleteConfirmationOpen(false);
+      const response = await fetch(`/api/deleteCollection?collectionId=${collectionId}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Problem deletion failed');
+      return response.json();
+    },
+    {
+      onSuccess: () => {
+        // Invalidate and refetch to update the list
+        queryClient.invalidateQueries(['collections', user?.email]);
+        queryClient.invalidateQueries(['allProblems']);
+        showToast(
+          <>
+            <span className="inline-block mr-2 bg-error rounded-full" style={{ width: '10px', height: '10px' }}></span>
+            Collection deleted successfully
+          </>
         );
-        if (response.ok) {
-          const data = await response.json();
-          setCollections(data);
-        } else {
-          throw new Error("Failed to fetch collections");
-        }
-      } catch (error: any) {
-        console.error(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      },
+    }
+  );
 
-    fetchCollections();
-  }, [user]); // Depend on the user state
+  const deleteCollection = () => {
+    deleteCollectionMutation.mutate(collectionToDelete);
+  };
 
+  const openEditModal = (collection: any) => {
+    setCollectionToEdit(collection);
+    setIsEditModalOpen(true);
+  };
+
+  const showToast = (message: any) => {
+    setToastMessage(message);
+    setIsToastVisible(true);
+    setTimeout(() => setIsToastVisible(false), 3000); // Hide after 3 seconds
+  };
+  if (error) return <div>Error: {(error as Error).message}</div>;
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -80,70 +113,10 @@ const CollectionCards = () => {
     );
   }
 
-  const toggleMenu = (id: any) => {
-    setVisibleMenuId(visibleMenuId === id ? null : id);
-  };
-
-  // Function to open the delete confirmation modal
-  const openDeleteConfirmation = (collectionId: any) => {
-    setCollectionToDelete(collectionId);
-    setDeleteConfirmationOpen(true);
-  };
-
-  // Function to close the delete confirmation modal
-  const closeDeleteConfirmation = () => {
-    setDeleteConfirmationOpen(false);
-    setCollectionToDelete(null);
-  };
-
-  const deleteCollection = async () => {
-    closeDeleteConfirmation();
-    if (!collectionToDelete) return;
-
-    try {
-      const response = await fetch(
-        `/api/deleteCollection?collectionId=${collectionToDelete}`,
-        { method: "DELETE" }
-      );
-      if (response.ok) {
-        // Successfully deleted the collection
-        // Update your state or UI accordingly
-        setCollections(
-          collections.filter(
-            (collection) => collection.id !== collectionToDelete
-          )
-        );
-
-        showToast(
-          <>
-            <span className="inline-block mr-2 bg-error rounded-full" style={{ width: '10px', height: '10px' }}></span>
-            Collection deleted successfully
-          </>
-        );
-      } else {
-        console.error("Failed to delete collection");
-        // Handle failure
-      }
-    } catch (error) {
-      console.error("Error deleting collection:", error);
-    }
-  };
-
-  const openEditModal = (collection: any) => {
-    setCollectionToEdit(collection);
-    setIsEditModalOpen(true);
-  };
-
-  const showToast = (message: any) => {
-    setToastMessage(message);
-    setIsToastVisible(true);
-    setTimeout(() => setIsToastVisible(false), 3000); // Hide after 3 seconds
-  };
-
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-20 gap-y-8">
-        {collections.map((collection) => (
+        {collections.map((collection:any) => (
           <div
             key={collection.id}
             className="relative font-bold text-white text-2xl min-w-[20vw] aspect-square flex justify-center items-center bg-cards rounded-lg shadow-md"
@@ -207,7 +180,6 @@ const CollectionCards = () => {
       <CollectionModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
-        setCollections={setCollections}
         isEditMode={true}
         collectionToEdit={collectionToEdit}
         showToast={showToast}
@@ -215,7 +187,6 @@ const CollectionCards = () => {
       <CollectionModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        setCollections={setCollections}
         showToast={showToast}
       />
 

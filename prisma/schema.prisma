@@ -47,14 +47,14 @@ model Problem {
   collection              Collection  @relation(fields: [collectionId], references: [id])
   creationDate            DateTime    @default(now())
   type                    String      @default("New")
-  interval                Int         @default(1) 
+  interval                Int         @default(-1) 
   relearnInterval         Int         @default(0)
   ease                    Float       @default(2.5) 
   dueDate                 DateTime    @default(now()) 
 }
 
 enum Difficulty {
-  EASY
-  MEDIUM
-  HARD
+  Easy
+  Medium
+  Hard
 }

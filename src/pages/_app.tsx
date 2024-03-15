@@ -8,6 +8,7 @@ const queryClient = new QueryClient({
     queries: {
       staleTime: Infinity, 
       refetchOnWindowFocus: false, 
+      refetchOnMount: true, 
       // Add other global configurations here
     },
   },
