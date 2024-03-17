@@ -11,7 +11,7 @@ export default async function handler(req: any, res: any) {
           name,
           question,
           solution,
-          difficulty: difficulty.toUpperCase(), // Ensure the difficulty is in uppercase to match the enum
+          difficulty, 
           collectionId: parseInt(collectionId), // Convert collectionId to integer
         },
       });

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
+import { AuthContext } from '@/auth/AuthContext';
 
 
 const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, problemToEdit = null, showToast }: {isOpen:any, onClose:any, collectionId:any, isEditMode?:boolean, problemToEdit?:any, showToast?:any}) => {
@@ -8,6 +9,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
   const [solution, setSolution] = useState(isEditMode && problemToEdit ? problemToEdit.solution : '');
   const [difficulty, setDifficulty] = useState(isEditMode && problemToEdit ? problemToEdit.difficulty : 'EASY');
   const queryClient = useQueryClient();
+  const { user } = useContext(AuthContext);
 
   const mutation = useMutation(
     async (problemData: any) => {
@@ -28,8 +30,8 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
       onSuccess: () => {
         // Invalidate and refetch problems list
         queryClient.invalidateQueries(['collectionProblems', collectionId]);
-        queryClient.invalidateQueries(['allProblems']); // for dashboard numbers 
-        queryClient.invalidateQueries(['dueTodayProblems']); // for the ProblemQueue 
+        queryClient.invalidateQueries(['allProblems', user?.email]); // for dashboard numbers 
+        queryClient.invalidateQueries(['dueTodayProblems', user?.email]); // for the ProblemQueue 
         showToast(
           <>
             <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>
@@ -82,15 +84,15 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                 <label className="block text-sm font-medium text-white">Difficulty:</label>
                 <div className="flex justify-start gap-4 mt-2 text-white">
                   <label className="inline-flex items-center">
-                    <input type="radio" value="EASY" name="difficulty" checked={difficulty === 'EASY'} onChange={(e) => setDifficulty(e.target.value)} className="form-radio" />
+                    <input type="radio" value="Easy" name="difficulty" checked={difficulty === 'Easy'} onChange={(e) => setDifficulty(e.target.value)} className="form-radio" />
                     <span className="ml-2">Easy</span>
                   </label>
                   <label className="inline-flex items-center">
-                    <input type="radio" value="MEDIUM" name="difficulty" checked={difficulty === 'MEDIUM'} onChange={(e) => setDifficulty(e.target.value)} className="form-radio" />
+                    <input type="radio" value="Medium" name="difficulty" checked={difficulty === 'Medium'} onChange={(e) => setDifficulty(e.target.value)} className="form-radio" />
                     <span className="ml-2">Medium</span>
                   </label>
                   <label className="inline-flex items-center">
-                    <input type="radio" value="HARD" name="difficulty" checked={difficulty === 'HARD'} onChange={(e) => setDifficulty(e.target.value)} className="form-radio" />
+                    <input type="radio" value="Hard" name="difficulty" checked={difficulty === 'Hard'} onChange={(e) => setDifficulty(e.target.value)} className="form-radio" />
                     <span className="ml-2">Hard</span>
                   </label>
                 </div>

@@ -430,7 +430,8 @@ import { useMutation, useQueryClient } from 'react-query';
         }
         setContent('question'); 
         setEditorContent(''); 
-        queryClient.invalidateQueries(['allProblems']);
+        queryClient.invalidateQueries(['allProblems', user?.email]);
+        queryClient.invalidateQueries(['collectionProblems', dueProblems[0].collectionId]);
     };
 
   

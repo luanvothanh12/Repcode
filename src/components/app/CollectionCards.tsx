@@ -61,7 +61,7 @@ const CollectionCards = () => {
       onSuccess: () => {
         // Invalidate and refetch to update the list
         queryClient.invalidateQueries(['collections', user?.email]);
-        queryClient.invalidateQueries(['allProblems']);
+        queryClient.invalidateQueries(['allProblems', user?.email]);
         showToast(
           <>
             <span className="inline-block mr-2 bg-error rounded-full" style={{ width: '10px', height: '10px' }}></span>

@@ -20,7 +20,7 @@ const ProblemTypeInfo = () => {
       return response.json();
     };
 
-      const { isLoading, error, data } = useQuery('allProblems', fetchAllProblems, {
+      const { isLoading, error, data } = useQuery(['allProblems', user?.email], fetchAllProblems, {
           enabled: !!user,
       });
 

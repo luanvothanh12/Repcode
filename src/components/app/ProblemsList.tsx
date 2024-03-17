@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ProblemModal from './ProblemModal';
 import Toast from './Toast';
 import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { AuthContext } from '@/auth/AuthContext';
 
 
 const ProblemsList = ({ collectionId }: { collectionId: any }) => {
@@ -17,6 +18,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const queryClient = useQueryClient();
+  const { user } = useContext(AuthContext);
 
 
   const fetchProblems = async () => {
@@ -25,6 +27,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
     return response.json();
   };
   
+  // data: problems simply renames 'data' to 'problems' for readability 
   const { data: problems, isLoading, error } = useQuery(['collectionProblems', collectionId], fetchProblems, {
     enabled: !!collectionId,
   });
@@ -71,8 +74,8 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         onSuccess: () => {
           // Invalidate and refetch to update the list
           queryClient.invalidateQueries(['collectionProblems', collectionId]);
-          queryClient.invalidateQueries(['dueTodayProblems']);
-          queryClient.invalidateQueries(['allProblems']);
+          queryClient.invalidateQueries(['dueTodayProblems', user?.email]);
+          queryClient.invalidateQueries(['allProblems', user?.email]);
           showToast(
             <>
               <span className="inline-block mr-2 bg-error rounded-full" style={{ width: '10px', height: '10px' }}></span>

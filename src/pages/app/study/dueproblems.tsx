@@ -36,7 +36,7 @@ const DueProblems = () => {
     isLoading: isLoadingProblems,
     error: problemsError,
     refetch, 
-  } = useQuery('dueTodayProblems', fetchDueTodayProblems, {
+  } = useQuery(['dueTodayProblems', user?.email], fetchDueTodayProblems, {
     enabled: !!user,
   });
 
@@ -44,7 +44,7 @@ const DueProblems = () => {
     data: userSettings,
     isLoading: isLoadingSettings,
     error: settingsError,
-  } = useQuery('userSettings', fetchUserSettings, {
+  } = useQuery(['userSettings', user?.email], fetchUserSettings, {
     enabled: !!user,
   });
 

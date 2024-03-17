@@ -104,6 +104,11 @@ const SideBar = () => {
     router.push('/app/study/dashboard');
   }
 
+  const goSettings = () => {
+    router.push('/app/settings/UserSettings');
+  }
+
+
   const logOut = async () => {
     try {
       await signOut(auth);
@@ -167,7 +172,7 @@ const SideBar = () => {
           collection.problems.map((problem: any) => (
             <div key={problem.id} className="text-neutral dark:text-white my-1 hover:bg-feintwhite dark:hover:bg-hover cursor:pointer rounded">
               <Link href={`/app/collections/${collection.id}/problems/${problem.id}`}>
-              <span className={`material-icons transition duration-300 ease-in-out ${problem.difficulty === 'EASY' ? 'text-easy' : problem.difficulty === 'MEDIUM' ? 'text-medium' : 'text-hard'}`} style={{ fontSize: '20px' }}>description</span>
+              <span className={`material-icons transition duration-300 ease-in-out ${problem.difficulty === 'Easy' ? 'text-easy' : problem.difficulty === 'Medium' ? 'text-medium' : 'text-hard'}`} style={{ fontSize: '20px' }}>description</span>
                 {problem.name}
               </Link>
             </div>
@@ -187,7 +192,7 @@ const SideBar = () => {
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-white" style={{ fontSize: '35px' }}>local_library</span>
           {isExpanded && <span className={`ml-2 text-neutral dark:text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Study</span>}
         </div>
-        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-feintwhite dark:hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
+        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-feintwhite dark:hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goSettings}>
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-white" style={{ fontSize: '35px' }}>settings</span>
           {isExpanded && <span className={`ml-2 text-neutral dark:text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Settings</span>}
         </div>
