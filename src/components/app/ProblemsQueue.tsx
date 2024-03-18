@@ -12,10 +12,6 @@ import { AuthContext } from '@/auth/AuthContext';
 import { useMutation, useQueryClient } from 'react-query';
   
   const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:any, userSettings:any, refetchProblems: any}) => {
-
-    if(!userSettings){
-      return; 
-    }
     const [language, setLanguage] = useState('python'); 
 
     const [dueProblems, setDueProblems] = useState<any>([]);
@@ -32,6 +28,9 @@ import { useMutation, useQueryClient } from 'react-query';
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
+      if(!userSettings){
+        return; 
+      }
       if (problems) {
         console.log(dueProblems)
         setDueProblems(problems);
@@ -467,6 +466,7 @@ import { useMutation, useQueryClient } from 'react-query';
           </div>
         );
   }
+
 
     return (
       <div className="flex flex-col md:flex-row h-screen overflow-hidden">
