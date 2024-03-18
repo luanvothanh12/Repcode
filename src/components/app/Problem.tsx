@@ -6,9 +6,12 @@ import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-solarized_light";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/mode-c_cpp";
 import { AuthContext } from '@/auth/AuthContext';
   
   const Problem = ({ problem, contentActive, setContentActive, editorContent, setEditorContent }: {problem:any, contentActive:any, setContentActive:any, editorContent:any, setEditorContent:any}) => {
+    const [language, setLanguage] = useState('python'); 
 
     const getDifficultyColor = (difficulty: string) => {
       switch (difficulty.toLowerCase()) {
@@ -95,9 +98,17 @@ import { AuthContext } from '@/auth/AuthContext';
         <div className="w-px bg-gray-800"></div> {/* Vertical line */}
         <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
           {/* Right side content (Ace Editor) */}
+          <div className="flex justify-end p-2">
+            <select value={language} onChange={(e) => setLanguage(e.target.value)} className="rounded-md bg-feintwhite dark:bg-divide2">
+              <option value="python">Python</option>
+              <option value="javascript">JavaScript</option>
+              <option value="java">Java</option>
+              <option value="c_cpp">C/C++</option>
+            </select>
+          </div>
           <AceEditor
             className="rounded"
-            mode="python"
+            mode={language}
             theme="monokai"
             name="UNIQUE_ID_OF_DIV"
             editorProps={{ $blockScrolling: true }}

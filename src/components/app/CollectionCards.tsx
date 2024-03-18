@@ -138,7 +138,7 @@ const CollectionCards = () => {
               more_vert
             </span>
             {visibleMenuId === collection.id && (
-            <div className={`absolute top-0 left-10 mt-2 ml-2 flex flex-row cursor-pointer ${visibleMenuId === collection.id ? 'hs-dropdown-enter' : ''}`}>
+            <div className={`absolute top-0 left-10 mt-2 ml-2 flex flex-row cursor-pointer bg-neutral px-2 ${visibleMenuId === collection.id ? 'hs-dropdown-enter' : ''}`}>
                 <button
                   className="mr-2 py-2 text-error text-decoration-line: underline text-sm"
                   onClick={() => openDeleteConfirmation(collection.id)}
@@ -191,8 +191,8 @@ const CollectionCards = () => {
       />
 
       {deleteConfirmationOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center">
-          <div className="bg-white p-4 rounded-lg shadow-lg">
+        <div className="fixed inset-0 bg-base_100 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center">
+          <div className="bg-white dark:bg-base_100 p-4 rounded-lg shadow-lg text-neutral dark:text-white">
             <h2>Delete collection?</h2>
             <p>This will delete all the problems inside as well</p>
             <div className="flex justify-end space-x-4 mt-4">
@@ -204,7 +204,7 @@ const CollectionCards = () => {
               </button>
               <button
                 onClick={deleteCollection}
-                className="bg-error text-white py-2 px-4 rounded"
+                className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 dark:focus:ring-offset-gray-800 transition-transform duration-200 hover:scale-95"
               >
                 Delete
               </button>

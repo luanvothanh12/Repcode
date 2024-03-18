@@ -54,6 +54,7 @@ const Settings = () => {
           learnSteps: (document.getElementById('learnSteps') as HTMLInputElement)?.value,
           relearnSteps: (document.getElementById('relearnSteps') as HTMLInputElement)?.value,
           graduatingInterval: parseInt((document.getElementById('graduatingInterval') as HTMLInputElement)?.value, 10),
+          relearnGraduatingInterval: parseFloat((document.getElementById('relearnGraduatingInterval') as HTMLInputElement)?.value),
           easyInterval: parseInt((document.getElementById('easyInterval') as HTMLInputElement)?.value, 10),
           maximumInterval: parseInt((document.getElementById('maximumInterval') as HTMLInputElement)?.value, 10),
           startingEase: parseFloat((document.getElementById('startingEase') as HTMLInputElement)?.value),
@@ -133,15 +134,15 @@ const Settings = () => {
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <label className="text-neutral dark:text-white">Learning Steps</label>
-            <input id="learnSteps" type="text" className="border border-neutral dark:border-transparent p-2 rounded" defaultValue={data.learnSteps}/>
+            <input id="learnSteps" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.learnSteps}/>
           </div>
           <div className="flex justify-between items-center">
             <label className="text-neutral dark:text-white">Graduating Interval</label>
-            <input id="graduatingInterval" type="text" className="border border-neutral dark:border-transparent p-2 rounded" defaultValue={data.graduatingInterval}/>
+            <input id="graduatingInterval" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.graduatingInterval}/>
           </div>
           <div className="flex justify-between items-center">
             <label className="text-neutral dark:text-white">Easy Interval</label>
-            <input id="easyInterval" type="text" className="border border-neutral dark:border-transparent p-2 rounded" defaultValue={data.easyInterval}/>
+            <input id="easyInterval" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.easyInterval}/>
           </div>
         </div>
       </div>
@@ -153,7 +154,11 @@ const Settings = () => {
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <label className="text-neutral dark:text-white">Relearning Steps</label>
-            <input id="relearnSteps" type="text" className="border border-neutral dark:border-transparent p-2 rounded" defaultValue={data.relearnSteps}/>
+            <input id="relearnSteps" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.relearnSteps}/>
+          </div>
+          <div className="flex justify-between items-center">
+            <label className="text-neutral dark:text-white">New Interval</label>
+            <input id="relearnGraduatingInterval" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.relearnGraduatingInterval}/>
           </div>
 
         </div>
@@ -166,19 +171,19 @@ const Settings = () => {
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <label className="text-neutral dark:text-white">Maximum Interval</label>
-            <input id="maximumInterval" type="text" className="border border-neutral dark:border-transparent p-2 rounded" defaultValue={data.maximumInterval}/>
+            <input id="maximumInterval" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.maximumInterval}/>
           </div>
           <div className="flex justify-between items-center">
             <label className="text-neutral dark:text-white">Starting Ease</label>
-            <input id="startingEase" type="text" className="border border-neutral dark:border-transparent p-2 rounded" defaultValue={data.startingEase}/>
+            <input id="startingEase" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.startingEase}/>
           </div>
           <div className="flex justify-between items-center">
             <label className="text-neutral dark:text-white">Easy Bonus</label>
-            <input id="easyBonus" type="text" className="border border-neutral dark:border-transparent p-2 rounded" defaultValue={data.easyBonus}/>
+            <input id="easyBonus" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.easyBonus}/>
           </div>
           <div className="flex justify-between items-center">
             <label className="text-neutral dark:text-white">Interval Modifier</label>
-            <input id="intervalModifier" type="text" className="border border-neutral dark:border-transparent p-2 rounded" defaultValue={data.intervalModifier}/>
+            <input id="intervalModifier" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.intervalModifier}/>
           </div>
           <div className="flex justify-end items-center">
             <button onClick={handleSave} className="inline-flex justify-center items-center gap-x-3 text-center bg-blue text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-8 transition-transform duration-200 hover:scale-95">Save</button>

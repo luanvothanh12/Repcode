@@ -34,7 +34,9 @@ const config: Config = {
       blue: '#2563EB',
       new: '#4DBEE8', 
       learning: '#CF7150',
-      review: '#0FB20C'
+      review: '#0FB20C', 
+      disabled: '#242728', 
+      disabledText: '#7C7C7B', 
 
     }, 
     extend: {

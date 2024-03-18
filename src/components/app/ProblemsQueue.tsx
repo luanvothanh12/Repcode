@@ -6,10 +6,17 @@ import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-solarized_light";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/mode-c_cpp";
 import { AuthContext } from '@/auth/AuthContext';
 import { useMutation, useQueryClient } from 'react-query';
   
   const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:any, userSettings:any, refetchProblems: any}) => {
+
+    if(!userSettings){
+      return; 
+    }
+    const [language, setLanguage] = useState('python'); 
 
     const [dueProblems, setDueProblems] = useState<any>([]);
     const [buttons, setButtons] = useState<any[]>([]);
@@ -49,22 +56,22 @@ import { useMutation, useQueryClient } from 'react-query';
       if (dueProblems[0]) {
         switch (dueProblems[0].type) {
           case 'New': {
-            const stepsArray = userSettings.learnSteps.split(' ');
+            const stepsArray = userSettings?.learnSteps.split(' ');
             const firstLearningStep = stepsArray[0];
-            const secondLearningStep = stepsArray.length > 1 ? stepsArray[1] : userSettings.graduatingInterval + "d";
+            const secondLearningStep = stepsArray.length > 1 ? stepsArray[1] : userSettings?.graduatingInterval + "d";
             setAgainText(firstLearningStep);
             setGoodText(secondLearningStep);
-            setEasyText(userSettings.easyInterval + "d");
+            setEasyText(userSettings?.easyInterval + "d");
             break;
           }
           case 'Learning': {
-            const stepsArray = userSettings.learnSteps.split(' ');
+            const stepsArray = userSettings?.learnSteps.split(' ');
             const firstLearningStep = stepsArray[0];
 
             let nextInterval;
             // If interval is -1 or less than 12hr, set Good text to the second learning step or the graduating interval
             if (dueProblems[0].interval === -1 || dueProblems[0].interval < 720) {
-              nextInterval = stepsArray.length > 1 ? stepsArray[1] : userSettings.graduatingInterval + "d";
+              nextInterval = stepsArray.length > 1 ? stepsArray[1] : userSettings?.graduatingInterval + "d";
             } else {
               // Find the current interval in the learning steps
               const currentIndex = stepsArray.findIndex((step: any) => step === dueProblems[0].interval.toString());
@@ -74,10 +81,10 @@ import { useMutation, useQueryClient } from 'react-query';
                 nextInterval = stepsArray[currentIndex + 1];
               } else {
                 // If the current interval is the last one, or not found, use the graduating interval
-                nextInterval = userSettings.graduatingInterval + "d";
+                nextInterval = userSettings?.graduatingInterval + "d";
               }
             }
-            const easyint = userSettings.easyInterval + "d"; 
+            const easyint = userSettings?.easyInterval + "d"; 
 
             setAgainText(firstLearningStep);
             setGoodText(nextInterval);
@@ -85,7 +92,7 @@ import { useMutation, useQueryClient } from 'react-query';
             break;
           }
           case 'Relearning': {
-            const relearnStepsArray = userSettings.relearnSteps.split(' '); 
+            const relearnStepsArray = userSettings?.relearnSteps.split(' '); 
             const firstStep = relearnStepsArray[0]; 
 
             const currentIndex = relearnStepsArray.findIndex((step: any) => step === dueProblems[0].interval);
@@ -96,10 +103,10 @@ import { useMutation, useQueryClient } from 'react-query';
               nextInterval = relearnStepsArray[currentIndex + 1];
             } else {
               // If the current interval is the last one, or not found, use the relearnGraduating interval (which is a percent)
-              nextInterval = dueProblems[0].relearnInterval * userSettings.relearnGraduatingInterval
+              nextInterval = dueProblems[0].relearnInterval * userSettings?.relearnGraduatingInterval
             }
             
-            const easyint = dueProblems[0].relearnInterval * userSettings.relearnGraduatingInterval; 
+            const easyint = dueProblems[0].relearnInterval * userSettings?.relearnGraduatingInterval; 
 
             setAgainText(firstStep); 
             setGoodText(nextInterval); 
@@ -107,12 +114,12 @@ import { useMutation, useQueryClient } from 'react-query';
             break;
           }
           case 'Review': {
-            const relearnStepsArray = userSettings.learnSteps.split(' '); 
+            const relearnStepsArray = userSettings?.learnSteps.split(' '); 
             const firstRelearnStep = relearnStepsArray[0]; 
 
-            const intervalHard = Math.floor((dueProblems[0].interval * 1.2 * userSettings.intervalModifier) / 1440);
-            const intervalGood = Math.floor((dueProblems[0].interval * dueProblems[0].ease * userSettings.intervalModifier) / 1440); 
-            const intervalEasy = Math.floor((dueProblems[0].interval * dueProblems[0].ease * userSettings.easyBonus * userSettings.intervalModifier) / 1440);
+            const intervalHard = Math.floor((dueProblems[0].interval * 1.2 * userSettings?.intervalModifier) / 1440);
+            const intervalGood = Math.floor((dueProblems[0].interval * dueProblems[0].ease * userSettings?.intervalModifier) / 1440); 
+            const intervalEasy = Math.floor((dueProblems[0].interval * dueProblems[0].ease * userSettings?.easyBonus * userSettings?.intervalModifier) / 1440);
 
             setAgainText(firstRelearnStep); 
             setHardText(intervalHard + "d"); 
@@ -240,7 +247,7 @@ import { useMutation, useQueryClient } from 'react-query';
                 dueProblems[0].type = "Learning"; 
 
                 // Parse learningSteps and convert to minutes
-                const stepsArray = userSettings.learnSteps.split(' ').map((step:string) => {
+                const stepsArray = userSettings?.learnSteps.split(' ').map((step:string) => {
                 const value = parseInt(step.slice(0, -1));
                 const unit = step.slice(-1);
                 return unit === 'm' ? value : value * 24 * 60; 
@@ -254,7 +261,7 @@ import { useMutation, useQueryClient } from 'react-query';
             else if(buttonValue === "good") { // update type to learning, set the interval 2nd step's (since this card is new, it's on the first step by default) interval OR graduating interval, update due date
               dueProblems[0].type = "Learning"; 
 
-              const stepsArray = userSettings.learnSteps.split(' ').map((step:string) => {
+              const stepsArray = userSettings?.learnSteps.split(' ').map((step:string) => {
               const value = parseInt(step.slice(0, -1));
               const unit = step.slice(-1);
               return unit === 'm' ? value : value * 24 * 60; 
@@ -267,7 +274,7 @@ import { useMutation, useQueryClient } from 'react-query';
             } else {
                 // No second step, use the graduating interval
                 // graduatingInterval is in days and needs to be converted to minutes
-                nextInterval = userSettings.graduatingInterval * 24 * 60;
+                nextInterval = userSettings?.graduatingInterval * 24 * 60;
                 dueProblems[0].type = "Review"; 
             }
             dueProblems[0].interval = nextInterval;
@@ -280,14 +287,14 @@ import { useMutation, useQueryClient } from 'react-query';
             dueProblems[0].type = "Review"; 
 
             // Set the interval to the easyInterval value (it's in days so convert it to minutes)
-            dueProblems[0].interval = userSettings.easyInterval * 24 * 60; 
+            dueProblems[0].interval = userSettings?.easyInterval * 24 * 60; 
 
             await Helper(dueProblems[0]); 
             }
         }
         else if(dueProblems[0].type === "Learning") {
             if(buttonValue === "again") { // set interval to first learning step, update due date
-            const stepsArray = userSettings.learnSteps.split(' ').map((step:string) => {
+            const stepsArray = userSettings?.learnSteps.split(' ').map((step:string) => {
                 const value = parseInt(step.slice(0, -1));
                 const unit = step.slice(-1);
                 return unit === 'm' ? value : value * 24 * 60; 
@@ -298,7 +305,7 @@ import { useMutation, useQueryClient } from 'react-query';
             await Helper(dueProblems[0]);
             }
             else if (buttonValue === "good") {
-              const stepsArray = userSettings.learnSteps.split(' ').map((step: string) => {
+              const stepsArray = userSettings?.learnSteps.split(' ').map((step: string) => {
                 const value = parseInt(step.slice(0, -1));
                 const unit = step.slice(-1);
                 return unit === 'm' ? value : value * 24 * 60; // Convert to minutes
@@ -319,7 +326,7 @@ import { useMutation, useQueryClient } from 'react-query';
                 } else {
                   // If the current interval is the last one, or not found, use the graduating interval
                   // graduatingInterval is in days and needs to be converted to minutes
-                  nextInterval = userSettings.graduatingInterval * 24 * 60;
+                  nextInterval = userSettings?.graduatingInterval * 24 * 60;
                   dueProblems[0].type = "Review";
                 }
               }
@@ -332,7 +339,7 @@ import { useMutation, useQueryClient } from 'react-query';
             dueProblems[0].type = "Review"; 
 
             // Set the interval to the easyInterval value (it's in days, so make it in minutes)
-            dueProblems[0].interval = userSettings.easyInterval * 24 * 60; 
+            dueProblems[0].interval = userSettings?.easyInterval * 24 * 60; 
 
 
             await Helper(dueProblems[0]);
@@ -340,7 +347,7 @@ import { useMutation, useQueryClient } from 'react-query';
         }
         else if (dueProblems[0].type === "Relearning") {
             if(buttonValue === "again") { // set interval to 1st step in relearningSteps array, update due date
-            const relearnStepsArray = userSettings.relearnSteps.split(' ').map((step:string) => {
+            const relearnStepsArray = userSettings?.relearnSteps.split(' ').map((step:string) => {
                 const value = parseInt(step.slice(0, -1));
                 const unit = step.slice(-1);
                 return unit === 'm' ? value : value * 24 * 60; 
@@ -351,7 +358,7 @@ import { useMutation, useQueryClient } from 'react-query';
             await Helper(dueProblems[0]);
             }
             else if(buttonValue === "good") { // set interval to the next relearning step (can NOT have duplictates) OR to relearnInterval * relearnGraduatingInterval, update due date
-            const relearnStepsArray = userSettings.relearnSteps.split(' ').map((step:string) => {
+            const relearnStepsArray = userSettings?.relearnSteps.split(' ').map((step:string) => {
                 const value = parseInt(step.slice(0, -1));
                 const unit = step.slice(-1);
                 return unit === 'm' ? value : value * 24 * 60; 
@@ -366,7 +373,7 @@ import { useMutation, useQueryClient } from 'react-query';
                 nextInterval = relearnStepsArray[currentIndex + 1];
             } else {
                 // If the current interval is the last one, or not found, use the relearnGraduating interval (which is a percent)
-                nextInterval = dueProblems[0].relearnInterval * userSettings.relearnGraduatingInterval
+                nextInterval = dueProblems[0].relearnInterval * userSettings?.relearnGraduatingInterval
                 dueProblems[0].relearnInterval = 0; 
                 dueProblems[0].type = "Review";
             }
@@ -377,7 +384,7 @@ import { useMutation, useQueryClient } from 'react-query';
             await Helper(dueProblems[0]);
             }
             else if (buttonValue === "easy") { // skip all the relearn steps and set interval immediately to relearnInterval * relearnGraduatingInterval, set type to reveiw, update due date
-            dueProblems[0].interval = dueProblems[0].relearnInterval * userSettings.relearnGraduatingInterval; 
+            dueProblems[0].interval = dueProblems[0].relearnInterval * userSettings?.relearnGraduatingInterval; 
             dueProblems[0].relearnInterval = 0; 
             dueProblems[0].type = "Review"; 
 
@@ -387,10 +394,10 @@ import { useMutation, useQueryClient } from 'react-query';
         else if (dueProblems[0].type === "Review") {
             if(buttonValue === "again") { // set problem type to Relearning, decrease ease by 20% (0.2), set relearnInterval to current interval, set interval to 1st step of relearnSteps array, update due date 
             dueProblems[0].type = "Relearning";
-            dueProblems[0].ease = (dueProblems[0].ease - 0.20 >= userSettings.minimumEase) ? dueProblems[0].ease - 0.20 : userSettings.minimumEase;
+            dueProblems[0].ease = (dueProblems[0].ease - 0.20 >= userSettings?.minimumEase) ? dueProblems[0].ease - 0.20 : userSettings.minimumEase;
 
             dueProblems[0].relearnInterval = dueProblems[0].interval;
-            const relearnStepsArray = userSettings.relearnSteps.split(' ').map((step:string) => {
+            const relearnStepsArray = userSettings?.relearnSteps.split(' ').map((step:string) => {
                 const value = parseInt(step.slice(0, -1));
                 const unit = step.slice(-1);
                 return unit === 'm' ? value : value * 24 * 60; 
@@ -402,24 +409,24 @@ import { useMutation, useQueryClient } from 'react-query';
 
             }
             else if(buttonValue === "hard") { // decrease the problem's ease by 15%, set interval to 1.2*current interval*interval modifier, update due date
-              dueProblems[0].ease = (dueProblems[0].ease - 0.15 >= userSettings.minimumEase) ? dueProblems[0].ease - 0.15 : userSettings.minimumEase;
+              dueProblems[0].ease = (dueProblems[0].ease - 0.15 >= userSettings?.minimumEase) ? dueProblems[0].ease - 0.15 : userSettings.minimumEase;
 
               // Calculate next interval via equation 
-              dueProblems[0].interval = dueProblems[0].interval * 1.2 * userSettings.intervalModifier;
+              dueProblems[0].interval = dueProblems[0].interval * 1.2 * userSettings?.intervalModifier;
               const fuzz = (Math.random() * (0.05 - 0.02) + 0.02).toFixed(2); 
               dueProblems[0].interval *= (1 + parseFloat(fuzz));
 
               await Helper(dueProblems[0]);
             }
             else if(buttonValue === "good") { // set the interval according to equation (ease remains unchanged), update due date
-              dueProblems[0].interval = dueProblems[0].interval * dueProblems[0].ease * userSettings.intervalModifier;
+              dueProblems[0].interval = dueProblems[0].interval * dueProblems[0].ease * userSettings?.intervalModifier;
               const fuzz = (Math.random() * (0.05 - 0.02) + 0.02).toFixed(2); 
               dueProblems[0].interval *= (1 + parseFloat(fuzz));
 
               await Helper(dueProblems[0]);
             }
             else if (buttonValue === "easy") { // set the interval according to the equation, increase the ease by 15%, update due date
-              dueProblems[0].interval = dueProblems[0].interval * dueProblems[0].ease * userSettings.easyBonus * userSettings.intervalModifier;
+              dueProblems[0].interval = dueProblems[0].interval * dueProblems[0].ease * userSettings?.easyBonus * userSettings?.intervalModifier;
               const fuzz = (Math.random() * (0.05 - 0.02) + 0.02).toFixed(2); 
               dueProblems[0].interval *= (1 + parseFloat(fuzz));
 
@@ -515,9 +522,17 @@ import { useMutation, useQueryClient } from 'react-query';
         <div className="w-px bg-gray-800"></div> {/* Vertical line */}
         <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
           {/* Right side content (Ace Editor) */}
+          <div className="flex justify-end p-2">
+            <select value={language} onChange={(e) => setLanguage(e.target.value)} className="rounded-md bg-feintwhite dark:bg-divide2">
+              <option value="python">Python</option>
+              <option value="javascript">JavaScript</option>
+              <option value="java">Java</option>
+              <option value="c_cpp">C/C++</option>
+            </select>
+          </div>
           <AceEditor
             className="rounded"
-            mode="python"
+            mode={language}
             theme="monokai"
             name="UNIQUE_ID_OF_DIV"
             editorProps={{ $blockScrolling: true }}

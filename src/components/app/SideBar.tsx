@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import "../../app/globals.css"; 
 import useDarkMode from '../../../useDarkMode';
+import { useQuery, useMutation, useQueryClient } from 'react-query'; 
 
 const SideBar = () => {
   const [colorTheme, setTheme] = useDarkMode() as any; 
@@ -14,6 +15,7 @@ const SideBar = () => {
   const [masterCollectionsDropdownOpen, setMasterCollectionsDropdownOpen] = useState(false);
   const [collections, setCollections] = useState<{id: any; title: any; isLoading: boolean; problems:any}[]>([]);
   const [expandedCollectionId, setExpandedCollectionId] = useState(null); // Track expanded collection
+  const queryClient = useQueryClient();
   
 
 
@@ -114,6 +116,7 @@ const SideBar = () => {
       await signOut(auth);
       console.log('User logged out successfully');
       // Redirect to login page or root after logging out
+      queryClient.clear();
       router.push('/'); 
     } catch (error) {
       console.error('Logout failed', error);

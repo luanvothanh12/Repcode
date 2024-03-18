@@ -177,7 +177,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         </ul>
         <div className="flex justify-center mt-8">
           <button 
-            onClick={() => setIsModalOpen(true)} 
+            onClick={() => { setIsModalOpen(true); setProblemToEdit(null); }}
             className="bg-pop2 dark:bg-pop text-white p-0 rounded-full h-12 w-12 flex items-center justify-center hover:scale-95 transition-transform duration-150 ease-in-out"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

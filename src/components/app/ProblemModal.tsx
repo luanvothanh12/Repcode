@@ -7,9 +7,16 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
   const [name, setName] = useState(isEditMode && problemToEdit ? problemToEdit.name : '');
   const [question, setQuestion] = useState(isEditMode && problemToEdit ? problemToEdit.question : '');
   const [solution, setSolution] = useState(isEditMode && problemToEdit ? problemToEdit.solution : '');
-  const [difficulty, setDifficulty] = useState(isEditMode && problemToEdit ? problemToEdit.difficulty : 'EASY');
+  const [difficulty, setDifficulty] = useState(isEditMode && problemToEdit ? problemToEdit.difficulty : 'Easy');
   const queryClient = useQueryClient();
   const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    setName(isEditMode && problemToEdit ? problemToEdit.name : '');
+    setQuestion(isEditMode && problemToEdit ? problemToEdit.question : '');
+    setSolution(isEditMode && problemToEdit ? problemToEdit.solution : '');
+    setDifficulty(isEditMode && problemToEdit ? problemToEdit.difficulty : 'Easy');
+  }, [isOpen]);
 
   const mutation = useMutation(
     async (problemData: any) => {
@@ -62,27 +69,27 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
   const modalClass = isOpen ? "modalEnter" : "";
 
   return (
-    <div className={`${isOpen ? '' : 'hidden'} fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-10`}>
-      <div className={`relative top-0 mx-auto p-5 w-96 shadow-lg rounded-md bg-neutral ${modalClass}`}>
+    <div className={`${isOpen ? '' : 'hidden'} fixed inset-0 bg-base_100 bg-opacity-50 overflow-y-auto h-full w-full z-10`}>
+      <div className={`relative top-0 mx-auto p-5 w-96 shadow-lg rounded-md bg-white dark:bg-base_100 ${modalClass}`}>
         <div className="mt-3 text-center">
-          <h3 className="text-lg leading-6 font-medium text-white">{isEditMode ? 'Edit Problem' : 'New Problem'}</h3>
+          <h3 className="text-lg leading-6 font-medium text-neutral dark:text-white">{isEditMode ? 'Edit Problem' : 'New Problem'}</h3>
           <div className="mt-2 px-7 py-3">
             <form className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-white">Name:</label>
+                <label className="block text-sm font-medium text-neutral dark:text-white">Name:</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-white">Question:</label>
+                <label className="block text-sm font-medium text-neutral dark:text-white">Question:</label>
                 <textarea value={question} onChange={(e) => setQuestion(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-white">Solution:</label>
+                <label className="block text-sm font-medium text-neutral dark:text-white">Solution:</label>
                 <textarea value={solution} onChange={(e) => setSolution(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-white">Difficulty:</label>
-                <div className="flex justify-start gap-4 mt-2 text-white">
+                <label className="block text-sm font-medium text-neutral dark:text-white">Difficulty:</label>
+                <div className="flex justify-start gap-4 mt-2 text-neutral dark:text-white">
                   <label className="inline-flex items-center">
                     <input type="radio" value="Easy" name="difficulty" checked={difficulty === 'Easy'} onChange={(e) => setDifficulty(e.target.value)} className="form-radio" />
                     <span className="ml-2">Easy</span>
@@ -98,10 +105,10 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                 </div>
               </div>
               <div className="flex justify-end gap-3">
-                <button type="button" onClick={onClose} className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-transparent text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 dark:focus:ring-offset-gray-800 transition-transform duration-200 hover:scale-95">
+                <button type="button" onClick={onClose} className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 dark:focus:ring-offset-gray-800 transition-transform duration-200 hover:scale-95">
                   Close
                 </button>
-                <button type="submit" onClick={handleSubmit} className="inline-flex justify-center items-center gap-x-3 text-center bg-success border border-transparent text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 dark:focus:ring-offset-gray-800 transition-transform duration-200 hover:scale-95">
+                <button type="submit" onClick={handleSubmit} disabled={!name.trim() || !question.trim() || !solution.trim()}    className={`inline-flex justify-center items-center gap-x-3 text-center ${!name.trim() || !question.trim() || !solution.trim() || !difficulty.trim() ? 'bg-disabled border border-disabled text-disabledText' : 'bg-success border border-success'} text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 py-1 px-4 transition-transform duration-200 hover:scale-95`}>
                   {isEditMode ? 'Update' : 'Create'}  
                 </button>
               </div>
