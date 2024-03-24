@@ -437,11 +437,11 @@ import { useMutation, useQueryClient } from 'react-query';
         setContent('question'); 
         setEditorContent(''); 
         queryClient.invalidateQueries(['allProblems', user?.email]);
-        queryClient.invalidateQueries(['collectionProblems', dueProblems[0].collectionId]);
+        queryClient.invalidateQueries(['collectionProblems']);
     };
 
   
-    if (!dueProblems[0] || isLoading) {
+    if (isLoading) {
       return (
           <div className="flex justify-center items-center h-full">
             <div role="status">
@@ -465,6 +465,16 @@ import { useMutation, useQueryClient } from 'react-query';
             </div>
           </div>
         );
+  }
+
+  if (!isLoading && dueProblems.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <p className="text-xl text-center text-neutral dark:text-white">
+          Congratulations! You have finished all the problems due for today.
+        </p>
+      </div>
+    );
   }
 
 
@@ -516,7 +526,7 @@ import { useMutation, useQueryClient } from 'react-query';
         {content === 'question' ? (
           <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{dueProblems[0].question}</p>
         ) : (
-          <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{dueProblems[0].solution}</p> 
+          <pre className="text-neutral dark:text-white mt-4 whitespace-pre-wrap"><code>{dueProblems[0].solution}</code></pre>
         )}
         </div>
         <div className="w-px bg-gray-800"></div> {/* Vertical line */}

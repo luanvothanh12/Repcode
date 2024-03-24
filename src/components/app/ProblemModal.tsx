@@ -36,7 +36,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
     {
       onSuccess: () => {
         // Invalidate and refetch problems list
-        queryClient.invalidateQueries(['collectionProblems', collectionId]);
+        queryClient.invalidateQueries(['collectionProblems']);
         queryClient.invalidateQueries(['allProblems', user?.email]); // for dashboard numbers 
         queryClient.invalidateQueries(['dueTodayProblems', user?.email]); // for the ProblemQueue 
         showToast(

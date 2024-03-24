@@ -14,7 +14,7 @@ export default async function handler(req: any, res: any) {
           name,
           question,
           solution,
-          difficulty: difficulty.toUpperCase(), // Assuming difficulty is stored in uppercase
+          difficulty: difficulty, 
           collectionId: parseInt(collectionId), 
         },
       });

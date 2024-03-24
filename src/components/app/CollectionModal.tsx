@@ -26,8 +26,9 @@ const CollectionModal = ({ isOpen, onClose, isEditMode = false, collectionToEdit
     },
     {
       onSuccess: () => {
-        // Invalidate and refetch collections list
         queryClient.invalidateQueries(['collections', user?.email]);
+        queryClient.invalidateQueries(['collectionDetails']);
+
         showToast(
           <>
             <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>

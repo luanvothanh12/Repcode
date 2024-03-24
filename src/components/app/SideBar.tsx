@@ -16,43 +16,41 @@ const SideBar = () => {
   const [collections, setCollections] = useState<{id: any; title: any; isLoading: boolean; problems:any}[]>([]);
   const [expandedCollectionId, setExpandedCollectionId] = useState(null); // Track expanded collection
   const queryClient = useQueryClient();
-  
 
-
-  useEffect(() => {
-    // Listen for authentication state changes
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        // Proceed to fetch collections if the user is authenticated
-        const fetchCollections = async () => {
-          try {
-            const response = await fetch(`/api/getUserCollections?userEmail=${user.email}`);
-            if (!response.ok) {
-              throw new Error('Failed to fetch collections');
-            }
-            const data = await response.json();
-            const collectionsWithProblems = data.map((collection:any) => ({
-              ...collection,
-              problems: [],
-              isLoading: false,
-            }));
-            setCollections(collectionsWithProblems);
-          } catch (error) {
-            console.error('Failed to fetch collections', error);
-          }
-        };
-        fetchCollections();
-      } else {
-        // Handle user not signed in or other actions as necessary
-        console.log('User not signed in');
-        // Optionally clear collections
-        setCollections([]);
-      }
-    });
+  // useEffect(() => {
+  //   // Listen for authentication state changes
+  //   const unsubscribe = auth.onAuthStateChanged(user => {
+  //     if (user) {
+  //       // Proceed to fetch collections if the user is authenticated
+  //       const fetchCollections = async () => {
+  //         try {
+  //           const response = await fetch(`/api/getUserCollections?userEmail=${user.email}`);
+  //           if (!response.ok) {
+  //             throw new Error('Failed to fetch collections');
+  //           }
+  //           const data = await response.json();
+  //           const collectionsWithProblems = data.map((collection:any) => ({
+  //             ...collection,
+  //             problems: [],
+  //             isLoading: false,
+  //           }));
+  //           setCollections(collectionsWithProblems);
+  //         } catch (error) {
+  //           console.error('Failed to fetch collections', error);
+  //         }
+  //       };
+  //       fetchCollections();
+  //     } else {
+  //       // Handle user not signed in or other actions as necessary
+  //       console.log('User not signed in');
+  //       // Optionally clear collections
+  //       setCollections([]);
+  //     }
+  //   });
   
-    // Cleanup subscription on component unmount
-    return () => unsubscribe();
-  }, []);
+  //   // Cleanup subscription on component unmount
+  //   return () => unsubscribe();
+  // }, []);
 
   const fetchProblemsForCollection = async (collectionId:any) => {
     // Find collection index
@@ -87,15 +85,6 @@ const SideBar = () => {
       setIsExpanded(true);
     }
   };
-
-  const toggleSidebar = () => {
-    setIsExpanded(!isExpanded);
-    // Automatically close the master collections dropdown if the sidebar is being collapsed
-    if (isExpanded) {
-      setMasterCollectionsDropdownOpen(false);
-    }
-  };
-  
   
 
   const goHome = () => {
@@ -141,7 +130,7 @@ const SideBar = () => {
         </div>
   
         {/* Master Collections Dropdown */}
-        <div className="w-full">
+        {/* <div className="w-full">
           <div onClick={toggleMasterCollectionsDropdown} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-feintwhite dark:hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded justify-between width-full`}>
             <div className="flex items-center">
               <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-white" style={{ fontSize: '35px' }}>style</span>
@@ -190,7 +179,7 @@ const SideBar = () => {
 ))}
           </div>
         </div>
-  
+   */}
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-feintwhite dark:hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goStudy}>
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-white" style={{ fontSize: '35px' }}>local_library</span>
           {isExpanded && <span className={`ml-2 text-neutral dark:text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Study</span>}

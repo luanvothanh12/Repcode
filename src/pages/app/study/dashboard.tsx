@@ -5,17 +5,21 @@ import SideBar from '@/components/app/SideBar';
 import nookies from "nookies"; 
 import firebaseAdmin from "../../../../firebaseAdmin"; 
 import ProblemTypeInfo from '@/components/app/ProblemTypeInfo';
+import BarGraph from '@/components/app/BarGraph';
 
 const StudyProblemPage = () => {
   const router = useRouter(); 
 
   return (
-    <div className="flex min-h-screen h-auto max-h-screen overflow-hidden bg-white dark:bg-base_100 transition-width duration-300">
+    <div className="flex min-h-screen bg-white dark:bg-base_100 transition-width duration-300">
       <SideBar />
       <div className="flex-grow p-8">
         <div className="text-neutral dark:text-white text-4xl font-bold mb-4 flex justify-center">Study</div>
         <hr className="border-feintwhite dark:border-divide mb-8 transition-width duration-300"/>
         <ProblemTypeInfo />
+        <div className="flex justify-center">
+          <BarGraph />
+        </div>
 
       </div>
     </div>

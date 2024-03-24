@@ -92,7 +92,7 @@ import { AuthContext } from '@/auth/AuthContext';
         {contentActive === 'question' ? (
           <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{problem.question}</p>
         ) : (
-          <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{problem.solution}</p> 
+          <pre className="text-neutral dark:text-white mt-4 whitespace-pre-wrap"><code>{problem.solution}</code></pre>
         )}
         </div>
         <div className="w-px bg-gray-800"></div> {/* Vertical line */}

@@ -4,6 +4,7 @@ import React from 'react';
 import Logo from '@/components/home/Logo';
 import Description from '@/components/home/Description';
 import NavBar from '@/components/home/NavBar';
+import MoreInfo from '@/components/home/MoreInfo';
 import nookies from "nookies";
 import firebaseAdmin from "../../firebaseAdmin"; 
 import "../app/globals.css";
@@ -16,6 +17,7 @@ export default function Home() {
         <Logo />
       </div>
       <Description /> 
+      <MoreInfo /> 
     </div>
   );
 }

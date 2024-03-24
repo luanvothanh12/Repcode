@@ -28,9 +28,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   };
   
   // data: problems simply renames 'data' to 'problems' for readability 
-  const { data: problems, isLoading, error } = useQuery(['collectionProblems', collectionId], fetchProblems, {
-    enabled: !!collectionId,
-  });
+  const { data: problems, isLoading, error } = useQuery(['collectionProblems', collectionId], fetchProblems, {});
 
   const getDifficultyColor = (difficulty: string) => {
       switch (difficulty.toLowerCase()) {
@@ -73,7 +71,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
       {
         onSuccess: () => {
           // Invalidate and refetch to update the list
-          queryClient.invalidateQueries(['collectionProblems', collectionId]);
+          queryClient.invalidateQueries(['collectionProblems']);
           queryClient.invalidateQueries(['dueTodayProblems', user?.email]);
           queryClient.invalidateQueries(['allProblems', user?.email]);
           showToast(

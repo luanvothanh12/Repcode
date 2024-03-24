@@ -20,9 +20,7 @@ const CollectionPage = () => {
     return response.json();
   };
 
-  const { data, isLoading, error } = useQuery(['collectionDetails', collectionId], fetchCollectionDetails, {
-    enabled: !!collectionId,
-  });
+  const { data, isLoading, error } = useQuery(['collectionDetails', collectionId], fetchCollectionDetails, {});
 
 
 // important: since we need to fetch data on the actual page itself (and not just the component), to handle the loading state we must combine it with the existing return statement, not make a new one
