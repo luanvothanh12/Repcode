@@ -1,8 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import Toast from '../app/Toast';
+import { useForm, ValidationError } from '@formspree/react';
+import Link from 'next/link'; 
 
 const ContactForm = () => {
+    const [state, handleSubmit] = useForm("xkndvdrp"); 
+    const [toastMessage, setToastMessage] = useState('');
+    const [isToastVisible, setIsToastVisible] = useState(false);
+
+    const showToast = (message: any) => {
+        setToastMessage(message);
+        setIsToastVisible(true);
+        setTimeout(() => setIsToastVisible(false), 3000); // Hide after 3 seconds
+      };
+
+
+      useEffect(() => {
+        if (state.succeeded) {
+            showToast(
+                <>
+                  <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>
+                  {'Success, I will read it soon, thanks :)'}
+                </>
+            );
+        }
+    }, [state.succeeded]);
+
   return (
 <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+<Toast message={toastMessage} isVisible={isToastVisible} />
   <div className="max-w-xl mx-auto">
     <div className="text-center">
       <h1 className="text-3xl font-bold text-neutral sm:text-4xl dark:text-white">
@@ -17,7 +43,7 @@ const ContactForm = () => {
   <div className="mt-12 max-w-lg mx-auto">
     <div className="flex flex-col border rounded-xl border-feintwhite p-4 sm:p-6 lg:p-8 dark:border-feintwhite bg-white">
 
-      <form>
+      <form onSubmit={handleSubmit} >
         <div className="grid gap-4 lg:gap-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
             <div>
@@ -45,7 +71,7 @@ const ContactForm = () => {
         </div>
 
         <div className="mt-6 grid">
-          <button type="submit" className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-success text-white disabled:opacity-50 disabled:pointer-events-none ">Submit</button>
+          <button type="submit" disabled={state.submitting} className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-success text-white disabled:opacity-50 disabled:pointer-events-none ">Submit</button>
         </div>
 
         <div className="mt-3 text-center">
@@ -71,7 +97,7 @@ const ContactForm = () => {
       </div>
     </a>
 
-    <a className="group flex flex-col h-full text-center rounded-lg hover:bg-feintwhite p-4 sm:p-6 dark:hover:bg-white/[.05] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+    <Link className="group flex flex-col h-full text-center rounded-lg hover:bg-feintwhite p-4 sm:p-6 dark:hover:bg-white/[.05] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/changelog">
       <svg className="size-9 text-neutral mx-auto dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>
       <div className="mt-5">
         <h3 className="text-lg font-semibold text-neutral dark:text-white">Updates</h3>
@@ -81,9 +107,9 @@ const ContactForm = () => {
           <svg className="flex-shrink-0 size-4 transition ease-in-out group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
         </p>
       </div>
-    </a>
+    </Link>
 
-    <a className="group flex flex-col h-full text-center rounded-lg hover:bg-feintwhite p-4 sm:p-6 dark:hover:bg-white/[.05] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+    <Link className="group flex flex-col h-full text-center rounded-lg hover:bg-feintwhite p-4 sm:p-6 dark:hover:bg-white/[.05] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/home/SignInUp">
       <svg className="size-9 text-neutral mx-auto dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/></svg>
       <div className="mt-5">
         <h3 className="text-lg font-semibold text-neutral dark:text-white">Get Started</h3>
@@ -93,7 +119,7 @@ const ContactForm = () => {
           <svg className="flex-shrink-0 size-4 transition ease-in-out group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
         </p>
       </div>
-    </a>
+    </Link>
   </div>
 </div>
 

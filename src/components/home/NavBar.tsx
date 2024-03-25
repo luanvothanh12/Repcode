@@ -10,9 +10,9 @@ const NavBar = () => {
     <header className="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-divide2 dark:border-divide text-sm py-3 sm:py-0 dark:bg-base_100">
     <nav className="relative w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8" aria-label="Global">
       <div className="flex items-center justify-between">
-        <a className="flex-none text-xl font-semibold dark:text-white text-primary" href="#" aria-label="Brand">
+        <Link className="flex-none text-xl font-semibold dark:text-white text-primary" href="/" aria-label="Brand">
         <img src="/logo.svg" alt="Brand Logo" className="h-10 w-auto" />
-        </a>
+        </Link>
         <div className="sm:hidden">
           <button type="button" className="hs-collapse-toggle w-9 h-9 flex justify-center items-center text-sm font-semibold rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:text-white" data-hs-collapse="#navbar-collapse-with-animation" aria-controls="navbar-collapse-with-animation" aria-label="Toggle navigation">
             <svg className="hs-collapse-open:hidden w-4 h-4" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -60,7 +60,7 @@ const NavBar = () => {
   </svg>
 )}
           <a className="font-medium text-neutral hover:text-blue sm:py-6 dark:text-white dark:hover:text-primary" href="#" aria-current="page">Guide</a>
-          <a className="font-medium text-neutral hover:text-blue sm:py-6 dark:text-white dark:hover:text-primary" href="#">Changelog</a>
+          <Link href="/changelog" className="font-medium text-neutral hover:text-blue sm:py-6 dark:text-white dark:hover:text-primary">Changelog</Link>
           <a className="font-medium text-neutral hover:text-blue sm:py-6 dark:text-white dark:hover:text-primary" href="#">Github</a>
           <a className="font-medium text-neutral hover:text-blue sm:py-6 dark:text-white dark:hover:text-primary" href="#">Contact</a>
   

@@ -10,6 +10,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@formspree/react": "^2.5.1",
     "@prisma/client": "^5.10.2",
     "ace-builds": "^1.32.6",
     "chart.js": "^4.4.2",
