@@ -50,7 +50,7 @@ const ContactForm = () => {
 
         <div className="mt-3 text-center">
           <p className="text-sm text-neutral">
-            We'll get back to you in 1-2 business days.
+            We will get back to you in 1-2 business days.
           </p>
         </div>
       </form>
@@ -63,7 +63,7 @@ const ContactForm = () => {
       <svg className="size-9 text-neutral mx-auto dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
       <div className="mt-5">
         <h3 className="text-lg font-semibold text-neutral dark:text-white">Guide</h3>
-        <p className="mt-1 text-neutral dark:text-white">If you're confused on where to start, try reading our extensive guide</p>
+        <p className="mt-1 text-neutral dark:text-white">If you are confused on where to start, try reading our extensive guide</p>
         <p className="mt-5 inline-flex items-center gap-x-1 font-medium text-primary2 dark:text-primary">
           Read the guide
           <svg className="flex-shrink-0 size-4 transition ease-in-out group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -75,7 +75,7 @@ const ContactForm = () => {
       <svg className="size-9 text-neutral mx-auto dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>
       <div className="mt-5">
         <h3 className="text-lg font-semibold text-neutral dark:text-white">Updates</h3>
-        <p className="mt-1 text-neutral dark:text-white">Haven't visited in a while? No worries, see what's new</p>
+        <p className="mt-1 text-neutral dark:text-white">Been a while? No worries, see what has been changed and what is new</p>
         <p className="mt-5 inline-flex items-center gap-x-1 font-medium text-primary2 dark:text-primary">
           View updates
           <svg className="flex-shrink-0 size-4 transition ease-in-out group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
