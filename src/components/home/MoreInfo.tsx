@@ -13,7 +13,7 @@ const MoreInfo = () => {
         </div>
         <div className="w-1/2 text-center pl-5">
           <h2 className="text-2xl font-bold text-neutral dark:text-white">Create and Organize Problems</h2>
-          <p className="text-primary2 dark:text-primary">Create collections to hold as many problems as you'd like, and customize every aspect of them to your heart's content</p>
+          <p className="text-primary2 dark:text-primary">Create collections to hold as many problems as you would like, and customize every aspect of them</p>
         </div>
       </div>
 
