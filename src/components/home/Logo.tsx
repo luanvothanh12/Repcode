@@ -25,7 +25,7 @@ const Logo = () => {
 
 
     <div className="mt-5 max-w-3xl text-center mx-auto">
-      <p className="text-lg text-primary2 dark:text-primary">Flashcode is an open-source, completely free to use tool to help you learn programming at a pace that&apos;s tailored to you. Think Anki, but for Leetcode.</p>
+      <p className="text-lg text-primary2 dark:text-primary">Repcode.io is an open-source, completely free to use tool to help you learn programming at a pace that&apos;s tailored to you. Think Anki, but for Leetcode.</p>
     </div>
 
 
