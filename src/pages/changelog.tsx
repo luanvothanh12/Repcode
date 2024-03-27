@@ -8,52 +8,18 @@ export default function Changelog() {
           month: "March 2024",
           updates: [
             {
-                date: "March 17, 2024",
+                date: " V 0.1.1 - March 26, 2024",
                 changes: [
-                  "Added new feature X.",
-                  "Improved performance of Y.",
+                  "Created Guide page", 
+                  "Fixed issue with login feedback not being shown properly (incorrect user/password, user not found in database, etc)",
+                  "Fixed Good and Easy button text so that they display in days instead of minutes for Relearning problems", 
+                  "Fixed logical issue with Bar Graph not handling problems past their due date correctly", 
                 ],
             },
             {
-                date: "March 16, 2024",
-                changes: [
-                  "Added new feature X.",
-                  "Improved performance of Y.",
-                ],
-            },
-            {
-                date: "March 15, 2024",
-                changes: [
-                  "Added new feature X.",
-                  "Improved performance of Y.",
-                ],
-            },
-            {
-                date: "March 14, 2024",
-                changes: [
-                  "Added new feature X.",
-                  "Improved performance of Y.",
-                ],
-            },
-            {
-                date: "March 13, 2024",
-                changes: [
-                  "Added new feature X.",
-                  "Improved performance of Y.",
-                ],
-            },
-            {
-              date: "March 12, 2024",
+              date: "V 0.1.0 - March 25, 2024",
               changes: [
-                "Added new feature X.",
-                "Improved performance of Y.",
-              ],
-            },
-            {
-              date: " V 0.1.0 - March 23, 2024",
-              changes: [
-                "Fixed bug in Z.",
-                "Updated documentation.",
+                "Initial Repcode.io release build!! 🎉🎉",
               ],
             },
           ],
@@ -68,7 +34,7 @@ export default function Changelog() {
         <div className="flex flex-col min-h-screen bg-white dark:bg-base_100">
             <NavBar />
             <div className="flex flex-1">
-                <div className="w-1/4 p-4 border-r border-feintwhite dark:border-primary overflow-auto">
+                <div className="w-1/4 p-4 border-r border-feintwhite dark:border-divide overflow-auto">
                     {changelogData.map((log) => (
                         <div key={log.month} className="mb-4">
                             <button

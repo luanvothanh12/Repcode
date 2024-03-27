@@ -93,11 +93,14 @@ const BarGraph = () => {
             console.log(problem.dueDate);
             // Ensure the dueDate is interpreted as UTC, then converted to local time
             const dueDate = new Date(problem.dueDate);
-            const diffTime = Math.abs(dueDate.getTime() - today.getTime());
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            dueDate.setHours(0, 0, 0, 0);
+            const diffTime = dueDate.getTime() - today.getTime();
+
+            // If the problem is past due, treat it as due today
+            let diffDays = diffTime < 0 ? 0 : Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         
-            if (diffDays >= 1 && diffDays <= 7) {
-                dueCounts[diffDays - 1] += 1; // Increment the count for the respective day
+            if (diffDays >= 0 && diffDays < 7) {
+                dueCounts[diffDays] += 1; // Increment the count for the respective day
             }
             });
 

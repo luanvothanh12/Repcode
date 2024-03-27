@@ -16,6 +16,7 @@ const SignInUp = () => {
   const [password, setPassword] = useState('');
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
+  const [error, setError] = useState('');
   const router = useRouter(); 
 
   const signUp = async () => {
@@ -37,7 +38,7 @@ const SignInUp = () => {
       await router.push('/app/main');
     } catch (error) {
       console.error('Error signing up:', error);
-      // Show error message to user here
+      setError('Failed to sign up. Please check your details and try again.'); 
     }
   };
 
@@ -49,9 +50,9 @@ const SignInUp = () => {
       const user = userCredential.user;
       console.log('User signed in:', user);
       router.push('/app/main');
-    } catch (error) {
+    } catch (error:any) {
       console.error('Error signing in:', error);
-      // Show error message to user here
+      setError(error.message); 
     }
   };
 
@@ -90,6 +91,7 @@ const SignInUp = () => {
       // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
       // Show error message to user here
+      setError(errorCode);
     }
   };
   
@@ -135,6 +137,7 @@ const SignInUp = () => {
       </div>
     
               <div className="mt-5">
+              {error && <div className="text-error">{error}</div>}
                 <form onSubmit={(e) => {
                   e.preventDefault();
                   showSignUp ? signUp() : signIn();

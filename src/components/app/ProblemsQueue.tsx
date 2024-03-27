@@ -105,11 +105,13 @@ import { useMutation, useQueryClient } from 'react-query';
               nextInterval = dueProblems[0].relearnInterval * userSettings?.relearnGraduatingInterval
             }
             
-            const easyint = dueProblems[0].relearnInterval * userSettings?.relearnGraduatingInterval; 
+            let easyInt = dueProblems[0].relearnInterval * userSettings?.relearnGraduatingInterval; 
 
+            nextInterval = Math.floor(nextInterval / 1440); // Convert to days and round down
+            easyInt = Math.floor(easyInt / 1440); // Convert to days and round down
             setAgainText(firstStep); 
-            setGoodText(nextInterval); 
-            setEasyText(easyint); 
+            setGoodText(nextInterval + 'd'); 
+            setEasyText(easyInt + 'd'); 
             break;
           }
           case 'Review': {

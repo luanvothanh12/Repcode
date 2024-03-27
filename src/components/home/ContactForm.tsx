@@ -27,7 +27,7 @@ const ContactForm = () => {
     }, [state.succeeded]);
 
   return (
-<div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+<div id="contact" className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
 <Toast message={toastMessage} isVisible={isToastVisible} />
   <div className="max-w-xl mx-auto">
     <div className="text-center">
@@ -85,7 +85,7 @@ const ContactForm = () => {
 
   <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 items-center gap-4 lg:gap-8">
 
-    <a className="group flex flex-col h-full text-center rounded-lg hover:bg-feintwhite p-4 sm:p-6 dark:hover:bg-white/[.05]" href="#">
+    <Link className="group flex flex-col h-full text-center rounded-lg hover:bg-feintwhite p-4 sm:p-6 dark:hover:bg-white/[.05]" href="/guide">
       <svg className="size-9 text-neutral mx-auto dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
       <div className="mt-5">
         <h3 className="text-lg font-semibold text-neutral dark:text-white">Guide</h3>
@@ -95,7 +95,7 @@ const ContactForm = () => {
           <svg className="flex-shrink-0 size-4 transition ease-in-out group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
         </p>
       </div>
-    </a>
+    </Link>
 
     <Link className="group flex flex-col h-full text-center rounded-lg hover:bg-feintwhite p-4 sm:p-6 dark:hover:bg-white/[.05] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/changelog">
       <svg className="size-9 text-neutral mx-auto dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>

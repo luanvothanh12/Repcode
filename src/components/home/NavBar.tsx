@@ -59,10 +59,9 @@ const NavBar = () => {
     />
   </svg>
 )}
-          <a className="font-medium text-neutral hover:text-blue sm:py-6 dark:text-white dark:hover:text-primary" href="#" aria-current="page">Guide</a>
+          <Link className="font-medium text-neutral hover:text-blue sm:py-6 dark:text-white dark:hover:text-primary" href="/guide" aria-current="page">Guide</Link>
           <Link href="/changelog" className="font-medium text-neutral hover:text-blue sm:py-6 dark:text-white dark:hover:text-primary">Changelog</Link>
-          <a className="font-medium text-neutral hover:text-blue sm:py-6 dark:text-white dark:hover:text-primary" href="#">Github</a>
-          <a className="font-medium text-neutral hover:text-blue sm:py-6 dark:text-white dark:hover:text-primary" href="#">Contact</a>
+          <Link className="font-medium text-neutral hover:text-blue sm:py-6 dark:text-white dark:hover:text-primary" href="/#contact">Contact</Link>
   
   
   
