@@ -78,13 +78,20 @@ export default function Guide() {
                     </p>
                     <img src="/guide/probleminfo.png" alt="probleminfo image" className="mb-8" />
                     <ul className="list-disc text-primary2 dark:text-primary mb-8 ml-5">
-                      <li>(1) - Search bar. Search a problem by name to filter the list</li>
-                      <li>(2) - Problem. This is the actual problem in the collection, you can see its name, difficulty, and type </li>
-                      <li>(3) - More Options menu. Click this to view more options associated with the collection, such as Delete and Edit</li>
-                      <li>(4) - Edit. Clicking this will bring up a modal that allows you to edit parts of the problem (name, question, solution, and difficulty)</li>
-                      <li>(5) - Delete. Clicking this will delete the problem permanently.</li>
-                      <li>(6) - Problem Difficulty. This is the problem&apos;s difficulty (Easy, Medium, or Hard)</li>
+                      <li>(1) - Problem button. Active by default, this button will display the actual problem itself in field (4) </li>
+                      <li>(2) - Solution button. This will display whatever solution you have set for the problem in field (4). Note: when in Study Mode, pressing the Solution button will also show various other buttons related to the spatial repitition algorithm (Again, Hard, Good, Easy). See section X for more details.  </li>
+                      <li>(3) - Problem info section. This sections displays various information about the current problem, such as its name, difficulty, and type</li>
+                      <li>(4) - Content section. This section will display either the problem itself or its solution, depending on which button above is active</li>
+                      <li>(5) - Language selection. This dropdown menu will allow users to select between 5 different programming languages (C, C++, Python, JavaScript, Java) to control the syntax highlighting of the code editor below</li>
+                      <li>(6) - Code editor. This is where the user can actually code out the solution to the problem</li>
                     </ul>
+                </div>
+
+                <div className="mb-8">
+                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-feintwhite dark:border-divide text-neutral dark:text-white">WIP</h2>
+                    <p className="text-primary2 dark:text-primary mb-8">
+                    WIP WIP WIP 
+                    </p>
                 </div>
                 
 

@@ -6,6 +6,7 @@ import nookies from "nookies";
 import firebaseAdmin from "../../../../firebaseAdmin"; 
 import ProblemTypeInfo from '@/components/app/ProblemTypeInfo';
 import BarGraph from '@/components/app/BarGraph';
+import Link from 'next/link';
 
 const StudyProblemPage = () => {
   const router = useRouter(); 
@@ -16,6 +17,9 @@ const StudyProblemPage = () => {
       <div className="flex-grow p-8">
         <div className="text-neutral dark:text-white text-4xl font-bold mb-4 flex justify-center">Study</div>
         <hr className="border-feintwhite dark:border-divide mb-8 transition-width duration-300"/>
+        <div className="mb-8 text-center text-neutral dark:text-primary">
+          To learn more about Study Mode, check out our comprehensive <Link className="text-blue underline" href="/guide">Guide</Link>
+        </div>
         <ProblemTypeInfo />
         <div className="flex justify-center">
           <BarGraph />
