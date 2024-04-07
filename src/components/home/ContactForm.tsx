@@ -41,37 +41,37 @@ const ContactForm = () => {
   </div>
 
   <div className="mt-12 max-w-lg mx-auto">
-    <div className="flex flex-col border rounded-xl border-feintwhite p-4 sm:p-6 lg:p-8 dark:border-feintwhite bg-white">
+    <div className="flex flex-col bg-white border border-feintwhite rounded-xl shadow-sm dark:bg-neutral dark:border-neutral p-4 sm:p-6 lg:p-8">
 
       <form onSubmit={handleSubmit} >
         <div className="grid gap-4 lg:gap-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
             <div>
-              <label className="block mb-2 text-sm text-neutral font-medium">First Name</label>
+              <label className="block text-sm mb-2 text-neutral dark:text-white">First Name</label>
               <input type="text" name="hs-firstname-contacts-1" id="hs-firstname-contacts-1" className="py-3 px-4 block w-full border border-feintwhite rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none" />
             </div>
 
             <div>
-              <label  className="block mb-2 text-sm text-neutral font-medium">Last Name</label>
+              <label  className="block text-sm mb-2 text-neutral dark:text-white">Last Name</label>
               <input type="text" name="hs-lastname-contacts-1" id="hs-lastname-contacts-1" className="py-3 px-4 block w-full border border-feintwhite rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none" />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
             <div>
-              <label  className="block mb-2 text-sm text-neutral font-medium">Email</label>
+              <label  className="block text-sm mb-2 text-neutral dark:text-white">Email</label>
               <input type="email" name="hs-email-contacts-1" id="hs-email-contacts-1" className="py-3 px-4 block w-full border border-feintwhite rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none" />
             </div>
           </div>
 
           <div>
-            <label className="block mb-2 text-sm text-neutral font-medium">Details</label>
+            <label className="block text-sm mb-2 text-neutral dark:text-white">Details</label>
             <textarea id="hs-about-contacts-1" name="hs-about-contacts-1" rows={4} className="py-3 px-4 block w-full border border-feintwhite rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none"></textarea>
           </div>
         </div>
 
         <div className="mt-6 grid">
-          <button type="submit" disabled={state.submitting} className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-success text-white disabled:opacity-50 disabled:pointer-events-none ">Submit</button>
+          <button type="submit" disabled={state.submitting} className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg bg-pop2 dark:bg-pop text-neutral transition-transform duration-200 hover:scale-95">Submit</button>
         </div>
 
         <div className="mt-3 text-center">

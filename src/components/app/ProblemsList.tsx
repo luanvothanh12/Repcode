@@ -4,6 +4,7 @@ import Toast from './Toast';
 import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { AuthContext } from '@/auth/AuthContext';
+import { useRouter } from "next/router";
 
 
 const ProblemsList = ({ collectionId }: { collectionId: any }) => {
@@ -19,6 +20,8 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const queryClient = useQueryClient();
   const { user } = useContext(AuthContext);
+
+  const router = useRouter();
 
 
   const fetchProblems = async () => {
@@ -148,18 +151,41 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         </div>
         <ul className="max-w-full flex flex-col">
             {problems.filter((problem: any) => problem.name.toLowerCase().includes(searchTerm.toLowerCase())).map((problem: any) => (
-                <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-white hover:bg-feintwhite border border-feintwhite text-neutral -mt-px first:rounded-t-lg last:rounded-b-lg transition-colors duration-100 dark:bg-base_100 dark:hover:bg-hover dark:border-divide dark:text-white">
+                <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-white hover:bg-feintwhite border border-feintwhite text-neutral -mt-px first:rounded-t-lg last:rounded-b-lg transition-colors duration-100 dark:bg-base_100 dark:hover:bg-hover dark:border-divide dark:text-white cursor-pointer" onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}>
                     <div className="flex items-center gap-x-3.5">
-                        <span className="material-icons text-xl hover:cursor-pointer" onClick={() => toggleMenu(problem.id)}>more_vert</span>
+                        <span 
+                          className="material-icons text-xl hover:cursor-pointer" 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleMenu(problem.id)
+                          }}
+                        >
+                            more_vert
+                        </span>
                         {visibleMenuId === problem.id && (
                             <div className="hs-dropdown-enter relative inline-flex">
-                                <button className="cursor:pointer text-error text-decoration-line: underline mr-2" onClick={() => deleteProblem(problem.id)}>Delete</button>
-                                <button className="cursor:pointer text-link text-decoration-line: underline mr-2" onClick={() => openEditModal(problem)}>Edit</button>
+                                <button 
+                                  className="cursor:pointer text-error text-decoration-line: underline mr-2" 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    deleteProblem(problem.id);
+                                  }}
+                                >
+                                  Delete
+                                </button>
+
+                                <button 
+                                  className="cursor:pointer text-link text-decoration-line: underline mr-2" 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    openEditModal(problem);
+                                  }}
+                                >
+                                  Edit
+                                </button>
                             </div>
                         )}
-                        <Link href={`/app/collections/${collectionId}/problems/${problem.id}`}>
-                            {problem.name}
-                        </Link>
+                            <span>{problem.name}</span>
                     </div>
                     <div className="text-right">
                         <span className={getDifficultyColor(problem.difficulty)}>
