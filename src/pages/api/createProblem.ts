@@ -2,7 +2,7 @@ import prisma from "../../../prisma_client";
 
 export default async function handler(req: any, res: any) {
   if (req.method === 'POST') {
-    const { name, question, solution, difficulty, collectionId } = req.body;
+    const { name, question, solution, difficulty, collectionId, functionSignature, language, link, notes } = req.body;
 
     try {
       // Create the problem and link it to the collection by collectionId
@@ -13,6 +13,10 @@ export default async function handler(req: any, res: any) {
           solution,
           difficulty, 
           collectionId: parseInt(collectionId), // Convert collectionId to integer
+          functionSignature,
+          language,
+          link,
+          notes
         },
       });
 

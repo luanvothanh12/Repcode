@@ -11,7 +11,6 @@ import "ace-builds/src-noconflict/mode-c_cpp";
 import { AuthContext } from '@/auth/AuthContext';
   
   const Problem = ({ problem, contentActive, setContentActive, editorContent, setEditorContent }: {problem:any, contentActive:any, setContentActive:any, editorContent:any, setEditorContent:any}) => {
-    const [language, setLanguage] = useState('python'); 
 
     const getDifficultyColor = (difficulty: string) => {
       switch (difficulty.toLowerCase()) {
@@ -74,11 +73,19 @@ import { AuthContext } from '@/auth/AuthContext';
           <div className="mb-4">
             <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${contentActive === 'question' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContentActive('question')}>Problem</button>
             <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${contentActive === 'solution' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContentActive('solution')}>Solution</button>
+            <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${contentActive === 'notes' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContentActive('notes')}>Notes</button>
 
         </div>
         {/* Left side content (The question) */}
         <div className="flex justify-between items-center text-neutral dark:text-white">
-          <h1 className="text-xl font-bold">{problem.name}</h1>
+        <h1 className="text-xl font-bold">
+          {problem.name}
+          <a href={problem.link} target="_blank" rel="noopener noreferrer">
+            <span className="material-icons hover:scale-110 text-neutral dark:text-warning ml-2">
+              link
+            </span>
+          </a>
+        </h1>
           <div className="text-right m-5">
                 <span className={getDifficultyColor(problem.difficulty)}>
                     {problem.difficulty}
@@ -89,7 +96,9 @@ import { AuthContext } from '@/auth/AuthContext';
                 </span>
           </div>
         </div>
-        {contentActive === 'question' ? (
+        {contentActive === 'notes' ? (
+          <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{problem.notes}</p>
+        ) : contentActive === 'question' ? (
           <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{problem.question}</p>
         ) : (
           <pre className="text-neutral dark:text-white mt-4 whitespace-pre-wrap"><code>{problem.solution}</code></pre>
@@ -98,17 +107,9 @@ import { AuthContext } from '@/auth/AuthContext';
         <div className="w-px bg-gray-800"></div> {/* Vertical line */}
         <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
           {/* Right side content (Ace Editor) */}
-          <div className="flex justify-end p-2">
-            <select value={language} onChange={(e) => setLanguage(e.target.value)} className="rounded-md bg-feintwhite dark:bg-divide2">
-              <option value="python">Python</option>
-              <option value="javascript">JavaScript</option>
-              <option value="java">Java</option>
-              <option value="c_cpp">C/C++</option>
-            </select>
-          </div>
           <AceEditor
             className="rounded"
-            mode={language}
+            mode={problem.language}
             theme="monokai"
             name="UNIQUE_ID_OF_DIV"
             editorProps={{ $blockScrolling: true }}
@@ -116,7 +117,7 @@ import { AuthContext } from '@/auth/AuthContext';
             showPrintMargin={true}
             showGutter={true}
             highlightActiveLine={true}
-            value={editorContent}
+            value={editorContent || problem.functionSignature}
             onChange={(newValue) => setEditorContent(newValue)}
             setOptions={{
               enableBasicAutocompletion: true,

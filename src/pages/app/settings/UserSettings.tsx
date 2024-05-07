@@ -13,7 +13,7 @@ const StudyProblemPage = () => {
     <div className="flex min-h-screen bg-white dark:bg-base_100 transition-width duration-300">
       <SideBar />
       <div className="flex-grow p-8">
-        <div className="text-neutral dark:text-white text-4xl font-bold mb-4 flex justify-center">Settings</div>
+        <div className="text-neutral dark:text-white text-4xl font-bold mb-4 flex justify-center">:settings</div>
         <hr className="border-feintwhite dark:border-divide mb-8 transition-width duration-300"/>
         <Settings />
 

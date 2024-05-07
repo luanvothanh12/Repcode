@@ -51,6 +51,10 @@ model Problem {
   relearnInterval         Int         @default(0)
   ease                    Float       @default(2.5) 
   dueDate                 DateTime    @default(now()) 
+  language                String      @default("python")
+  functionSignature       String      @default("null")
+  link                    String      @default("null")
+  notes                   String      @default("null")
 }
 
 enum Difficulty {

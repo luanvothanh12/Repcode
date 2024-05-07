@@ -8,6 +8,10 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
   const [question, setQuestion] = useState(isEditMode && problemToEdit ? problemToEdit.question : '');
   const [solution, setSolution] = useState(isEditMode && problemToEdit ? problemToEdit.solution : '');
   const [difficulty, setDifficulty] = useState(isEditMode && problemToEdit ? problemToEdit.difficulty : 'Easy');
+  const [functionSignature, setFunctionSignature] = useState(isEditMode && problemToEdit ? problemToEdit.functionSignature : '');
+  const [language, setLanguage] = useState(isEditMode && problemToEdit ? problemToEdit.language : 'python');
+  const [link, setLink] = useState(isEditMode && problemToEdit ? problemToEdit.link : '');
+  const [notes, setNotes] = useState(isEditMode && problemToEdit ? problemToEdit.notes : '');
   const queryClient = useQueryClient();
   const { user } = useContext(AuthContext);
 
@@ -16,6 +20,11 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
     setQuestion(isEditMode && problemToEdit ? problemToEdit.question : '');
     setSolution(isEditMode && problemToEdit ? problemToEdit.solution : '');
     setDifficulty(isEditMode && problemToEdit ? problemToEdit.difficulty : 'Easy');
+    setFunctionSignature(isEditMode && problemToEdit ? problemToEdit.functionSignature : '');
+    setLanguage(isEditMode && problemToEdit ? problemToEdit.language : 'python');
+    setLink(isEditMode && problemToEdit ? problemToEdit.link : '');
+    setNotes(isEditMode && problemToEdit ? problemToEdit.notes : ''); 
+
   }, [isOpen]);
 
   const mutation = useMutation(
@@ -63,6 +72,10 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
       solution,
       difficulty,
       collectionId,
+      functionSignature,
+      language,
+      link,
+      notes
     });
   };
 
@@ -86,6 +99,27 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
               <div>
                 <label className="block text-sm font-medium text-neutral dark:text-white">Solution:</label>
                 <textarea value={solution} onChange={(e) => setSolution(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral dark:text-white">Function Signature:</label>
+                <textarea value={functionSignature} onChange={(e) => setFunctionSignature(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral dark:text-white">Programming Language:</label>
+                <select value={language} onChange={(e) => setLanguage(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full">
+                  <option value="javascript">JavaScript</option>
+                  <option value="python">Python</option>
+                  <option value="c_cpp">C/C++</option>
+                  <option value="java">Java</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral dark:text-white">Link to Problem:</label>
+                <input type="text" value={link} onChange={(e) => setLink(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral dark:text-white">Additional Notes:</label>
+                <textarea value={notes} onChange={(e) => setNotes(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-neutral dark:text-white">Difficulty:</label>

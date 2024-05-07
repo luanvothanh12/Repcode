@@ -125,8 +125,8 @@ const SideBar = () => {
       <div className="px-4 py-2 flex flex-col items-start">
         <hr className="my-2 w-full text-feintwhite dark:text-divide transition-width duration-300" />
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-feintwhite dark:hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goHome}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-white" style={{ fontSize: '35px' }}>home</span>
-          {isExpanded && <span className={`ml-2 text-neutral dark:text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Dashboard</span>}
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-white" style={{ fontSize: '35px' }}>style</span>
+          {isExpanded && <span className={`ml-2 text-neutral dark:text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Collections</span>}
         </div>
   
         {/* Master Collections Dropdown */}

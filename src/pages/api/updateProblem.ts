@@ -3,7 +3,7 @@ import prisma from "../../../prisma_client";
 export default async function handler(req: any, res: any) {
   if (req.method === 'PUT') {
     const { problemId } = req.query; // Assuming problemId is passed as a query parameter
-    const { name, question, solution, difficulty, collectionId } = req.body;
+    const { name, question, solution, difficulty, collectionId, functionSignature, language, link, notes } = req.body;
 
     try {
       const updatedProblem = await prisma.problem.update({
@@ -16,6 +16,10 @@ export default async function handler(req: any, res: any) {
           solution,
           difficulty: difficulty, 
           collectionId: parseInt(collectionId), 
+          functionSignature,
+          language,
+          link,
+          notes
         },
       });
 

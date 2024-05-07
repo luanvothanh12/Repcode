@@ -4,9 +4,30 @@ import "../app/globals.css";
 
 export default function Changelog() {
     const changelogData = [
+      {
+        month: "May 2024",
+        updates: [
+          {
+            date: "V 0.1.4 - May 7, 2024",
+            changes: [
+              "NEW: added 4 new customization options to problems: programming language, link to leetcode/hackerrank, function signature boilerplate, and additional notes",
+              "Adjusted problem view to incorporate the above changes in a user friendly way", 
+              "Changed sidebard text Dashboard --> Collections, and changed the icon as well",
+            ],
+          },
+        ],
+      },
         {
             month: "April 2024",
             updates: [
+              {
+                date: "V 0.1.3 - April 17, 2024",
+                changes: [
+                  "Adjusted various colors for light/dark mode",
+                  "Fixed issue with Google auth sign in not working for some accounts", 
+                  "Fixed issue where questions/solutions exceeding a certain length would get cut off"
+                ],
+              },
               {
                 date: "V 0.1.2 - April 6, 2024",
                 changes: [
