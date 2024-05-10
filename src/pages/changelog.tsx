@@ -8,6 +8,14 @@ export default function Changelog() {
         month: "May 2024",
         updates: [
           {
+            date: "V 0.1.5 - May 9, 2024",
+            changes: [
+              "Syntax highlighting for solutions (using highlight.js)",
+              "Changed Logout icon", 
+              "Changed styles for problem difficulty and type",
+            ],
+          },
+          {
             date: "V 0.1.4 - May 7, 2024",
             changes: [
               "NEW: added 4 new customization options to problems: programming language, link to leetcode/hackerrank, function signature boilerplate, and additional notes",

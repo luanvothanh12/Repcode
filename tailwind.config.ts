@@ -37,6 +37,12 @@ const config: Config = {
       review: '#0FB20C', 
       disabled: '#242728', 
       disabledText: '#7C7C7B', 
+      mediumbg: '#362E1A',
+      easybg: '#2E441A', 
+      hardbg: '#411822',
+      newbg: '#1B3641', 
+      warningbg: '#38361C', 
+      successbg: '#394723', 
 
     }, 
     extend: {

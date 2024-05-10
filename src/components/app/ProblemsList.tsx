@@ -36,11 +36,11 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   const getDifficultyColor = (difficulty: string) => {
       switch (difficulty.toLowerCase()) {
           case 'easy':
-              return 'text-easy';
+              return 'text-easy bg-easybg px-4'; 
           case 'medium':
-              return 'text-medium';
+              return 'text-medium bg-mediumbg px-2';
           case 'hard':
-              return 'text-hard';
+              return 'text-hard bg-hardbg px-4';
           default:
               return 'text-white';
       }
@@ -49,13 +49,13 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   const getTypeColor = (type: string) => {
     switch (type.toLowerCase()) {
         case 'new':
-            return 'text-new'; 
+            return 'text-new bg-newbg px-4'; 
         case 'learning':
-            return 'text-warning'; 
+            return 'text-warning bg-warningbg px-2'; 
         case 'relearning':
-            return 'text-warning'; 
+            return 'text-warning bg-warningbg px-2'; 
         case 'review':
-            return 'text-success'; 
+            return 'text-success bg-successbg px-2'; 
         default:
             return 'text-neutral dark:text-white'; 
     }
@@ -188,11 +188,11 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                             <span>{problem.name}</span>
                     </div>
                     <div className="text-right">
-                        <span className={getDifficultyColor(problem.difficulty)}>
+                    <span className={`${getDifficultyColor(problem.difficulty)} rounded-full py-1`}>
                             {problem.difficulty}
                         </span> 
                         <span className="text-divide2 dark:text-divide"> / </span> 
-                        <span className={getTypeColor(problem.type)}>
+                        <span className={`${getTypeColor(problem.type)} rounded-full py-1`}>
                             {problem.type}
                         </span>
                     </div>

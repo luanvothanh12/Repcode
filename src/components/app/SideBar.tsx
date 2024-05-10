@@ -189,7 +189,7 @@ const SideBar = () => {
           {isExpanded && <span className={`ml-2 text-neutral dark:text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Settings</span>}
         </div>
         <div onClick={logOut} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-feintwhite dark:hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-error" style={{ fontSize: '35px' }}>person</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-error" style={{ fontSize: '35px' }}>logout</span>
           {isExpanded && <span className={`ml-2 text-neutral dark:text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Logout</span>}
         </div>
         <div className={`flex items-center my-2 w-full`}>

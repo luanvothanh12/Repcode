@@ -8,37 +8,45 @@ import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-c_cpp";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/monokai.css'; // or any other style of your choice
 import { AuthContext } from '@/auth/AuthContext';
   
   const Problem = ({ problem, contentActive, setContentActive, editorContent, setEditorContent }: {problem:any, contentActive:any, setContentActive:any, editorContent:any, setEditorContent:any}) => {
 
     const getDifficultyColor = (difficulty: string) => {
       switch (difficulty.toLowerCase()) {
-          case 'easy':
-              return 'text-easy';
-          case 'medium':
-              return 'text-medium';
-          case 'hard':
-              return 'text-hard';
-          default:
-              return 'text-white';
+        case 'easy':
+            return 'text-easy bg-easybg px-4'; 
+        case 'medium':
+            return 'text-medium bg-mediumbg px-2';
+        case 'hard':
+            return 'text-hard bg-hardbg px-4';
+        default:
+            return 'text-white';
       }
   };
 
   const getTypeColor = (type: string) => {
     switch (type.toLowerCase()) {
-        case 'new':
-            return 'text-new'; 
-        case 'learning':
-            return 'text-warning'; 
-        case 'relearning':
-            return 'text-warning'; 
-        case 'review':
-            return 'text-success'; 
-        default:
-            return 'text-neutral dark:text-white'; 
+      case 'new':
+          return 'text-new bg-newbg px-4'; 
+      case 'learning':
+          return 'text-warning bg-warningbg px-2'; 
+      case 'relearning':
+          return 'text-warning bg-warningbg px-2'; 
+      case 'review':
+          return 'text-success bg-successbg px-2'; 
+      default:
+          return 'text-neutral dark:text-white'; 
     }
-};
+  };
+
+  // Use useEffect to highlight code when the component mounts or updates
+  useEffect(() => {
+    hljs.highlightAll();
+  }, [contentActive, problem.solution]);
+
   
     if (!problem) {
       return (
@@ -87,11 +95,11 @@ import { AuthContext } from '@/auth/AuthContext';
           </a>
         </h1>
           <div className="text-right m-5">
-                <span className={getDifficultyColor(problem.difficulty)}>
+                <span className={`${getDifficultyColor(problem.difficulty)} rounded-full py-1`}>
                     {problem.difficulty}
                 </span> 
                 <span className="text-divide2 dark:text-divide"> / </span> 
-                <span className={getTypeColor(problem.type)}>
+                <span className={`${getTypeColor(problem.type)} rounded-full py-1`}>
                     {problem.type}
                 </span>
           </div>
@@ -101,7 +109,7 @@ import { AuthContext } from '@/auth/AuthContext';
         ) : contentActive === 'question' ? (
           <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{problem.question}</p>
         ) : (
-          <pre className="text-neutral dark:text-white mt-4 whitespace-pre-wrap"><code>{problem.solution}</code></pre>
+          <pre><code className={`language-${problem.language} mr-5`}>{problem.solution}</code></pre>
         )}
         </div>
         <div className="w-px bg-gray-800"></div> {/* Vertical line */}
