@@ -12,7 +12,7 @@ const MoreInfo = () => {
           </video>
         </div>
         <div className="w-full md:w-1/2 text-center md:text-left md:pl-5">
-          <h2 className="text-xl md:text-2xl font-bold text-neutral dark:text-white">Create and Organize Problems</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-neutral dark:text-white">Customize and Organize Problems</h2>
           <p className="text-primary2 dark:text-primary mt-4 md:mt-2">Create collections to hold as many problems as you would like, and customize every aspect of them</p>
         </div>
       </div>

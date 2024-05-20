@@ -101,6 +101,28 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
       setIsToastVisible(true);
       setTimeout(() => setIsToastVisible(false), 5000); 
     };
+
+    const chooseRandomProblemFromCollection = async () => {
+      try {
+        const problems = await fetchProblems();
+        const randomProblem = problems[Math.floor(Math.random() * problems.length)];
+        router.push(`/app/collections/${collectionId}/problems/${randomProblem.id}`);
+      } catch (error) {
+        console.error('Error fetching random problem from collection:', error);
+      }
+    };
+    
+    const chooseRandomProblemFromAll = async () => {
+      try {
+        const response = await fetch(`/api/getAllProblemsFromUser?userEmail=${user?.email}`);
+        if (!response.ok) throw new Error('Failed to fetch all problems');
+        const problems = await response.json();
+        const randomProblem = problems[Math.floor(Math.random() * problems.length)];
+        router.push(`/app/collections/${randomProblem.collectionId}/problems/${randomProblem.id}`);
+      } catch (error) {
+        console.error('Error fetching random problem from all problems:', error);
+      }
+    };
     
     if (error) return <div>Error: {(error as Error).message}</div>;
     if (isLoading) {
@@ -149,6 +171,16 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
             /> 
           </div>
         </div>
+        {problems.length > 0 && (
+          <>
+          <button onClick={chooseRandomProblemFromCollection} title="random problem from collection">
+            <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite mr-2" style={{ fontSize: '30px' }}>refresh</span>
+          </button>
+          <button onClick={chooseRandomProblemFromAll} title="random problem from all collections">
+            <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '30px' }}>sync</span>
+          </button>
+          </>
+        )}
         <ul className="max-w-full flex flex-col">
             {problems.filter((problem: any) => problem.name.toLowerCase().includes(searchTerm.toLowerCase())).map((problem: any) => (
                 <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-white hover:bg-feintwhite border border-feintwhite text-neutral -mt-px first:rounded-t-lg last:rounded-b-lg transition-colors duration-100 dark:bg-base_100 dark:hover:bg-hover dark:border-divide dark:text-white cursor-pointer" onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}>

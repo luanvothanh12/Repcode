@@ -13,6 +13,14 @@ import 'highlight.js/styles/monokai.css'; // or any other style of your choice
 import { AuthContext } from '@/auth/AuthContext';
   
   const Problem = ({ problem, contentActive, setContentActive, editorContent, setEditorContent }: {problem:any, contentActive:any, setContentActive:any, editorContent:any, setEditorContent:any}) => {
+    const router = useRouter();
+    const { collectionId } = router.query // Assuming collectionId is part of the URL 
+
+    console.log(collectionId)
+
+    const handleGoBack = () => {
+      router.push(`/app/collections/${collectionId}`);
+    };
 
     const getDifficultyColor = (difficulty: string) => {
       switch (difficulty.toLowerCase()) {
@@ -78,10 +86,13 @@ import { AuthContext } from '@/auth/AuthContext';
       <div className="flex flex-col md:flex-row h-screen overflow-hidden">
         <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
           {/* Buttons for toggling between question and solution */}
+          <button onClick={handleGoBack} title="back to collection">
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary" style={{ fontSize: '25px' }}>arrow_back</span>
+          </button>
           <div className="mb-4">
             <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${contentActive === 'question' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContentActive('question')}>Problem</button>
-            <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${contentActive === 'solution' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContentActive('solution')}>Solution</button>
             <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${contentActive === 'notes' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContentActive('notes')}>Notes</button>
+            <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${contentActive === 'solution' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContentActive('solution')}>Solution</button>
 
         </div>
         {/* Left side content (The question) */}

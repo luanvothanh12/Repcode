@@ -8,6 +8,14 @@ export default function Changelog() {
         month: "May 2024",
         updates: [
           {
+            date: "V 0.1.6 - May 19, 2024",
+            changes: [
+              "Added ability to solve random problem from current collection and from all collections in Collection view",
+              "Added Back button to return to Collection view from Problem view",
+              "Fixed styling of Study mode problems",
+            ],
+          },
+          {
             date: "V 0.1.5 - May 9, 2024",
             changes: [
               "Syntax highlighting for solutions (using highlight.js)",

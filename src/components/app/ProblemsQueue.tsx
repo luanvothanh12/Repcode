@@ -8,6 +8,8 @@ import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-c_cpp";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/monokai.css';
 import { AuthContext } from '@/auth/AuthContext';
 import { useMutation, useQueryClient } from 'react-query';
   
@@ -26,6 +28,11 @@ import { useMutation, useQueryClient } from 'react-query';
     const queryClient = useQueryClient();
 
     const { user } = useContext(AuthContext);
+
+     // Use useEffect to highlight code when the component mounts or updates
+    useEffect(() => {
+      hljs.highlightAll();
+    }, [content]);
 
     useEffect(() => {
       if(!userSettings){
@@ -153,30 +160,30 @@ import { useMutation, useQueryClient } from 'react-query';
 
     const getDifficultyColor = (difficulty: string) => {
       switch (difficulty.toLowerCase()) {
-          case 'easy':
-              return 'text-easy';
-          case 'medium':
-              return 'text-medium';
-          case 'hard':
-              return 'text-hard';
-          default:
-              return 'text-white';
+        case 'easy':
+            return 'text-easy bg-easybg px-4'; 
+        case 'medium':
+            return 'text-medium bg-mediumbg px-2';
+        case 'hard':
+            return 'text-hard bg-hardbg px-4';
+        default:
+            return 'text-white';
       }
   };
 
-  const getTypeColor = (label: string) => {
-    switch (label) {
-        case 'New':
-            return 'text-new'; 
-        case 'Learning':
-            return 'text-warning'; 
-        case 'Relearning':
-            return 'text-warning'; 
-        case 'Review':
-            return 'text-success'; 
-        default:
-            return 'text-neutral dark:text-white'; 
-      }
+  const getTypeColor = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'new':
+          return 'text-new bg-newbg px-4'; 
+      case 'learning':
+          return 'text-warning bg-warningbg px-2'; 
+      case 'relearning':
+          return 'text-warning bg-warningbg px-2'; 
+      case 'review':
+          return 'text-success bg-successbg px-2'; 
+      default:
+          return 'text-neutral dark:text-white'; 
+    }
   };
 
 
@@ -486,6 +493,7 @@ import { useMutation, useQueryClient } from 'react-query';
           {/* Buttons for toggling between question and solution */}
           <div className="mb-4">
             <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${content === 'question' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContent('question')}>Problem</button>
+            <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${content === 'notes' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContent('notes')}>Notes</button>
             <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${content === 'solution' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContent('solution')}>Solution</button>
             {content === 'solution' && buttons?.length > 0 && buttons.map((button: any, index: any) => (
               <button
@@ -514,37 +522,36 @@ import { useMutation, useQueryClient } from 'react-query';
         </div>
         {/* Left side content (The question) */}
         <div className="flex justify-between items-center text-neutral dark:text-white">
-          <h1 className="text-xl font-bold">{dueProblems[0].name}</h1>
-                    <div className="text-right m-5">
-                <span className={getDifficultyColor(dueProblems[0].difficulty)}>
-                    {dueProblems[0].difficulty}
-                </span> 
-                <span className="text-divide2 dark:text-divide"> / </span> 
-                <span className={getTypeColor(dueProblems[0].type)}>
-                    {dueProblems[0].type}
-                </span>
+          <h1 className="text-xl font-bold">{dueProblems[0].name}
+            <a href={dueProblems[0].link} target="_blank" rel="noopener noreferrer">
+              <span className="material-icons hover:scale-110 text-neutral dark:text-warning ml-2">
+                link
+              </span>
+            </a>
+          </h1>
+          <div className="text-right m-5">
+          <span className={`${getDifficultyColor(dueProblems[0].difficulty)} rounded-full py-1`}>
+                {dueProblems[0].difficulty}
+            </span> 
+            <span className="text-divide2 dark:text-divide"> / </span> 
+            <span className={`${getTypeColor(dueProblems[0].type)} rounded-full py-1`}>
+                {dueProblems[0].type}
+            </span>
           </div>
         </div>
-        {content === 'question' ? (
+        {content === 'notes' ? (
+          <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{dueProblems[0].notes}</p>
+        ) : content === 'question' ? (
           <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{dueProblems[0].question}</p>
         ) : (
-          <pre className="text-neutral dark:text-white mt-4 whitespace-pre-wrap"><code>{dueProblems[0].solution}</code></pre>
+          <pre><code className={`language-${dueProblems[0].language} mr-5`}>{dueProblems[0].solution}</code></pre>
         )}
         </div>
         <div className="w-px bg-gray-800"></div> {/* Vertical line */}
         <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
-          {/* Right side content (Ace Editor) */}
-          <div className="flex justify-end p-2">
-            <select value={language} onChange={(e) => setLanguage(e.target.value)} className="rounded-md bg-feintwhite dark:bg-divide2">
-              <option value="python">Python</option>
-              <option value="javascript">JavaScript</option>
-              <option value="java">Java</option>
-              <option value="c_cpp">C/C++</option>
-            </select>
-          </div>
           <AceEditor
             className="rounded"
-            mode={language}
+            mode={dueProblems[0].language}
             theme="monokai"
             name="UNIQUE_ID_OF_DIV"
             editorProps={{ $blockScrolling: true }}
@@ -552,7 +559,7 @@ import { useMutation, useQueryClient } from 'react-query';
             showPrintMargin={true}
             showGutter={true}
             highlightActiveLine={true}
-            value={editorContent}
+            value={editorContent || dueProblems[0].functionSignature}
             onChange={(newValue) => setEditorContent(newValue)}
             setOptions={{
               enableBasicAutocompletion: true,
