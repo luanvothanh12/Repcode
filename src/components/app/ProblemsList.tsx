@@ -202,7 +202,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         </div>
         {problems?.length <= 0 && (
           <>
-            <p className="text-center text-lg text-primary italic">No problems in this collection yet. Click the '+' to add one!</p>
+            <p className="text-center text-lg text-primary italic">No problems in this collection yet. Click the &apos;+&apos; to add one!</p>
           </>
         )}
         {problems?.length > 0 && (
