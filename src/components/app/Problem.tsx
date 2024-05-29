@@ -82,74 +82,74 @@ import { AuthContext } from '@/auth/AuthContext';
         );
   }
 
-    return (
-      <div className="flex flex-col md:flex-row h-screen overflow-hidden">
-        <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
-          {/* Buttons for toggling between question and solution */}
-          <button onClick={handleGoBack} title="back to collection">
+  return (
+    <div className="flex flex-col md:flex-row h-screen overflow-hidden">
+      <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
+        {/* Buttons for toggling between question and solution */}
+        <button onClick={handleGoBack} title="back to collection">
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary" style={{ fontSize: '25px' }}>arrow_back</span>
-          </button>
-          <div className="mb-4">
-            <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${contentActive === 'question' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContentActive('question')}>Problem</button>
-            <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${contentActive === 'notes' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContentActive('notes')}>Notes</button>
-            <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${contentActive === 'solution' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContentActive('solution')}>Solution</button>
-
+        </button>
+        <div className="mb-4">
+          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'question' ? 'border-b-2 border-divide' : 'border-b-2 border-base_100'}`} onClick={() => setContentActive('question')}>Problem</button>
+          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'notes' ? 'border-b-2 border-divide' : 'border-b-2 border-base_100'}`} onClick={() => setContentActive('notes')}>Notes</button>
+          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'solution' ? 'border-b-2 border-divide' : 'border-b-2 border-base_100'}`} onClick={() => setContentActive('solution')}>Solution</button>
         </div>
         {/* Left side content (The question) */}
-        <div className="flex justify-between items-center text-neutral dark:text-white">
-        <h1 className="text-xl font-bold">
-          {problem.name}
-          <a href={problem.link} target="_blank" rel="noopener noreferrer">
-            <span className="material-icons hover:scale-110 text-neutral dark:text-warning ml-2">
-              link
-            </span>
-          </a>
-        </h1>
+        <div className="flex justify-between items-center text-white">
+          <h1 className="text-xl font-bold">
+            {problem.name}
+            <a href={problem.link} target="_blank" rel="noopener noreferrer">
+              <span className="material-icons hover:scale-110 text-warning ml-2">
+                link
+              </span>
+            </a>
+          </h1>
           <div className="text-right m-5">
-                <span className={`${getDifficultyColor(problem.difficulty)} rounded-full py-1`}>
-                    {problem.difficulty}
-                </span> 
-                <span className="text-divide2 dark:text-divide"> / </span> 
-                <span className={`${getTypeColor(problem.type)} rounded-full py-1`}>
-                    {problem.type}
-                </span>
+            <span className={`${getDifficultyColor(problem.difficulty)} rounded-full py-1`}>
+              {problem.difficulty}
+            </span> 
+            <span className="text-divide"> / </span> 
+            <span className={`${getTypeColor(problem.type)} rounded-full py-1`}>
+              {problem.type}
+            </span>
           </div>
         </div>
         {contentActive === 'notes' ? (
-          <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{problem.notes}</p>
+          <p className="text-white mt-4 whitespace-pre-wrap">{problem.notes}</p>
         ) : contentActive === 'question' ? (
-          <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{problem.question}</p>
+          <p className="text-white mt-4 whitespace-pre-wrap">{problem.question}</p>
         ) : (
           <pre><code className={`language-${problem.language} mr-5`}>{problem.solution}</code></pre>
         )}
-        </div>
-        <div className="w-px bg-gray-800"></div> {/* Vertical line */}
-        <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
-          {/* Right side content (Ace Editor) */}
-          <AceEditor
-            className="rounded"
-            mode={problem.language}
-            theme="monokai"
-            name="UNIQUE_ID_OF_DIV"
-            editorProps={{ $blockScrolling: true }}
-            fontSize={14}
-            showPrintMargin={true}
-            showGutter={true}
-            highlightActiveLine={true}
-            value={editorContent || problem.functionSignature}
-            onChange={(newValue) => setEditorContent(newValue)}
-            setOptions={{
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              enableSnippets: true,
-              showLineNumbers: true,
-              tabSize: 2,
-            }}
-            style={{ height: '100%', width: '100%' }}  
-          />
-        </div>
       </div>
-    );
+      <div className="w-px bg-gray-800"></div> {/* Vertical line */}
+      <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
+        {/* Right side content (Ace Editor) */}
+        <AceEditor
+          className="rounded"
+          mode={problem.language}
+          theme="monokai"
+          name="UNIQUE_ID_OF_DIV"
+          editorProps={{ $blockScrolling: true }}
+          fontSize={14}
+          showPrintMargin={true}
+          showGutter={true}
+          highlightActiveLine={true}
+          value={editorContent || problem.functionSignature}
+          onChange={(newValue) => setEditorContent(newValue)}
+          setOptions={{
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true,
+            enableSnippets: true,
+            showLineNumbers: true,
+            tabSize: 2,
+          }}
+          style={{ height: '100%', width: '100%' }}  
+        />
+      </div>
+    </div>
+  );
+  
   };
   
   export default Problem;

@@ -479,7 +479,7 @@ import { useMutation, useQueryClient } from 'react-query';
   if (!isLoading && dueProblems.length === 0) {
     return (
       <div className="flex justify-center items-center h-full">
-        <p className="text-xl text-center text-neutral dark:text-white">
+        <p className="text-xl text-center text-white">
           Congratulations! You have finished all the problems due for today.
         </p>
       </div>
@@ -492,13 +492,13 @@ import { useMutation, useQueryClient } from 'react-query';
         <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
           {/* Buttons for toggling between question and solution */}
           <div className="mb-4">
-            <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${content === 'question' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContent('question')}>Problem</button>
-            <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${content === 'notes' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContent('notes')}>Notes</button>
-            <button className={`mr-2 py-2 px-4 text-primary2 dark:text-primary transition-width duration-300 ${content === 'solution' ? 'border-b-2 border-feintwhite dark:border-divide' : 'border-b-2 border-white dark:border-base_100'}`} onClick={() => setContent('solution')}>Solution</button>
+            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'question' ? 'border-b-2 border-divide' : 'border-b-2 border-base_100'}`} onClick={() => setContent('question')}>Problem</button>
+            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'notes' ? 'border-b-2 border-divide' : 'border-b-2 border-base_100'}`} onClick={() => setContent('notes')}>Notes</button>
+            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'solution' ? 'border-b-2 border-divide' : 'border-b-2 border-base_100'}`} onClick={() => setContent('solution')}>Solution</button>
             {content === 'solution' && buttons?.length > 0 && buttons.map((button: any, index: any) => (
               <button
                 key={index}
-                className={`mx-2 py-1 px-1 border border-feintwhite dark:border-divide transition-width duration-300 ${getButtonColor(button.label)}`}
+                className={`mx-2 py-1 px-1 border border-divide transition-width duration-300 ${getButtonColor(button.label)}`}
                 onClick={() => Algorithm(button.value)}
               >
                 {button.label}(
@@ -521,10 +521,10 @@ import { useMutation, useQueryClient } from 'react-query';
             ))}
         </div>
         {/* Left side content (The question) */}
-        <div className="flex justify-between items-center text-neutral dark:text-white">
+        <div className="flex justify-between items-center text-white">
           <h1 className="text-xl font-bold">{dueProblems[0].name}
             <a href={dueProblems[0].link} target="_blank" rel="noopener noreferrer">
-              <span className="material-icons hover:scale-110 text-neutral dark:text-warning ml-2">
+              <span className="material-icons hover:scale-110 text-warning ml-2">
                 link
               </span>
             </a>
@@ -533,16 +533,16 @@ import { useMutation, useQueryClient } from 'react-query';
           <span className={`${getDifficultyColor(dueProblems[0].difficulty)} rounded-full py-1`}>
                 {dueProblems[0].difficulty}
             </span> 
-            <span className="text-divide2 dark:text-divide"> / </span> 
+            <span className="text-divide"> / </span> 
             <span className={`${getTypeColor(dueProblems[0].type)} rounded-full py-1`}>
                 {dueProblems[0].type}
             </span>
           </div>
         </div>
         {content === 'notes' ? (
-          <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{dueProblems[0].notes}</p>
+          <p className="text-white mt-4 whitespace-pre-wrap">{dueProblems[0].notes}</p>
         ) : content === 'question' ? (
-          <p className="text-neutral dark:text-white mt-4 whitespace-pre-wrap">{dueProblems[0].question}</p>
+          <p className="text-white mt-4 whitespace-pre-wrap">{dueProblems[0].question}</p>
         ) : (
           <pre><code className={`language-${dueProblems[0].language} mr-5`}>{dueProblems[0].solution}</code></pre>
         )}

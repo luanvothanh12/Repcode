@@ -24,15 +24,44 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   const router = useRouter();
 
 
-  const fetchProblems = async () => {
-    const response = await fetch(`/api/getCollectionProblems?collectionId=${collectionId}`);
-    if (!response.ok) throw new Error('Failed to fetch problems');
+  // to get the user ID to verify that user can only access collections they have created 
+  const fetchUserSettings = async () => {
+    if (!user) throw new Error("No user found");
+    const response = await fetch(`/api/getUserSettings?userEmail=${user.email}`);
+    if (!response.ok) throw new Error("Failed to fetch user settings");
+    return response.json();
+  };
+
+  const fetchProblems = async (collectionId: any, userId: any) => {
+    if (!collectionId || !userId) return null;
+    const response = await fetch(`/api/getCollectionProblems?collectionId=${collectionId}&userId=${userId}`);
+    if (!response.ok) {
+      if (response.status === 403) {
+        throw new Error('Access Denied');
+      } else {
+        throw new Error('Network response was not ok');
+      }
+    }
     return response.json();
   };
   
-  // data: problems simply renames 'data' to 'problems' for readability 
-  const { data: problems, isLoading, error } = useQuery(['collectionProblems', collectionId], fetchProblems, {});
+  const { 
+    isLoading: isLoadingUser, 
+    data: currentUser, 
+    error: userError, 
+  } = useQuery(['userSettings', user?.email], fetchUserSettings, {
+    enabled: !!user, 
+  })
 
+
+  // data: problems simply renames 'data' to 'problems' for readability 
+  const { data: problems, isLoading, error } = useQuery(
+    ['collectionDetails', collectionId, currentUser?.id],
+    () => fetchProblems(collectionId, currentUser.id),
+    {
+      enabled: !!collectionId && !!currentUser,
+    }
+  );
   const getDifficultyColor = (difficulty: string) => {
       switch (difficulty.toLowerCase()) {
           case 'easy':
@@ -104,8 +133,8 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
 
     const chooseRandomProblemFromCollection = async () => {
       try {
-        const problems = await fetchProblems();
-        const randomProblem = problems[Math.floor(Math.random() * problems.length)];
+        const problems = await fetchProblems(collectionId, currentUser.id);
+        const randomProblem = problems[Math.floor(Math.random() * problems?.length)];
         router.push(`/app/collections/${collectionId}/problems/${randomProblem.id}`);
       } catch (error) {
         console.error('Error fetching random problem from collection:', error);
@@ -117,7 +146,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         const response = await fetch(`/api/getAllProblemsFromUser?userEmail=${user?.email}`);
         if (!response.ok) throw new Error('Failed to fetch all problems');
         const problems = await response.json();
-        const randomProblem = problems[Math.floor(Math.random() * problems.length)];
+        const randomProblem = problems[Math.floor(Math.random() * problems?.length)];
         router.push(`/app/collections/${randomProblem.collectionId}/problems/${randomProblem.id}`);
       } catch (error) {
         console.error('Error fetching random problem from all problems:', error);
@@ -125,13 +154,13 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
     };
     
     if (error) return <div>Error: {(error as Error).message}</div>;
-    if (isLoading) {
+    if (isLoading || isLoadingUser) {
       return (
-        <div className="flex justify-center items-center h-full">
+        <div className="flex justify-center items-center h-screen">
           <div role="status">
             <svg
               aria-hidden="true"
-              className="w-12 h-12 text-white animate-spin dark:text-base_100 fill-load"
+              className="w-12 h-12 text-base_100 animate-spin dark:text-base_100 fill-load"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +185,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         <ProblemModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} collectionId={collectionId} isEditMode={true} problemToEdit={problemToEdit} showToast={showToast} />
         <ProblemModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} collectionId={collectionId} showToast={showToast} />
         <div className='max-w-md mx-auto'>  
-          <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-white dark:bg-base_100 overflow-hidden m-5 transition-width duration-300">
+          <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-base_100 overflow-hidden m-5 transition-width duration-300">
             <div className="grid place-items-center h-full w-12 text-feintwhite">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -167,74 +196,79 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
               placeholder="Search problems..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="peer h-full w-full outline-none text-sm text-neutral pr-2 bg-white dark:bg-base_100 dark:text-white transition-width duration-300"
+              className="peer h-full w-full outline-none text-sm text-white pr-2 bg-base_100 transition-width duration-300"
             /> 
           </div>
         </div>
-        {problems.length > 0 && (
+        {problems?.length <= 0 && (
           <>
-          <button onClick={chooseRandomProblemFromCollection} title="random problem from collection">
-            <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite mr-2" style={{ fontSize: '30px' }}>refresh</span>
-          </button>
-          <button onClick={chooseRandomProblemFromAll} title="random problem from all collections">
-            <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '30px' }}>sync</span>
-          </button>
+            <p className="text-center text-lg text-primary italic">No problems in this collection yet. Click the '+' to add one!</p>
+          </>
+        )}
+        {problems?.length > 0 && (
+          <>
+            <button onClick={chooseRandomProblemFromCollection} title="random problem from collection">
+              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite mr-2" style={{ fontSize: '30px' }}>refresh</span>
+            </button>
+            <button onClick={chooseRandomProblemFromAll} title="random problem from all collections">
+              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '30px' }}>sync</span>
+            </button>
           </>
         )}
         <ul className="max-w-full flex flex-col">
-            {problems.filter((problem: any) => problem.name.toLowerCase().includes(searchTerm.toLowerCase())).map((problem: any) => (
-                <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-white hover:bg-feintwhite border border-feintwhite text-neutral -mt-px first:rounded-t-lg last:rounded-b-lg transition-colors duration-100 dark:bg-base_100 dark:hover:bg-hover dark:border-divide dark:text-white cursor-pointer" onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}>
-                    <div className="flex items-center gap-x-3.5">
-                        <span 
-                          className="material-icons text-xl hover:cursor-pointer" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleMenu(problem.id)
-                          }}
-                        >
-                            more_vert
-                        </span>
-                        {visibleMenuId === problem.id && (
-                            <div className="hs-dropdown-enter relative inline-flex">
-                                <button 
-                                  className="cursor:pointer text-error text-decoration-line: underline mr-2" 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    deleteProblem(problem.id);
-                                  }}
-                                >
-                                  Delete
-                                </button>
-
-                                <button 
-                                  className="cursor:pointer text-link text-decoration-line: underline mr-2" 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    openEditModal(problem);
-                                  }}
-                                >
-                                  Edit
-                                </button>
-                            </div>
-                        )}
-                            <span>{problem.name}</span>
-                    </div>
-                    <div className="text-right">
-                    <span className={`${getDifficultyColor(problem.difficulty)} rounded-full py-1`}>
-                            {problem.difficulty}
-                        </span> 
-                        <span className="text-divide2 dark:text-divide"> / </span> 
-                        <span className={`${getTypeColor(problem.type)} rounded-full py-1`}>
-                            {problem.type}
-                        </span>
-                    </div>
-                </li>
-            ))}
+          {problems?.filter((problem:any) => problem.name.toLowerCase().includes(searchTerm.toLowerCase())).map((problem:any) => (
+            <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-base_100 hover:bg-hover border border-divide text-white -mt-px first:rounded-t-lg last:rounded-b-lg transition-colors duration-100 cursor-pointer" onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}>
+              <div className="flex items-center gap-x-3.5">
+                <span 
+                  className="material-icons text-xl hover:cursor-pointer" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleMenu(problem.id);
+                  }}
+                >
+                  more_vert
+                </span>
+                {visibleMenuId === problem.id && (
+                  <div className="hs-dropdown-enter relative inline-flex">
+                    <button 
+                      className="cursor:pointer text-error text-decoration-line: underline mr-2" 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteProblem(problem.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+  
+                    <button 
+                      className="cursor:pointer text-link text-decoration-line: underline mr-2" 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openEditModal(problem);
+                      }}
+                    >
+                      Edit
+                    </button>
+                  </div>
+                )}
+                <span>{problem.name}</span>
+              </div>
+              <div className="text-right">
+                <span className={`${getDifficultyColor(problem.difficulty)} rounded-full py-1`}>
+                  {problem.difficulty}
+                </span> 
+                <span className="text-divide"> / </span> 
+                <span className={`${getTypeColor(problem.type)} rounded-full py-1`}>
+                  {problem.type}
+                </span>
+              </div>
+            </li>
+          ))}
         </ul>
         <div className="flex justify-center mt-8">
           <button 
             onClick={() => { setIsModalOpen(true); setProblemToEdit(null); }}
-            className="bg-pop2 dark:bg-pop text-white p-0 rounded-full h-12 w-12 flex items-center justify-center hover:scale-95 transition-transform duration-150 ease-in-out"
+            className="bg-pop text-white p-0 rounded-full h-12 w-12 flex items-center justify-center hover:scale-95 transition-transform duration-150 ease-in-out"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v12m6-6H6" />
@@ -243,7 +277,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         </div>
         <Toast message={toastMessage} isVisible={isToastVisible} />
       </>
-    );    
+    );
 };
 
 export default ProblemsList;

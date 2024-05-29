@@ -44,11 +44,11 @@ const ProblemTypeInfo = () => {
     if (error) return <div>Error: {(error as Error).message}</div>;
     if (isLoading) {
       return (
-        <div className="flex justify-center items-center h-full">
+        <div className="flex justify-center items-center h-screen">
           <div role="status">
             <svg
               aria-hidden="true"
-              className="w-12 h-12 text-white animate-spin dark:text-base_100 fill-load"
+              className="w-12 h-12 text-base_100 animate-spin dark:text-base_100 fill-load"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -70,18 +70,18 @@ const ProblemTypeInfo = () => {
 
     return (
         <div className="flex flex-col items-center">
-        <div className="text-neutral dark:text-white text-lg mb-4 text-center">
+        <div className="text-white text-lg mb-4 text-center">
             <p>New: <span className="text-new">{problemCounts.New}</span></p>
             <p>Learning: <span className="text-learning">{problemCounts.Learning + (problemCounts.Relearning || 0)}</span></p>
             <p className="mb-5">Review: <span className="text-review">{problemCounts.Review}</span></p>
             <p>Due today: <span className="text-error">{dueTodayCount}</span></p> 
         </div>
         {dueTodayCount > 0 ? (
-            <button onClick={goDueProblems} className="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded">
+            <button onClick={goDueProblems} className="inline-flex justify-center items-center gap-x-3 text-center bg-pop text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-4 transition-transform duration-200 hover:scale-95">
             Study Now
             </button>
         ) : (
-            <p className="text:neutral dark:text-primary">You do not have any problems due today, go relax and drink a sody pop!</p>
+            <p className="text:primary">You do not have any problems due today, go relax and drink a sody pop!</p>
         )}
         </div>
     );

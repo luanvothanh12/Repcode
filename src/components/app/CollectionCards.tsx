@@ -89,11 +89,11 @@ const CollectionCards = () => {
   if (error) return <div>Error: {(error as Error).message}</div>;
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-full">
+      <div className="flex justify-center items-center h-screen">
         <div role="status">
           <svg
             aria-hidden="true"
-            className="w-12 h-12 text-white animate-spin dark:text-base_100 fill-load"
+            className="w-12 h-12 text-base_100 animate-spin dark:text-base_100 fill-load"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +124,7 @@ const CollectionCards = () => {
           >
             <img src={`/${collection.image}`} alt="Collection" className="absolute top-0 left-0 w-full h-3/4 object-cover" />
             <div className="absolute bottom-0 left-0 p-4 w-full bg-gradient-to-t from-black to-transparent flex justify-center items-end h-1/4">
-                <div className="text-lg font-bold text-center">{collection.title}</div>
+              <div className="text-lg font-bold text-center">{collection.title}</div>
             </div>
             <span
               className="material-icons text-3xl text-white absolute top-0 left-0 m-2 cursor-pointer"
@@ -136,7 +136,7 @@ const CollectionCards = () => {
               more_vert
             </span>
             {visibleMenuId === collection.id && (
-            <div className={`absolute top-0 left-10 mt-2 ml-2 flex flex-row cursor-pointer bg-neutral px-2 ${visibleMenuId === collection.id ? 'hs-dropdown-enter' : ''}`}>
+              <div className={`absolute top-0 left-10 mt-2 ml-2 flex flex-row cursor-pointer bg-base_100 px-2 ${visibleMenuId === collection.id ? 'hs-dropdown-enter' : ''}`}>
                 <button
                   className="mr-2 py-2 text-error text-decoration-line: underline text-sm"
                   onClick={(e) => {
@@ -160,7 +160,7 @@ const CollectionCards = () => {
           </div>
         ))}
         <button
-          className="flex justify-center items-center bg-pop2 dark:bg-pop rounded-full h-20 w-20 shadow-md cursor-pointer m-auto transition duration-300 ease-in-out hover:scale-95"
+          className="flex justify-center items-center bg-pop rounded-full h-20 w-20 shadow-md cursor-pointer m-auto transition duration-300 ease-in-out hover:scale-95"
           onClick={() => setIsModalOpen(true)}
         >
           {/* SVG for Plus Icon */}
@@ -180,7 +180,7 @@ const CollectionCards = () => {
           </svg>
         </button>
       </div>
-
+  
       <CollectionModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
@@ -193,10 +193,10 @@ const CollectionCards = () => {
         onClose={() => setIsModalOpen(false)}
         showToast={showToast}
       />
-
+  
       {deleteConfirmationOpen && (
         <div className="fixed inset-0 bg-base_100 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center">
-          <div className="bg-white dark:bg-base_100 p-4 rounded-lg shadow-lg text-neutral dark:text-white">
+          <div className="bg-base_100 p-4 rounded-lg shadow-lg text-white">
             <h2>Delete collection?</h2>
             <p>This will delete all the problems inside as well</p>
             <div className="flex justify-end space-x-4 mt-4">
@@ -208,7 +208,7 @@ const CollectionCards = () => {
               </button>
               <button
                 onClick={deleteCollection}
-                className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 dark:focus:ring-offset-gray-800 transition-transform duration-200 hover:scale-95"
+                className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 transition-transform duration-200 hover:scale-95"
               >
                 Delete
               </button>
@@ -216,7 +216,7 @@ const CollectionCards = () => {
           </div>
         </div>
       )}
-          <Toast message={toastMessage} isVisible={isToastVisible} />
+      <Toast message={toastMessage} isVisible={isToastVisible} />
     </>
   );
 };

@@ -13,7 +13,7 @@ import "../app/globals.css";
 export default function Home() {
 
   return (
-    <div className="bg-white dark:bg-base_100">
+    <div className="bg-base_100">
       <NavBar />
     <div className="flex justify-center items-center h-screen"> 
         <Logo />

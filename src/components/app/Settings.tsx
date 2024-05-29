@@ -102,11 +102,11 @@ const Settings = () => {
     if (error) return <div>Error: {(error as Error).message}</div>;
     if (isLoading || !data) {
       return (
-        <div className="flex justify-center items-center h-full">
+        <div className="flex justify-center items-center h-screen h-full">
           <div role="status">
             <svg
               aria-hidden="true"
-              className="w-12 h-12 text-white animate-spin dark:text-base_100 fill-load"
+              className="w-12 h-12 text-base_100 animate-spin dark:text-base_100 fill-load"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -125,74 +125,73 @@ const Settings = () => {
         </div>
       );
     }
-  return (
-    <div className="bg-white dark:bg-base_100 border border-feintwhite dark:border-divide p-6 rounded-lg max-w-md mx-auto my-10">
-      {/* Card 1 */}
-      <div className="card mb-8">
-        <h2 className="text-lg font-semibold mb-2 text-neutral dark:text-white">New Cards</h2>
-        <hr className="mb-4 text-feintwhite dark:text-divide"/>
-        <div className="flex flex-col gap-4">
-          <div className="flex justify-between items-center">
-            <label className="text-neutral dark:text-white">Learning Steps</label>
-            <input id="learnSteps" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.learnSteps}/>
-          </div>
-          <div className="flex justify-between items-center">
-            <label className="text-neutral dark:text-white">Graduating Interval</label>
-            <input id="graduatingInterval" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.graduatingInterval}/>
-          </div>
-          <div className="flex justify-between items-center">
-            <label className="text-neutral dark:text-white">Easy Interval</label>
-            <input id="easyInterval" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.easyInterval}/>
-          </div>
-        </div>
-      </div>
-
-      {/* Card 2 */}
-      <div className="card mb-8">
-        <h2 className="text-lg font-semibold mb-2 text-neutral dark:text-white">Lapses</h2>
-        <hr className="mb-4 text-feintwhite dark:text-divide"/>
-        <div className="flex flex-col gap-4">
-          <div className="flex justify-between items-center">
-            <label className="text-neutral dark:text-white">Relearning Steps</label>
-            <input id="relearnSteps" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.relearnSteps}/>
-          </div>
-          <div className="flex justify-between items-center">
-            <label className="text-neutral dark:text-white">New Interval</label>
-            <input id="relearnGraduatingInterval" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.relearnGraduatingInterval}/>
-          </div>
-
-        </div>
-      </div>
-
-      {/* Card 3. The Save button will be here since it's the last card */}
-      <div className="card mb-8">
-        <h2 className="text-lg font-semibold mb-2 text-neutral dark:text-white">Advanced</h2>
-        <hr className="mb-4 text-feintwhite dark:text-divide"/>
-        <div className="flex flex-col gap-4">
-          <div className="flex justify-between items-center">
-            <label className="text-neutral dark:text-white">Maximum Interval</label>
-            <input id="maximumInterval" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.maximumInterval}/>
-          </div>
-          <div className="flex justify-between items-center">
-            <label className="text-neutral dark:text-white">Starting Ease</label>
-            <input id="startingEase" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.startingEase}/>
-          </div>
-          <div className="flex justify-between items-center">
-            <label className="text-neutral dark:text-white">Easy Bonus</label>
-            <input id="easyBonus" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.easyBonus}/>
-          </div>
-          <div className="flex justify-between items-center">
-            <label className="text-neutral dark:text-white">Interval Modifier</label>
-            <input id="intervalModifier" type="text" className="border border-divide2 dark:border-transparent p-2 rounded" defaultValue={data.intervalModifier}/>
-          </div>
-          <div className="flex justify-end items-center">
-            <button onClick={handleSave} className="inline-flex justify-center items-center gap-x-3 text-center bg-blue text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-8 transition-transform duration-200 hover:scale-95">Save</button>
+    return (
+      <div className="bg-base_100 border border-divide p-6 rounded-lg max-w-md mx-auto my-10">
+        {/* Card 1 */}
+        <div className="card mb-8">
+          <h2 className="text-lg font-semibold mb-2 text-white">New Cards</h2>
+          <hr className="mb-4 text-divide"/>
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between items-center">
+              <label className="text-white">Learning Steps</label>
+              <input id="learnSteps" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.learnSteps}/>
+            </div>
+            <div className="flex justify-between items-center">
+              <label className="text-white">Graduating Interval</label>
+              <input id="graduatingInterval" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.graduatingInterval}/>
+            </div>
+            <div className="flex justify-between items-center">
+              <label className="text-white">Easy Interval</label>
+              <input id="easyInterval" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.easyInterval}/>
+            </div>
           </div>
         </div>
+  
+        {/* Card 2 */}
+        <div className="card mb-8">
+          <h2 className="text-lg font-semibold mb-2 text-white">Lapses</h2>
+          <hr className="mb-4 text-divide"/>
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between items-center">
+              <label className="text-white">Relearning Steps</label>
+              <input id="relearnSteps" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.relearnSteps}/>
+            </div>
+            <div className="flex justify-between items-center">
+              <label className="text-white">New Interval</label>
+              <input id="relearnGraduatingInterval" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.relearnGraduatingInterval}/>
+            </div>
+          </div>
+        </div>
+  
+        {/* Card 3. The Save button will be here since it's the last card */}
+        <div className="card mb-8">
+          <h2 className="text-lg font-semibold mb-2 text-white">Advanced</h2>
+          <hr className="mb-4 text-divide"/>
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between items-center">
+              <label className="text-white">Maximum Interval</label>
+              <input id="maximumInterval" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.maximumInterval}/>
+            </div>
+            <div className="flex justify-between items-center">
+              <label className="text-white">Starting Ease</label>
+              <input id="startingEase" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.startingEase}/>
+            </div>
+            <div className="flex justify-between items-center">
+              <label className="text-white">Easy Bonus</label>
+              <input id="easyBonus" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.easyBonus}/>
+            </div>
+            <div className="flex justify-between items-center">
+              <label className="text-white">Interval Modifier</label>
+              <input id="intervalModifier" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.intervalModifier}/>
+            </div>
+            <div className="flex justify-end items-center">
+              <button onClick={handleSave} className="inline-flex justify-center items-center gap-x-3 text-center bg-blue text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-8 transition-transform duration-200 hover:scale-95">Save</button>
+            </div>
+          </div>
+        </div>
+        <Toast message={toastMessage} isVisible={isToastVisible} />
       </div>
-      <Toast message={toastMessage} isVisible={isToastVisible} />
-    </div>
-  );
+    );
 };
 
 export default Settings;

@@ -1,19 +1,28 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import '../../../../../app/globals.css'; 
 import SideBar from '@/components/app/SideBar';
 import nookies from "nookies"; 
 import firebaseAdmin from "../../../../../../firebaseAdmin";
 import Problem from '@/components/app/Problem';
+import { AuthContext } from '@/auth/AuthContext';
 import { useQuery } from 'react-query';
 
 const ProblemDetailPage = () => {
-  const router = useRouter(); 
+  const router = useRouter();
+  const { user } = useContext(AuthContext);
   const { collectionId, problemId } = router.query;
 
   const [contentActive, setContentActive] = useState('question');
   const [editorContent, setEditorContent] = useState('');
 
+  // to get the user ID to verify that user can only access problems they have created 
+  const fetchUserSettings = async () => {
+    if (!user) throw new Error("No user found");
+    const response = await fetch(`/api/getUserSettings?userEmail=${user.email}`);
+    if (!response.ok) throw new Error("Failed to fetch user settings");
+    return response.json();
+  };
 
   const fetchCollectionDetails = async (collectionId:any) => {
     if (!collectionId) return null; // Guard clause to ensure collectionId is not undefined
@@ -22,12 +31,21 @@ const ProblemDetailPage = () => {
     return response.json();
   };
   
-  const fetchProblemDetails = async (problemId:any) => {
-    if (!problemId) return null; // Guard clause to ensure problemId is not undefined
-    const response = await fetch(`/api/getProblemDetails?problemId=${problemId}`);
+  const fetchProblemDetails = async (problemId: any, userId: any) => {
+    if (!problemId || !userId) return null; // Guard clause to ensure problemId and userId are not undefined
+    const response = await fetch(`/api/getProblemDetails?problemId=${problemId}&userId=${userId}`);
     if (!response.ok) throw new Error('Network response was not ok');
     return response.json();
   };
+
+  const { 
+    isLoading: isLoadingUser, 
+    data: currentUser, 
+    error: userError, 
+  } = useQuery(['userSettings', user?.email], fetchUserSettings, {
+    enabled: !!user, 
+  })
+
 
   const {
     data: collection,
@@ -41,21 +59,25 @@ const ProblemDetailPage = () => {
     data: problem,
     isLoading: isLoadingProblem,
     error: problemError,
-  } = useQuery(['problemDetails', problemId], () => fetchProblemDetails(problemId), {
-    enabled: !!problemId,
-  });
+  } = useQuery(
+    ['problemDetails', problemId, currentUser?.id],
+    () => fetchProblemDetails(problemId, currentUser.id),
+    {
+      enabled: !!problemId && !!currentUser,
+    }
+  );
 
   return (
     <>
-      <div className="flex min-h-screen h-auto max-h-screen overflow-hidden bg-white dark:bg-base_100 transition-width duration-300">
+      <div className="flex min-h-screen h-auto max-h-screen overflow-hidden bg-base_100 transition-width duration-300">
         <SideBar />
         <div className="flex-grow p-8">
-          {isLoadingCollection || isLoadingProblem ? (
+          {isLoadingCollection || isLoadingProblem || isLoadingUser ? (
             <div className="flex justify-center items-center h-full">
               <div role="status">
                 <svg
                   aria-hidden="true"
-                  className="w-12 h-12 text-white animate-spin dark:text-base_100 fill-load"
+                  className="w-12 h-12 text-base_100 animate-spin fill-load"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -72,12 +94,12 @@ const ProblemDetailPage = () => {
                 <span className="sr-only">Loading...</span>
               </div>
             </div>
-          ) : collectionError || problemError ? (
-            <div>Error: {(collectionError as Error || problemError as Error).message}</div>
+          ) : collectionError || problemError || userError ? (
+            <div>Error: {(collectionError as Error || problemError as Error || userError as Error).message}</div>
           ) : (
             <>
-              <div className="text-neutral dark:text-white text-4xl font-bold mb-4 flex justify-center">:collections/{collection.title}/{problem.name}</div>
-              <hr className="border-feintwhite dark:border-divide mb-8 transition-width duration-300"/>
+              <div className="text-white text-4xl font-bold mb-4 flex justify-center">:collections/{collection.title}/{problem?.name}</div>
+              <hr className="border-divide mb-8 transition-width duration-300"/>
               <Problem
                 problem={problem}
                 contentActive={contentActive}
@@ -91,6 +113,7 @@ const ProblemDetailPage = () => {
       </div>
     </>
   );
+  
   }
 
 export async function getServerSideProps(context:any) {

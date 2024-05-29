@@ -57,17 +57,17 @@ const CollectionModal = ({ isOpen, onClose, isEditMode = false, collectionToEdit
   const modalClass = isOpen ? "modalEnter" : "";
   return (
     <div className={`${isOpen ? '' : 'hidden'} fixed inset-0 bg-base_100 bg-opacity-50 overflow-y-auto h-full w-full`} style={{ opacity: isOpen ? 1 : 0 }}>
-    <div className={`relative top-0 mx-auto p-5 w-96 shadow-lg rounded-md bg-white dark:bg-base_100 ${modalClass}`} style={{ animationDuration: '0.5s' }}>
+      <div className={`relative top-0 mx-auto p-5 w-96 shadow-lg rounded-md bg-base_100 ${modalClass}`} style={{ animationDuration: '0.5s' }}>
         <div className="mt-3 text-center">
-          <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">{isEditMode ? 'Edit Collection' : 'New Collection'}</h3>
+          <h3 className="text-lg leading-6 font-medium text-white">{isEditMode ? 'Edit Collection' : 'New Collection'}</h3>
           <div className="mt-2 px-7 py-3">
             <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-              <label htmlFor="collectionName" className="block text-sm font-medium text-gray-900 dark:text-white">Collection Name:</label>
-              <input type="text" id="collectionName" name="collectionName" value={collectionName} onChange={(e) => setCollectionName(e.target.value)} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+              <label htmlFor="collectionName" className="block text-sm font-medium text-white">Collection Name:</label>
+              <input type="text" id="collectionName" name="collectionName" value={collectionName} onChange={(e) => setCollectionName(e.target.value)} className="text-white mt-1 block w-full px-3 py-2 bg-base_100 border border-primary2 rounded-md shadow-sm focus:outline-none focus:border-blue transition-colors duration-300 sm:text-sm" />
             </form>
           </div>
           <div className="flex justify-end gap-3 px-7 py-3">
-            <button type="button" onClick={onClose} className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 dark:focus:ring-offset-gray-800 transition-transform duration-200 hover:scale-95">
+            <button type="button" onClick={onClose} className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 transition-transform duration-200 hover:scale-95">
               Close
             </button>
             <button type="button" onClick={handleSubmit} disabled={!collectionName.trim()} className={`inline-flex justify-center items-center gap-x-3 text-center ${collectionName.trim() ? 'bg-success border border-success' : 'bg-disabled border border-disabled text-disabledText'} text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 py-1 px-4 transition-transform duration-200 hover:scale-95`}>

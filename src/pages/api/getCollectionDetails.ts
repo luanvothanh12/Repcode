@@ -2,7 +2,7 @@ import prisma from "../../../prisma_client";
 
 export default async function handler(req: any, res: any) {
   if (req.method === 'GET') {
-    const collectionId = parseInt(req.query.collectionId as string, 10);
+    const collectionId = Number(req.query.collectionId);
 
     try {
       const collection = await prisma.collection.findUnique({
@@ -10,7 +10,7 @@ export default async function handler(req: any, res: any) {
           id: collectionId,
         },
         select: {
-          title: true, // Only fetch the title
+          title: true, 
         },
       });
 

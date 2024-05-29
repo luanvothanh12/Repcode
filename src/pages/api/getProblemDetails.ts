@@ -2,8 +2,7 @@ import prisma from "../../../prisma_client";
 
 export default async function handler(req: any, res: any) {
   if (req.method === 'GET') {
-    // Extract problem ID from query parameters
-    const { problemId } = req.query;
+    const { problemId, userId  } = req.query;
 
     try {
       // Convert problemId to a number and fetch problem details
@@ -11,7 +10,23 @@ export default async function handler(req: any, res: any) {
         where: {
           id: Number(problemId),
         },
+        // make sure only the user who created the problem can see it 
+        include: {
+          collection: {
+            select: {
+              userId: true,
+            },
+          },
+        },
       });
+
+      if (!problem) {
+        return res.status(404).json({ error: 'Problem not found' });
+      }
+  
+      if (problem.collection.userId !== Number(userId)) {
+        return res.status(403).json({ error: 'Access denied' });
+      }
 
       if (problem) {
         console.log("CALLED: /getProblemDetails"); 
@@ -22,7 +37,6 @@ export default async function handler(req: any, res: any) {
       }
     } catch (error) {
       console.error('Failed to fetch problem details:', error);
-      // Handle potential errors, such as database connectivity issues
       return res.status(500).json({ message: 'Failed to fetch problem details' });
     }
   } else {

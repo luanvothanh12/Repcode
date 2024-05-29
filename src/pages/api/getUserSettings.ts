@@ -10,6 +10,7 @@ export default async function handler(req: any, res: any) {
           email: userEmail as string,
         },
         select: {
+          id: true, 
           learnSteps: true,
           relearnSteps: true,
           relearnGraduatingInterval: true,

@@ -4,14 +4,15 @@ import { signOut } from "firebase/auth";
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import "../../app/globals.css"; 
-import useDarkMode from '../../../useDarkMode';
+// import useDarkMode from '../../../useDarkMode';
 import { useQuery, useMutation, useQueryClient } from 'react-query'; 
+import { useSidebar } from '../../auth/SidebarContext';
 
 const SideBar = () => {
-  const [colorTheme, setTheme] = useDarkMode() as any; 
+  // const [colorTheme, setTheme] = useDarkMode() as any; 
   const router = useRouter();
+  const { isExpanded, setIsExpanded } = useSidebar() as any;
 
-  const [isExpanded, setIsExpanded] = useState(false);
   const [masterCollectionsDropdownOpen, setMasterCollectionsDropdownOpen] = useState(false);
   const [collections, setCollections] = useState<{id: any; title: any; isLoading: boolean; problems:any}[]>([]);
   const [expandedCollectionId, setExpandedCollectionId] = useState(null); // Track expanded collection
@@ -113,20 +114,20 @@ const SideBar = () => {
   };
 
   return (
-    <div className={`h-100vh bg-white border-r border-feintwhite dark:border-divide flex-shrink-0 transition-width duration-300 dark:bg-base_100 ${isExpanded ? 'w-64' : 'w-20'}`}>
+    <div className={`h-100vh bg-base_100 border-r border-divide flex-shrink-0 transition-width duration-300 ${isExpanded ? 'w-64' : 'w-20'}`}>
       {/* Toggle button and logo */}
-      <button onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }} className="m-2 p-1 text-neutral rounded dark:text-white">
+      <button onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }} className="m-2 p-1 text-white rounded">
         <div className="flex items-center">
-        <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-white" style={{ fontSize: '46px' }}>open_in_full</span>
+        <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '46px' }}>open_in_full</span>
         </div>
       </button>
   
       {/* Sidebar content */}
       <div className="px-4 py-2 flex flex-col items-start">
-        <hr className="my-2 w-full text-feintwhite dark:text-divide transition-width duration-300" />
-        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-feintwhite dark:hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goHome}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-white" style={{ fontSize: '35px' }}>style</span>
-          {isExpanded && <span className={`ml-2 text-neutral dark:text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Collections</span>}
+        <hr className="my-2 w-full text-divide transition-width duration-300" />
+        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goHome}>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '35px' }}>style</span>
+          {isExpanded && <span className={`ml-2 text-white`}>Collections</span>}
         </div>
   
         {/* Master Collections Dropdown */}
@@ -180,20 +181,20 @@ const SideBar = () => {
           </div>
         </div>
    */}
-        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-feintwhite dark:hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goStudy}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-white" style={{ fontSize: '35px' }}>local_library</span>
-          {isExpanded && <span className={`ml-2 text-neutral dark:text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Study</span>}
+        <div className={`flex items-center my-2 w-full transition-colors duration-100 cursor-pointer rounded`} onClick={goStudy}>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '35px' }}>local_library</span>
+          {isExpanded && <span className={`ml-2 text-white`}>Study</span>}
         </div>
-        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-feintwhite dark:hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goSettings}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-white" style={{ fontSize: '35px' }}>settings</span>
-          {isExpanded && <span className={`ml-2 text-neutral dark:text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Settings</span>}
+        <div className={`flex items-center my-2 w-full transition-colors duration-100 cursor-pointer rounded`} onClick={goSettings}>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '35px' }}>settings</span>
+          {isExpanded && <span className={`ml-2 text-white`}>Settings</span>}
         </div>
-        <div onClick={logOut} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-feintwhite dark:hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
+        <div onClick={logOut} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-error" style={{ fontSize: '35px' }}>logout</span>
-          {isExpanded && <span className={`ml-2 text-neutral dark:text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Logout</span>}
+          {isExpanded && <span className={`ml-2 text-white`}>Logout</span>}
         </div>
         <div className={`flex items-center my-2 w-full`}>
-  {colorTheme === "light" ? (
+  {/* {colorTheme === "light" ? (
     <svg
       onClick={() => setTheme("light")}
       xmlns="http://www.w3.org/2000/svg"
@@ -227,7 +228,7 @@ const SideBar = () => {
         d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
       />
     </svg>
-  )}
+  )} */}
 </div>
 
       </div>

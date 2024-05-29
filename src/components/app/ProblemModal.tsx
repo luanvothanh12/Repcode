@@ -46,6 +46,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
       onSuccess: () => {
         // Invalidate and refetch problems list
         queryClient.invalidateQueries(['collectionProblems']);
+        queryClient.invalidateQueries(['problemDetails']); // for problem view 
         queryClient.invalidateQueries(['allProblems', user?.email]); // for dashboard numbers 
         queryClient.invalidateQueries(['dueTodayProblems', user?.email]); // for the ProblemQueue 
         showToast(
@@ -82,31 +83,31 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
   const modalClass = isOpen ? "modalEnter" : "";
 
   return (
-    <div className={`${isOpen ? '' : 'hidden'} fixed inset-0 bg-base_100 bg-opacity-50 overflow-y-auto h-full w-full z-10`}>
-      <div className={`relative top-0 mx-auto p-5 w-96 shadow-lg rounded-md bg-white dark:bg-base_100 ${modalClass}`}>
+    <div className={`${isOpen ? '' : 'hidden'} fixed inset-0 bg-base_100 bg-opacity-75 overflow-y-auto h-full w-full z-10`}>
+      <div className={`relative top-0 mx-auto p-5 w-2/3 rounded-md ${modalClass}`}>
         <div className="mt-3 text-center">
-          <h3 className="text-lg leading-6 font-medium text-neutral dark:text-white">{isEditMode ? 'Edit Problem' : 'New Problem'}</h3>
+          <h3 className="text-lg leading-6 font-medium text-white">{isEditMode ? 'Edit Problem' : 'New Problem'}</h3>
           <div className="mt-2 px-7 py-3">
             <form className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-neutral dark:text-white">Name:</label>
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
+                <label className="block text-sm font-medium text-white text-left">Name:</label>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="mt-1 px-3 py-2 bg-base_100 border border-primary2 text-white shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-neutral dark:text-white">Question:</label>
-                <textarea value={question} onChange={(e) => setQuestion(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
+                <label className="block text-sm font-medium text-white text-left">Question:</label>
+                <textarea value={question} onChange={(e) => setQuestion(e.target.value)} className="mt-1 px-3 py-2 bg-base_100 border border-primary2 text-white shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full h-96" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-neutral dark:text-white">Solution:</label>
-                <textarea value={solution} onChange={(e) => setSolution(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
+                <label className="block text-sm font-medium text-white text-left">Solution:</label>
+                <textarea value={solution} onChange={(e) => setSolution(e.target.value)} className="mt-1 px-3 py-2 bg-base_100 border border-primary2 text-white shadow-sm focus:outline-none focus:border-blue transition-colors duration-300 block w-full h-96" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-neutral dark:text-white">Function Signature:</label>
-                <textarea value={functionSignature} onChange={(e) => setFunctionSignature(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
+                <label className="block text-sm font-medium text-white text-left">Function Signature:</label>
+                <textarea value={functionSignature} onChange={(e) => setFunctionSignature(e.target.value)} className="mt-1 px-3 py-2 bg-base_100 border border-primary2 text-white shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-neutral dark:text-white">Programming Language:</label>
-                <select value={language} onChange={(e) => setLanguage(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full">
+                <label className="block text-sm font-medium text-white text-left">Programming Language:</label>
+                <select value={language} onChange={(e) => setLanguage(e.target.value)} className="mt-1 px-3 py-2 bg-base_100 border border-primary2 text-white shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full">
                   <option value="javascript">JavaScript</option>
                   <option value="python">Python</option>
                   <option value="c_cpp">C/C++</option>
@@ -114,16 +115,16 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-neutral dark:text-white">Link to Problem:</label>
-                <input type="text" value={link} onChange={(e) => setLink(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
+                <label className="block text-sm font-medium text-white text-left">Link to Problem:</label>
+                <input type="text" value={link} onChange={(e) => setLink(e.target.value)} className="mt-1 px-3 py-2 bg-base_100 border border-primary2 text-white shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-neutral dark:text-white">Additional Notes:</label>
-                <textarea value={notes} onChange={(e) => setNotes(e.target.value)} className="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 block w-full" />
+                <label className="block text-sm font-medium text-white text-left">Additional Notes:</label>
+                <textarea value={notes} onChange={(e) => setNotes(e.target.value)} className="mt-1 px-3 py-2 bg-base_100 border border-primary2 text-white shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full h-24" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-neutral dark:text-white">Difficulty:</label>
-                <div className="flex justify-start gap-4 mt-2 text-neutral dark:text-white">
+                <label className="block text-sm font-medium text-white text-left">Difficulty:</label>
+                <div className="flex justify-start gap-4 mt-2 text-white">
                   <label className="inline-flex items-center">
                     <input type="radio" value="Easy" name="difficulty" checked={difficulty === 'Easy'} onChange={(e) => setDifficulty(e.target.value)} className="form-radio" />
                     <span className="ml-2">Easy</span>
@@ -139,10 +140,10 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                 </div>
               </div>
               <div className="flex justify-end gap-3">
-                <button type="button" onClick={onClose} className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 dark:focus:ring-offset-gray-800 transition-transform duration-200 hover:scale-95">
+                <button type="button" onClick={onClose} className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 transition-transform duration-200 hover:scale-95">
                   Close
                 </button>
-                <button type="submit" onClick={handleSubmit} disabled={!name.trim() || !question.trim() || !solution.trim()}    className={`inline-flex justify-center items-center gap-x-3 text-center ${!name.trim() || !question.trim() || !solution.trim() || !difficulty.trim() ? 'bg-disabled border border-disabled text-disabledText' : 'bg-success border border-success'} text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 py-1 px-4 transition-transform duration-200 hover:scale-95`}>
+                <button type="submit" onClick={handleSubmit} disabled={!name.trim() || !question.trim() || !solution.trim()} className={`inline-flex justify-center items-center gap-x-3 text-center ${!name.trim() || !question.trim() || !solution.trim() || !difficulty.trim() ? 'bg-disabled border border-disabled text-disabledText' : 'bg-success border border-success'} text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 py-1 px-4 transition-transform duration-200 hover:scale-95`}>
                   {isEditMode ? 'Update' : 'Create'}  
                 </button>
               </div>
@@ -152,6 +153,8 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
       </div>
     </div>
   );
+  
+  
 };
 
 export default ProblemModal;
