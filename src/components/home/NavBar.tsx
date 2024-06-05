@@ -11,10 +11,11 @@ const NavBar = () => {
     <nav className="relative w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8" aria-label="Global">
       <div className="flex items-center justify-between">
         <Link className="flex-none text-xl font-semibold text-white" href="/" aria-label="Brand">
-        <img src="/logo.svg" alt="Brand Logo" className="h-10 w-auto" />
-        </Link>
+         <img src="/logy.svg" alt="Brand Logo" className="h-20 w-20" />
+        </Link> <span className="text-2xl font-bold"><span className="text-white">Rep</span><span className="text-pop">code</span></span>
         <div className="sm:hidden">
           <button type="button" className="text-white hs-collapse-toggle w-9 h-9 flex justify-center items-center text-sm font-semibold rounded-lg disabled:opacity-50 disabled:pointer-events-none" data-hs-collapse="#navbar-collapse-with-animation" aria-controls="navbar-collapse-with-animation" aria-label="Toggle navigation">
+
             <svg className="hs-collapse-open:hidden w-4 h-4" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
               <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
             </svg>

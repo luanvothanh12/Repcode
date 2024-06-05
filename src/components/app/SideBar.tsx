@@ -114,12 +114,15 @@ const SideBar = () => {
   };
 
   return (
+    
     <div className={`h-100vh bg-base_100 border-r border-divide flex-shrink-0 transition-width duration-300 ${isExpanded ? 'w-64' : 'w-20'}`}>
       {/* Toggle button and logo */}
       <button onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }} className="m-2 p-1 text-white rounded">
         <div className="flex items-center">
-        <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '46px' }}>open_in_full</span>
+        <img src="/logy.svg" alt="Brand Logo" className="logo ml-3 mt-3" />
+        {/* <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '46px' }}>open_in_full</span> */}
         </div>
+
       </button>
   
       {/* Sidebar content */}
@@ -181,11 +184,11 @@ const SideBar = () => {
           </div>
         </div>
    */}
-        <div className={`flex items-center my-2 w-full transition-colors duration-100 cursor-pointer rounded`} onClick={goStudy}>
+        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goStudy}>
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '35px' }}>local_library</span>
           {isExpanded && <span className={`ml-2 text-white`}>Study</span>}
         </div>
-        <div className={`flex items-center my-2 w-full transition-colors duration-100 cursor-pointer rounded`} onClick={goSettings}>
+        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goSettings}>
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '35px' }}>settings</span>
           {isExpanded && <span className={`ml-2 text-white`}>Settings</span>}
         </div>
@@ -239,3 +242,4 @@ const SideBar = () => {
 };
 
 export default SideBar;
+

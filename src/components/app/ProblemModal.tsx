@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { auth } from '../../firebaseConfig';
 import { useMutation, useQueryClient } from 'react-query';
 import { AuthContext } from '@/auth/AuthContext';
 
@@ -28,16 +29,24 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
   }, [isOpen]);
 
   const mutation = useMutation(
-    async (problemData: any) => {
+    async ({ name, question, solution, difficulty, collectionId, functionSignature, language, link, notes, headers }: { name: any, question: any, solution: any, difficulty: any, collectionId: any, functionSignature: any, language: any, link: any, notes: any, headers: HeadersInit }) => {
       onClose(); 
       const url = isEditMode ? `/api/updateProblem?problemId=${problemToEdit.id}` : '/api/createProblem';
       const method = isEditMode ? 'PUT' : 'POST';
       const response = await fetch(url, {
         method: method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(problemData),
+        headers: headers,
+        body: JSON.stringify({
+          name: name, 
+          question: question, 
+          solution: solution, 
+          difficulty: difficulty, 
+          collectionId: collectionId, 
+          functionSignature: functionSignature, 
+          language: language, 
+          link: link, 
+          notes: notes
+        }),
       });
       if (!response.ok) throw new Error('Failed to submit problem');
       return response.json();
@@ -45,7 +54,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
     {
       onSuccess: () => {
         // Invalidate and refetch problems list
-        queryClient.invalidateQueries(['collectionProblems']);
+        queryClient.invalidateQueries(['collectionDetails']);
         queryClient.invalidateQueries(['problemDetails']); // for problem view 
         queryClient.invalidateQueries(['allProblems', user?.email]); // for dashboard numbers 
         queryClient.invalidateQueries(['dueTodayProblems', user?.email]); // for the ProblemQueue 
@@ -65,8 +74,23 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
+  
+    // Retrieve the Firebase authentication token
+    const token = await auth.currentUser?.getIdToken();
+  
+    if (!token) {
+      console.error('Authentication token is not available.');
+      return;
+    }
+  
+    // Include the token in the Authorization header
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+  
     mutation.mutate({
       name,
       question,
@@ -76,7 +100,8 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
       functionSignature,
       language,
       link,
-      notes
+      notes, 
+      headers: headers, 
     });
   };
 

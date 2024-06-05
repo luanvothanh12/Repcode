@@ -10,16 +10,17 @@ const CollectionModal = ({ isOpen, onClose, isEditMode = false, collectionToEdit
   const { user } = useContext(AuthContext); 
 
   const mutation = useMutation(
-    async (collectionData: any) => {
+    async ({ title, userEmail, headers }: { title: any, userEmail: any, headers: HeadersInit }) => {
       onClose(); // Close the modal
       const url = isEditMode ? `/api/updateCollection?collectionId=${collectionToEdit.id}` : '/api/createCollection';
       const method = isEditMode ? 'PUT' : 'POST';
       const response = await fetch(url, {
         method: method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(collectionData),
+        headers: headers,
+        body: JSON.stringify({
+          title: title,
+          userEmail: userEmail
+        }),
       });
       if (!response.ok) throw new Error('Failed to submit collection');
       return response.json();
@@ -28,7 +29,7 @@ const CollectionModal = ({ isOpen, onClose, isEditMode = false, collectionToEdit
       onSuccess: () => {
         queryClient.invalidateQueries(['collections', user?.email]);
         queryClient.invalidateQueries(['collectionDetails']);
-
+  
         showToast(
           <>
             <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>
@@ -44,13 +45,29 @@ const CollectionModal = ({ isOpen, onClose, isEditMode = false, collectionToEdit
   );
 
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    mutation.mutate({
-      title: collectionName,
-      userEmail: user?.email, 
-    });
+const handleSubmit = async (e: any) => {
+  e.preventDefault();
+
+  // Retrieve the Firebase authentication token
+  const token = await auth.currentUser?.getIdToken();
+
+  if (!token) {
+    console.error('Authentication token is not available.');
+    return;
+  }
+
+  // Include the token in the Authorization header
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
   };
+
+  mutation.mutate({
+    title: collectionName,
+    userEmail: user?.email,
+    headers: headers  // Pass headers to the mutation function
+  });
+};
 
   if (!isOpen) return null;
 

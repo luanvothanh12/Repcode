@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react';
+import { auth } from '../../firebaseConfig';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { AuthContext } from '@/auth/AuthContext';
 import Toast from './Toast';
@@ -19,11 +20,20 @@ const Settings = () => {
 
       const updateSettingsMutation = useMutation(
         async (newSettings:any) => {
+          const token = await auth.currentUser?.getIdToken();
+
+          if (!token) {
+            throw new Error('Authentication token is not available.');
+          }
+
+          const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          };
+
           const response = await fetch('/api/updateUserSettings', {
             method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            headers: headers, 
             body: JSON.stringify({
               userEmail: user?.email,
               settings: newSettings,

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ProblemModal from './ProblemModal';
 import Toast from './Toast';
+import { auth } from "../../firebaseConfig";
 import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { AuthContext } from '@/auth/AuthContext';
@@ -96,14 +97,29 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
 
     const deleteProblemMutation = useMutation(
       async (problemId: any) => {
-        const response = await fetch(`/api/deleteProblem?problemId=${problemId}`, { method: 'DELETE' });
+        const token = await auth.currentUser?.getIdToken();
+  
+        if (!token) {
+          throw new Error('Authentication token is not available.');
+        }
+    
+        // Include the token in the Authorization header
+        const headers = {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        };
+        
+        const response = await fetch(`/api/deleteProblem?problemId=${problemId}`, {
+          method: 'DELETE',
+          headers: headers
+        });
         if (!response.ok) throw new Error('Problem deletion failed');
         return response.json();
       },
       {
         onSuccess: () => {
           // Invalidate and refetch to update the list
-          queryClient.invalidateQueries(['collectionProblems']);
+          queryClient.invalidateQueries(['collectionDetails']);
           queryClient.invalidateQueries(['dueTodayProblems', user?.email]);
           queryClient.invalidateQueries(['allProblems', user?.email]);
           showToast(

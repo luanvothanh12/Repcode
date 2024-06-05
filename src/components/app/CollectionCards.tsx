@@ -52,8 +52,24 @@ const CollectionCards = () => {
 
   const deleteCollectionMutation = useMutation(
     async (collectionId: any) => {
+      const token = await auth.currentUser?.getIdToken();
+  
+      if (!token) {
+        throw new Error('Authentication token is not available.');
+      }
+  
+      // Include the token in the Authorization header
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      };
+  
       setDeleteConfirmationOpen(false);
-      const response = await fetch(`/api/deleteCollection?collectionId=${collectionId}`, { method: 'DELETE' });
+      const response = await fetch(`/api/deleteCollection?collectionId=${collectionId}`, {
+        method: 'DELETE',
+        headers: headers
+      });
+  
       if (!response.ok) throw new Error('Problem deletion failed');
       return response.json();
     },

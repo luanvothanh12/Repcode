@@ -5,6 +5,18 @@ import "../app/globals.css";
 export default function Changelog() {
     const changelogData = [
       {
+        month: "June 2024",
+        updates: [
+          {
+            date: "V 0.1.8 - June 4, 2024",
+            changes: [
+              "NEW: changed logo to an orange lightbulb (real original, I know)", 
+              "Adjusted endpoint to contain basic auth checks", 
+            ],
+          },
+        ],
+      },
+      {
         month: "May 2024",
         updates: [
           {
@@ -29,8 +41,8 @@ export default function Changelog() {
             date: "V 0.1.5 - May 9, 2024",
             changes: [
               "Syntax highlighting for solutions (using highlight.js)",
-              "Changed Logout icon", 
-              "Changed styles for problem difficulty and type",
+              "Adjusted Logout icon", 
+              "Adjusted styles for problem difficulty and type",
             ],
           },
           {
@@ -38,7 +50,7 @@ export default function Changelog() {
             changes: [
               "NEW: added 4 new customization options to problems: programming language, link to leetcode/hackerrank, function signature boilerplate, and additional notes",
               "Adjusted problem view to incorporate the above changes in a user friendly way", 
-              "Changed sidebard text Dashboard --> Collections, and changed the icon as well",
+              "Adjusted sidebard text Dashboard --> Collections, and changed the icon as well",
             ],
           },
         ],

@@ -45,3 +45,10 @@
   .animate-toastEnter {
     animation: toastEnter 0.5s ease-out forwards;
   }
+
+  .logo {
+    width: 35px; /* keep the element's width and height small */
+    height: 35px;
+    transform: scale(2.2); /* adjust the scale value to make the SVG bigger */
+    transform-origin: center; /* keep the scaling centered */
+  }
