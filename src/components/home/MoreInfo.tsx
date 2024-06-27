@@ -12,7 +12,7 @@ const MoreInfo = () => {
           </video>
         </div>
         <div className="w-full md:w-1/2 text-center md:text-left md:pl-5">
-          <h2 className="text-xl md:text-2xl font-bold text-white">Customize and Organize Problems</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-secondary">Customize and Organize Problems</h2>
           <p className="text-primary mt-4 md:mt-2">Create collections to hold as many problems as you would like, and customize every aspect of them</p>
         </div>
       </div>
@@ -26,7 +26,7 @@ const MoreInfo = () => {
           </video>        
         </div>
         <div className="w-full md:w-1/2 text-center md:text-left md:pr-5">
-          <h2 className="text-xl md:text-2xl font-bold text-white">Custom Coding-Friendly Interface</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-secondary">Custom Coding-Friendly Interface</h2>
           <p className="text-primary mt-4 md:mt-2">Practice your whiteboarding skills by solving problems in an integrated code editor that supports syntax highlighting for 5 different languages</p>
         </div>
       </div>
@@ -40,7 +40,7 @@ const MoreInfo = () => {
           </video>   
         </div>
         <div className="w-full md:w-1/2 text-center md:text-left md:pl-5">
-          <h2 className="text-xl md:text-2xl font-bold text-white">Scientifically Backed Spatial Repetition Algorithm</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-secondary">Scientifically Backed Spatial Repetition Algorithm</h2>
           <p className="text-primary mt-4 md:mt-2">Every day, solve only the problems you need to so your brain learns new strategies and reinforces key concepts in the most effective way possible</p>
         </div>
       </div>

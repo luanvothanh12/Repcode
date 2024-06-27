@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link'; 
+import { AuthContext } from '@/auth/AuthContext';
 // import useDarkMode from '../../../useDarkMode'
 
 
 const NavBar = () => {
   // const [colorTheme, setTheme] = useDarkMode() as any; 
+  const { user } = useContext(AuthContext);
 
   return (
-    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-base_100 border-b border-divide text-sm py-3 sm:py-0">
+    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-nav border-b border-divide text-sm py-3 sm:py-0">
     <nav className="relative w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8" aria-label="Global">
       <div className="flex items-center justify-between">
-        <Link className="flex-none text-xl font-semibold text-white" href="/" aria-label="Brand">
-         <img src="/logy.svg" alt="Brand Logo" className="h-20 w-20" />
-        </Link> <span className="text-2xl font-bold"><span className="text-white">Rep</span><span className="text-pop">code</span></span>
+      <Link className="flex-none text-xl font-semibold text-secondary" href="/" aria-label="Brand">
+         <img src="/logo4.png" alt="Brand Logo" className="h-12" />
+        </Link>
+
+        {/* <Link className="flex-none text-xl font-semibold text-secondary" href="/" aria-label="Brand">
+         <img src="/logo3.png" alt="Brand Logo" className="h-20 w-20 border-rounded" />
+        </Link> <span className="text-2xl font-bold"><span className="text-secondary">Rep</span><span className="text-pop">code</span></span> */}
         <div className="sm:hidden">
-          <button type="button" className="text-white hs-collapse-toggle w-9 h-9 flex justify-center items-center text-sm font-semibold rounded-lg disabled:opacity-50 disabled:pointer-events-none" data-hs-collapse="#navbar-collapse-with-animation" aria-controls="navbar-collapse-with-animation" aria-label="Toggle navigation">
+          <button type="button" className="text-secondary hs-collapse-toggle w-9 h-9 flex justify-center items-center text-sm font-semibold rounded-lg disabled:opacity-50 disabled:pointer-events-none" data-hs-collapse="#navbar-collapse-with-animation" aria-controls="navbar-collapse-with-animation" aria-label="Toggle navigation">
 
             <svg className="hs-collapse-open:hidden w-4 h-4" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
               <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
@@ -60,17 +66,18 @@ const NavBar = () => {
     />
   </svg>
 )} */}
-          <Link className="font-medium text-white hover:text-primary sm:py-6" href="/guide" aria-current="page">Guide</Link>
-          <Link href="/changelog" className="font-medium text-white hover:text-primary sm:py-6">Changelog</Link>
-          <Link className="font-medium text-white hover:text-primary sm:py-6" href="/#contact">Contact</Link>
+          <Link className="font-medium text-secondary hover:text-pop sm:py-6" href="/guide" aria-current="page">Guide</Link>
+          <Link href="/changelog" className="font-medium text-secondary hover:text-pop sm:py-6">Changelog</Link>
+          <Link className="font-medium text-secondary hover:text-pop sm:py-6" href="/#contact">Contact</Link>
+          <Link href="/pricing" className="font-medium text-secondary hover:text-pop sm:py-6">Pricing</Link>
+
   
   
-  
-          <Link className="flex items-center gap-x-2 font-medium text-white hover:text-primary sm:border-s sm:border-gray-300 sm:my-6 sm:ps-6" href="/home/SignInUp">
+          <Link className="flex items-center gap-x-2 font-medium text-secondary hover:text-pop sm:border-s sm:border-gray-300 sm:my-6 sm:ps-6" href="/login">
             <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
               <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
             </svg>
-            Log in
+            {user ? "Launch" : "Log in"}
           </Link>
         </div>
       </div>

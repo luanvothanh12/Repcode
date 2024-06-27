@@ -3,13 +3,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import '../../app/globals.css'; 
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-monokai";
-import "ace-builds/src-noconflict/theme-solarized_light";
+import "ace-builds/src-noconflict/theme-crimson_editor";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-c_cpp";
 import hljs from 'highlight.js';
-import 'highlight.js/styles/monokai.css';
+import 'highlight.js/styles/atom-one-light.css'; // or any other style of your choice
 import { AuthContext } from '@/auth/AuthContext';
 import { useMutation, useQueryClient } from 'react-query';
   
@@ -148,13 +148,13 @@ import { useMutation, useQueryClient } from 'react-query';
         case 'Again':
           return 'text-error'; 
         case 'Hard':
-          return 'text-warning'; 
+          return 'text-hard'; 
         case 'Good':
-          return 'text-success'; 
+          return 'text-successbg'; 
         case 'Easy':
           return 'text-blue'; 
         default:
-          return 'text-neutral dark:text-white'; 
+          return 'text-neutral dark:text-secondary'; 
       }
     };
 
@@ -167,7 +167,7 @@ import { useMutation, useQueryClient } from 'react-query';
         case 'hard':
             return 'text-hard bg-hardbg px-4';
         default:
-            return 'text-white';
+            return 'text-secondary';
       }
   };
 
@@ -176,13 +176,13 @@ import { useMutation, useQueryClient } from 'react-query';
       case 'new':
           return 'text-new bg-newbg px-4'; 
       case 'learning':
-          return 'text-warning bg-warningbg px-2'; 
+          return 'text-learning bg-warningbg px-2'; 
       case 'relearning':
-          return 'text-warning bg-warningbg px-2'; 
+          return 'text-learning bg-warningbg px-2'; 
       case 'review':
-          return 'text-success bg-successbg px-2'; 
+          return 'text-review bg-successbg px-2'; 
       default:
-          return 'text-neutral dark:text-white'; 
+          return 'text-neutral dark:text-secondary'; 
     }
   };
 
@@ -456,7 +456,7 @@ import { useMutation, useQueryClient } from 'react-query';
             <div role="status">
               <svg
                 aria-hidden="true"
-                className="w-12 h-12 text-white animate-spin dark:text-base_100 fill-load"
+                className="w-12 h-12 text-secondary animate-spin dark:text-base_100 fill-load"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -479,7 +479,7 @@ import { useMutation, useQueryClient } from 'react-query';
   if (!isLoading && dueProblems.length === 0) {
     return (
       <div className="flex justify-center items-center h-full">
-        <p className="text-xl text-center text-white">
+        <p className="text-xl text-center text-secondary">
           Congratulations! You have finished all the problems due for today.
         </p>
       </div>
@@ -489,12 +489,12 @@ import { useMutation, useQueryClient } from 'react-query';
 
     return (
       <div className="flex flex-col md:flex-row h-screen overflow-hidden">
-        <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
+        <div className="flex-1 overflow-auto bg-nav p-4 shadow-md rounded-sm" style={{ maxHeight: '70vh' }}>
           {/* Buttons for toggling between question and solution */}
           <div className="mb-4">
-            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'question' ? 'border-b-2 border-divide' : 'border-b-2 border-base_100'}`} onClick={() => setContent('question')}>Problem</button>
-            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'notes' ? 'border-b-2 border-divide' : 'border-b-2 border-base_100'}`} onClick={() => setContent('notes')}>Notes</button>
-            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'solution' ? 'border-b-2 border-divide' : 'border-b-2 border-base_100'}`} onClick={() => setContent('solution')}>Solution</button>
+            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'question' ? 'border-b-2 border-divide' : 'border-b-2 border-nav'}`} onClick={() => setContent('question')}>Problem</button>
+            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'notes' ? 'border-b-2 border-divide' : 'border-b-2 border-nav'}`} onClick={() => setContent('notes')}>Notes</button>
+            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'solution' ? 'border-b-2 border-divide' : 'border-b-2 border-nav'}`} onClick={() => setContent('solution')}>Solution</button>
             {content === 'solution' && buttons?.length > 0 && buttons.map((button: any, index: any) => (
               <button
                 key={index}
@@ -521,10 +521,10 @@ import { useMutation, useQueryClient } from 'react-query';
             ))}
         </div>
         {/* Left side content (The question) */}
-        <div className="flex justify-between items-center text-white">
+        <div className="flex justify-between items-center text-secondary">
           <h1 className="text-xl font-bold">{dueProblems[0].name}
             <a href={dueProblems[0].link} target="_blank" rel="noopener noreferrer">
-              <span className="material-icons hover:scale-110 text-warning ml-2">
+              <span className="material-icons hover:scale-110 text-pop2 ml-2">
                 link
               </span>
             </a>
@@ -540,9 +540,9 @@ import { useMutation, useQueryClient } from 'react-query';
           </div>
         </div>
         {content === 'notes' ? (
-          <p className="text-white mt-4 whitespace-pre-wrap">{dueProblems[0].notes}</p>
+          <p className="text-secondary mt-4 whitespace-pre-wrap text-lg">{dueProblems[0].notes}</p>
         ) : content === 'question' ? (
-          <p className="text-white mt-4 whitespace-pre-wrap">{dueProblems[0].question}</p>
+          <p className="text-secondary mt-4 whitespace-pre-wrap text-lg">{dueProblems[0].question}</p>
         ) : (
           <pre><code className={`language-${dueProblems[0].language} mr-5`}>{dueProblems[0].solution}</code></pre>
         )}
@@ -552,10 +552,10 @@ import { useMutation, useQueryClient } from 'react-query';
           <AceEditor
             className="rounded"
             mode={dueProblems[0].language}
-            theme="monokai"
+            theme="crimson_editor"
             name="UNIQUE_ID_OF_DIV"
             editorProps={{ $blockScrolling: true }}
-            fontSize={14}
+            fontSize={16}
             showPrintMargin={true}
             showGutter={true}
             highlightActiveLine={true}

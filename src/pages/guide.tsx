@@ -8,12 +8,12 @@ export default function Guide() {
             <NavBar />
             <div className="p-8 m-24">
                 <div className="mb-8">
-                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-white">Introduction</h2>
+                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-secondary">Introduction</h2>
                     <p className="text-primary mb-8">Welcome to Repcode.io, a platform designed to empower software engineers to excel in their technical interviews. Whether you are starting your coding journey, preparing for your next job interview, or just looking to refine your problem-solving skills, Repcode.io is here to support you every step of the way. Repcode.io is not just another coding platform; it is a comprehensive ecosystem where users can create, manage, and practice coding problems. Explore our Study Mode, which employs a spatial-repetition algorithm inspired by Anki&apos;s Super Memo 2, to undergo a tailored learning experience that adapts to your progress and preferences.</p>
                 </div>
 
                 <div className="mb-8">
-                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-white">Why Repcode.io?</h2>
+                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-secondary">Why Repcode.io?</h2>
                     <p className="text-primary mb-8">When I first started preparing for technical interviews, I did what pretty much every aspiring software engineer does: I created a Leetcode account and started doing problems, starting with Array problems marked as Easy. I quickly ran into the first major issue: how can I organize these problems? Where can I store them for quick lookup and retrieval later? Leetcode does actually have a built-in My Lists page that lets users create and customize their own problem collections, but there are three major problems with it: first, it is unintuitive. It is tricky to figure out how to add your own custom solutions to problems, and you can&apos;t customize the problem at all. Second: you can only add problems from Leetcode to these lists. So if it a problem from any other source you are out of luck. Third: The My Lists page simply offers a way to organize problems, but what about a strategy for practicing them? When you only have 10 or 20 so problems that you are familiar with, the problem-solving strategy is simple: just do those problems every day so you remain familiar with those concepts. But what about when you have 50, 100, 500 problems? It is no longer feasible to work through every single one. The SuperMemo 2 spatial repetition style of learning is one solution to this problem: strategically space out when you solve the problems so you only are doing a manageable amount every day. So thus, Repcode.io was born to bridge this gap between organization and learning.</p>
 
                     <p className="text-primary">                    
@@ -21,7 +21,7 @@ export default function Guide() {
                 </div>
 
                 <div className="mb-8">
-                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-white">Sidebar</h2>
+                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-secondary">Sidebar</h2>
                     <p className="text-primary mb-8">
                     The Sidebar functions as the primary navigation toolbar of the application, facilitating access to various sections such as the Collections page, User Settings, and Study Mode. Let&apos;s explore its features in greater detail. 
                     </p>
@@ -37,7 +37,7 @@ export default function Guide() {
                 </div>
 
                 <div className="mb-8">
-                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-white">Dashboard (Collections Page)</h2>
+                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-secondary">Dashboard (Collections Page)</h2>
                     <p className="text-primary mb-8">
                     The Dashboard (Collections Page) is the part of the application where you can see all the collections you have created so far. You can delete or edit existing ones, or create new ones. Let&apos;s explore this page in more detail.
                     </p>
@@ -52,7 +52,7 @@ export default function Guide() {
                 </div>
 
                 <div className="mb-8">
-                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-white">Problems List</h2>
+                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-secondary">Problems List</h2>
                     <p className="text-primary mb-8">
                     When you click into a Collection, you will be taken to see that collection&apos;s problems displayed in a list. Here, similar to the Collections page, you can delete or edit existing problems, or create new ones. Let&apos;s explore this page in more detail.
                     </p>
@@ -70,7 +70,7 @@ export default function Guide() {
                 </div>
 
                 <div className="mb-8">
-                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-white">Problem Interface</h2>
+                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-secondary">Problem Interface</h2>
                     <p className="text-primary mb-8">
                     When you click into a problem, you will be taken to an intuitive problem interface with that problem&apos;s details displayed. Let&apos;s explore this page in more detail. 
                     </p>
@@ -86,7 +86,7 @@ export default function Guide() {
                 </div>
 
                 <div className="mb-8">
-                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-white">WIP</h2>
+                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-secondary">WIP</h2>
                     <p className="text-primary mb-8">
                     WIP WIP WIP 
                     </p>

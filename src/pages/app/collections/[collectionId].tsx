@@ -57,7 +57,7 @@ return (
           <div>Error: {(error as Error).message}</div>
         ) : (
           <>
-            <div className="text-white text-4xl font-bold mb-4 flex justify-center">:collections/{data.title}</div>
+            <div className="text-secondary text-4xl font-bold mb-4 flex justify-center">:collections/{data.title}</div>
             <hr className="border-divide mb-8 transition-width duration-300"/>
             <ProblemsList collectionId={collectionId} />
           </>
@@ -84,7 +84,7 @@ export async function getServerSideProps(context:any) {
     // If token verification fails or token doesn't exist, redirect to sign-in page
     return {
       redirect: {
-        destination: '/home/SignInUp',
+        destination: '/login',
         permanent: false,
       },
     };

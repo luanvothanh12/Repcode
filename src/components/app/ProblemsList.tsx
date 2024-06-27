@@ -72,7 +72,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
           case 'hard':
               return 'text-hard bg-hardbg px-4';
           default:
-              return 'text-white';
+              return 'text-secondary';
       }
   };
 
@@ -81,13 +81,13 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         case 'new':
             return 'text-new bg-newbg px-4'; 
         case 'learning':
-            return 'text-warning bg-warningbg px-2'; 
+            return 'text-learning bg-warningbg px-2'; 
         case 'relearning':
-            return 'text-warning bg-warningbg px-2'; 
+            return 'text-learning bg-warningbg px-2'; 
         case 'review':
-            return 'text-success bg-successbg px-2'; 
+            return 'text-review bg-successbg px-2'; 
         default:
-            return 'text-neutral dark:text-white'; 
+            return 'text-neutral dark:text-secondary'; 
     }
 };
 
@@ -122,6 +122,8 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
           queryClient.invalidateQueries(['collectionDetails']);
           queryClient.invalidateQueries(['dueTodayProblems', user?.email]);
           queryClient.invalidateQueries(['allProblems', user?.email]);
+          queryClient.invalidateQueries(['userSettings', user?.email]); // for the free tier checking 
+          queryClient.invalidateQueries(['collectionProblems', collectionId]); // for free tier checks 
           showToast(
             <>
               <span className="inline-block mr-2 bg-error rounded-full" style={{ width: '10px', height: '10px' }}></span>
@@ -212,7 +214,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
               placeholder="Search problems..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="peer h-full w-full outline-none text-sm text-white pr-2 bg-base_100 transition-width duration-300"
+              className="peer h-full w-full outline-none text-sm text-secondary pr-2 bg-base_100 transition-width duration-300"
             /> 
           </div>
         </div>
@@ -233,7 +235,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         )}
         <ul className="max-w-full flex flex-col">
           {problems?.filter((problem:any) => problem.name.toLowerCase().includes(searchTerm.toLowerCase())).map((problem:any) => (
-            <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-base_100 hover:bg-hover border border-divide text-white -mt-px first:rounded-t-lg last:rounded-b-lg transition-colors duration-100 cursor-pointer" onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}>
+            <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-nav hover:bg-hover border border-divide text-secondary -mt-px first:rounded-t-lg last:rounded-b-lg transition-colors duration-100 cursor-pointer" onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}>
               <div className="flex items-center gap-x-3.5">
                 <span 
                   className="material-icons text-xl hover:cursor-pointer" 
@@ -284,7 +286,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         <div className="flex justify-center mt-8">
           <button 
             onClick={() => { setIsModalOpen(true); setProblemToEdit(null); }}
-            className="bg-pop text-white p-0 rounded-full h-12 w-12 flex items-center justify-center hover:scale-95 transition-transform duration-150 ease-in-out"
+            className="bg-pop text-secondary p-0 rounded-full h-12 w-12 flex items-center justify-center hover:scale-95 transition-transform duration-150 ease-in-out"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v12m6-6H6" />

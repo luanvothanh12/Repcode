@@ -92,12 +92,20 @@ const SideBar = () => {
     router.push('/app/main');
   }
 
+  const goHomepage = () => {
+    router.push('/');
+  }
+
   const goStudy = () => {
     router.push('/app/study/dashboard');
   }
 
   const goSettings = () => {
     router.push('/app/settings/UserSettings');
+  }
+
+  const goBilling = () => {
+    router.push('/app/profile/UserProfile');
   }
 
 
@@ -115,33 +123,38 @@ const SideBar = () => {
 
   return (
     
-    <div className={`h-100vh bg-base_100 border-r border-divide flex-shrink-0 transition-width duration-300 ${isExpanded ? 'w-64' : 'w-20'}`}>
+    <div className={`h-100vh bg-nav flex-shrink-0 transition-width duration-300 ${isExpanded ? 'w-64' : 'w-20'}`}>
       {/* Toggle button and logo */}
-      <button onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }} className="m-2 p-1 text-white rounded">
-        <div className="flex items-center">
-        <img src="/logy.svg" alt="Brand Logo" className="logo ml-3 mt-3" />
-        {/* <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '46px' }}>open_in_full</span> */}
+      <button className="mt-9 text-secondary rounded flex justify-center items-center w-full">
+        <div className="flex items-center justify-center w-full">
+          {isExpanded ? (
+            <>
+              <span className="flex-1 text-center font-bold text-xl">Menu</span>
+              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary mr-2" style={{ fontSize: '35px' }} onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }}>arrow_back</span>
+            </>
+          ) : (
+            <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }}>arrow_forward</span>
+          )}
         </div>
-
       </button>
   
       {/* Sidebar content */}
       <div className="px-4 py-2 flex flex-col items-start">
         <hr className="my-2 w-full text-divide transition-width duration-300" />
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goHome}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '35px' }}>style</span>
-          {isExpanded && <span className={`ml-2 text-white`}>Collections</span>}
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '35px' }}>style</span>
+          {isExpanded && <span className={`ml-2 text-secondary`}>Collections</span>}
         </div>
   
         {/* Master Collections Dropdown */}
         {/* <div className="w-full">
           <div onClick={toggleMasterCollectionsDropdown} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-feintwhite dark:hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded justify-between width-full`}>
             <div className="flex items-center">
-              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-white" style={{ fontSize: '35px' }}>style</span>
-              {isExpanded && <span className={`ml-2 text-neutral dark:text-white ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Collections</span>}
+              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-secondary" style={{ fontSize: '35px' }}>style</span>
+              {isExpanded && <span className={`ml-2 text-neutral dark:text-secondary ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Collections</span>}
             </div>
             {isExpanded && (
-              <span className="material-icons transition duration-300 ease-in-out text-neutral dark:text-white" style={{ fontSize: '24px' }}>
+              <span className="material-icons transition duration-300 ease-in-out text-neutral dark:text-secondary" style={{ fontSize: '24px' }}>
                 {masterCollectionsDropdownOpen ? 'expand_less' : 'expand_more'}
               </span>
             )}
@@ -151,12 +164,12 @@ const SideBar = () => {
   <div key={collection.id} className="pl-4 flex flex-col w-full">
     <div className="flex items-center my-2 hover:bg-feintwhite dark:hover:bg-hover transition-colors duration-100 cursor-pointer rounded justify-between" onClick={() => fetchProblemsForCollection(collection.id)}>
       <div className="flex items-center">
-        <span className="material-icons transition duration-300 ease-in-out text-neutral dark:text-white" style={{ fontSize: '30px' }}>folder_open</span>
-        {isExpanded && <span className="ml-2 text-neutral dark:text-white">{collection.title}</span>}
+        <span className="material-icons transition duration-300 ease-in-out text-neutral dark:text-secondary" style={{ fontSize: '30px' }}>folder_open</span>
+        {isExpanded && <span className="ml-2 text-neutral dark:text-secondary">{collection.title}</span>}
         {collection.isLoading && <span>Loading...</span>}
       </div>
       {isExpanded && (
-        <span className="material-icons transition duration-300 ease-in-out text-neutral dark:text-white" style={{ fontSize: '24px' }}>
+        <span className="material-icons transition duration-300 ease-in-out text-neutral dark:text-secondary" style={{ fontSize: '24px' }}>
           {expandedCollectionId === collection.id ? 'expand_less' : 'expand_more'}
         </span>
       )}
@@ -166,7 +179,7 @@ const SideBar = () => {
       <div className="pl-4">
         {collection.problems.length > 0 ? (
           collection.problems.map((problem: any) => (
-            <div key={problem.id} className="text-neutral dark:text-white my-1 hover:bg-feintwhite dark:hover:bg-hover cursor:pointer rounded">
+            <div key={problem.id} className="text-neutral dark:text-secondary my-1 hover:bg-feintwhite dark:hover:bg-hover cursor:pointer rounded">
               <Link href={`/app/collections/${collection.id}/problems/${problem.id}`}>
               <span className={`material-icons transition duration-300 ease-in-out ${problem.difficulty === 'Easy' ? 'text-easy' : problem.difficulty === 'Medium' ? 'text-medium' : 'text-hard'}`} style={{ fontSize: '20px' }}>description</span>
                 {problem.name}
@@ -174,7 +187,7 @@ const SideBar = () => {
             </div>
           ))
         ) : (
-          <div className="text-neutral dark:text-white my-1">No problems found.</div>
+          <div className="text-neutral dark:text-secondary my-1">No problems found.</div>
         )}
       </div>
     )}
@@ -185,16 +198,24 @@ const SideBar = () => {
         </div>
    */}
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goStudy}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '35px' }}>local_library</span>
-          {isExpanded && <span className={`ml-2 text-white`}>Study</span>}
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '35px' }}>local_library</span>
+          {isExpanded && <span className={`ml-2 text-secondary`}>Study</span>}
         </div>
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goSettings}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-white" style={{ fontSize: '35px' }}>settings</span>
-          {isExpanded && <span className={`ml-2 text-white`}>Settings</span>}
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '35px' }}>settings</span>
+          {isExpanded && <span className={`ml-2 text-secondary`}>Settings</span>}
+        </div>
+        <div onClick={goBilling} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '35px' }}>credit_card</span>
+          {isExpanded && <span className={`ml-2 text-secondary`}>Profile/Billing</span>}
+        </div>
+        <div onClick={goHomepage} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '35px' }}>home</span>
+          {isExpanded && <span className={`ml-2 text-secondary`}>Homepage</span>}
         </div>
         <div onClick={logOut} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-error" style={{ fontSize: '35px' }}>logout</span>
-          {isExpanded && <span className={`ml-2 text-white`}>Logout</span>}
+          {isExpanded && <span className={`ml-2 text-secondary`}>Logout</span>}
         </div>
         <div className={`flex items-center my-2 w-full`}>
   {/* {colorTheme === "light" ? (

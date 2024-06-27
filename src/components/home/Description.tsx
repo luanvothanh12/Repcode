@@ -10,7 +10,7 @@ const Description = () => {
       <span className="material-icons text-neutral">timeline</span> 
       </div>
       <div className="mt-5">
-        <h3 className="text-lg font-semibold text-white">Personalized</h3>
+        <h3 className="text-lg font-semibold text-secondary">Personalized</h3>
         <p className="mt-1 text-primary">Tailor your learning experience with our algorithm that adapts to your strengths and weaknesses</p>
       </div>
     </div>
@@ -20,7 +20,7 @@ const Description = () => {
         <svg className="flex-shrink-0 w-6 h-6 text-neutral" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
       </div>
       <div className="mt-5">
-        <h3 className="text-lg font-semibold text-white">Intuitive</h3>
+        <h3 className="text-lg font-semibold text-secondary">Intuitive</h3>
         <p className="mt-1 text-primary">Navigate through a clean and straightforward UI designed to enhance your learning journey</p>
       </div>
     </div>
@@ -30,7 +30,7 @@ const Description = () => {
         <svg className="flex-shrink-0 w-6 h-6 text-neutral" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
       </div>
       <div className="mt-5">
-        <h3 className="text-lg font-semibold text-white">Documented</h3>
+        <h3 className="text-lg font-semibold text-secondary">Documented</h3>
         <p className="mt-1 text-primary">Read our extensive guides for how to navigate and use every aspect of the application</p>
       </div>
     </div>
@@ -40,7 +40,7 @@ const Description = () => {
         <svg className="flex-shrink-0 w-6 h-6 text-neutral" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>
       </div>
       <div className="mt-5">
-        <h3 className="text-lg font-semibold text-white">Iterative</h3>
+        <h3 className="text-lg font-semibold text-secondary">Iterative</h3>
         <p className="mt-1 text-primary">Frequent updates with new features based on what users like you want</p>
       </div>
     </div>

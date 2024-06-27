@@ -70,7 +70,7 @@ const ProblemTypeInfo = () => {
 
     return (
         <div className="flex flex-col items-center">
-        <div className="text-white text-lg mb-4 text-center">
+        <div className="text-secondary text-lg mb-4 text-center">
             <p>New: <span className="text-new">{problemCounts.New}</span></p>
             <p>Learning: <span className="text-learning">{problemCounts.Learning + (problemCounts.Relearning || 0)}</span></p>
             <p className="mb-5">Review: <span className="text-review">{problemCounts.Review}</span></p>

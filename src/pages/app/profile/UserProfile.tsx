@@ -4,18 +4,18 @@ import "../../../app/globals.css";
 import SideBar from '@/components/app/SideBar';
 import nookies from "nookies"; 
 import firebaseAdmin from "../../../../firebaseAdmin"; 
-import Settings from '@/components/app/Settings';
+import Profile from '@/components/app/Profile';
 
-const StudyProblemPage = () => {
+const UserProfilePage = () => {
   const router = useRouter(); 
 
   return ( 
     <div className="flex min-h-screen bg-base_100">
       <SideBar />
       <div className="flex-grow p-8">
-        <div className="text-secondary text-4xl font-bold mb-4 flex justify-center">:settings</div>
+        <div className="text-secondary text-4xl font-bold mb-4 flex justify-center">:profile and billing</div>
         <hr className="border-divide mb-8 transition-width duration-300"/>
-        <Settings />
+        <Profile />
 
       </div>
     </div>
@@ -45,4 +45,4 @@ export async function getServerSideProps(context:any) {
 }
 
 
-export default StudyProblemPage;
+export default UserProfilePage;

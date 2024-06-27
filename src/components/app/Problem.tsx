@@ -3,13 +3,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import '../../app/globals.css'; 
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-monokai";
-import "ace-builds/src-noconflict/theme-solarized_light";
+import "ace-builds/src-noconflict/theme-crimson_editor";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-c_cpp";
 import hljs from 'highlight.js';
-import 'highlight.js/styles/monokai.css'; // or any other style of your choice
+import 'highlight.js/styles/atom-one-light.css'; // or any other style of your choice
 import { AuthContext } from '@/auth/AuthContext';
   
   const Problem = ({ problem, contentActive, setContentActive, editorContent, setEditorContent }: {problem:any, contentActive:any, setContentActive:any, editorContent:any, setEditorContent:any}) => {
@@ -31,7 +31,7 @@ import { AuthContext } from '@/auth/AuthContext';
         case 'hard':
             return 'text-hard bg-hardbg px-4';
         default:
-            return 'text-white';
+            return 'text-secondary';
       }
   };
 
@@ -40,13 +40,13 @@ import { AuthContext } from '@/auth/AuthContext';
       case 'new':
           return 'text-new bg-newbg px-4'; 
       case 'learning':
-          return 'text-warning bg-warningbg px-2'; 
+          return 'text-learning bg-warningbg px-2'; 
       case 'relearning':
-          return 'text-warning bg-warningbg px-2'; 
+          return 'text-learning bg-warningbg px-2'; 
       case 'review':
-          return 'text-success bg-successbg px-2'; 
+          return 'text-review bg-successbg px-2'; 
       default:
-          return 'text-neutral dark:text-white'; 
+          return 'text-neutral dark:text-secondary'; 
     }
   };
 
@@ -62,7 +62,7 @@ import { AuthContext } from '@/auth/AuthContext';
             <div role="status">
               <svg
                 aria-hidden="true"
-                className="w-12 h-12 text-white animate-spin dark:text-base_100 fill-load"
+                className="w-12 h-12 text-secondary animate-spin dark:text-base_100 fill-load"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -84,22 +84,22 @@ import { AuthContext } from '@/auth/AuthContext';
 
   return (
     <div className="flex flex-col md:flex-row h-screen overflow-hidden">
-      <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
+      <div className="flex-1 overflow-auto bg-nav p-4 rounded-sm shadow-md" style={{ maxHeight: '70vh' }}>
         {/* Buttons for toggling between question and solution */}
         <button onClick={handleGoBack} title="back to collection">
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary" style={{ fontSize: '25px' }}>arrow_back</span>
         </button>
         <div className="mb-4">
-          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'question' ? 'border-b-2 border-divide' : 'border-b-2 border-base_100'}`} onClick={() => setContentActive('question')}>Problem</button>
-          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'notes' ? 'border-b-2 border-divide' : 'border-b-2 border-base_100'}`} onClick={() => setContentActive('notes')}>Notes</button>
-          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'solution' ? 'border-b-2 border-divide' : 'border-b-2 border-base_100'}`} onClick={() => setContentActive('solution')}>Solution</button>
+          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'question' ? 'border-b-2 border-divide' : 'border-b-2 border-nav'}`} onClick={() => setContentActive('question')}>Problem</button>
+          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'notes' ? 'border-b-2 border-divide' : 'border-b-2 border-nav'}`} onClick={() => setContentActive('notes')}>Notes</button>
+          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'solution' ? 'border-b-2 border-divide' : 'border-b-2 border-nav'}`} onClick={() => setContentActive('solution')}>Solution</button>
         </div>
         {/* Left side content (The question) */}
-        <div className="flex justify-between items-center text-white">
+        <div className="flex justify-between items-center text-secondary">
           <h1 className="text-xl font-bold">
             {problem.name}
             <a href={problem.link} target="_blank" rel="noopener noreferrer">
-              <span className="material-icons hover:scale-110 text-warning ml-2">
+              <span className="material-icons hover:scale-110 text-pop2 ml-2">
                 link
               </span>
             </a>
@@ -115,23 +115,23 @@ import { AuthContext } from '@/auth/AuthContext';
           </div>
         </div>
         {contentActive === 'notes' ? (
-          <p className="text-white mt-4 whitespace-pre-wrap">{problem.notes}</p>
+          <p className="text-secondary mt-4 whitespace-pre-wrap text-lg">{problem.notes}</p>
         ) : contentActive === 'question' ? (
-          <p className="text-white mt-4 whitespace-pre-wrap">{problem.question}</p>
+          <p className="text-secondary mt-4 whitespace-pre-wrap text-lg">{problem.question}</p>
         ) : (
           <pre><code className={`language-${problem.language} mr-5`}>{problem.solution}</code></pre>
         )}
       </div>
       <div className="w-px bg-gray-800"></div> {/* Vertical line */}
-      <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
+      <div className="flex-1 overflow-auto shadow-md" style={{ maxHeight: '70vh' }}>
         {/* Right side content (Ace Editor) */}
         <AceEditor
           className="rounded"
           mode={problem.language}
-          theme="monokai"
+          theme="crimson_editor"
           name="UNIQUE_ID_OF_DIV"
           editorProps={{ $blockScrolling: true }}
-          fontSize={14}
+          fontSize={16}
           showPrintMargin={true}
           showGutter={true}
           highlightActiveLine={true}

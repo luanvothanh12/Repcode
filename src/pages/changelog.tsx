@@ -104,7 +104,7 @@ export default function Changelog() {
               <div className="w-1/4 p-4 border-r border-divide overflow-auto">
                   {changelogData.map((log) => (
                       <div key={log.month} className="mb-4">
-                          <div className="py-2 px-4 w-full text-left text-white font-bold">
+                          <div className="py-2 px-4 w-full text-left text-secondary font-bold">
                               {log.month}
                           </div>
                           <ul className="pl-4">
@@ -118,10 +118,10 @@ export default function Changelog() {
               <div className="w-3/4 p-4">
                   {changelogData.map((log) => (
                       <div key={log.month} className="mb-12">
-                          <h2 className="inline-block font-bold text-2xl text-white border-b-2 border-divide mb-2">{log.month}</h2>
+                          <h2 className="inline-block font-bold text-2xl text-secondary border-b-2 border-divide mb-2">{log.month}</h2>
                           {log.updates.map((update) => (
                               <div key={update.date} className="mb-4">
-                                  <h3 className="font-bold text-xl text-white">{update.date}</h3>
+                                  <h3 className="font-bold text-xl text-secondary">{update.date}</h3>
                                   <ul className="list-disc pl-5 text-primary">
                                       {update.changes.map((change, index) => (
                                           <li key={index}>{change}</li>

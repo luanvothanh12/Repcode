@@ -136,22 +136,22 @@ const Settings = () => {
       );
     }
     return (
-      <div className="bg-base_100 border border-divide p-6 rounded-lg max-w-md mx-auto my-10">
+      <div className="bg-nav p-6 rounded-lg max-w-md mx-auto my-10 shadow-md">
         {/* Card 1 */}
         <div className="card mb-8">
-          <h2 className="text-lg font-semibold mb-2 text-white">New Cards</h2>
+          <h2 className="text-lg font-semibold mb-2 text-secondary">New Cards</h2>
           <hr className="mb-4 text-divide"/>
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
-              <label className="text-white">Learning Steps</label>
+              <label className="text-secondary">Learning Steps <span className="material-icons text-xl hover:cursor-pointer" title="One or more delays, separated by spaces. The first delay will be used when you press the Again button on a new problem. The Good button will advance to the next step. Once all steps have been passed, the problem will become a review problem.">help</span></label>
               <input id="learnSteps" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.learnSteps}/>
             </div>
             <div className="flex justify-between items-center">
-              <label className="text-white">Graduating Interval</label>
+              <label className="text-secondary">Graduating Interval <span className="material-icons text-xl hover:cursor-pointer" title="The number of days to wait before showing a problem again, after the Good button is pressed on the final learning step.">help</span></label>
               <input id="graduatingInterval" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.graduatingInterval}/>
             </div>
             <div className="flex justify-between items-center">
-              <label className="text-white">Easy Interval</label>
+              <label className="text-secondary">Easy Interval <span className="material-icons text-xl hover:cursor-pointer" title="The number of days to wait before showing a problem again, after the Easy button is used to immediately remove a problem from the learning stage.">help</span></label>
               <input id="easyInterval" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.easyInterval}/>
             </div>
           </div>
@@ -159,15 +159,15 @@ const Settings = () => {
   
         {/* Card 2 */}
         <div className="card mb-8">
-          <h2 className="text-lg font-semibold mb-2 text-white">Lapses</h2>
+          <h2 className="text-lg font-semibold mb-2 text-secondary">Lapses</h2>
           <hr className="mb-4 text-divide"/>
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
-              <label className="text-white">Relearning Steps</label>
+              <label className="text-secondary">Relearning Steps <span className="material-icons text-xl hover:cursor-pointer" title="Like the learning steps, except this is specifically for pressing the Again button on a review problem, making it enter the relearning stage and it now has to go through these relearning steps before becoming a review problem again.">help</span></label>
               <input id="relearnSteps" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.relearnSteps}/>
             </div>
             <div className="flex justify-between items-center">
-              <label className="text-white">New Interval</label>
+              <label className="text-secondary">New Interval <span className="material-icons text-xl hover:cursor-pointer" title="The multiplier applied to a review interval when answering Again.">help</span></label>
               <input id="relearnGraduatingInterval" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.relearnGraduatingInterval}/>
             </div>
           </div>
@@ -175,27 +175,27 @@ const Settings = () => {
   
         {/* Card 3. The Save button will be here since it's the last card */}
         <div className="card mb-8">
-          <h2 className="text-lg font-semibold mb-2 text-white">Advanced</h2>
+          <h2 className="text-lg font-semibold mb-2 text-secondary">Advanced</h2>
           <hr className="mb-4 text-divide"/>
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
-              <label className="text-white">Maximum Interval</label>
+              <label className="text-secondary">Maximum Interval <span className="material-icons text-xl hover:cursor-pointer" title="The maximum number of days a review problem can go into the future. The shorter you set this, the greater your workload will be.">help</span></label>
               <input id="maximumInterval" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.maximumInterval}/>
             </div>
             <div className="flex justify-between items-center">
-              <label className="text-white">Starting Ease</label>
+              <label className="text-secondary">Starting Ease <span className="material-icons text-xl hover:cursor-pointer" title="The default ease multiplier new problems start with.">help</span></label>
               <input id="startingEase" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.startingEase}/>
             </div>
             <div className="flex justify-between items-center">
-              <label className="text-white">Easy Bonus</label>
+              <label className="text-secondary">Easy Bonus <span className="material-icons text-xl hover:cursor-pointer" title="An extra multiplier that is applied to a review problem's interval when you rate it Easy.">help</span></label>
               <input id="easyBonus" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.easyBonus}/>
             </div>
             <div className="flex justify-between items-center">
-              <label className="text-white">Interval Modifier</label>
+              <label className="text-secondary">Interval Modifier <span className="material-icons text-xl hover:cursor-pointer" title="This multiplier is applied to all problems. Use it to make the algorithm more or less aggressive.">help</span></label>
               <input id="intervalModifier" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.intervalModifier}/>
             </div>
             <div className="flex justify-end items-center">
-              <button onClick={handleSave} className="inline-flex justify-center items-center gap-x-3 text-center bg-blue text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-8 transition-transform duration-200 hover:scale-95">Save</button>
+              <button onClick={handleSave} className="inline-flex justify-center items-center gap-x-3 text-center bg-pop text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-8 transition-transform duration-200 hover:scale-95">Save</button>
             </div>
           </div>
         </div>

@@ -53,7 +53,7 @@ const BarGraph = () => {
                         }
                     },
                     stepSize: 1, 
-                    color: "#87cf3a", 
+                    color: "#000", 
                 }
             }, 
             x: {
@@ -61,7 +61,7 @@ const BarGraph = () => {
                     display: false, 
                 },
                 ticks: {
-                    color: "#87cf3a",
+                    color: "#000",
                 },
             }, 
         }

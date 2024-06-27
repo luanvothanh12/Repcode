@@ -11,6 +11,10 @@ export default async function handler(req: any, res: any) {
         },
         select: {
           id: true, 
+          membershipType: true, 
+          subscriptionStart: true, 
+          subscriptionEnd: true, 
+          collections: true, 
           learnSteps: true,
           relearnSteps: true,
           relearnGraduatingInterval: true,

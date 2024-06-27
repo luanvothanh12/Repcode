@@ -18,7 +18,7 @@ const Logo = () => {
 
 
     <div className="mt-5 max-w-3xl text-center mx-auto">
-      <h1 className="block font-bold text-white text-5xl md:text-5xl lg:text-6xl">
+      <h1 className="block font-bold text-secondary text-5xl md:text-5xl lg:text-6xl">
         Practice coding <br /> the right way
       </h1>
     </div>
@@ -30,7 +30,7 @@ const Logo = () => {
 
 
   <div className="mt-8 gap-3 flex justify-center">
-    <Link className="inline-flex justify-center items-center gap-x-3 text-center bg-pop text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-4 transition-transform duration-200 hover:scale-95" href="/home/SignInUp">
+    <Link className="inline-flex justify-center items-center gap-x-3 text-center bg-pop text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-4 transition-transform duration-200 hover:scale-95" href="/login">
       Get started
       <svg className="flex-shrink-0 w-4 h-4" width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M5.27921 2L10.9257 7.64645C11.1209 7.84171 11.1209 8.15829 10.9257 8.35355L5.27921 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>

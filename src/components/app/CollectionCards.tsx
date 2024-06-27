@@ -78,6 +78,7 @@ const CollectionCards = () => {
         // Invalidate and refetch to update the list
         queryClient.invalidateQueries(['collections', user?.email]);
         queryClient.invalidateQueries(['allProblems', user?.email]);
+        queryClient.invalidateQueries(['userSettings', user?.email]); // for the free tier checking 
         showToast(
           <>
             <span className="inline-block mr-2 bg-error rounded-full" style={{ width: '10px', height: '10px' }}></span>
@@ -135,7 +136,7 @@ const CollectionCards = () => {
         {collections.map((collection:any) => (
           <div
             key={collection.id}
-            className="relative font-bold text-white text-2xl min-w-[20vw] aspect-square flex justify-center items-center bg-cards rounded-lg shadow-md transition duration-200 ease-in-out hover:scale-105 cursor-pointer" 
+            className="relative font-bold text-secondary text-2xl min-w-[20vw] aspect-square flex justify-center items-center bg-cards rounded-lg shadow-md transition duration-200 ease-in-out hover:scale-105 cursor-pointer" 
             onClick={() => router.push(`/app/collections/${collection.id}`)}
           >
             <img src={`/${collection.image}`} alt="Collection" className="absolute top-0 left-0 w-full h-3/4 object-cover" />
@@ -143,7 +144,7 @@ const CollectionCards = () => {
               <div className="text-lg font-bold text-center">{collection.title}</div>
             </div>
             <span
-              className="material-icons text-3xl text-white absolute top-0 left-0 m-2 cursor-pointer"
+              className="material-icons text-3xl text-nav absolute top-0 left-0 m-2 cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
                 toggleMenu(collection.id);
@@ -152,7 +153,7 @@ const CollectionCards = () => {
               more_vert
             </span>
             {visibleMenuId === collection.id && (
-              <div className={`absolute top-0 left-10 mt-2 ml-2 flex flex-row cursor-pointer bg-base_100 px-2 ${visibleMenuId === collection.id ? 'hs-dropdown-enter' : ''}`}>
+              <div className={`absolute top-0 left-10 mt-2 ml-2 flex flex-row cursor-pointer bg-neutral px-2 ${visibleMenuId === collection.id ? 'hs-dropdown-enter' : ''}`}>
                 <button
                   className="mr-2 py-2 text-error text-decoration-line: underline text-sm"
                   onClick={(e) => {
@@ -182,7 +183,7 @@ const CollectionCards = () => {
           {/* SVG for Plus Icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8 text-white"
+            className="h-8 w-8 text-secondary"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -212,7 +213,7 @@ const CollectionCards = () => {
   
       {deleteConfirmationOpen && (
         <div className="fixed inset-0 bg-base_100 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center">
-          <div className="bg-base_100 p-4 rounded-lg shadow-lg text-white">
+          <div className="bg-base_100 p-4 rounded-lg shadow-lg text-secondary">
             <h2>Delete collection?</h2>
             <p>This will delete all the problems inside as well</p>
             <div className="flex justify-end space-x-4 mt-4">
