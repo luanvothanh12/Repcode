@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     let event;
 
     try {
-      event = stripe.webhooks.constructEvent(buf, sig, "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");
+      event = stripe.webhooks.constructEvent(buf, sig, "whsec_odkRvb0Rvz7GnvdFos5taMk22lswOjnQ");
     } catch (err:any) {
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
