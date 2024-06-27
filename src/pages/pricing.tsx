@@ -9,7 +9,7 @@ const Pricing = () => {
   const { user } = useContext(AuthContext);
 
   const handleBuyNow = () => {
-    window.open('https://buy.stripe.com/eVag2J3xI0w1cdq8ww', '_blank'); // Replace with your Stripe payment link
+    window.open('https://buy.stripe.com/fZecQxgkua6B0uI4gh', '_blank'); // Replace with your Stripe payment link
   };
 
   return (
