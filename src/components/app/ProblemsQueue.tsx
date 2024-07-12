@@ -3,15 +3,16 @@ import React, { useEffect, useState, useContext } from 'react';
 import '../../app/globals.css'; 
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-monokai";
-import "ace-builds/src-noconflict/theme-crimson_editor";
+import "ace-builds/src-noconflict/theme-chaos";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-c_cpp";
 import hljs from 'highlight.js';
-import 'highlight.js/styles/atom-one-light.css'; // or any other style of your choice
+import 'highlight.js/styles/atom-one-dark-reasonable.css'; // or any other style of your choice
 import { AuthContext } from '@/auth/AuthContext';
 import { useMutation, useQueryClient } from 'react-query';
+import ChatWindow from './ChatWindow';
   
   const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:any, userSettings:any, refetchProblems: any}) => {
     const [language, setLanguage] = useState('python'); 
@@ -26,6 +27,7 @@ import { useMutation, useQueryClient } from 'react-query';
     const [isLoading, setIsLoading] = useState(false); // while we transition from current problem to next in queue   
     const [editorContent, setEditorContent] = useState<any>('');  
     const queryClient = useQueryClient();
+    const [showChat, setShowChat] = useState(false);
 
     const { user } = useContext(AuthContext);
 
@@ -146,15 +148,15 @@ import { useMutation, useQueryClient } from 'react-query';
     const getButtonColor = (label: string) => {
       switch (label) {
         case 'Again':
-          return 'text-error'; 
+          return 'text-error rounded-md hover:bg-hover2'; 
         case 'Hard':
-          return 'text-hard'; 
+          return 'text-medium rounded-md hover:bg-hover2'; 
         case 'Good':
-          return 'text-successbg'; 
+          return 'text-easy rounded-md hover:bg-hover2'; 
         case 'Easy':
-          return 'text-blue'; 
+          return 'text-blue rounded-md hover:bg-hover2'; 
         default:
-          return 'text-neutral dark:text-secondary'; 
+          return 'text-neutral dark:text-secondary rounded-md hover:bg-hover2'; 
       }
     };
 
@@ -489,13 +491,17 @@ import { useMutation, useQueryClient } from 'react-query';
 
     return (
       <div className="flex flex-col md:flex-row h-screen overflow-hidden">
-        <div className="flex-1 overflow-auto bg-nav p-4 shadow-md rounded-sm" style={{ maxHeight: '70vh' }}>
+        <div className="flex-1 overflow-auto bg-tertiary p-4 shadow-md rounded-sm" style={{ maxHeight: '70vh' }}>
           {/* Buttons for toggling between question and solution */}
           <div className="mb-4">
-            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'question' ? 'border-b-2 border-divide' : 'border-b-2 border-nav'}`} onClick={() => setContent('question')}>Problem</button>
-            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'notes' ? 'border-b-2 border-divide' : 'border-b-2 border-nav'}`} onClick={() => setContent('notes')}>Notes</button>
-            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'solution' ? 'border-b-2 border-divide' : 'border-b-2 border-nav'}`} onClick={() => setContent('solution')}>Solution</button>
-            {content === 'solution' && buttons?.length > 0 && buttons.map((button: any, index: any) => (
+            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'question' ? 'border-b-2 border-divide' : 'border-b-2 border-tertiary'}`} onClick={() => setContent('question')}>Problem</button>
+            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'notes' ? 'border-b-2 border-divide' : 'border-b-2 border-tertiary'}`} onClick={() => setContent('notes')}>Notes</button>
+            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'solution' ? 'border-b-2 border-divide' : 'border-b-2 border-tertiary'}`} onClick={() => setContent('solution')}>Solution</button>
+            
+        </div>
+        {content === 'solution' && buttons?.length > 0 && (
+          <div className="mb-4 flex flex-wrap">
+            {buttons.map((button: any, index: any) => (
               <button
                 key={index}
                 className={`mx-2 py-1 px-1 border border-divide transition-width duration-300 ${getButtonColor(button.label)}`}
@@ -519,7 +525,8 @@ import { useMutation, useQueryClient } from 'react-query';
                 )
               </button>
             ))}
-        </div>
+          </div>
+        )}
         {/* Left side content (The question) */}
         <div className="flex justify-between items-center text-secondary">
           <h1 className="text-xl font-bold">{dueProblems[0].name}
@@ -552,7 +559,7 @@ import { useMutation, useQueryClient } from 'react-query';
           <AceEditor
             className="rounded"
             mode={dueProblems[0].language}
-            theme="crimson_editor"
+            theme="chaos"
             name="UNIQUE_ID_OF_DIV"
             editorProps={{ $blockScrolling: true }}
             fontSize={16}
@@ -570,8 +577,23 @@ import { useMutation, useQueryClient } from 'react-query';
             }}
             style={{ height: '100%', width: '100%' }}  
           />
-        </div>
+          <button 
+            onClick={() => setShowChat(true)} 
+            className="absolute bottom-2 right-4 bg-new text-white px-4 py-2 rounded-md shadow-lg transition-colors"
+          >
+            Check With AI
+          </button>
       </div>
+      {showChat && (
+        <ChatWindow 
+          problem={dueProblems[0]} 
+          editorContent={editorContent} 
+          apiKey={userSettings.apiKey}
+          onClose={() => setShowChat(false)} 
+        />
+      )}
+        </div>
+      
     );
   };
 

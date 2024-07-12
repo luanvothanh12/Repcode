@@ -1,22 +1,36 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState, useContext } from 'react';
+import { auth } from '../../firebaseConfig';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import '../../app/globals.css'; 
 import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/theme-chaos";
 import "ace-builds/src-noconflict/theme-crimson_editor";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-c_cpp";
 import hljs from 'highlight.js';
-import 'highlight.js/styles/atom-one-light.css'; // or any other style of your choice
+import 'highlight.js/styles/atom-one-dark-reasonable.css'; // or any other style of your choice
 import { AuthContext } from '@/auth/AuthContext';
+import ChatWindow from './ChatWindow';
   
   const Problem = ({ problem, contentActive, setContentActive, editorContent, setEditorContent }: {problem:any, contentActive:any, setContentActive:any, editorContent:any, setEditorContent:any}) => {
     const router = useRouter();
+    const { user } = useContext(AuthContext);
     const { collectionId } = router.query // Assuming collectionId is part of the URL 
+    const [showChat, setShowChat] = useState(false);
 
-    console.log(collectionId)
+    const fetchUserSettings = async () => {
+      if (!user) throw new Error("No user found");
+      const response = await fetch(`/api/getUserSettings?userEmail=${user.email}`);
+      if (!response.ok) throw new Error("Failed to fetch user settings");
+      return response.json();
+    };
+
+    const { isLoading, data, error } = useQuery(['userSettings', user?.email], fetchUserSettings, {
+      enabled: !!user, 
+    })
 
     const handleGoBack = () => {
       router.push(`/app/collections/${collectionId}`);
@@ -82,17 +96,18 @@ import { AuthContext } from '@/auth/AuthContext';
         );
   }
 
+  console.log(data)
   return (
     <div className="flex flex-col md:flex-row h-screen overflow-hidden">
-      <div className="flex-1 overflow-auto bg-nav p-4 rounded-sm shadow-md" style={{ maxHeight: '70vh' }}>
+      <div className="flex-1 overflow-auto bg-tertiary p-4 rounded-sm shadow-md" style={{ maxHeight: '70vh' }}>
         {/* Buttons for toggling between question and solution */}
         <button onClick={handleGoBack} title="back to collection">
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary" style={{ fontSize: '25px' }}>arrow_back</span>
         </button>
         <div className="mb-4">
-          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'question' ? 'border-b-2 border-divide' : 'border-b-2 border-nav'}`} onClick={() => setContentActive('question')}>Problem</button>
-          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'notes' ? 'border-b-2 border-divide' : 'border-b-2 border-nav'}`} onClick={() => setContentActive('notes')}>Notes</button>
-          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'solution' ? 'border-b-2 border-divide' : 'border-b-2 border-nav'}`} onClick={() => setContentActive('solution')}>Solution</button>
+          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'question' ? 'border-b-2 border-divide' : 'border-b-2 border-tertiary'}`} onClick={() => setContentActive('question')}>Problem</button>
+          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'notes' ? 'border-b-2 border-divide' : 'border-b-2 border-tertiary'}`} onClick={() => setContentActive('notes')}>Notes</button>
+          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'solution' ? 'border-b-2 border-divide' : 'border-b-2 border-tertiary'}`} onClick={() => setContentActive('solution')}>Solution</button>
         </div>
         {/* Left side content (The question) */}
         <div className="flex justify-between items-center text-secondary">
@@ -128,7 +143,7 @@ import { AuthContext } from '@/auth/AuthContext';
         <AceEditor
           className="rounded"
           mode={problem.language}
-          theme="crimson_editor"
+          theme="chaos"
           name="UNIQUE_ID_OF_DIV"
           editorProps={{ $blockScrolling: true }}
           fontSize={16}
@@ -146,7 +161,21 @@ import { AuthContext } from '@/auth/AuthContext';
           }}
           style={{ height: '100%', width: '100%' }}  
         />
+        <button 
+          onClick={() => setShowChat(true)} 
+          className="absolute bottom-2 right-4 bg-new text-white px-4 py-2 rounded-md shadow-lg transition-colors"
+        >
+          Check With AI
+        </button>
       </div>
+      {showChat && (
+        <ChatWindow 
+          problem={problem} 
+          editorContent={editorContent} 
+          apiKey={data.apiKey}
+          onClose={() => setShowChat(false)} 
+        />
+      )}
     </div>
   );
   

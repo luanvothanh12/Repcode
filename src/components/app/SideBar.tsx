@@ -129,11 +129,11 @@ const SideBar = () => {
         <div className="flex items-center justify-center w-full">
           {isExpanded ? (
             <>
-              <span className="flex-1 text-center font-bold text-xl">Menu</span>
-              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary mr-2" style={{ fontSize: '35px' }} onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }}>arrow_back</span>
+              <span className="flex-1 text-center font-bold text-xl text-primary">Menu</span>
+              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary mr-2" style={{ fontSize: '35px' }} onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }}>arrow_back</span>
             </>
           ) : (
-            <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }}>arrow_forward</span>
+            <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary" style={{ fontSize: '35px' }} onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }}>arrow_forward</span>
           )}
         </div>
       </button>
@@ -142,7 +142,7 @@ const SideBar = () => {
       <div className="px-4 py-2 flex flex-col items-start">
         <hr className="my-2 w-full text-divide transition-width duration-300" />
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goHome}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '35px' }}>style</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>style</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Collections</span>}
         </div>
   
@@ -198,19 +198,19 @@ const SideBar = () => {
         </div>
    */}
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goStudy}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '35px' }}>local_library</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>local_library</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Study</span>}
         </div>
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goSettings}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '35px' }}>settings</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>settings</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Settings</span>}
         </div>
         <div onClick={goBilling} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '35px' }}>credit_card</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>credit_card</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Profile/Billing</span>}
         </div>
         <div onClick={goHomepage} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '35px' }}>home</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>home</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Homepage</span>}
         </div>
         <div onClick={logOut} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>

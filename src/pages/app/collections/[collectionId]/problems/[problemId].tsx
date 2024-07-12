@@ -98,7 +98,7 @@ const ProblemDetailPage = () => {
             <div>Error: {(collectionError as Error || problemError as Error || userError as Error).message}</div>
           ) : (
             <>
-              <div className="text-secondary text-4xl font-bold mb-4 flex justify-center">:collections/{collection.title}/{problem?.name}</div>
+              <div className="text-primary text-4xl font-bold mb-4 flex justify-center">Collections/{collection.title}/{problem?.name}</div>
               <hr className="border-divide mb-8 transition-width duration-300"/>
               <Problem
                 problem={problem}

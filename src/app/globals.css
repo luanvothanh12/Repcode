@@ -33,11 +33,11 @@
 
   @keyframes toastEnter {
     from {
-      transform: translate(-50%, 100%); /* Combine horizontal centering with vertical animation */
+      transform: translate(150%, 100%); /* Start from off-screen right */
       opacity: 0;
     }
     to {
-      transform: translate(-50%, 0); /* Maintain horizontal centering after animation */
+      transform: translate(150%, 0); /* End at bottom right */
       opacity: 1;
     }
   }
@@ -46,9 +46,63 @@
     animation: toastEnter 0.5s ease-out forwards;
   }
 
+  /* deprecated; for top of expanded sidebar */
   .logo {
-    width: 25px; /* keep the element's width and height small */
+    width: 25px; 
     height: 25px;
-    transform: scale(2.2); /* adjust the scale value to make the SVG bigger */
-    transform-origin: center; /* keep the scaling centered */
+    transform: scale(2.2); 
+    transform-origin: center; 
   }
+
+  
+  .animated-button {
+    display: grid;
+    place-content: center;
+    color: white;
+    text-shadow: 0 1px 0 #000;
+    --border-angle: 0turn; /* For animation. */
+    --main-bg: conic-gradient(from var(--border-angle),
+            rgb(51, 34, 17),
+            rgb(51, 32, 0) 5%,
+            rgb(51, 34, 0) 60%,
+            rgb(51, 42, 17) 95%);
+    border: solid 2px transparent;
+    --gradient-border: conic-gradient(from var(--border-angle),
+            transparent 25%,
+            rgb(255, 128, 0),
+            transparent 99%,
+            transparent);
+    background:
+        var(--main-bg) padding-box,
+        var(--gradient-border) border-box,
+        var(--main-bg) border-box;
+    background-position: center center;
+    animation: bg-spin 3s linear infinite;
+  }
+  
+  @keyframes bg-spin {
+    to {
+      --border-angle: 1turn;
+    }
+  }
+
+  
+  @property --border-angle {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0turn;
+  }
+
+  /* shadow for main video on homepage */
+  .shadow-orange {
+    box-shadow: 0 4px 8px rgba(255, 165, 0, 0.3), 
+                0 6px 20px rgba(255, 165, 0, 0.3);
+  }
+
+  /* rounded corners for collection cards */
+  .rounded-bottom-corners {
+    border-bottom-left-radius: 20px; 
+    border-bottom-right-radius: 20px; 
+  }
+
+  

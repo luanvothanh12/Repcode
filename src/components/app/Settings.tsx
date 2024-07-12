@@ -70,6 +70,7 @@ const Settings = () => {
           startingEase: parseFloat((document.getElementById('startingEase') as HTMLInputElement)?.value),
           easyBonus: parseFloat((document.getElementById('easyBonus') as HTMLInputElement)?.value),
           intervalModifier: parseFloat((document.getElementById('intervalModifier') as HTMLInputElement)?.value),
+          apiKey: (document.getElementById('apiKey') as HTMLInputElement)?.value, 
         };
 
         // Validate inputs
@@ -136,10 +137,10 @@ const Settings = () => {
       );
     }
     return (
-      <div className="bg-nav p-6 rounded-lg max-w-md mx-auto my-10 shadow-md">
+      <div className="bg-tertiary p-6 rounded-lg max-w-md mx-auto my-10 shadow-md">
         {/* Card 1 */}
         <div className="card mb-8">
-          <h2 className="text-lg font-semibold mb-2 text-secondary">New Cards</h2>
+          <h2 className="text-lg font-semibold mb-2 text-primary">New Cards</h2>
           <hr className="mb-4 text-divide"/>
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
@@ -159,7 +160,7 @@ const Settings = () => {
   
         {/* Card 2 */}
         <div className="card mb-8">
-          <h2 className="text-lg font-semibold mb-2 text-secondary">Lapses</h2>
+          <h2 className="text-lg font-semibold mb-2 text-primary">Lapses</h2>
           <hr className="mb-4 text-divide"/>
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
@@ -175,7 +176,7 @@ const Settings = () => {
   
         {/* Card 3. The Save button will be here since it's the last card */}
         <div className="card mb-8">
-          <h2 className="text-lg font-semibold mb-2 text-secondary">Advanced</h2>
+          <h2 className="text-lg font-semibold mb-2 text-primary">Advanced</h2>
           <hr className="mb-4 text-divide"/>
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
@@ -193,6 +194,10 @@ const Settings = () => {
             <div className="flex justify-between items-center">
               <label className="text-secondary">Interval Modifier <span className="material-icons text-xl hover:cursor-pointer" title="This multiplier is applied to all problems. Use it to make the algorithm more or less aggressive.">help</span></label>
               <input id="intervalModifier" type="text" className="border border-divide2 p-2 rounded" defaultValue={data.intervalModifier}/>
+            </div>
+            <div className="flex justify-between items-center">
+              <label className="text-secondary">OpenAI API Key <span className="material-icons text-xl hover:cursor-pointer" title="Enter your OpenAI API key here to use the Check With AI feature.">help</span></label>
+              <input id="apiKey" type="text" className="border border-divide2 p-2 rounded" defaultValue="[Hidden]"/>
             </div>
             <div className="flex justify-end items-center">
               <button onClick={handleSave} className="inline-flex justify-center items-center gap-x-3 text-center bg-pop text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-8 transition-transform duration-200 hover:scale-95">Save</button>

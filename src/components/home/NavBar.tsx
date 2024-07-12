@@ -9,11 +9,11 @@ const NavBar = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-nav border-b border-divide text-sm py-3 sm:py-0">
+    <header className="sticky top-0 z-50 w-full bg-base_100 text-md py-3 sm:py-0">
     <nav className="relative w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8" aria-label="Global">
       <div className="flex items-center justify-between">
       <Link className="flex-none text-xl font-semibold text-secondary" href="/" aria-label="Brand">
-         <img src="/logo4.png" alt="Brand Logo" className="h-12" />
+         <img src="/logo11.png" alt="Brand Logo" className="h-16" />
         </Link>
 
         {/* <Link className="flex-none text-xl font-semibold text-secondary" href="/" aria-label="Brand">

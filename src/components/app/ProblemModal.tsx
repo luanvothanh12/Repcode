@@ -142,7 +142,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
         <div className="mt-3 text-center">
           {userLoading || problemsLoading ? (
             <p>One moment please...</p>
-          ) : theUser?.membershipType === 'free' && problems?.length >= 10 ? (
+          ) : theUser?.membershipType === 'free' && problems?.length >= 10 && !isEditMode ? (
             <>
             <div className="bg-nav p-4 rounded-md">
               <h3 className="text-lg leading-6 font-medium text-secondary">Free Tier limit reached</h3>
@@ -152,7 +152,17 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
               </button>
             </div>
             </>
-          ) : (
+          ) : problems?.length >= 20 && !isEditMode ? (
+            <>
+            <div className="bg-nav p-4 rounded-md">
+              <h3 className="text-lg leading-6 font-medium text-secondary">Limit reached</h3>
+              <p className="mt-2 text-sm text-secondary mb-3">For now, you may only create up to 20 problems per collection. As we upgrade our servers, this limit will increase. Consider making another collection if you want to create more problems.</p>
+              <button type="button" onClick={onClose} className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 transition-transform duration-200 hover:scale-95">
+                Close
+              </button>
+            </div>
+            </>
+            ) : (
             <>
               <h3 className="text-lg leading-6 font-medium text-secondary">
                 {isEditMode ? 'Edit Problem' : 'New Problem'} 

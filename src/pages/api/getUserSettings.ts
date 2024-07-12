@@ -26,6 +26,7 @@ export default async function handler(req: any, res: any) {
           intervalModifier: true,
           maximumInterval: true,
           maximumNewPerDay: true,
+          apiKey: true,
         },
       });
 

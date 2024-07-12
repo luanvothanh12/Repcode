@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     let event;
 
     try {
-      event = stripe.webhooks.constructEvent(buf, sig, "whsec_odkRvb0Rvz7GnvdFos5taMk22lswOjnQ");
+      event = stripe.webhooks.constructEvent(buf, sig, "whsec_odkRvb0Rvz7GnvdFos5taMk22lswOjnQ"); //Signing secret 
     } catch (err:any) {
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }

@@ -13,7 +13,7 @@ const UserProfilePage = () => {
     <div className="flex min-h-screen bg-base_100">
       <SideBar />
       <div className="flex-grow p-8">
-        <div className="text-secondary text-4xl font-bold mb-4 flex justify-center">:profile and billing</div>
+        <div className="text-primary text-4xl font-bold mb-4 flex justify-center">Profile and Billing</div>
         <hr className="border-divide mb-8 transition-width duration-300"/>
         <Profile />
 

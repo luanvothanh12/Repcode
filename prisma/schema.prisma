@@ -17,6 +17,7 @@ model User {
   membershipType          String      @default("free")
   subscriptionStart       DateTime?   
   subscriptionEnd         DateTime?  
+  apiKey                  String?     @default("null")
   collections             Collection[]
   learnSteps              String      @default("10m 1d")
   relearnSteps            String      @default("10m") 

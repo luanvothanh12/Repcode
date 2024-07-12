@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import NavBar from '@/components/home/NavBar';
+import Footer from '@/components/home/Footer';
 import "../app/globals.css";
 
 export default function Changelog() {
@@ -7,6 +8,21 @@ export default function Changelog() {
       {
         month: "June 2024",
         updates: [
+          {
+            date: "V 0.1.10 - June 20th, 2024",
+            changes: [
+              "NEW: Added profile/billing page, navigatiable via the sidebar", 
+              "NEW: Added AI integration", 
+            ],
+          },
+          {
+            date: "V 0.1.9 - June 11th, 2024",
+            changes: [
+              "Adjusted styling of homepage", 
+              "Adjusted Pricing models/flow", 
+              "Adjusted terms/privacy pages"
+            ],
+          },
           {
             date: "V 0.1.8 - June 4, 2024",
             changes: [
@@ -104,12 +120,12 @@ export default function Changelog() {
               <div className="w-1/4 p-4 border-r border-divide overflow-auto">
                   {changelogData.map((log) => (
                       <div key={log.month} className="mb-4">
-                          <div className="py-2 px-4 w-full text-left text-secondary font-bold">
+                          <div className="py-2 px-4 w-full text-left text-primary font-bold">
                               {log.month}
                           </div>
                           <ul className="pl-4">
                               {log.updates.map((update) => (
-                                  <li key={update.date} className="list-disc text-primary">{update.date}</li>
+                                  <li key={update.date} className="list-disc text-secondary">{update.date}</li>
                               ))}
                           </ul>
                       </div>
@@ -118,11 +134,11 @@ export default function Changelog() {
               <div className="w-3/4 p-4">
                   {changelogData.map((log) => (
                       <div key={log.month} className="mb-12">
-                          <h2 className="inline-block font-bold text-2xl text-secondary border-b-2 border-divide mb-2">{log.month}</h2>
+                          <h2 className="inline-block font-bold text-2xl text-primary border-b-2 border-divide mb-2">{log.month}</h2>
                           {log.updates.map((update) => (
                               <div key={update.date} className="mb-4">
                                   <h3 className="font-bold text-xl text-secondary">{update.date}</h3>
-                                  <ul className="list-disc pl-5 text-primary">
+                                  <ul className="list-disc pl-5 text-secondary">
                                       {update.changes.map((change, index) => (
                                           <li key={index}>{change}</li>
                                       ))}
@@ -133,6 +149,7 @@ export default function Changelog() {
                   ))}
               </div>
           </div>
+          <Footer />
       </div>
     );
 }

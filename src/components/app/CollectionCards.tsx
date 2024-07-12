@@ -139,12 +139,13 @@ const CollectionCards = () => {
             className="relative font-bold text-secondary text-2xl min-w-[20vw] aspect-square flex justify-center items-center bg-cards rounded-lg shadow-md transition duration-200 ease-in-out hover:scale-105 cursor-pointer" 
             onClick={() => router.push(`/app/collections/${collection.id}`)}
           >
-            <img src={`/${collection.image}`} alt="Collection" className="absolute top-0 left-0 w-full h-3/4 object-cover" />
+            {/* <img src={`/${collection.image}`} alt="Collection" className="absolute top-0 left-0 w-full h-3/4 object-cover" /> */}
+            <img src="/loggy22.png" alt="Collection" className="rounded-bottom-corners absolute top-0 left-0 w-full h-3/4" /> 
             <div className="absolute bottom-0 left-0 p-4 w-full bg-gradient-to-t from-black to-transparent flex justify-center items-end h-1/4">
-              <div className="text-lg font-bold text-center">{collection.title}</div>
+              <div className="text-lg font-bold text-center text-primary">{collection.title}</div>
             </div>
             <span
-              className="material-icons text-3xl text-nav absolute top-0 left-0 m-2 cursor-pointer"
+              className="material-icons text-3xl text-primary absolute top-0 left-0 m-2 cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
                 toggleMenu(collection.id);
@@ -153,7 +154,7 @@ const CollectionCards = () => {
               more_vert
             </span>
             {visibleMenuId === collection.id && (
-              <div className={`absolute top-0 left-10 mt-2 ml-2 flex flex-row cursor-pointer bg-neutral px-2 ${visibleMenuId === collection.id ? 'hs-dropdown-enter' : ''}`}>
+              <div className={`absolute top-0 left-10 mt-2 ml-2 flex flex-row cursor-pointer px-2 ${visibleMenuId === collection.id ? 'hs-dropdown-enter' : ''}`}>
                 <button
                   className="mr-2 py-2 text-error text-decoration-line: underline text-sm"
                   onClick={(e) => {
@@ -183,7 +184,7 @@ const CollectionCards = () => {
           {/* SVG for Plus Icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8 text-secondary"
+            className="h-8 w-8 text-primary"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

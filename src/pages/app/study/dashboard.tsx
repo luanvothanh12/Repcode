@@ -15,16 +15,16 @@ const StudyProblemPage = () => {
     <div className="flex min-h-screen bg-base_100">
       <SideBar />
       <div className="flex-grow p-8">
-        <div className="text-secondary text-4xl font-bold mb-4 flex justify-center">:study</div>
+        <div className="text-primary text-4xl font-bold mb-4 flex justify-center">Study</div>
         <hr className="border-divide mb-8 transition-width duration-300"/>
-        <div className="mb-8 text-center text-primary">
+        <div className="mb-8 text-center text-secondary">
           To learn more about Study Mode, check out our comprehensive <Link className="text-blue underline" href="/guide">Guide</Link>
         </div>
-        <ProblemTypeInfo />
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-4">
           <BarGraph />
         </div>
 
+        <ProblemTypeInfo />
       </div>
     </div>
   );

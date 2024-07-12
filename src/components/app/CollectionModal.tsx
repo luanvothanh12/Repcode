@@ -86,14 +86,14 @@ const handleSubmit = async (e: any) => {
   const modalClass = isOpen ? "modalEnter" : "";
 
 
-  if (theUser.membershipType === 'free' && theUser?.collections?.length >= 4) {
+  if (theUser.membershipType === 'free' && theUser?.collections?.length >= 3 && !isEditMode) {
     return (
       <div className={`${isOpen ? '' : 'hidden'} fixed inset-0 bg-base_100 bg-opacity-50 overflow-y-auto h-full w-full`} style={{ opacity: isOpen ? 1 : 0 }}>
       <div className={`relative top-0 mx-auto p-5 w-96 shadow-lg rounded-md bg-base_100 ${modalClass}`} style={{ animationDuration: '0.5s' }}>
         <div className="mt-3 text-center">
           <h3 className="text-lg leading-6 font-medium text-secondary">Free Tier limit reached.</h3>
           <div className="mt-2 px-7 py-3">
-            <p>You may only create up to 4 collections on the Free Tier. To create more, please upgrade your membership.</p>
+            <p className="text-secondary">You may only create up to 3 collections on the Free Tier. To create more, please upgrade your membership.</p>
           </div>
           <div className="flex justify-end gap-3 px-7 py-3">
             <button type="button" onClick={onClose} className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 transition-transform duration-200 hover:scale-95">

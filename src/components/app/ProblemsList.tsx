@@ -226,16 +226,16 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         {problems?.length > 0 && (
           <>
             <button onClick={chooseRandomProblemFromCollection} title="random problem from collection">
-              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite mr-2" style={{ fontSize: '30px' }}>refresh</span>
+              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary mr-2" style={{ fontSize: '30px' }}>refresh</span>
             </button>
             <button onClick={chooseRandomProblemFromAll} title="random problem from all collections">
-              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-feintwhite" style={{ fontSize: '30px' }}>sync</span>
+              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '30px' }}>sync</span>
             </button>
           </>
         )}
         <ul className="max-w-full flex flex-col">
           {problems?.filter((problem:any) => problem.name.toLowerCase().includes(searchTerm.toLowerCase())).map((problem:any) => (
-            <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-nav hover:bg-hover border border-divide text-secondary -mt-px first:rounded-t-lg last:rounded-b-lg transition-colors duration-100 cursor-pointer" onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}>
+            <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-tertiary hover:bg-hover2 border border-divide text-secondary -mt-px first:rounded-t-lg last:rounded-b-lg transition-colors duration-100 cursor-pointer" onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}>
               <div className="flex items-center gap-x-3.5">
                 <span 
                   className="material-icons text-xl hover:cursor-pointer" 
@@ -286,7 +286,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         <div className="flex justify-center mt-8">
           <button 
             onClick={() => { setIsModalOpen(true); setProblemToEdit(null); }}
-            className="bg-pop text-secondary p-0 rounded-full h-12 w-12 flex items-center justify-center hover:scale-95 transition-transform duration-150 ease-in-out"
+            className="bg-pop text-primary p-0 rounded-full h-12 w-12 flex items-center justify-center hover:scale-95 transition-transform duration-150 ease-in-out"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v12m6-6H6" />
