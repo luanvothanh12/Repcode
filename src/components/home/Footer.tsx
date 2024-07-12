@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -6,7 +7,7 @@ const Footer = () => {
       <div className="text-primary">
         <p>Copyright © 2024 repcode.io, All rights reserved.</p>
         <p className="mt-2">
-          <a href="/privacy" className="underline mr-2">Privacy</a> <a href="/terms" className="underline">Terms</a>
+          <Link href="/privacy" className="underline mr-2">Privacy</Link> <Link href="/terms" className="underline">Terms</Link>
         </p>
       </div>
     </footer>
