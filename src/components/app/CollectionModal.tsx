@@ -115,7 +115,7 @@ const handleSubmit = async (e: any) => {
           <div className="mt-2 px-7 py-3">
             <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
               <label htmlFor="collectionName" className="block text-sm font-medium text-secondary">Collection Name:</label>
-              <input type="text" id="collectionName" name="collectionName" value={collectionName} onChange={(e) => setCollectionName(e.target.value)} className="text-secondary mt-1 block w-full px-3 py-2 bg-base_100 border border-primary2 rounded-md shadow-sm focus:outline-none focus:border-blue transition-colors duration-300 sm:text-sm" />
+              <input type="text" id="collectionName" name="collectionName" value={collectionName} onChange={(e) => setCollectionName(e.target.value)} className="text-secondary mt-1 block w-full px-3 py-2 bg-base_100 border border-divide rounded-md shadow-sm focus:outline-none focus:border-blue transition-colors duration-300 sm:text-sm" />
             </form>
           </div>
           <div className="flex justify-end gap-3 px-7 py-3">

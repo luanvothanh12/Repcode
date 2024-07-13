@@ -52,9 +52,9 @@ const Profile = () => {
       <>
       <div className="bg-tertiary text-secondary text-center p-8 rounded-md">
         <p>Account email: {user?.email}</p>
-        <p>Membership type: {data?.membershipType === 'free' ? 'Free' : 'Paid Member (view specific plan by clicking the View button below)'}</p>
+        <p>Membership type: <span className="font-bold text-warning">{data?.membershipType}</span></p>
         <p>
-          Invoice/Payment History: 
+          Invoice/Payment History (only available for PRO members with a monthly subscription): 
           <button 
             onClick={() => window.open('https://billing.stripe.com/p/login/bIY4gj80X3Q93LO5kk', '_blank')} 
             className="ml-2 px-4 py-2 bg-blue text-white rounded-md"
@@ -65,6 +65,7 @@ const Profile = () => {
       </div>
 
       <div className="mt-8">
+        <Accordion title="I purchased a membership yet my membership type is still showing as Free. What do I do?" content="Please contact repcodebusiness@gmail.com. Issues relating to payment/membership are given the highest priority, so we will get back to you very soon." />
         <Accordion title="How do I cancel if I've purchased a monthly membership?" content="Simply click the View button above and then enter the email associated with the account you purchased membership for to receive a link to that email that will take you to your billing portal, where you can then cancel your membership." />
         <Accordion title="What are the different memebrship types?" content="Your membership type will either show as Free or Paid. If it shows as Free, you are currently on the Free plan, if it shows as paid, you have purchased either a monthly or lifetime subscription. " />
         <Accordion title="How do I upgrade my membership type?" content="To upgrade your membership, go to repcode.io/pricing." />
