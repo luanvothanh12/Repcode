@@ -41,16 +41,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // For handling the initial purchase of a subscription
       case 'checkout.session.completed':
         const session = event.data.object as Stripe.Checkout.Session;
-        const customerId = session.customer as string;
+        const customerId = session.customer as string | null;
 
-        const customer = await stripe.customers.retrieve(customerId);
-        const customerEmail = (customer as Stripe.Customer).email;
+        let customerEmail: string | null = null;
+
+        if (customerId) {
+          const customer = await stripe.customers.retrieve(customerId);
+          customerEmail = (customer as Stripe.Customer).email;
+        } else {
+          customerEmail = session.customer_details?.email || null;
+        }
 
         if (customerEmail) {
           await prisma.user.update({
             where: { email: customerEmail },
             data: {
-              membershipType: 'purchased',
+              membershipType: session.mode === 'subscription' ? 'pro' : 'lifetime', // Differentiate between subscription and one-time payment
               subscriptionStart: new Date(),
             },
           });
