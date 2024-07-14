@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import NavBar from '@/components/home/NavBar';
 import Footer from '@/components/home/Footer';
 import "../app/globals.css";
@@ -117,7 +117,7 @@ export default function Changelog() {
       <div className="flex flex-col min-h-screen bg-base_100">
           <NavBar />
           <div className="flex flex-1">
-              <div className="w-1/4 p-4 border-r border-divide overflow-auto">
+              <div className="hidden md:block md:w-1/4 p-4 border-r border-divide overflow-auto">
                   {changelogData.map((log) => (
                       <div key={log.month} className="mb-4">
                           <div className="py-2 px-4 w-full text-left text-primary font-bold">
@@ -131,7 +131,7 @@ export default function Changelog() {
                       </div>
                   ))}
               </div>
-              <div className="w-3/4 p-4">
+              <div className="w-full md:w-3/4 p-4">
                   {changelogData.map((log) => (
                       <div key={log.month} className="mb-12">
                           <h2 className="inline-block font-bold text-2xl text-primary border-b-2 border-divide mb-2">{log.month}</h2>
