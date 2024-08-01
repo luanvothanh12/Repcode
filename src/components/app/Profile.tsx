@@ -21,6 +21,19 @@ const Profile = () => {
         enabled: !!user, 
     });
 
+    const getMembershipClass = (membershipType: string) => {
+      switch (membershipType) {
+          case 'pro':
+              return 'text-warning';
+          case 'lifetime':
+              return 'text-new';
+          case 'free':
+              return 'text-primary';
+          default:
+              return '';
+      }
+  };
+
     if (error) return <div>Error: {(error as Error).message}</div>;
     if (isLoading || !data) {
       return (
@@ -52,7 +65,7 @@ const Profile = () => {
       <>
       <div className="bg-tertiary text-secondary text-center p-8 rounded-md">
         <p>Account email: {user?.email}</p>
-        <p>Membership type: <span className="font-bold text-warning">{data?.membershipType}</span></p>
+        <p>Membership type: <span className={`font-bold ${getMembershipClass(data?.membershipType)}`}>{data?.membershipType}</span></p>
         <p>
           Invoice/Payment History (only available for PRO members with a monthly subscription): 
           <button 

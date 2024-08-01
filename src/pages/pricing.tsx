@@ -31,38 +31,38 @@ const Pricing = () => {
             <p className="text-5xl font-bold text-white">$0</p>
             <p className="mt-2 mb-4 text-secondary">per month</p>
             <ul className="mb-6 space-y-2 text-left">
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> 3 collections</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> 10 problems per collection</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> AI feedback</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> Full access to Study Mode</li>
+              <li className="flex items-center space-x-2"><span className="material-icons">check</span> 3 collections</li>
+              <li className="flex items-center space-x-2"><span className="material-icons">check</span> 10 problems per collection</li>
+              <li className="flex items-center space-x-2"><span className="material-icons">check</span> AI feedback</li>
+              <li className="flex items-center space-x-2"><span className="material-icons">check</span> Full access to Study Mode</li>
             </ul>
           </div>
           <div className="w-full md:w-1/3 bg-cards p-6 mb-5 md:mb-0 rounded-lg shadow-lg text-center mr-8">
-            <h2 className="text-xl font-bold mb-4 text-white">Pro</h2>
+            <h2 className="text-xl font-bold mb-4 text-warning">Pro</h2>
             <p className="text-5xl font-bold text-white">$3.99</p>
             <p className="mt-2 mb-4 text-secondary">per month</p>
             <ul className="mb-14 space-y-2 text-left">
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> Unlimited collections</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> 20 problems per collection</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> AI feedback</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> Full access to Study Mode</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> Priority customer support</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> Access to all future features</li>
+              <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Unlimited collections</li>
+              <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> 20 problems per collection</li>
+              <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Priority customer support</li>
+              <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Access to all future features</li>
+              <li className="flex items-center space-x-2"><span className="material-icons">check</span> AI feedback</li>
+              <li className="flex items-center space-x-2"><span className="material-icons">check</span> Full access to Study Mode</li>
             </ul>
             <button onClick={handleBuyNowPro} className="font-bold bg-pop transition-transform duration-200 hover:scale-95 text-neutral rounded-md px-10 py-2 w-full">Buy Now</button>
           </div>
           <div className="w-full md:w-1/3 bg-cards p-6 mb-5 md:mb-0 rounded-lg shadow-lg text-center">
-            <h2 className="text-xl font-bold mb-4 text-white">Lifetime</h2>
+            <h2 className="text-xl font-bold mb-4 text-new">Lifetime</h2>
             <p className="text-5xl font-bold text-white">$39.99</p>
             <p className="mt-2 mb-4 text-secondary">one time</p>
             <ul className="mb-6 space-y-2 text-left">
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> Pay only once</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> Unlimited collections</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> 20 problems per collection</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> AI feedback</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> Full access to Study Mode</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> Priority customer support</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-red-500">check</span> Access to all future features</li>
+              <li className="flex items-center space-x-2"><span className="material-icons text-new">check</span> Pay only once</li>
+              <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Unlimited collections</li>
+              <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> 20 problems per collection</li>
+              <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Priority customer support</li>
+              <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Access to all future features</li>
+              <li className="flex items-center space-x-2"><span className="material-icons">check</span> AI feedback</li>
+              <li className="flex items-center space-x-2"><span className="material-icons">check</span> Full access to Study Mode</li>
             </ul>
             <button onClick={handleBuyNowLifetime} className="font-bold bg-pop transition-transform duration-200 hover:scale-95 text-neutral rounded-md px-10 py-2 w-full">Buy Now</button>
           </div>

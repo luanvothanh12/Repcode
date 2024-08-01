@@ -6,13 +6,26 @@ import "../app/globals.css";
 export default function Changelog() {
     const changelogData = [
       {
+        month: "July 2024",
+        updates: [
+          {
+            date: "V 0.1.11 - July 14th, 2024",
+            changes: [
+              "NEW: Added FAQ accordian in the Pricing and Billing page to address common concerns", 
+              "Adjusted styling of Pricing and Billing page", 
+              "Adjusted styling of landing/login page to be responsive", 
+            ],
+          },
+        ],
+      },
+      {
         month: "June 2024",
         updates: [
           {
             date: "V 0.1.10 - June 20th, 2024",
             changes: [
               "NEW: Added profile/billing page, navigatiable via the sidebar", 
-              "NEW: Added AI integration", 
+              "Adjuested styling/functionality of AI feedback", 
             ],
           },
           {
@@ -56,7 +69,7 @@ export default function Changelog() {
           {
             date: "V 0.1.5 - May 9, 2024",
             changes: [
-              "Syntax highlighting for solutions (using highlight.js)",
+              "NEW: Syntax highlighting for solutions (using highlight.js)",
               "Adjusted Logout icon", 
               "Adjusted styles for problem difficulty and type",
             ],
@@ -85,8 +98,8 @@ export default function Changelog() {
           {
             date: "V 0.1.2 - April 6, 2024",
             changes: [
-              "Fixed styling issues with homepage GIFs and contact form",
               "Adjusted collections and problems so that users can click anywhere inside of them to navigate to its page", 
+              "Fixed styling issues with homepage GIFs and contact form",
             ],
           },
         ],
@@ -106,7 +119,7 @@ export default function Changelog() {
           {
             date: "V 0.1.0 - March 25, 2024",
             changes: [
-              "Initial Repcode.io release build!! 🎉🎉",
+              "Repcode.io beta release build!! 🎉🎉",
             ],
           },
         ],

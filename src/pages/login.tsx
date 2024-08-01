@@ -1,14 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { auth } from '../firebaseConfig';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { useRouter } from 'next/router'; 
 import nookies from "nookies"; 
 import firebaseAdmin from "../../firebaseAdmin";
-import Link from 'next/link'; 
-
-
-
+import Link from 'next/link';
 import '../app/globals.css';
 
 const Login = () => {
@@ -17,7 +14,21 @@ const Login = () => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [error, setError] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter(); 
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize(); // Check on initial load
+    window.addEventListener('resize', handleResize); // Add event listener
+
+    return () => {
+      window.removeEventListener('resize', handleResize); // Clean up event listener
+    };
+  }, []);
 
   const signUp = async () => {
     try {
@@ -43,7 +54,6 @@ const Login = () => {
   };
 
   const signIn = async () => {
-
     try {
       await setPersistence(auth, browserLocalPersistence); // Set persistence before signing in
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -94,8 +104,19 @@ const Login = () => {
       setError(errorCode);
     }
   };
-  
 
+  if (isMobile) {
+    return (
+      <div className="bg-base_100 min-h-screen flex h-full items-center justify-center py-16">
+        <div className="bg-cards p-6 rounded-lg shadow-lg text-center">
+          <h1 className="text-2xl font-bold text-secondary mb-4">Hello there!</h1>
+          <p className="text-primary">
+            It looks like you are on mobile. As of right now, Repcode.io is meant to be a desktop experience. In the future, we may add mobile compatibility (most likely in the form of an app), but as for right now the application is viewable on desktop only.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-base_100 min-h-screen flex h-full items-center justify-center py-16">
@@ -103,7 +124,7 @@ const Login = () => {
         <div className="mt-7 bg-base_100">
           <div className="p-4 sm:p-7">
             <div className="text-center">
-            <img src="/loggy.png" alt="Logo" className="mx-auto mb-4 w-16 h-16" />
+              <img src="/loggy.png" alt="Logo" className="mx-auto mb-4 w-16 h-16" />
               <h1 className="block text-3xl font-bold text-secondary">
                 {showSignUp ? "Create an account" : "Welcome back"}
               </h1>
@@ -205,6 +226,5 @@ export async function getServerSideProps(context:any) {
     };
   }
 }
-
 
 export default Login;

@@ -10,7 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const messages: any = [
     { role: "system", content: "You are a helpful assistant. I am going to send you a Leetcode problem, the expected solution, and my solution. I need some help with it." },
-    { role: "user", content: `Problem: ${question}\nExpected Solution: ${solution}\nMy Solution: ${userSolution}\nWhat I need help with: ${userMessage}\n\nProvide feedback on the my solution in 2-3 sentences. If there are any issues, explain what they are and how to fix them. Also, if my code is incorrect, can you please show me the correct solution code? Remember: regardless of your response, please keep it as brief and concise as you can. And if my solution code is correct, then there's no need for you to show me the correct code then, of course.` }
+    { role: "user", content: `Problem: ${question}\nExpected Solution: ${solution}\nMy Solution: ${userSolution}\nWhat I need help with: ${userMessage}\n\nProvide feedback on the my solution in 2-3 sentences. If there are any issues, explain what they are and how to fix them. Also, if my code is incorrect, can you please show me the correct code? You dont have to post the full code, if there's a small mistake then just providing the correct relevent code snippet will do. Remember: regardless of your response, please keep it as brief and concise as you can. And if my solution code is correct, then there's no need for you to show me the correct code then, of course. Also, somewhere in your response please mention the runtime.` }
   ];
 
   try {
