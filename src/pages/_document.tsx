@@ -7,6 +7,7 @@ class MyDocument extends Document {
         <Head>
           {/* Global Site Tag (gtag.js) - Google Analytics */}
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+          <link rel="icon" href="/favicon.ico" />
         </Head>
         <body>
           <Main />
