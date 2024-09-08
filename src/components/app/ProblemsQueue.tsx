@@ -482,7 +482,7 @@ import ChatWindow from './ChatWindow';
     return (
       <div className="flex justify-center items-center h-full">
         <p className="text-xl text-center text-secondary">
-          Congratulations! You have finished all the problems due for today.
+        🎉Congratulations!🎉 You have finished all the problems due for today.
         </p>
       </div>
     );

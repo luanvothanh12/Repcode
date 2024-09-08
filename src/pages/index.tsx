@@ -8,6 +8,7 @@ import MoreInfo from '@/components/home/MoreInfo';
 import ContactForm from '@/components/home/ContactForm';
 import BackgroundDots from '@/components/home/BackgroundDots';
 import Footer from '@/components/home/Footer';
+import Rundown from '@/components/home/Rundown';
 import nookies from "nookies";
 import firebaseAdmin from "../../firebaseAdmin"; 
 import "../app/globals.css";
@@ -21,6 +22,7 @@ export default function Home() {
       <div className="flex justify-center items-center min-h-screen">
         <Logo />
       </div>
+      <Rundown />
       <MoreInfo />
       <Description />  
       <ContactForm />

@@ -3,6 +3,9 @@ import React from 'react';
 const MoreInfo = () => {
   return (
     <div className="mx-4 sm:mx-6 md:mx-8 lg:mx-16"> {/* Adjusts the margin for different screen sizes */}
+
+<h2 className="text-center text-3xl font-bold mb-4 text-primary">How it <span className='text-pop'>all works:</span></h2>
+
       {/* Section 1: Image on the left, header and text on the right */}
       <div className="flex flex-col md:flex-row items-center justify-center py-10">
         <div className="w-full md:w-1/2 px-2 mb-6 md:mb-0"> 

@@ -80,7 +80,6 @@ const Profile = () => {
       <div className="mt-8">
         <Accordion title="I purchased a membership yet my membership type is still showing as Free. What do I do?" content="Please contact repcodebusiness@gmail.com. Issues relating to payment/membership are given the highest priority, so we will get back to you very soon." />
         <Accordion title="How do I cancel if I've purchased a monthly membership?" content="Simply click the View button above and then enter the email associated with the account you purchased membership for to receive a link to that email that will take you to your billing portal, where you can then cancel your membership." />
-        <Accordion title="What are the different memebrship types?" content="Your membership type will either show as Free or Paid. If it shows as Free, you are currently on the Free plan, if it shows as paid, you have purchased either a monthly or lifetime subscription. " />
         <Accordion title="How do I upgrade my membership type?" content="To upgrade your membership, go to repcode.io/pricing." />
       </div>
 
