@@ -15,8 +15,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import ChatWindow from './ChatWindow';
   
   const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:any, userSettings:any, refetchProblems: any}) => {
-    const [language, setLanguage] = useState('python'); 
-
     const [dueProblems, setDueProblems] = useState<any>([]);
     const [buttons, setButtons] = useState<any[]>([]);
     const [againText, setAgainText] = useState<any>();

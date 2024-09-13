@@ -30,6 +30,7 @@ up next:
 
 All:
 ------------
+- bug: when editing a collection name, then editing another, the default text will show the name of the previous collection you were editing 
 - add options for renewing membership after cancelling (event check in webhook) 
 - home page elements should transition in 
 - make tooltips cuter 

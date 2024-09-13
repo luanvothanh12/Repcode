@@ -137,7 +137,7 @@ const Settings = () => {
       );
     }
     return (
-      <div className="bg-tertiary p-6 rounded-lg max-w-md mx-auto my-10 shadow-md">
+      <div className="bg-base_100 p-6 max-w-md mx-auto my-10">
         {/* Card 1 */}
         <div className="card mb-8">
           <h2 className="text-lg font-semibold mb-2 text-primary">New Cards</h2>

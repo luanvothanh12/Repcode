@@ -5,33 +5,49 @@ const Logo = () => {
   return (
     <div className="dark:bg-base_100 relative overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-white before:bg-no-repeat before:bg-top before:bg-cover before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2">
       <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10">
-        <div className="flex justify-center items-center min-h-screen py-16">
-          <div className="flex flex-col items-center gap-8">
-            <div className="text-center">
-              <div className="mt-5 max-w-6xl">
-                <h1 className="block font-bold text-primary text-4xl sm:text-5xl md:text-6xl lg:text-6xl">
-                  Your own personalized platform <br className="hidden lg:block" /> <span className="text-pop">to master Leetcode</span>
+        <div className="flex flex-col justify-center items-center min-h-screen py-8"> {/* Adjusted to flex-col */}
+          <div className="flex flex-col items-center gap-8"> {/* Ensures the content is centered */}
+            <div className="text-center"> {/* Center text explicitly */}
+              <div className="max-w-6xl mx-auto"> {/* Added mx-auto for centering */}
+                <h1 className="block font-bold text-primary text-4xl sm:text-5xl md:text-6xl lg:text-6xl text-center">
+                  Your personalized online notebook <br className="hidden lg:block" /> <span className="text-pop">for everything Leetcode</span>
                 </h1>
               </div>
-              <div className="mt-8 mb-10 max-w-4xl px-4 sm:px-0">
-                <p className="text-xl text-secondary">Everything you&apos;ll ever need to practice and master Leetcode-type questions, all in one place</p>
+              <div className="mt-8 mb-10 max-w-4xl mx-auto px-4 sm:px-0"> {/* Added mx-auto for centering */}
+                <p className="text-xl text-secondary text-center">
+                  Everything you&apos;ll ever need to practice and master Leetcode-type questions, all in one place
+                </p>
               </div>
-              <div className="mt-5 flex flex-col sm:flex-row justify-center items-center gap-8">
-  <div className="flex items-center gap-2">
-    <span className="material-icons transition text-primary" style={{ fontSize: '35px' }}>check</span>
-    <p className="text-2xl text-primary">Organize problems</p>
-  </div>
-  <div className="flex items-center gap-2">
-    <span className="material-icons text-primary" style={{ fontSize: '35px' }}>check</span>
-    <p className="text-2xl text-primary">Review via spatial repetition</p>
-  </div>
-  <div className="flex items-center gap-2">
-    <span className="material-icons text-primary" style={{ fontSize: '35px' }}>check</span>
-    <p className="text-2xl text-primary">Check your code with AI</p>
-  </div>
-</div>
+
+              {/* Updated section with card-like styling */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-10">
+                <div className="bg-neutral p-6 rounded-lg shadow-lg text-center">
+                  <div className="flex justify-center mb-4">
+                    <span className="material-icons text-pop" style={{ fontSize: '40px' }}>code</span>
+                  </div>
+                  <h3 className="text-primary text-2xl font-semibold mb-2">Organize problems</h3>
+                  <p className="text-secondary">Create collections to store and categorize your Leetcode problems</p>
+                </div>
+
+                <div className="bg-neutral p-6 rounded-lg shadow-lg text-center">
+                  <div className="flex justify-center mb-4">
+                    <span className="material-icons text-pop" style={{ fontSize: '40px' }}>sync</span>
+                  </div>
+                  <h3 className="text-primary text-2xl font-semibold mb-2">Review via spatial repetition</h3>
+                  <p className="text-secondary">Optimize your learning with our smart review system</p>
+                </div>
+
+                <div className="bg-neutral p-6 rounded-lg shadow-lg text-center">
+                  <div className="flex justify-center mb-4">
+                    <span className="material-icons text-pop" style={{ fontSize: '40px' }}>lightbulb</span>
+                  </div>
+                  <h3 className="text-primary text-2xl font-semibold mb-2">AI-powered feedback</h3>
+                  <p className="text-secondary">Get instant feedback on your solutions using advanced AI</p>
+                </div>
+              </div>
             </div>
-            <div className="mt-4 flex flex-col sm:flex-row gap-12 justify-center">
+
+            <div className="mt-8 flex flex-col sm:flex-row gap-12 justify-center">
               <Link className="animated-button inline-flex justify-center items-center gap-x-2 text-center text-lg font-medium rounded-lg py-3 px-20 w-full sm:w-auto transition-transform duration-200 hover:scale-95" href="/login">
                 <span>Get started</span>
               </Link>

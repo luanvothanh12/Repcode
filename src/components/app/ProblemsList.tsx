@@ -200,13 +200,36 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
 
     return (
       <>
-        <ProblemModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} collectionId={collectionId} isEditMode={true} problemToEdit={problemToEdit} showToast={showToast} />
-        <ProblemModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} collectionId={collectionId} showToast={showToast} />
-        <div className='max-w-md mx-auto'>  
-          <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-base_100 overflow-hidden m-5 transition-width duration-300">
+        <ProblemModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          collectionId={collectionId}
+          isEditMode={true}
+          problemToEdit={problemToEdit}
+          showToast={showToast}
+        />
+        <ProblemModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          collectionId={collectionId}
+          showToast={showToast}
+        />
+        <div className="max-w-2xl mx-auto">
+          <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-tertiary overflow-hidden m-5 transition-width duration-300 border border-tertiary">
             <div className="grid place-items-center h-full w-12 text-feintwhite">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
               </svg>
             </div>
             <input
@@ -214,88 +237,143 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
               placeholder="Search problems..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="peer h-full w-full outline-none text-sm text-secondary pr-2 bg-base_100 transition-width duration-300"
-            /> 
+              className="peer h-full w-full outline-none text-sm text-secondary pr-2 bg-tertiary transition-width duration-300"
+            />
           </div>
         </div>
+    
         {problems?.length <= 0 && (
-          <>
-            <p className="text-center text-lg text-primary italic">No problems in this collection yet. Click the &apos;+&apos; to add one!</p>
-          </>
+          <p className="text-center text-lg text-primary italic">
+            No problems in this collection yet. Click the &apos;+&apos; to add one!
+          </p>
         )}
+    
         {problems?.length > 0 && (
           <>
             <button onClick={chooseRandomProblemFromCollection} title="random problem from collection">
-              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary mr-2" style={{ fontSize: '30px' }}>refresh</span>
+              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary mr-2" style={{ fontSize: '30px' }}>
+                refresh
+              </span>
             </button>
             <button onClick={chooseRandomProblemFromAll} title="random problem from all collections">
-              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '30px' }}>sync</span>
+              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '30px' }}>
+                sync
+              </span>
             </button>
           </>
         )}
-        <ul className="max-w-full flex flex-col">
-          {problems?.filter((problem:any) => problem.name.toLowerCase().includes(searchTerm.toLowerCase())).map((problem:any) => (
-            <li key={problem.id} className="flex justify-between items-center py-3 px-4 text-sm font-medium bg-tertiary hover:bg-hover2 border border-divide text-secondary -mt-px first:rounded-t-lg last:rounded-b-lg transition-colors duration-100 cursor-pointer" onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}>
-              <div className="flex items-center gap-x-3.5">
-                <span 
-                  className="material-icons text-xl hover:cursor-pointer" 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleMenu(problem.id);
-                  }}
+    
+        <table className="table-auto w-full text-left">
+          <thead>
+            <tr className="text-secondary border-b border-divide">
+              <th className="w-10 py-4"></th>
+              <th className="py-4">Problem</th>
+              <th className="text-right py-4">Difficulty</th>
+              <th className="text-right py-4">Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {problems
+              ?.filter((problem: any) => problem.name.toLowerCase().includes(searchTerm.toLowerCase()))
+              .map((problem: any, index: number) => (
+                <tr
+                  key={problem.id}
+                  className={`bg-base_100 hover:bg-hover2 text-secondary transition-colors duration-100 ${
+                    index !== problems.length - 1 ? 'border-b border-divide' : '' /* No border on last row */
+                  }`}
                 >
-                  more_vert
-                </span>
-                {visibleMenuId === problem.id && (
-                  <div className="hs-dropdown-enter relative inline-flex">
-                    <button 
-                      className="cursor:pointer text-error text-decoration-line: underline mr-2" 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteProblem(problem.id);
-                      }}
-                    >
-                      Delete
-                    </button>
-  
-                    <button 
-                      className="cursor:pointer text-link text-decoration-line: underline mr-2" 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openEditModal(problem);
-                      }}
-                    >
-                      Edit
-                    </button>
-                  </div>
-                )}
-                <span>{problem.name}</span>
-              </div>
-              <div className="text-right">
-                <span className={`${getDifficultyColor(problem.difficulty)} rounded-full py-1`}>
-                  {problem.difficulty}
-                </span> 
-                <span className="text-divide"> / </span> 
-                <span className={`${getTypeColor(problem.type)} rounded-full py-1`}>
-                  {problem.type}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
+                  <td className="py-4">
+                    <div className="flex items-center">
+                      {/* 3 dots button */}
+                      <button
+                        className="text-feintwhite hover:text-primary"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleMenu(problem.id);
+                        }}
+                      >
+                        <span className="material-icons text-lg">more_vert</span>
+                      </button>
+    
+                      {/* Dropdown Menu (edit and delete buttons) */}
+                      {visibleMenuId === problem.id && (
+                        <div className="flex items-center ml-2">
+                          <button
+                            className="cursor-pointer text-error mr-2 underline"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteProblem(problem.id);
+                            }}
+                          >
+                            Delete
+                          </button>
+    
+                          <button
+                            className="cursor-pointer text-link underline"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openEditModal(problem);
+                            }}
+                          >
+                            Edit
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+    
+                  {/* Problem name */}
+                  <td className="py-4">
+                    <div className={`flex items-center ${visibleMenuId === problem.id ? 'ml-2' : ''}`}>
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}
+                      >
+                        {problem.name}
+                      </div>
+                    </div>
+                  </td>
+    
+                  <td className="text-right">
+                    <span className={`${getDifficultyColor(problem.difficulty)} rounded-full px-2 py-1`}>
+                      {problem.difficulty}
+                    </span>
+                  </td>
+    
+                  <td className="text-right">
+                    <span className={`${getTypeColor(problem.type)} rounded-full px-2 py-1`}>
+                      {problem.type}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+    
         <div className="flex justify-center mt-8">
-          <button 
-            onClick={() => { setIsModalOpen(true); setProblemToEdit(null); }}
+          <button
+            onClick={() => {
+              setIsModalOpen(true);
+              setProblemToEdit(null);
+            }}
             className="bg-pop text-primary p-0 rounded-full h-12 w-12 flex items-center justify-center hover:scale-95 transition-transform duration-150 ease-in-out"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v12m6-6H6" />
             </svg>
           </button>
         </div>
+    
         <Toast message={toastMessage} isVisible={isToastVisible} />
       </>
     );
+    
 };
 
 export default ProblemsList;

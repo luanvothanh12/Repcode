@@ -18,7 +18,7 @@ const config: Config = {
       hover2: '#292929', 
       neutral: '#1b1d1d', 
       primary: '#FFF', 
-      secondary: '#D1D5DB', 
+      secondary: '#BDBDBD', 
       tertiary: '#1D1D1F',
       pop: '#FF865B', 
       pop2: '#C4B454', 

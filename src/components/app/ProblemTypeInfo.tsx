@@ -70,82 +70,59 @@ const ProblemTypeInfo = () => {
   return (
     <div className="flex flex-col items-center">
       <div className="text-secondary text-lg mb-4 text-center">
-      <p className="mb-2">Due today: <span className="text-error">{dueTodayCount}</span></p>
-      {dueTodayCount > 0 ? (
-        <button onClick={goDueProblems} className="mb-12 inline-flex justify-center items-center gap-x-3 text-center bg-pop text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-4 transition-transform duration-200 hover:scale-95">
-          Study Now
-        </button>
-      ) : (
-        <p className="text-secondary">You do not have any problems due today, go relax and drink a sody pop!</p>
-      )}
+        <p className="mb-2">
+          Due today: <span className="text-error">{dueTodayCount}</span>
+        </p>
+        {dueTodayCount > 0 ? (
+          <button
+            onClick={goDueProblems}
+            className="mb-12 inline-flex justify-center items-center gap-x-3 text-center bg-pop text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-4 transition-transform duration-200 hover:scale-95"
+          >
+            Study Now
+          </button>
+        ) : (
+          <p className="text-secondary">You do not have any problems due today, go relax and drink a sody pop!</p>
+        )}
 
-        <table className="table-auto w-full">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 text-new">New - {problemCounts.New.length}</th>
-              <th className="px-4 py-2 text-learning">Learning - {problemCounts.Learning.length + problemCounts.Relearning.length}</th>
-              <th className="px-4 py-2 text-review">Review - {problemCounts.Review.length}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-divide px-4 py-2">
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      <th className="text-left">Name</th>
-                      <th className="text-right">Due</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {problemCounts.New.map((problem: any) => (
-                      <tr key={problem.id}>
-                        <td className="text-left pr-2">{problem.name}</td>
-                        <td className="text-right">{new Date(problem.dueDate).toLocaleDateString()}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </td>
-              <td className="border border-divide px-4 py-2">
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      <th className="text-left">Name</th>
-                      <th className="text-right">Due</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {problemCounts.Learning.concat(problemCounts.Relearning).map((problem: any) => (
-                      <tr key={problem.id}>
-                        <td className="text-left pr-2">{problem.name}</td>
-                        <td className="text-right">{new Date(problem.dueDate).toLocaleDateString()}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </td>
-              <td className="border border-divide px-4 py-2">
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      <th className="text-left">Name</th>
-                      <th className="text-right">Due</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {problemCounts.Review.map((problem: any) => (
-                      <tr key={problem.id}>
-                        <td className="text-left pr-2">{problem.name}</td>
-                        <td className="text-right">{new Date(problem.dueDate).toLocaleDateString()}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div className="container mx-auto p-4 min-h-screen text-primary">
+          {/* Add items-start to ensure grid items only take their content height */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+            {[
+              { name: 'New', count: problemCounts.New.length, color: 'bg-blue', problems: problemCounts.New },
+              { name: 'Learning', count: problemCounts.Learning.length + problemCounts.Relearning.length, color: 'bg-learning', problems: problemCounts.Learning.concat(problemCounts.Relearning) },
+              { name: 'Review', count: problemCounts.Review.length, color: 'bg-review', problems: problemCounts.Review },
+            ].map((category) => (
+              <div
+                key={category.name}
+                className="overflow-hidden bg-base_100 border-divide border rounded-lg"
+              >
+                <div className={`${category.color} text-white px-4 py-3 flex justify-between items-center`}>
+                  <h2 className="text-lg font-bold">{category.name}</h2>
+                  <span className="bg-feintwhite px-2 py-1 rounded-full text-sm text-primary">{category.count}</span>
+                </div>
+                <div className="p-0">
+                  {category.problems.length > 0 ? (
+                    <ul className="divide-y divide-divide">
+                      {category.problems.map((problem: any, index: number) => (
+                        <li key={index} className="p-4 hover:bg-hover2 transition duration-150 ease-in-out">
+                          <div className="flex justify-between items-center">
+                            <span className="font-medium text-primary text-sm">{problem.name}</span>
+                            <div className="flex items-center text-sm text-secondary">
+                              {<span className="material-icons mr-1" style={{ fontSize: '15px' }}>calendar_today</span>}
+                              {new Date(problem.dueDate).toLocaleDateString()}
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="p-4 text-center text-secondary">No problems in this category</div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

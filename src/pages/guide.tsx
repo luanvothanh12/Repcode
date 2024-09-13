@@ -39,27 +39,27 @@ export default function Guide() {
                     <ul className="list-none text-secondary mb-8 ml-5">
                         <li className="flex items-center mb-4">
                             <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>style</span>
-                            <span className="text-xl">Collections: View and manage your collections. Here, you can see a grid layout showing all the collections you have made so far, and you can click into any one of them to access the problems stored within. You can also edit, delete, and create new collections from this page. </span>
+                            <span className="text-xl"><span className='font-bold'>Collections:</span> View and manage your collections. Here, you can see a grid layout showing all the collections you have made so far, and you can click into any one of them to access the problems stored within. You can also edit, delete, and create new collections from this page. </span>
                         </li>
                         <li className="flex items-center mb-4">
                             <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>local_library</span>
-                            <span className="text-xl">Study Mode: Review problems using spacial repitition. A more detailed breakdown of how this works can be found in the following sections. </span>
+                            <span className="text-xl"><span className='font-bold'>Study Mode:</span> Review problems using spacial repitition. A more detailed breakdown of how this works can be found in the following sections. </span>
                         </li>
                         <li className="flex items-center mb-4">
                             <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>settings</span>
-                            <span className="text-xl">Settings: Customize various aspects of the spatial repitition algorithm. Again, a detailed breakdown of these settings can be found in the following sections. </span>
+                            <span className="text-xl"><span className='font-bold'>Settings:</span> Customize various aspects of the spatial repitition algorithm. Again, a detailed breakdown of these settings can be found in the following sections. </span>
                         </li>
                         <li className="flex items-center mb-4">
                             <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>credit_card</span>
-                            <span className="text-xl"> Billing/Profile: Manage your Repcode subscription and account information here. You can see what type of subscription you have (free, pro, or lifetime), as well as cancel your monthly subscription.</span>
+                            <span className="text-xl"> <span className="font-bold">Billing/Profile:</span> Manage your Repcode subscription and account information here. You can see what type of subscription you have (free, pro, or lifetime), as well as cancel your monthly subscription.</span>
                         </li>
                         <li className="flex items-center mb-4">
                             <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>home</span>
-                            <span className="text-xl"> Home: Exit the application and return to the main landing page.</span>
+                            <span className="text-xl"> <span className="font-bold">Home:</span> Exit the application and return to the main landing page.</span>
                         </li>
                         <li className="flex items-center mb-4">
                             <span className="material-icons text-error mr-4" style={{ fontSize: '36px' }}>logout</span>
-                            <span className="text-xl">Logout: Sign out of your account.</span>
+                            <span className="text-xl"> <span className="font-bold">Logout:</span> Sign out of your account.</span>
                         </li>
                     </ul>
 
@@ -113,7 +113,29 @@ export default function Guide() {
 
                 <div className="mb-24">
                     <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 2: The Spatial Repitition Algorithm</h2>
-                    <p className="text-secondary mb-8 text-xl"> </p>
+                    <p className="text-secondary mb-8 text-xl">One of the unique aspects of repcode is that this platform allows you to not only store and organize problems, but also review them in an optimal way so that you never forget what you have already learned. As of writing this section, repcode is the only maintained platform that offers this feature out of the box. This section will be split into two parts: </p>
+                    <ol className="list-decimal text-secondary mb-16 ml-5 text-xl">
+                        <li>How to use Study Mode </li>
+                        <li>How the spatial repitition algorithm that powers Study Mode works under the hood</li>
+                    </ol>
+                    <p className="text-secondary mb-8 text-xl">First, the easy part: how to use it. The great thing is, the spatial repition algorithm updates and maintains itself automatically: when you add a problem to a collection, it will automatically be added and factored into the spatial repitition algorithm. The only thing you have to do is navigate to the Study Mode section, press the "Study Now" button (if you have problems due that day, this button will appear, otherwise you won't see it), and solve all the Leetcode problems the platform tells you to solve. And after each problem, in the Solutions tab, press the button that most closely corresponds to how difficult you found the problem:   </p>
+                    <div className="mb-8">
+                        <button className={`mx-2 py-1 px-5 border border-divide transition-width duration-300 text-error rounded-md hover:bg-hover2`}>
+                            <span className="text-xl">Again</span>
+                        </button>
+                        <button className={`mx-2 py-1 px-5 border border-divide transition-width duration-300 text-medium rounded-md hover:bg-hover2`}>
+                            <span className="text-xl">Hard</span>
+                        </button>
+                        <button className={`mx-2 py-1 px-5 border border-divide transition-width duration-300 text-easy rounded-md hover:bg-hover2`}>
+                            <span className="text-xl">Good</span>
+                        </button>
+                        <button className={`mx-2 py-1 px-5 border border-divide transition-width duration-300 text-blue rounded-md hover:bg-hover2`}>
+                            <span className="text-xl">Easy</span>
+                        </button>
+                    </div>
+
+                    <p className="text-secondary mb-8 text-xl">breakdown when to press each button  </p>
+                    <p className="text-secondary mb-8 text-xl">every day, the algorithm will decide, based on feedback you provide on each problem, when to next show you that problem. So make sure to go through study mode every day.   </p>
                 </div>
 
             </div>

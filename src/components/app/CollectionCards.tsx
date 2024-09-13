@@ -132,18 +132,14 @@ const CollectionCards = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-20 gap-y-8">
-        {collections.map((collection:any) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-8 gap-y-8">
+        {collections.map((collection: any) => (
           <div
             key={collection.id}
-            className="relative font-bold text-secondary text-2xl min-w-[20vw] aspect-square flex justify-center items-center bg-cards rounded-lg shadow-md transition duration-200 ease-in-out hover:scale-105 cursor-pointer" 
+            className="border border-[#2a2a2d] relative text-secondary text-2xl min-w-[20vw] aspect-square flex flex-col justify-center items-center bg-[#1e1e20] rounded-lg shadow-md transition duration-300 ease-in-out hover:border-feintwhite hover:text-pop cursor-pointer"
             onClick={() => router.push(`/app/collections/${collection.id}`)}
           >
-            {/* <img src={`/${collection.image}`} alt="Collection" className="absolute top-0 left-0 w-full h-3/4 object-cover" /> */}
-            <img src="/loggy22.png" alt="Collection" className="rounded-bottom-corners absolute top-0 left-0 w-full h-3/4" /> 
-            <div className="absolute bottom-0 left-0 p-4 w-full bg-gradient-to-t from-black to-transparent flex justify-center items-end h-1/4">
-              <div className="text-lg font-bold text-center text-primary">{collection.title}</div>
-            </div>
+            {/* 3 Dots Menu (Top Left) */}
             <span
               className="material-icons text-3xl text-primary absolute top-0 left-0 m-2 cursor-pointer"
               onClick={(e) => {
@@ -153,52 +149,70 @@ const CollectionCards = () => {
             >
               more_vert
             </span>
+            
             {visibleMenuId === collection.id && (
-              <div className={`absolute top-0 left-10 mt-2 ml-2 flex flex-row cursor-pointer px-2 ${visibleMenuId === collection.id ? 'hs-dropdown-enter' : ''}`}>
+              <div className={`absolute top-8 left-2 mt-2 flex flex-col bg-[#2a2a2d] rounded-lg p-2 shadow-lg z-10`}>
                 <button
-                  className="mr-2 py-2 text-error text-decoration-line: underline text-sm"
+                  className="text-error py-1 px-2 text-left text-sm hover:bg-[#38383d] rounded-md"
                   onClick={(e) => {
-                    e.stopPropagation(); 
+                    e.stopPropagation();
                     openDeleteConfirmation(collection.id);
+                    setVisibleMenuId(null);
                   }}
                 >
                   Delete
                 </button>
                 <button
-                  className="py-2 text-link text-decoration-line: underline text-sm"
+                  className="text-link py-1 px-2 text-left text-sm hover:bg-[#38383d] rounded-md"
                   onClick={(e) => {
-                    e.stopPropagation(); 
+                    e.stopPropagation();
                     openEditModal(collection);
+                    setVisibleMenuId(null);
                   }}
                 >
                   Edit
                 </button>
               </div>
             )}
+  
+            {/* Collection Name */}
+            <div className="text-center text-primary text-2xl font-bold">{collection.title}</div>
+  
+            {/* Last Added Info */}
+            <div className="text-secondary text-sm mt-2">Last added to: 3 days ago</div>
+  
+            {/* Progress Info */}
+            <div className="flex justify-between items-center w-full px-4 mt-4">
+              <span className="text-secondary text-sm">Progress</span>
+              <span className="text-secondary text-sm">50%</span>
+            </div>
+  
+            {/* Progress Bar */}
+            <div className="w-full px-4 mt-2">
+              <div className="relative w-full h-2 bg-feintwhite rounded-full">
+                <div className="absolute top-0 left-0 h-full bg-secondary rounded-full" style={{ width: '50%' }}></div>
+              </div>
+            </div>
+  
+            {/* Bottom Text */}
+            <div className="absolute bottom-4 text-center w-full text-secondary text-sm">
+              6 of 12 review problems
+            </div>
           </div>
         ))}
+  
+        {/* Add New Collection Button */}
         <button
           className="flex justify-center items-center bg-pop rounded-full h-20 w-20 shadow-md cursor-pointer m-auto transition duration-300 ease-in-out hover:scale-95"
           onClick={() => setIsModalOpen(true)}
         >
-          {/* SVG for Plus Icon */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8 text-primary"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 6v12m6-6H6"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v12m6-6H6" />
           </svg>
         </button>
       </div>
   
+      {/* Modal Components */}
       <CollectionModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
@@ -212,6 +226,7 @@ const CollectionCards = () => {
         showToast={showToast}
       />
   
+      {/* Delete Confirmation */}
       {deleteConfirmationOpen && (
         <div className="fixed inset-0 bg-base_100 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center">
           <div className="bg-base_100 p-4 rounded-lg shadow-lg text-secondary">
@@ -234,9 +249,12 @@ const CollectionCards = () => {
           </div>
         </div>
       )}
+  
+      {/* Toast Notifications */}
       <Toast message={toastMessage} isVisible={isToastVisible} />
     </>
   );
+  
 };
 
 export default CollectionCards;
