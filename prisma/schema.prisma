@@ -36,9 +36,13 @@ model Collection {
   id        Int      @id @default(autoincrement())
   title     String
   image     String @default("pattern1.svg")
+  lastAdded DateTime? @default(now()) 
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   problems  Problem[]
+  newCount  Int      @default(0)
+  learningCount Int @default(0)
+  reviewCount Int   @default(0)
 }
 
 model Problem {

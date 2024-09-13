@@ -4,7 +4,6 @@ import authenticate from "../../auth/Authenticate";
 export default async function handler(req: any, res: any) {
   // Apply authentication middleware
   authenticate(req, res, async () => {
-    // Existing handler code here...
     if (req.method === 'POST') {
       const { name, question, solution, difficulty, collectionId, functionSignature, language, link, notes } = req.body;
   
@@ -23,7 +22,13 @@ export default async function handler(req: any, res: any) {
             notes
           },
         });
-  
+
+        // Update the lastAdded field in the collection
+        await prisma.collection.update({
+          where: { id: parseInt(collectionId) },
+          data: { lastAdded: new Date() },
+        });
+
         console.log("CALLED: /createProblem")
         return res.status(200).json(problem);
       } catch (error) {
@@ -36,4 +41,3 @@ export default async function handler(req: any, res: any) {
     }
   });
 }
-

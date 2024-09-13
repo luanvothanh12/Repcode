@@ -134,8 +134,25 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
       }
     );
   
-    const deleteProblem = (problemId: any) => {
-      deleteProblemMutation.mutate(problemId);
+    const deleteProblem = (problemId: any, collectionId: any) => {
+      deleteProblemMutation.mutate(problemId, {
+        onSuccess: async () => {
+          // Call updateCollectionCounts endpoint after problem deletion
+          try {
+            const updateResponse = await fetch('/api/updateCollectionCounts', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ collectionId: collectionId }),
+            });
+            if (!updateResponse.ok) throw new Error('Failed to update collection counts');
+          } catch (error) {
+            console.error('Failed to update collection counts:', error);
+          }
+          queryClient.invalidateQueries(['collections', user?.email]); // for collection problem type counts  
+        },
+      });
     };
 
     const openEditModal = (problem:any) => {
@@ -302,7 +319,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                             className="cursor-pointer text-error mr-2 underline"
                             onClick={(e) => {
                               e.stopPropagation();
-                              deleteProblem(problem.id);
+                              deleteProblem(problem.id, collectionId);
                             }}
                           >
                             Delete

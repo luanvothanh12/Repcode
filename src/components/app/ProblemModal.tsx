@@ -76,7 +76,22 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
         }),
       });
       if (!response.ok) throw new Error('Failed to submit problem');
-      return response.json();
+      const result = await response.json();
+
+      // Call updateCollectionCounts endpoint after problem creation
+      if (!isEditMode) {
+        const updateResponse = await fetch('/api/updateCollectionCounts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ collectionId: collectionId }),
+        });
+        if (!updateResponse.ok) throw new Error('Failed to update collection counts');
+      }
+
+      return result;
+
     },
     {
       onSuccess: () => {
@@ -87,6 +102,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
         queryClient.invalidateQueries(['dueTodayProblems', user?.email]); // for the ProblemQueue
         queryClient.invalidateQueries(['userSettings', user?.email]); // for free tier checks 
         queryClient.invalidateQueries(['collectionProblems', collectionId]); // for free tier checks 
+        queryClient.invalidateQueries(['collections', user?.email]); // for collection problem type counts  
         showToast(
           <>
             <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>

@@ -11,6 +11,8 @@ export default async function handler(req: any, res: any) {
         },
         select: {
           title: true, 
+          lastAdded: true, 
+          problems: true, 
         },
       });
 

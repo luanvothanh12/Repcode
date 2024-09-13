@@ -3,9 +3,10 @@ import CollectionModal from "./CollectionModal";
 import { auth } from "../../firebaseConfig";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/auth/AuthContext";
-import Link from 'next/link'; // Import Link from Next.js
 import Toast from "./Toast";
 import { useQuery, useMutation, useQueryClient } from 'react-query'; 
+import { formatDistanceToNow } from 'date-fns'; 
+
 
 
 const CollectionCards = () => {
@@ -29,10 +30,28 @@ const CollectionCards = () => {
     return response.json();
   };
 
+  // const updateProblemCounts = async () => {
+  //   if (!user) return null;
+  //   const response = await fetch(`/api/updateProblemCounts`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ userEmail: user.email }),
+  //   });
+  //   if (!response.ok) throw new Error('Failed to update problem counts');
+  //   return response.json();
+  // };
+
+  // useEffect(() => {
+  //   if (user) {
+  //     updateProblemCounts();
+  //   }
+  // }, [user]);
+
   const { isLoading, data: collections = [], error } = useQuery(['collections', user?.email], fetchCollections, {
     enabled: !!user?.email,
   })
-
 
   const toggleMenu = (id: any) => {
     setVisibleMenuId(visibleMenuId === id ? null : id);
@@ -103,6 +122,8 @@ const CollectionCards = () => {
     setIsToastVisible(true);
     setTimeout(() => setIsToastVisible(false), 3000); // Hide after 3 seconds
   };
+
+  
   if (error) return <div>Error: {(error as Error).message}</div>;
   if (isLoading) {
     return (
@@ -134,6 +155,7 @@ const CollectionCards = () => {
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-8 gap-y-8">
         {collections.map((collection: any) => (
+          
           <div
             key={collection.id}
             className="border border-[#2a2a2d] relative text-secondary text-2xl min-w-[20vw] aspect-square flex flex-col justify-center items-center bg-[#1e1e20] rounded-lg shadow-md transition duration-300 ease-in-out hover:border-feintwhite hover:text-pop cursor-pointer"
@@ -177,39 +199,43 @@ const CollectionCards = () => {
   
             {/* Collection Name */}
             <div className="text-center text-primary text-2xl font-bold">{collection.title}</div>
-  
             {/* Last Added Info */}
-            <div className="text-secondary text-sm mt-2">Last added to: 3 days ago</div>
+            <div className="text-secondary text-sm mt-2">
+              Last added to: {collection.lastAdded ? formatDistanceToNow(new Date(collection.lastAdded), { addSuffix: true }) : 'N/A'}
+            </div>
   
             {/* Progress Info */}
             <div className="flex justify-between items-center w-full px-4 mt-4">
-              <span className="text-secondary text-sm">Progress</span>
-              <span className="text-secondary text-sm">50%</span>
+              <span className="text-secondary text-sm">Problem Types</span>
             </div>
   
-            {/* Progress Bar */}
+            {/* Multi-colored Progress Bar */}
             <div className="w-full px-4 mt-2">
-              <div className="relative w-full h-2 bg-feintwhite rounded-full">
-                <div className="absolute top-0 left-0 h-full bg-secondary rounded-full" style={{ width: '50%' }}></div>
+              <div className="flex w-full h-2 bg-feintwhite rounded-full">
+                <div className="h-full bg-new rounded-full" style={{ width: `${(collection.newCount / (collection.newCount + collection.learningCount + collection.reviewCount)) * 100}%` }}></div>
+                <div className="h-full bg-learning rounded-full" style={{ width: `${(collection.learningCount / (collection.newCount + collection.learningCount + collection.reviewCount)) * 100}%` }}></div>
+                <div className="h-full bg-review rounded-full" style={{ width: `${(collection.reviewCount / (collection.newCount + collection.learningCount + collection.reviewCount)) * 100}%` }}></div>
               </div>
             </div>
   
             {/* Bottom Text */}
             <div className="absolute bottom-4 text-center w-full text-secondary text-sm">
-              6 of 12 review problems
+            <span className="inline-block bg-new mr-1 rounded-full" style={{ width: '10px', height: '10px' }}></span><span className="mr-4">{collection.newCount}</span> 
+            <span className="inline-block bg-learning rounded-full" style={{ width: '10px', height: '10px' }}></span> <span className="mr-4">{collection.learningCount}</span>
+            <span className="inline-block bg-review rounded-full" style={{ width: '10px', height: '10px' }}></span> <span className="mr-2">{collection.reviewCount}</span>
             </div>
           </div>
         ))}
   
         {/* Add New Collection Button */}
-        <button
-          className="flex justify-center items-center bg-pop rounded-full h-20 w-20 shadow-md cursor-pointer m-auto transition duration-300 ease-in-out hover:scale-95"
+        <div
+          className="border border-[#2a2a2d] relative text-secondary text-2xl min-w-[20vw] aspect-square flex flex-col justify-center items-center bg-[#1e1e20] rounded-lg shadow-md transition duration-300 ease-in-out hover:border-feintwhite hover:text-pop cursor-pointer"
           onClick={() => setIsModalOpen(true)}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v12m6-6H6" />
           </svg>
-        </button>
+        </div>
       </div>
   
       {/* Modal Components */}

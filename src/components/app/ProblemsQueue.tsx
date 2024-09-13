@@ -203,47 +203,62 @@ import ChatWindow from './ChatWindow';
       return response.json();
     });
 
-    // handles the repeated logic of updating the problem's due date, updating the problem in the database, and handling the resultant changes in the array of problems
-    async function Helper(problem:any) {
+    // handles the repeated logic of updating the problem's due date, updating the problem in the database, updating the collection counts, and handling the resultant changes in the array of problems
+    async function Helper(problem: any) {
       setIsLoading(true);
-        // update due date 
-        const currentDate = new Date(); // get the current date
-        const additionalTime = problem.interval * 60 * 1000; // convert minutes to milliseconds 
-        const newDueDate = new Date(currentDate.getTime() + additionalTime); // set the new due date based on the current date plus the interval
-        problem.dueDate = newDueDate;
-
-        const updates = {
+      // update due date 
+      const currentDate = new Date(); // get the current date
+      const additionalTime = problem.interval * 60 * 1000; // convert minutes to milliseconds 
+      const newDueDate = new Date(currentDate.getTime() + additionalTime); // set the new due date based on the current date plus the interval
+      problem.dueDate = newDueDate;
+    
+      const updates = {
         type: problem.type,
         interval: problem.interval,
         relearnInterval: problem.relearnInterval,
         ease: problem.ease,
         dueDate: problem.dueDate,
-        };
-        updateProblemMutation.mutate({ problemId: problem.id, updates }, {
-          onSuccess: (updatedProblem) => {
-            //check if problem is still due today 
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const updatedDueDate = new Date(updatedProblem.dueDate);
-            updatedDueDate.setHours(0, 0, 0, 0);
-
-            // Create a new array excluding the current problem to manipulate and update the state later
-            let updatedProblems = dueProblems.filter((p:any) => p.id !== problem.id);
-            console.log(updatedProblems)
-
-            if (updatedDueDate.getTime() === today.getTime()) {
-              console.log("Still due")
-              updatedProblems.push(updatedProblem);
+      };
+      updateProblemMutation.mutate({ problemId: problem.id, updates }, {
+        onSuccess: async (updatedProblem) => {
+          // Check if problem is still due today 
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const updatedDueDate = new Date(updatedProblem.dueDate);
+          updatedDueDate.setHours(0, 0, 0, 0);
+    
+          // Create a new array excluding the current problem to manipulate and update the state later
+          let updatedProblems = dueProblems.filter((p: any) => p.id !== problem.id);
+          console.log(updatedProblems)
+    
+          if (updatedDueDate.getTime() === today.getTime()) {
+            console.log("Still due")
+            updatedProblems.push(updatedProblem);
           }
-          setDueProblems(updatedProblems); 
-          refetchProblems(); 
+          setDueProblems(updatedProblems);
+          refetchProblems();
           setIsLoading(false);
-          },
-          onError: (error) => {
-            // Handle any errors
-            console.error('Error updating problem:', error);
-          },
-        });
+    
+          // Call updateCollectionCounts endpoint after problem type update
+          try {
+            const updateResponse = await fetch('/api/updateCollectionCounts', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ collectionId: problem.collectionId }),
+            });
+            if (!updateResponse.ok) throw new Error('Failed to update collection counts');
+          } catch (error) {
+            console.error('Failed to update collection counts:', error);
+          }
+          queryClient.invalidateQueries(['collections', user?.email]); // for collection problem type counts  
+        },
+        onError: (error) => {
+          // Handle any errors
+          console.error('Error updating problem:', error);
+        },
+      });
     }
 
     // handles the logic of what happens to the problem depeneding on the feedback button pressed 
