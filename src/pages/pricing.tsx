@@ -43,7 +43,7 @@ const Pricing = () => {
             <p className="mt-2 mb-4 text-secondary">per month</p>
             <ul className="mb-14 space-y-2 text-left">
               <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Unlimited collections</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> 20 problems per collection</li>
+              <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Unlimited problems</li>
               <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Priority customer support</li>
               <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Access to all future features</li>
               <li className="flex items-center space-x-2"><span className="material-icons">check</span> AI feedback</li>
@@ -58,7 +58,7 @@ const Pricing = () => {
             <ul className="mb-6 space-y-2 text-left">
               <li className="flex items-center space-x-2"><span className="material-icons text-new">check</span> Pay only once</li>
               <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Unlimited collections</li>
-              <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> 20 problems per collection</li>
+              <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Unlimited problems</li>
               <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Priority customer support</li>
               <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Access to all future features</li>
               <li className="flex items-center space-x-2"><span className="material-icons">check</span> AI feedback</li>

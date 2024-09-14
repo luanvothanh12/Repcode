@@ -15,9 +15,9 @@ const CollectionCards = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visibleMenuId, setVisibleMenuId] = useState(null); // Added state to manage visibility of dropdown
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
-  const [collectionToDelete, setCollectionToDelete] = useState(null);
+  const [collectionToDelete, setCollectionToDelete] = useState<any>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [collectionToEdit, setCollectionToEdit] = useState(null);
+  const [collectionToEdit, setCollectionToEdit] = useState<any>(null);
   const { user } = useContext(AuthContext); 
   const queryClient = useQueryClient();
 
@@ -30,24 +30,6 @@ const CollectionCards = () => {
     return response.json();
   };
 
-  // const updateProblemCounts = async () => {
-  //   if (!user) return null;
-  //   const response = await fetch(`/api/updateProblemCounts`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({ userEmail: user.email }),
-  //   });
-  //   if (!response.ok) throw new Error('Failed to update problem counts');
-  //   return response.json();
-  // };
-
-  // useEffect(() => {
-  //   if (user) {
-  //     updateProblemCounts();
-  //   }
-  // }, [user]);
 
   const { isLoading, data: collections = [], error } = useQuery(['collections', user?.email], fetchCollections, {
     enabled: !!user?.email,
@@ -58,8 +40,8 @@ const CollectionCards = () => {
   };
 
   // Function to open the delete confirmation modal
-  const openDeleteConfirmation = (collectionId: any) => {
-    setCollectionToDelete(collectionId);
+  const openDeleteConfirmation = (collection: any) => {
+    setCollectionToDelete(collection);
     setDeleteConfirmationOpen(true);
   };
 
@@ -109,8 +91,10 @@ const CollectionCards = () => {
   );
 
   const deleteCollection = () => {
-    deleteCollectionMutation.mutate(collectionToDelete);
-  };
+    if (collectionToDelete) {
+      deleteCollectionMutation.mutate(collectionToDelete.id);
+    };
+  }
 
   const openEditModal = (collection: any) => {
     setCollectionToEdit(collection);
@@ -178,7 +162,7 @@ const CollectionCards = () => {
                   className="text-error py-1 px-2 text-left text-sm hover:bg-[#38383d] rounded-md"
                   onClick={(e) => {
                     e.stopPropagation();
-                    openDeleteConfirmation(collection.id);
+                    openDeleteConfirmation(collection);
                     setVisibleMenuId(null);
                   }}
                 >
@@ -254,23 +238,48 @@ const CollectionCards = () => {
   
       {/* Delete Confirmation */}
       {deleteConfirmationOpen && (
-        <div className="fixed inset-0 bg-base_100 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center">
-          <div className="bg-base_100 p-4 rounded-lg shadow-lg text-secondary">
-            <h2>Delete collection?</h2>
-            <p>This will delete all the problems inside as well</p>
-            <div className="flex justify-end space-x-4 mt-4">
-              <button
-                onClick={closeDeleteConfirmation}
-                className="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={deleteCollection}
-                className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 transition-transform duration-200 hover:scale-95"
-              >
-                Delete
-              </button>
+        <div className="fixed inset-0 bg-base_100 bg-opacity-50 flex items-center justify-center">
+          <div className="relative w-96 bg-[#1E1E20] rounded-lg shadow-lg p-5 modalBounceFadeIn">
+            <button onClick={closeDeleteConfirmation} className="absolute top-3 right-3 text-secondary hover:text-primary transition duration-150 ease-in-out">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div className="text-left">
+              {collectionToDelete && (collectionToDelete?.newCount + collectionToDelete.learningCount + collectionToDelete.reviewCount) > 20 ? (
+                <>
+                  <h3 className="text-xl font-semibold text-primary">Too many problems</h3>
+                  <div className="mt-4">
+                    <p className="text-secondary text-sm">To reduce server strain, please manually delete the problems in this collection until there are less than 20, then try deleting this collection again.</p>
+                  </div>
+                  <div className="mt-6 flex justify-end">
+                    <button onClick={closeDeleteConfirmation} className="bg-pop text-white font-medium py-2 px-6 rounded-md transition ease-in-out duration-150">
+                      Close
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3 className="text-xl font-semibold text-primary">Delete collection?</h3>
+                  <div className="mt-4">
+                    <p className="text-secondary text-sm">This will delete all the problems inside as well.</p>
+                  </div>
+                  <div className="mt-6 flex justify-end gap-3">
+                    <button
+                      onClick={closeDeleteConfirmation}
+                      className="bg-transparent hover:border-feintwhite border border-divide text-primary py-2 px-4 rounded"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={deleteCollection}
+                      className="bg-error text-white font-medium py-2 px-6 rounded-md transition ease-in-out duration-150"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

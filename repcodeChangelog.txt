@@ -26,6 +26,13 @@ up next:
 - thoroughly test the study mode function 
 - SEO stuff (including logo in tab) 
 
+- study mode should have graph, problems, streak, and you switch views by pressing arrows 
+- problem list should have "Advanced" button that shows more advanced info about each problem 
+- fix Profile/Billing styling 
+- fix check with AI chatbox styling 
+- fix modal styling 
+- add heat map (streaks) for how often youre doing Study Mode and how much 
+
 
 
 All:
