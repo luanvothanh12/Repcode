@@ -83,7 +83,7 @@ const handleSubmit = async (e: any) => {
 
   if (!isOpen) return null;
 
-  const modalClass = isOpen ? "modalEnter" : "";
+  // const modalClass = isOpen ? "modalEnter" : "";
 
 
   if (theUser.membershipType === 'free' && theUser?.collections?.length >= 3 && !isEditMode) {
@@ -115,7 +115,7 @@ const handleSubmit = async (e: any) => {
     
   return (
     <div className={`${isOpen ? '' : 'hidden'} fixed inset-0 bg-base_100 bg-opacity-50 overflow-y-auto h-full w-full`} style={{ opacity: isOpen ? 1 : 0 }}>
-      <div className={`relative top-0 mx-auto p-5 w-96 shadow-lg rounded-md bg-base_100 ${modalClass}`} style={{ animationDuration: '0.5s' }}>
+      <div className={`relative top-24 mx-auto p-5 w-96 shadow-lg rounded-lg bg-[#1E1E20] modalBounceFadeIn`}>
         <div className="mt-3 text-center">
           <h3 className="text-lg leading-6 font-medium text-secondary">{isEditMode ? 'Edit Collection' : 'New Collection'}</h3>
           <div className="mt-2 px-7 py-3">

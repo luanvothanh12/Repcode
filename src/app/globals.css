@@ -64,7 +64,104 @@
     animation: bounceFadeIn 0.5s ease-out forwards;
   }
 
+  /* Slide down/up animation for accordion */
+  .accordion-content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+
+  .accordion-open {
+    opacity: 1;
+    transition: max-height 0.5s ease, opacity 0.3s ease;
+  }
+
+  .accordion-closed {
+    opacity: 0;
+  }
+
+  /* Style changes for open accordion */
+  button.accordion-open {
+    background-color: #ffffff;
+    color: #000000;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  button.accordion-closed {
+    background-color: #101010;
+    color: #E1E1E1;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Slide in from left */
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Slide in from right */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Slide out to left */
+@keyframes slideOutToLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+/* Slide out to right */
+@keyframes slideOutToRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.slide-in-from-left {
+  animation: slideInFromLeft 0.5s forwards;
+}
+
+.slide-in-from-right {
+  animation: slideInFromRight 0.5s forwards;
+}
+
+.slide-out-to-left {
+  animation: slideOutToLeft 0.5s forwards;
+}
+
+.slide-out-to-right {
+  animation: slideOutToRight 0.5s forwards;
+}
   
+
+
+
+
   .animated-button {
     display: grid;
     place-content: center;

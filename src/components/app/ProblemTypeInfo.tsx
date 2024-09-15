@@ -29,21 +29,10 @@ const ProblemTypeInfo = () => {
     return acc;
   }, { New: [], Learning: [], Relearning: [], Review: [] }) : { New: [], Learning: [], Relearning: [], Review: [] };
 
-  const dueTodayCount = data ? data.filter((problem: any) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const dueDateLocal = new Date(problem.dueDate);
-    return dueDateLocal < today || dueDateLocal.getDate() === today.getDate() && dueDateLocal.getMonth() === today.getMonth() && dueDateLocal.getFullYear() === today.getFullYear();
-  }).length : 0;
-
-  const goDueProblems = () => {
-    router.push('/app/study/dueproblems');
-  };
-
   if (error) return <div>Error: {(error as Error).message}</div>;
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-full">
         <div role="status">
           <svg
             aria-hidden="true"
@@ -69,23 +58,8 @@ const ProblemTypeInfo = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="text-secondary text-lg mb-4 text-center">
-        <p className="mb-2">
-          Due today: <span className="text-error">{dueTodayCount}</span>
-        </p>
-        {dueTodayCount > 0 ? (
-          <button
-            onClick={goDueProblems}
-            className="mb-12 inline-flex justify-center items-center gap-x-3 text-center bg-pop text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-4 transition-transform duration-200 hover:scale-95"
-          >
-            Study Now
-          </button>
-        ) : (
-          <p className="text-secondary">You do not have any problems due today, go relax and drink a sody pop!</p>
-        )}
-
-        <div className="container mx-auto p-4 min-h-screen text-primary">
-          {/* Add items-start to ensure grid items only take their content height */}
+      <div className="text-secondary text-lg text-center">
+        <div className="container mx-auto p-4 text-primary">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
             {[
               { name: 'New', count: problemCounts.New.length, color: 'bg-blue', problems: problemCounts.New },
