@@ -27,6 +27,7 @@ export default async function handler(req: any, res: any) {
           maximumInterval: true,
           maximumNewPerDay: true,
           apiKey: true,
+          contributionHistory: true,
         },
       });
 

@@ -30,6 +30,7 @@ model User {
   intervalModifier        Float       @default(1.0) 
   maximumInterval         Int         @default(180) 
   maximumNewPerDay        Int         @default(9999)
+  contributionHistory     Json        @default("{}")
 }
 
 model Collection {

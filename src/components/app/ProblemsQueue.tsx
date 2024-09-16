@@ -143,6 +143,21 @@ import ChatWindow from './ChatWindow';
       }
     }, [problems, dueProblems]);
 
+
+    // For heat map 
+    const updateContribution = async (userEmail: string) => {
+      const response = await fetch('/api/updateContribution', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userEmail }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to update contribution');
+      }
+    };
+
     const getButtonColor = (label: string) => {
       switch (label) {
         case 'Again':
@@ -253,12 +268,15 @@ import ChatWindow from './ChatWindow';
             console.error('Failed to update collection counts:', error);
           }
           queryClient.invalidateQueries(['collections', user?.email]); // for collection problem type counts  
+          
         },
         onError: (error) => {
           // Handle any errors
           console.error('Error updating problem:', error);
         },
       });
+      await updateContribution(user?.email || '');
+      queryClient.invalidateQueries(['userSettings', user?.email]); // for updating the heatmap 
     }
 
     // handles the logic of what happens to the problem depeneding on the feedback button pressed 
@@ -302,7 +320,6 @@ import ChatWindow from './ChatWindow';
             }
             dueProblems[0].interval = nextInterval;
 
-
             await Helper(dueProblems[0]);
             }
 
@@ -311,7 +328,7 @@ import ChatWindow from './ChatWindow';
 
             // Set the interval to the easyInterval value (it's in days so convert it to minutes)
             dueProblems[0].interval = userSettings?.easyInterval * 24 * 60; 
-
+            
             await Helper(dueProblems[0]); 
             }
         }

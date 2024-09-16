@@ -157,6 +157,39 @@
 .slide-out-to-right {
   animation: slideOutToRight 0.5s forwards;
 }
+
+
+
+
+/* Heatmap styles */
+.heatmap-container {
+  display: grid;
+  grid-template-columns: repeat(53, 1fr); /* Adjust to create a 7x53 grid for all 365/366 days */
+  gap: 2px;
+}
+
+.heatmap-square {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.bg-grey {
+  background-color: #e0e0e0;
+}
+
+.bg-light-green {
+  background-color: #9be9a8;
+}
+
+.bg-medium-green {
+  background-color: #40c463;
+}
+
+.bg-dark-green {
+  background-color: #216e39;
+}
+
   
 
 

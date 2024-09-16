@@ -10,6 +10,7 @@ import ProblemTypeInfo from '@/components/app/ProblemTypeInfo';
 import BarGraph from '@/components/app/BarGraph';
 import Link from 'next/link';
 import Carousel from '@/components/app/Carousel';
+import Heatmap from '@/components/app/Heatmap';
 
 const StudyProblemPage = () => {
   const router = useRouter(); 
@@ -25,6 +26,18 @@ const StudyProblemPage = () => {
     }
     return response.json();
   };
+
+  const fetchUserSettings = async () => {
+    const response = await fetch(`/api/getUserSettings?userEmail=${user?.email}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch user settings");
+    }
+    return response.json();
+  };
+
+  const { isLoading: isLoading2, error: error2, data: userData } = useQuery(['userSettings', user?.email], fetchUserSettings, {
+    enabled: !!user,
+  });
 
   const { isLoading, error, data } = useQuery(['allProblems', user?.email], fetchAllProblems, {
     enabled: !!user,
@@ -42,6 +55,8 @@ const StudyProblemPage = () => {
     router.push('/app/study/dueproblems');
   };
 
+  console.log(userData?.contributionHistory)
+
   return (
     <div className="flex min-h-screen bg-base_100">
       <SideBar />
@@ -53,9 +68,10 @@ const StudyProblemPage = () => {
         </div>
         <div className="flex justify-center mb-4">
         <Carousel components={[
-          <BarGraph key="bar-graph" />,
-          <ProblemTypeInfo key="problem-type-info" />
-        ]} />
+            <BarGraph key="bar-graph" />,
+            <ProblemTypeInfo key="problem-type-info" />,
+            userData?.contributionHistory ? <Heatmap contributions={userData.contributionHistory[2024]} key="heatmap" /> : null,
+          ]} />
         </div>
         <div className="flex flex-col items-center">
           <div className="flex items-center mb-2 text-primary text-lg">
