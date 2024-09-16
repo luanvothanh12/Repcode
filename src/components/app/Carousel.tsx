@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Carousel = ({ components }: { components: React.ReactNode[] }) => {
+const Carousel = ({ components, headers }: { components: React.ReactNode[], headers: string[] }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [animationClass, setAnimationClass] = useState('');
 
@@ -30,23 +30,26 @@ const Carousel = ({ components }: { components: React.ReactNode[] }) => {
     }, [animationClass]);
 
     return (
-        <div className="relative w-full h-full overflow-hidden"> {/* Added overflow-hidden */}
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
+        <div className="relative w-full h-full overflow-hidden flex flex-col items-center justify-center px-8"> {/* Added flex-col */}
+            <h2 className="text-2xl font-bold mb-4 text-secondary">{headers[currentIndex]}</h2> {/* Header */}
+            <div className="relative w-full h-full flex items-center justify-center">
                 <button 
                     onClick={handlePrev} 
+                    className="absolute left-8 transform -translate-y-1/2 z-10" // Adjusted left position
+                    style={{ top: '50%' }}
                 >
-                    <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary ml-32" style={{ fontSize: '45px' }} >arrow_back_ios</span>
+                    <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary" style={{ fontSize: '45px' }}>arrow_back_ios</span>
                 </button>
-            </div>
-            <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                <div className={`flex justify-center items-center w-full ${animationClass}`}>
+                    {components[currentIndex]}
+                </div>
                 <button 
                     onClick={handleNext} 
+                    className="absolute right-8 transform -translate-y-1/2 z-10" // Adjusted right position
+                    style={{ top: '50%' }}
                 >
-                    <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary mr-32" style={{ fontSize: '45px' }} >arrow_forward_ios</span>
+                    <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary" style={{ fontSize: '45px' }}>arrow_forward_ios</span>
                 </button>
-            </div>
-            <div className={`flex justify-center items-center w-full ${animationClass}`}>
-                {components[currentIndex]}
             </div>
         </div>
     );

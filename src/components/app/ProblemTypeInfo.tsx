@@ -74,7 +74,7 @@ const ProblemTypeInfo = () => {
                   <h2 className="text-lg font-bold">{category.name}</h2>
                   <span className="bg-feintwhite px-2 py-1 rounded-full text-sm text-primary">{category.count}</span>
                 </div>
-                <div className="p-0">
+                <div className="p-0 max-h-64 overflow-y-auto"> {/* Added max-height and overflow */}
                   {category.problems.length > 0 ? (
                     <ul className="divide-y divide-divide">
                       {category.problems.map((problem: any, index: number) => (

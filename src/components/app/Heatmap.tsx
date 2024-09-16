@@ -1,6 +1,6 @@
 // Heatmap.tsx
 import React from 'react';
-import { eachDayOfInterval, format, isLeapYear, startOfYear, endOfYear } from 'date-fns';
+import { eachDayOfInterval, format, startOfYear, endOfYear } from 'date-fns';
 
 const generateYearDaysArray = () => {
   const now = new Date();
@@ -15,10 +15,9 @@ const Heatmap = ({ contributions }: { contributions: any }) => {
   const daysInYear = generateYearDaysArray();
 
   // Map each day to its respective contribution count
-  const mappedDays = daysInYear.map((day) => {
+  const mappedDays = daysInYear.map((day, index) => {
     const formattedDate = format(day, 'yyyy-MM-dd');
-    const dayOfYearIndex = Math.floor((day.getTime() - startOfYear(day).getTime()) / (1000 * 60 * 60 * 24));
-    const contributionForDay = contributions[dayOfYearIndex] || 0;
+    const contributionForDay = contributions[index] || 0;
 
     return {
       date: formattedDate,

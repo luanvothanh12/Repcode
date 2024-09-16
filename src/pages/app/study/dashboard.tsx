@@ -67,11 +67,18 @@ const StudyProblemPage = () => {
           To learn more about Study Mode, check out our comprehensive <Link className="text-blue underline" href="/guide">Guide</Link>
         </div>
         <div className="flex justify-center mb-4">
-        <Carousel components={[
+        <Carousel 
+          components={[
             <BarGraph key="bar-graph" />,
             <ProblemTypeInfo key="problem-type-info" />,
             userData?.contributionHistory ? <Heatmap contributions={userData.contributionHistory[2024]} key="heatmap" /> : null,
-          ]} />
+          ]}
+          headers={[
+            "Workload this week",
+            "All problems",
+            "Streaks"
+          ]}
+        />
         </div>
         <div className="flex flex-col items-center">
           <div className="flex items-center mb-2 text-primary text-lg">

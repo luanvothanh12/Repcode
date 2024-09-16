@@ -18,8 +18,8 @@ export default async function handler(req: any, res: any) {
       const now = new Date();
       const currentYear = now.getFullYear();
 
-      // Calculate the day of the year (0 to 364, or 365 for leap years)
-      const startOfYear = new Date(currentYear, 0, 0);
+      // Calculate the day of the year (1 to 365, or 366 for leap years)
+      const startOfYear = new Date(currentYear, 0, 1);
       const dayOfYear = Math.floor((now.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24));
 
       // If there's no contribution array for the current year, initialize it

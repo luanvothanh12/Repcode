@@ -165,29 +165,28 @@
 .heatmap-container {
   display: grid;
   grid-template-columns: repeat(53, 1fr); /* Adjust to create a 7x53 grid for all 365/366 days */
-  gap: 2px;
+  gap: 4px;
 }
 
 .heatmap-square {
-  width: 12px;
-  height: 12px;
-  border-radius: 2px;
+  width: 14px;
+  height: 14px;
 }
 
 .bg-grey {
-  background-color: #e0e0e0;
+  background-color: #CCCCCC;
 }
 
 .bg-light-green {
-  background-color: #9be9a8;
+  background-color: #C6E48A;
 }
 
 .bg-medium-green {
-  background-color: #40c463;
+  background-color: #7BC96F;
 }
 
 .bg-dark-green {
-  background-color: #216e39;
+  background-color: #186026;
 }
 
   
