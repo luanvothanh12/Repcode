@@ -7,7 +7,8 @@ import SideBar from '@/components/app/SideBar';
 import nookies from "nookies"; 
 import firebaseAdmin from "../../../../firebaseAdmin"; 
 import ProblemTypeInfo from '@/components/app/ProblemTypeInfo';
-import BarGraph from '@/components/app/BarGraph';
+import BarGraphWeek from '@/components/app/BarGraphWeek';
+import BarGraphMonth from '@/components/app/BarGraphMonth';
 import Link from 'next/link';
 import Carousel from '@/components/app/Carousel';
 import Heatmap from '@/components/app/Heatmap';
@@ -43,7 +44,6 @@ const StudyProblemPage = () => {
     enabled: !!user,
   });
 
-
   const dueTodayCount = data ? data.filter((problem: any) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -55,32 +55,36 @@ const StudyProblemPage = () => {
     router.push('/app/study/dueproblems');
   };
 
-  console.log(userData?.contributionHistory)
+  console.log(userData?.contributionHistory);
 
   return (
     <div className="flex min-h-screen bg-base_100">
       <SideBar />
-      <div className="flex-grow p-8">
+      <div className="flex flex-col items-center w-full p-8"> {/* Center content and use full width */}
         <div className="text-primary text-4xl font-bold mb-4 flex justify-center">Study</div>
-        <hr className="border-divide mb-8 transition-width duration-300"/>
-        <div className="mb-8 text-center text-secondary">
+        <hr className="border-divide mb-8 transition-width duration-300 w-full"/>
+        <div className="mb-8 text-center text-secondary w-full">
           To learn more about Study Mode, check out our comprehensive <Link className="text-blue underline" href="/guide">Guide</Link>
         </div>
-        <div className="flex justify-center mb-4">
-        <Carousel 
-          components={[
-            <BarGraph key="bar-graph" />,
-            <ProblemTypeInfo key="problem-type-info" />,
-            userData?.contributionHistory ? <Heatmap contributions={userData.contributionHistory[2024]} key="heatmap" /> : null,
-          ]}
-          headers={[
-            "Workload this week",
-            "All problems",
-            "Streaks"
-          ]}
-        />
+        
+        {/* Carousel Section */}
+        <div className="mb-8 w-full flex flex-col items-center">
+          <Carousel 
+            components={[
+              <BarGraphWeek key="bar-graph-week" />,
+              <BarGraphMonth key="bar-graph-month" />,
+              <ProblemTypeInfo key="problem-type-info" />
+            ]}
+            headers={[
+              "Next 7 days",
+              "Next 30 days", 
+              "All tracked problems"
+            ]}
+          />
         </div>
-        <div className="flex flex-col items-center">
+
+        {/* Study Now Button */}
+        <div className="flex flex-col items-center mt-4">
           <div className="flex items-center mb-2 text-primary text-lg">
             <span className="material-icons text-primary mr-1">schedule</span> 
             <span>Due today: <span className="text-error">{dueTodayCount}</span></span>
@@ -95,6 +99,11 @@ const StudyProblemPage = () => {
           ) : (
             <p className="text-secondary">You do not have any problems due today, go relax and drink a sody pop!</p>
           )}
+        </div>
+
+        {/* Heatmap Section */}
+        <div className="mt-8 mb-8 w-full flex flex-col items-center">
+          {userData?.contributionHistory && <Heatmap contributions={userData.contributionHistory[2024]} />}
         </div>
       </div>
     </div>

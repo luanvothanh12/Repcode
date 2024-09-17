@@ -10,16 +10,15 @@ ChartJS.register(
     Title,
     Tooltip,
     Legend
-  );
+);
 
-
-const BarGraph = () => {
+const BarGraphMonth = () => {
     const { user } = useContext(AuthContext);
 
     const generateLabels = () => {
         const labels = [];
         const today = new Date();
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < 30; i++) {
             // Clone today's date
             const date = new Date(today);
             // Add `i` days to the date
@@ -67,7 +66,6 @@ const BarGraph = () => {
         }
     };
     
-  
     const fetchAllProblems = async () => {
       if (!user) {
           throw new Error("No user found");
@@ -79,15 +77,15 @@ const BarGraph = () => {
       return response.json();
     };
 
-      const { isLoading, error, data } = useQuery(['allProblems', user?.email], fetchAllProblems, {
-          enabled: !!user,
-      });
+    const { isLoading, error, data } = useQuery(['allProblems', user?.email], fetchAllProblems, {
+        enabled: !!user,
+    });
 
-      const processData = (problems: any) => {
+    const processData = (problems: any) => {
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Normalize today's date to midnight
       
-        let dueCounts = Array(7).fill(0); // Array to hold counts for the next 7 days  
+        let dueCounts = Array(30).fill(0); // Array to hold counts for the next 30 days  
 
         (problems || []).forEach((problem: any) => {
             console.log(problem.dueDate);
@@ -99,19 +97,17 @@ const BarGraph = () => {
             // If the problem is past due, treat it as due today
             let diffDays = diffTime < 0 ? 0 : Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         
-            if (diffDays >= 0 && diffDays < 7) {
+            if (diffDays >= 0 && diffDays < 30) {
                 dueCounts[diffDays] += 1; // Increment the count for the respective day
             }
-            });
+        });
 
-      
         return dueCounts;
-      };
-      
+    };
 
-        if (error) {
-          return <div>Error: {(error as Error).message}</div>
-      } else {
+    if (error) {
+        return <div>Error: {(error as Error).message}</div>
+    } else {
         const dueCounts = processData(data); // Assuming `data` is the array of problems
         console.log(dueCounts)
         const chartData = {
@@ -125,18 +121,17 @@ const BarGraph = () => {
             ],
         };
 
-    return (
-        <div className="flex flex-col items-center">
-            <div style={{ height: '300px', width: '500px' }}>
-            <Bar 
-                data={chartData} 
-                options={chartOptions}
-            />
+        return (
+            <div className="flex flex-col items-center">
+                <div style={{ height: '300px', width: '500px' }}>
+                    <Bar 
+                        data={chartData} 
+                        options={chartOptions}
+                    />
+                </div>
             </div>
-        </div>
-    );
-    };
-
+        );
+    }
 }
 
-export default BarGraph; 
+export default BarGraphMonth;
