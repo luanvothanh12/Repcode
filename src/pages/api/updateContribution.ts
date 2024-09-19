@@ -16,12 +16,16 @@ export default async function handler(req: any, res: any) {
       }
 
       let contributionHistory: any = user.contributionHistory || {};
+      
+      // Ensure we're working with local time, not UTC
       const now = new Date();
+      now.setHours(0, 0, 0, 0); // Set the time to the start of the current day in local time
+      
       const currentYear = now.getFullYear();
 
       // Calculate the day of the year (1 to 365, or 366 for leap years)
-      const startOfYearUTC = startOfYear(now);
-      const dayOfYear = differenceInCalendarDays(now, startOfYearUTC);
+      const startOfYearLocal = startOfYear(now);
+      const dayOfYear = differenceInCalendarDays(now, startOfYearLocal);
 
       // If there's no contribution array for the current year, initialize it
       if (!contributionHistory[currentYear]) {
