@@ -47,22 +47,22 @@ const ContactForm = () => {
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                               <div>
                                   <label className="block text-sm mb-2 text-primary">First Name</label>             
-                                  <input type="text" name="hs-firstname-contacts-1" id="hs-firstname-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
+                                  <input type="text" name="hs-firstname-contacts-1" required id="hs-firstname-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
                               </div>
                               <div>
                                   <label className="block text-sm mb-2 text-primary">Last Name</label>
-                                  <input type="text" name="hs-lastname-contacts-1" id="hs-lastname-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
+                                  <input type="text" name="hs-lastname-contacts-1" required id="hs-lastname-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
                               </div>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                               <div>
                                   <label className="block text-sm mb-2 text-primary">Email</label>
-                                  <input type="email" name="hs-email-contacts-1" id="hs-email-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
+                                  <input type="email" name="hs-email-contacts-1" required id="hs-email-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
                               </div>
                           </div>
                           <div>
                               <label className="block text-sm mb-2 text-primary">Details</label>
-                              <textarea id="hs-about-contacts-1" name="hs-about-contacts-1" rows={4} className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300"></textarea>
+                              <textarea id="hs-about-contacts-1" name="hs-about-contacts-1" required rows={4} className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300"></textarea>
                           </div>
                       </div>
                       <div className="mt-6 grid">

@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { auth } from '../firebaseConfig';
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserLocalPersistence, sendPasswordResetEmail } from "firebase/auth";
 import { useRouter } from 'next/router'; 
 import nookies from "nookies"; 
 import firebaseAdmin from "../../firebaseAdmin";
@@ -105,6 +104,21 @@ const Login = () => {
     }
   };
 
+  const handlePasswordReset = async () => {
+    if (!email) {
+      setError('Please enter your email address to reset your password.');
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setError('Password reset email sent. Please check your inbox.');
+    } catch (error:any) {
+      console.error('Error sending password reset email:', error);
+      setError('Failed to send password reset email. Please try again.');
+    }
+  };
+
   if (isMobile) {
     return (
       <div className="bg-base_100 min-h-screen flex h-full items-center justify-center py-16">
@@ -187,6 +201,17 @@ const Login = () => {
                   </button>
                 </div>
               </form>
+              {!showSignUp && (
+                <div className="mt-4 text-center">
+                  <button
+                    type="button"
+                    className="text-sm text-primary decoration-2 hover:underline font-medium"
+                    onClick={handlePasswordReset}
+                  >
+                    Forgot Password?
+                  </button>
+                </div>
+              )}
               <p className="mt-4 text-xs text-center text-secondary">
                 By continuing, you agree to our&nbsp;
                 <Link href="/privacy" className="underline text-primary">

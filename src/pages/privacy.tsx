@@ -26,7 +26,7 @@ export default function Privacy() {
                     <h2 className="text-2xl font-semibold mt-8">Your Choices</h2>
                     <p className="text-lg">Do Not Track Browser settings: If you enable Do Not Track settings in the browser you are using, Repcode will not use information about websites you visit, other than our site. Learn more about Do Not Track by visiting https://allaboutdnt.com. Email Communication Opt-Out: If you receive promotional emails from Repcode, you can unsubscribe by clicking the bottom Unsubscribe or Opt-Out link at the bottom of every email.</p>
                     <h2 className="text-2xl font-semibold mt-8">Contact Us</h2>
-                    <p className="text-lg">At Repcode, we believe our talented customer service staff will be able to resolve any issues you may have using the our services. If you would like additional information about this privacy policy, please visit our homepage at https://Repcode.io or contact us at repcodebusiness@gmail.com.</p>
+                    <p className="text-lg">At Repcode, we believe our talented customer service staff will be able to resolve any issues you may have using the our services. If you would like additional information about this privacy policy, please visit our homepage at https://Repcode.io or contact us at repcode.io@gmail.com.</p>
                 </div>
             </main>
             <Footer />

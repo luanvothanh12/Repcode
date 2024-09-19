@@ -69,10 +69,10 @@ const Pricing = () => {
         </div>
       </div>
       <div className="mr-4 ml-4 mb-10">
-        <Accordion title="Are there refunds?" content="Yes! We offer a one-time, no questions asked full refund for up to 14 days for both monthly and lifetime purchases. Contact repcodebusiness@gmail.com." />
+        <Accordion title="Are there refunds?" content="Yes! We offer a one-time, no questions asked full refund for up to 14 days for both monthly and lifetime purchases. Contact repcode.io@gmail.com." />
         <Accordion title="What happens if I revert back to a Free tier membership?" content="You will retain access to all collections and problems you have made, but you will not be able to make more if you have exceeded the free tier limit, until you upgrade your membership once more." />
         <Accordion title="How do I cancel if I've purchased a monthly membership?" content="Log into the account you have purchased the membership for, then navigate to the Profile/Billing section on the sidebar and press the View button to receive a link to your payment portal. Follow the instructions there to cancel." />
-        <Accordion title="There's an issue with my membership. Who do I contact?" content="For issues relating to billing/membership, please contact repcodebusiness@gmail.com." />
+        <Accordion title="There's an issue with my membership. Who do I contact?" content="For issues relating to billing/membership, please contact repcode.io@gmail.com." />
       </div>
       <Footer />
     </div>

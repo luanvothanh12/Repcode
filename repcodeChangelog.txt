@@ -18,34 +18,35 @@ up next:
 ---------------
 - finish/refine guide page 
 
-- fix new user default problems to have new fields too  
-- forgot password 
 - function signature gets cut off, it's type char 56 or something, change it to db TEXT type. Same with Notes  
 - when in Study Mode, and i change the type of a problem (for ex, review -> again -> relearning), i need to refresh the page on ProblemsList for this change to actually be reflected 
-- Review problems need to be dispersed more: the fuzz factor doesn't seem to do anything. All 'Good' on newly added Reveiw problems are 7 days, and 'New' is 9 days. There should always be += a day or two to spread these out 
+- bug: when editing a collection name, then editing another, the default text will show the name of the previous collection you were editing 
+- fix cutie pie tooltips!  
 - thoroughly test the study mode function 
 - SEO stuff (including logo in tab) 
 
 
-- fix cutie pie tooltips!  
-- timezone issue with heatmap. sometimes it updates the next day, not today 
-
 
 All:
 ------------
-- bug: when editing a collection name, then editing another, the default text will show the name of the previous collection you were editing 
 - bug: the study mode graph is still shown when the page is loading 
+- bug: timezone issue with heatmap. sometimes it updates the next day, not today 
 - posthog analytics 
+- Thoroughly test Stripe payments 
 - add options for renewing membership after cancelling (event check in webhook) 
 - home page elements should transition in 
-- make tooltips cuter 
 - add problem tags (like strings, binary search, heap, etc. Select from a dropdown menu) 
 - user setting to hide problem name, and hide problem type 
 - Any links in the actual application that take you to a home page page (like Guide) should open in a new tab 
 - filters (checkboxes) for problem difficulty and type 
+- Review problems need to be dispersed more: the fuzz factor doesn't seem to do anything. All 'Good' on newly added Reveiw problems are 7 days, and 'New' is 9 days. There should always be += a day or two to spread these out 
 - rate limiting for API calls so peeps cant troll with Postman. Although, most endpoints are now authenticated so this may not be needed anymore. ig see which endpoints aren't authenticated and see if we need rate limiting for them 
 - limiting for how much text a user can submit for certain fields (specifically the TEXT fields. Make sure they cant spam the database) 
 - make the actual application itself mobile responsive (perhaps add an app?) 
+
+
+
+
 
 
 
