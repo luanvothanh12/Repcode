@@ -27,8 +27,8 @@ up next:
 - SEO stuff (including logo in tab) 
 
 
-- problem list should have "Advanced" button that shows more advanced info about each problem 
 - fix cutie pie tooltips!  
+- timezone issue with heatmap. sometimes it updates the next day, not today 
 
 
 All:
