@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { AuthContext } from '@/auth/AuthContext';
 import { useRouter } from "next/router";
+import ProblemStatsModal from './ProblemStatsModal';
 
 
 const ProblemsList = ({ collectionId }: { collectionId: any }) => {
@@ -24,6 +25,8 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
 
   const router = useRouter();
 
+  const [isStatsModalOpen, setIsStatsModalOpen] = useState(false); // State for Stats modal
+  const [problemToViewStats, setProblemToViewStats] = useState(null); // State for the problem to view stats
 
   // to get the user ID to verify that user can only access collections they have created 
   const fetchUserSettings = async () => {
@@ -160,6 +163,11 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
       setIsEditModalOpen(true);
     };
 
+    const openStatsModal = (problem:any) => {
+      setProblemToViewStats(problem);
+      setIsStatsModalOpen(true);
+    };
+
     const showToast = (message: any) => {
       setToastMessage(message);
       setIsToastVisible(true);
@@ -231,6 +239,11 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
           collectionId={collectionId}
           showToast={showToast}
         />
+        <ProblemStatsModal
+          isOpen={isStatsModalOpen}
+          onClose={() => setIsStatsModalOpen(false)}
+          problem={problemToViewStats}
+        />
         <div className="max-w-2xl mx-auto">
           <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-tertiary overflow-hidden m-5 transition-width duration-300 border border-tertiary">
             <div className="grid place-items-center h-full w-12 text-feintwhite">
@@ -295,12 +308,13 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
               .map((problem: any, index: number) => (
                 <tr
                   key={problem.id}
-                  className={`bg-base_100 hover:bg-hover2 text-secondary transition-colors duration-100 ${
+                  className={`cursor-pointer relative bg-base_100 hover:bg-hover2 text-secondary transition-colors duration-100 ${
                     index !== problems.length - 1 ? 'border-b border-divide' : '' /* No border on last row */
                   }`}
+                  onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}
                 >
                   <td className="py-4">
-                    <div className="flex items-center">
+                    <div className="flex items-center relative">
                       {/* 3 dots button */}
                       <button
                         className="text-feintwhite hover:text-primary"
@@ -312,11 +326,11 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                         <span className="material-icons text-lg">more_vert</span>
                       </button>
     
-                      {/* Dropdown Menu (edit and delete buttons) */}
+                      {/* Dropdown Menu (edit, delete, and stats buttons) */}
                       {visibleMenuId === problem.id && (
-                        <div className="flex items-center ml-2">
+                        <div className="absolute top-full left-0 mt-2 w-32 bg-tertiary shadow-lg rounded-md z-10">
                           <button
-                            className="cursor-pointer text-error mr-2 underline"
+                            className="block w-full text-left px-4 py-2 text-error hover:bg-hover2"
                             onClick={(e) => {
                               e.stopPropagation();
                               deleteProblem(problem.id, collectionId);
@@ -324,15 +338,24 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                           >
                             Delete
                           </button>
-    
                           <button
-                            className="cursor-pointer text-link underline"
+                            className="block w-full text-left px-4 py-2 text-link hover:bg-hover2"
                             onClick={(e) => {
                               e.stopPropagation();
                               openEditModal(problem);
+                              setVisibleMenuId(null);
                             }}
                           >
                             Edit
+                          </button>
+                          <button
+                            className="block w-full text-left px-4 py-2 text-primary hover:bg-hover2"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openStatsModal(problem);
+                            }}
+                          >
+                            Stats
                           </button>
                         </div>
                       )}
@@ -341,14 +364,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
     
                   {/* Problem name */}
                   <td className="py-4">
-                    <div className={`flex items-center ${visibleMenuId === problem.id ? 'ml-2' : ''}`}>
-                      <div
-                        className="cursor-pointer"
-                        onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}
-                      >
-                        {problem.name}
-                      </div>
-                    </div>
+                      {problem.name}
                   </td>
     
                   <td className="text-right">

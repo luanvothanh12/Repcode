@@ -1,4 +1,5 @@
 import prisma from "../../../prisma_client"; 
+import { startOfYear, differenceInCalendarDays } from 'date-fns';
 
 export default async function handler(req: any, res: any) {
   if (req.method === 'POST') {
@@ -19,8 +20,8 @@ export default async function handler(req: any, res: any) {
       const currentYear = now.getFullYear();
 
       // Calculate the day of the year (1 to 365, or 366 for leap years)
-      const startOfYear = new Date(currentYear, 0, 1); 
-      const dayOfYear = Math.floor((now.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24));
+      const startOfYearUTC = startOfYear(now);
+      const dayOfYear = differenceInCalendarDays(now, startOfYearUTC);
 
       // If there's no contribution array for the current year, initialize it
       if (!contributionHistory[currentYear]) {

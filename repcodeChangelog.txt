@@ -28,14 +28,12 @@ up next:
 
 
 - problem list should have "Advanced" button that shows more advanced info about each problem 
-- fix check with AI chatbox styling 
-- fix year pass thing with heatmap (current year is always passed in dashboard, then user can select a diff year from dropdown) 
+- fix cutie pie tooltips!  
 
 
 All:
 ------------
 - bug: when editing a collection name, then editing another, the default text will show the name of the previous collection you were editing 
-- bug: if the edit/delete menu is open, it will overlay on top of the collection modal 
 - bug: the study mode graph is still shown when the page is loading 
 - add options for renewing membership after cancelling (event check in webhook) 
 - home page elements should transition in 

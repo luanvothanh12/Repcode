@@ -233,6 +233,10 @@ import ChatWindow from './ChatWindow';
         relearnInterval: problem.relearnInterval,
         ease: problem.ease,
         dueDate: problem.dueDate,
+        againCount: problem.againCount,
+        hardCount: problem.hardCount,  
+        goodCount: problem.goodCount,   
+        easyCount: problem.easyCount    
       };
       updateProblemMutation.mutate({ problemId: problem.id, updates }, {
         onSuccess: async (updatedProblem) => {
@@ -282,6 +286,16 @@ import ChatWindow from './ChatWindow';
     // handles the logic of what happens to the problem depeneding on the feedback button pressed 
     const Algorithm = async(buttonValue:any) => {
         console.log(`Button clicked: ${buttonValue}`); 
+
+        if (buttonValue === "again") {
+          dueProblems[0].againCount += 1;
+        } else if (buttonValue === "hard") {
+          dueProblems[0].hardCount += 1;
+        } else if (buttonValue === "good") {
+          dueProblems[0].goodCount += 1;
+        } else if (buttonValue === "easy") {
+          dueProblems[0].easyCount += 1;
+        }
 
         if(dueProblems[0].type === "New") {
             if(buttonValue === "again") { // update type to learning, set interval to interval of first learning step, update due date 

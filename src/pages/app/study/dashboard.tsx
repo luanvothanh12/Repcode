@@ -103,7 +103,7 @@ const StudyProblemPage = () => {
 
         {/* Heatmap Section */}
         <div className="mt-8 mb-8 w-full flex flex-col items-center">
-          {userData?.contributionHistory && <Heatmap contributions={userData.contributionHistory[2024]} />}
+          {userData?.contributionHistory && <Heatmap contributions={userData.contributionHistory} currentYear={new Date().getFullYear()} />}
         </div>
       </div>
     </div>

@@ -64,6 +64,10 @@ model Problem {
   functionSignature       String      @default("null")
   link                    String      @default("null")
   notes                   String      @default("null")
+  againCount              Int         @default(0) 
+  hardCount               Int         @default(0) 
+  goodCount               Int         @default(0) 
+  easyCount               Int         @default(0) 
 }
 
 enum Difficulty {

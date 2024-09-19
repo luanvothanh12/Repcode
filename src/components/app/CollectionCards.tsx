@@ -99,6 +99,7 @@ const CollectionCards = () => {
   const openEditModal = (collection: any) => {
     setCollectionToEdit(collection);
     setIsEditModalOpen(true);
+    setVisibleMenuId(null);
   };
 
   const showToast = (message: any) => {
@@ -214,7 +215,10 @@ const CollectionCards = () => {
         {/* Add New Collection Button */}
         <div
           className="border border-[#2a2a2d] relative text-secondary text-2xl min-w-[20vw] aspect-square flex flex-col justify-center items-center bg-[#1e1e20] rounded-lg shadow-md transition duration-300 ease-in-out hover:border-feintwhite hover:text-pop cursor-pointer"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setIsModalOpen(true);
+            setVisibleMenuId(null);
+          }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v12m6-6H6" />

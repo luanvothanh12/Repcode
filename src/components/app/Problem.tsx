@@ -137,6 +137,7 @@ import ChatWindow from './ChatWindow';
           <pre><code className={`language-${problem.language} mr-5`}>{problem.solution}</code></pre>
         )}
       </div>
+      
       <div className="w-px bg-gray-800"></div> {/* Vertical line */}
       <div className="flex-1 overflow-auto shadow-md" style={{ maxHeight: '70vh' }}>
         {/* Right side content (Ace Editor) */}
@@ -163,9 +164,9 @@ import ChatWindow from './ChatWindow';
         />
         <button 
           onClick={() => setShowChat(true)} 
-          className="absolute bottom-2 right-4 bg-new text-white px-4 py-2 rounded-md shadow-lg transition-colors"
+          className="inline-flex justify-center items-center absolute bottom-2 right-4 text-neutral bg-primary font-medium px-4 py-2 rounded-lg hover:scale-95 transition-transform duration-100"
         >
-          Check With AI
+          <span className="material-icons text-neutral mr-1" style={{ fontSize: '20px' }}>chat</span> AI Feedback
         </button>
       </div>
       {showChat && (
