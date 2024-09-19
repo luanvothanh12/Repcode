@@ -1,4 +1,4 @@
-import prisma from "../../../prisma_client"; 
+import prisma from "../../../prisma_client";
 import { startOfYear, differenceInCalendarDays } from 'date-fns';
 
 export default async function handler(req: any, res: any) {
@@ -10,29 +10,30 @@ export default async function handler(req: any, res: any) {
       const user = await prisma.user.findUnique({
         where: { email: userEmail },
       });
-      
+
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
 
       let contributionHistory: any = user.contributionHistory || {};
-      
-      // Ensure we're working with local time, not UTC
-      const now = new Date();
-      now.setHours(0, 0, 0, 0); // Set the time to the start of the current day in local time
-      
-      const currentYear = now.getFullYear();
 
-      // Calculate the day of the year (1 to 365, or 366 for leap years)
-      const startOfYearLocal = startOfYear(now);
-      const dayOfYear = differenceInCalendarDays(now, startOfYearLocal);
+      // Get the current time and adjust it by the local timezone offset
+      const now = new Date();
+      const offset = now.getTimezoneOffset(); // This gives the offset in minutes from UTC
+      const localTime = new Date(now.getTime() - offset * 60 * 1000); // Adjust to local time
+
+      const currentYear = localTime.getFullYear();
+
+      // Calculate the day of the year using local time
+      const startOfYearLocal = startOfYear(localTime);
+      const dayOfYear = differenceInCalendarDays(localTime, startOfYearLocal);
 
       // If there's no contribution array for the current year, initialize it
       if (!contributionHistory[currentYear]) {
         contributionHistory[currentYear] = isLeapYear(currentYear) ? Array(366).fill(0) : Array(365).fill(0);
       }
 
-      // Increment the contribution count for today
+      // Increment the contribution count for today in local time
       contributionHistory[currentYear][dayOfYear] += 1;
 
       // Update the user record in the database
