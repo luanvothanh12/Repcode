@@ -3,6 +3,7 @@ import { auth } from '../../firebaseConfig';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { AuthContext } from '@/auth/AuthContext';
 import Toast from './Toast';
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const Settings = () => {
     const queryClient = useQueryClient();
@@ -144,15 +145,15 @@ const Settings = () => {
                     <hr className="mb-4 text-divide" />
                     <div className="flex flex-col gap-4">
                         <div className="flex justify-between items-center">
-                            <label className="text-secondary">Learning Steps <span className="material-icons text-xl hover:cursor-pointer" title="One or more delays, separated by spaces. The first delay will be used when you press the Again button on a new problem. The Good button will advance to the next step. Once all steps have been passed, the problem will become a review problem.">help</span></label>
+                            <label className="text-secondary">Learning Steps <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="One or more delays, separated by spaces.<br/>The first delay will be used when you press the Again button on a new problem.<br/>The Good button will advance to the next step.<br/>Once all steps have been passed, the problem will become a review problem.">help</span></label>
                             <input id="learnSteps" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.learnSteps} />
                         </div>
                         <div className="flex justify-between items-center">
-                            <label className="text-secondary">Graduating Interval <span className="material-icons text-xl hover:cursor-pointer" title="The number of days to wait before showing a problem again, after the Good button is pressed on the final learning step.">help</span></label>
+                            <label className="text-secondary">Graduating Interval <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="The number of days to wait before showing a problem again,<br/>after the Good button is pressed on the final learning step.">help</span></label>
                             <input id="graduatingInterval" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.graduatingInterval} />
                         </div>
                         <div className="flex justify-between items-center">
-                            <label className="text-secondary">Easy Interval <span className="material-icons text-xl hover:cursor-pointer" title="The number of days to wait before showing a problem again, after the Easy button is used to immediately remove a problem from the learning stage.">help</span></label>
+                            <label className="text-secondary">Easy Interval <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="The number of days to wait before showing a problem again,<br/>after the Easy button is used to immediately remove a problem from the learning stage.">help</span></label>
                             <input id="easyInterval" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.easyInterval} />
                         </div>
                     </div>
@@ -164,11 +165,11 @@ const Settings = () => {
                     <hr className="mb-4 text-divide" />
                     <div className="flex flex-col gap-4">
                         <div className="flex justify-between items-center">
-                            <label className="text-secondary">Relearning Steps <span className="material-icons text-xl hover:cursor-pointer" title="Like the learning steps, except this is specifically for pressing the Again button on a review problem, making it enter the relearning stage and it now has to go through these relearning steps before becoming a review problem again.">help</span></label>
+                            <label className="text-secondary">Relearning Steps <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="Like the learning steps, except this is specifically for pressing<br/> the Again button on a review problem, making it enter the <br/> relearning stage and it now has to go through these relearning <br/>steps before becoming a review problem again.">help</span></label>
                             <input id="relearnSteps" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.relearnSteps} />
                         </div>
                         <div className="flex justify-between items-center">
-                            <label className="text-secondary">New Interval <span className="material-icons text-xl hover:cursor-pointer" title="The multiplier applied to a review interval when answering Again.">help</span></label>
+                            <label className="text-secondary">New Interval <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="The multiplier applied to a review interval when answering Again.">help</span></label>
                             <input id="relearnGraduatingInterval" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.relearnGraduatingInterval} />
                         </div>
                     </div>
@@ -184,31 +185,31 @@ const Settings = () => {
                 <div className="flex flex-col gap-4">
                   <div className="grid grid-cols-2 items-center">
                     <label className="text-secondary">
-                      Maximum Interval <span className="material-icons text-xl hover:cursor-pointer" title="The maximum number of days a review problem can go into the future. The shorter you set this, the greater your workload will be.">help</span>
+                      Maximum Interval <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="The maximum number of days a review problem can go into the future.<br/>The shorter you set this, the greater your workload will be.">help</span>
                     </label>
                     <input id="maximumInterval" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.maximumInterval} />
                   </div>
                   <div className="grid grid-cols-2 items-center">
                     <label className="text-secondary">
-                      Starting Ease <span className="material-icons text-xl hover:cursor-pointer" title="The default ease multiplier new problems start with.">help</span>
+                      Starting Ease <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="The default ease multiplier new problems start with.">help</span>
                     </label>
                     <input id="startingEase" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.startingEase} />
                   </div>
                   <div className="grid grid-cols-2 items-center">
                     <label className="text-secondary">
-                      Easy Bonus <span className="material-icons text-xl hover:cursor-pointer" title="An extra multiplier that is applied to a review problem's interval when you rate it Easy.">help</span>
+                      Easy Bonus <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="An extra multiplier that is applied to a review problem's interval when you rate it Easy.">help</span>
                     </label>
                     <input id="easyBonus" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.easyBonus} />
                   </div>
                   <div className="grid grid-cols-2 items-center">
                     <label className="text-secondary">
-                      Interval Modifier <span className="material-icons text-xl hover:cursor-pointer" title="This multiplier is applied to all problems. Use it to make the algorithm more or less aggressive.">help</span>
+                      Interval Modifier <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="This multiplier is applied to all problems.<br/>Use it to make the algorithm more or less aggressive.">help</span>
                     </label>
                     <input id="intervalModifier" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.intervalModifier} />
                   </div>
                   <div className="grid grid-cols-2 items-center">
                     <label className="text-secondary">
-                      OpenAI API Key <span className="material-icons text-xl hover:cursor-pointer" title="Enter your OpenAI API key here to use the Check With AI feature.">help</span>
+                      OpenAI API Key <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="Enter your OpenAI API key here to use the Check With AI feature.">help</span>
                     </label>
                     <input id="apiKey" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue="[Hidden]" />
                   </div>
@@ -219,6 +220,11 @@ const Settings = () => {
                 <div className="flex items-end">
                     <button onClick={handleSave} className="inline-flex justify-center items-center gap-x-3 text-center bg-pop text-neutral text-lg font-medium rounded-md focus:ring-1 py-3 px-8 transition-transform duration-200 hover:scale-95">Save</button>
                 </div>
+                <ReactTooltip
+                    id="my-tooltip-1"
+                    place="bottom"
+                    style={{ backgroundColor: "#111111" }}
+                />
             </div>
             <Toast message={toastMessage} isVisible={isToastVisible} />
         </div>

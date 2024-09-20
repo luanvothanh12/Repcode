@@ -281,6 +281,7 @@ import ChatWindow from './ChatWindow';
       });
       await updateContribution(user?.email || '');
       queryClient.invalidateQueries(['userSettings', user?.email]); // for updating the heatmap 
+      queryClient.invalidateQueries(['collectionDetails']); // for updating ProblemList
     }
 
     // handles the logic of what happens to the problem depeneding on the feedback button pressed 

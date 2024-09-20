@@ -5,9 +5,17 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { AuthContext } from "@/auth/AuthContext";
 
 const CollectionModal = ({ isOpen, onClose, isEditMode = false, collectionToEdit = null, showToast }: { isOpen: boolean, isEditMode?:any, collectionToEdit?:any, onClose: any, showToast:any }) => {
-  const [collectionName, setCollectionName] = useState(isEditMode && collectionToEdit ? collectionToEdit.title : '');
+  const [collectionName, setCollectionName] = useState('');
   const queryClient = useQueryClient();
   const { user } = useContext(AuthContext); 
+
+  useEffect(() => {
+    if (isEditMode && collectionToEdit) {
+      setCollectionName(collectionToEdit.title);
+    } else {
+      setCollectionName('');
+    }
+  }, [isEditMode, collectionToEdit]);
 
   const fetchUserSettings = async () => {
     if (!user) throw new Error("No user found");

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { eachDayOfInterval, format, startOfYear, endOfYear } from 'date-fns';
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const generateYearDaysArray = (year: number) => {
   const yearStart = startOfYear(new Date(year, 0, 1));
@@ -44,11 +45,13 @@ const Heatmap = ({ contributions, currentYear }: { contributions: any, currentYe
           ))}
         </select>
       </div>
-      <div className="heatmap-container">
+      <div className="heatmap-container flex flex-wrap">
         {mappedDays.map((day, index) => (
           <div
+          data-tooltip-id="my-tooltip-1"
+          data-tooltip-html={`${day.date} <br/> Problems Reviewed: ${day.count}`}
             key={index}
-            className={`heatmap-square ${
+            className={`heatmap-square  ${
               day.count > 0
                 ? day.count > 10
                   ? 'bg-dark-green'
@@ -57,15 +60,20 @@ const Heatmap = ({ contributions, currentYear }: { contributions: any, currentYe
                   : 'bg-light-green'
                 : 'bg-grey'
             }`}
-            title={`Date: ${day.date}, Problems Reviewed: ${day.count}`}
           ></div>
         ))}
-        <div className="heatmap-legend">
-          <span className="text-secondary">Less</span>
-          <div className="heatmap-legend-square bg-grey"></div>
-          <div className="heatmap-legend-square bg-light-green"></div>
-          <div className="heatmap-legend-square bg-medium-green"></div>
-          <div className="heatmap-legend-square bg-dark-green"></div>
+        <ReactTooltip
+        className="react-tooltip"
+        id="my-tooltip-1"
+        place="bottom"
+        style={{ backgroundColor: "#111111" }}
+      />
+        <div className="heatmap-legend flex items-center mt-4">
+          <span className="text-secondary mr-2">Less</span>
+          <div className="heatmap-legend-square bg-grey w-4 h-4 mr-1"></div>
+          <div className="heatmap-legend-square bg-light-green w-4 h-4 mr-1"></div>
+          <div className="heatmap-legend-square bg-medium-green w-4 h-4 mr-1"></div>
+          <div className="heatmap-legend-square bg-dark-green w-4 h-4 mr-2"></div>
           <span className="text-secondary">More</span>
         </div>
       </div>

@@ -18,10 +18,11 @@ up next:
 ---------------
 - finish/refine guide page 
 
-- when in Study Mode, and i change the type of a problem (for ex, review -> again -> relearning), i need to refresh the page on ProblemsList for this change to actually be reflected 
-- bug: when editing a collection name, then editing another, the default text will show the name of the previous collection you were editing 
 - fix cutie pie tooltips!  
+- landing page vids fix 
+- landing page thing, mimic 11x 
 - thoroughly test the study mode function 
+- Thoroughly test Stripe payments 
 - SEO stuff (including logo in tab) 
 
 
@@ -31,7 +32,6 @@ All:
 - bug: the study mode graph is still shown when the page is loading 
 - bug: timezone issue with heatmap. sometimes it updates the next day, not today 
 - posthog analytics 
-- Thoroughly test Stripe payments 
 - add options for renewing membership after cancelling (event check in webhook) 
 - home page elements should transition in 
 - add problem tags (like strings, binary search, heap, etc. Select from a dropdown menu) 
@@ -63,3 +63,18 @@ Promotion:
 - Reach out to Neetcode via email/linkedin 
 - reaching out to random people on email (Aman on youtube, withmarble.io)
 - devtodollars 
+
+
+
+
+
+
+promotion roadmap: 
+----------------------
+1. Tejes, Tariq 
+2. Neetcode, relevant ppl on YouTube (like Aman)
+3. DM random ppl on relevant reddit threads 
+4. devtodollars meeting 
+   - POSITIVE, we can effectively ignore everything else 
+   - NEGATIVE, continue below 
+5. 
