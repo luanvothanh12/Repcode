@@ -8,7 +8,6 @@ import { AuthContext } from '@/auth/AuthContext';
 import { useRouter } from "next/router";
 import ProblemStatsModal from './ProblemStatsModal';
 
-
 const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   const [toastMessage, setToastMessage] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -349,13 +348,15 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                             Edit
                           </button>
                           <button
-                            className="block w-full text-left px-4 py-2 text-primary hover:bg-hover2"
+                            className="block w-full text-left px-4 py-2 text-primary hover:bg-hover2 flex items-center gap-1"
                             onClick={(e) => {
                               e.stopPropagation();
                               openStatsModal(problem);
+                              setVisibleMenuId(null);
                             }}
                           >
                             Stats
+                            <span className="material-icons text-primary" style={{ fontSize: '22px' }}>bar_chart_4_bars</span>
                           </button>
                         </div>
                       )}

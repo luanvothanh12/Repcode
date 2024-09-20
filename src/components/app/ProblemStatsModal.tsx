@@ -37,6 +37,8 @@ const ProblemStatsModal = ({ isOpen, onClose, problem }: { isOpen: boolean, onCl
     return `${Math.round(interval / (60 * 24))} days`;
   };
 
+  const isDataEmpty = data.datasets[0].data.every((value) => value === 0);
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-base_100 bg-opacity-50">
       <div className="bg-[#1E1E20] p-6 rounded-lg shadow-lg w-[800px]">
@@ -80,7 +82,11 @@ const ProblemStatsModal = ({ isOpen, onClose, problem }: { isOpen: boolean, onCl
           <div className="flex justify-center items-center">
             <div>
               <h3 className="text-primary text-center mr-20">Feedback Breakdown:</h3>
-              <Pie data={data} options={options} />
+              {isDataEmpty ? (
+                <p className="text-secondary text-center">(No data yet)</p>
+              ) : (
+                <Pie data={data} options={options} />
+              )}
             </div>
           </div>
         </div>

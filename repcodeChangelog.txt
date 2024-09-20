@@ -18,7 +18,6 @@ up next:
 ---------------
 - finish/refine guide page 
 
-- function signature gets cut off, it's type char 56 or something, change it to db TEXT type. Same with Notes  
 - when in Study Mode, and i change the type of a problem (for ex, review -> again -> relearning), i need to refresh the page on ProblemsList for this change to actually be reflected 
 - bug: when editing a collection name, then editing another, the default text will show the name of the previous collection you were editing 
 - fix cutie pie tooltips!  
