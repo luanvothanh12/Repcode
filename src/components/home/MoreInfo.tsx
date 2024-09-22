@@ -3,8 +3,14 @@ import React from 'react';
 const MoreInfo = () => {
   return (
     <div className="mx-4 sm:mx-6 md:mx-8 lg:mx-16"> {/* Adjusts the margin for different screen sizes */}
-
-<h2 className="text-center text-3xl font-bold mb-4 text-primary">How it <span className='text-pop'>all works:</span></h2>
+      
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-5xl font-bold text-primary">Your Path to <span className="text-pop">Leetcode Mastery</span></h1>
+        <p className="text-lg text-secondary mt-2">
+          Each feature works together to empower you to review and analyze problems <br /> with ease, boosting your Leetcoding skills
+        </p>
+      </div>
 
       {/* Section 1: Image on the left, header and text on the right */}
       <div className="flex flex-col md:flex-row items-center justify-center py-10">

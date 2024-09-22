@@ -11,6 +11,7 @@ import Footer from '@/components/home/Footer';
 import Rundown from '@/components/home/Rundown';
 import nookies from "nookies";
 import firebaseAdmin from "../../firebaseAdmin"; 
+import List from '@/components/home/List';
 import "../app/globals.css";
 
 export default function Home() {
@@ -22,7 +23,7 @@ export default function Home() {
       <div className="flex justify-center items-center min-h-screen">
         <Logo />
       </div>
-      <Rundown />
+      <List />
       <MoreInfo />
       <Description />  
       <ContactForm />

@@ -18,9 +18,6 @@ up next:
 ---------------
 - finish/refine guide page 
 
-- fix cutie pie tooltips!  
-- landing page vids fix 
-- landing page thing, mimic 11x 
 - thoroughly test the study mode function 
 - Thoroughly test Stripe payments 
 - SEO stuff (including logo in tab) 
@@ -77,4 +74,5 @@ promotion roadmap:
 4. devtodollars meeting 
    - POSITIVE, we can effectively ignore everything else 
    - NEGATIVE, continue below 
-5. 
+5. LinkedIn Post 
+6. Another LinkedIn post saying reached 10k users (whether or not it happens, post this anyway) 

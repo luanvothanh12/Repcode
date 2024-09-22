@@ -68,7 +68,7 @@ const StudyProblemPage = () => {
         </div>
         
         {/* Carousel Section */}
-        <div className="mb-8 w-full flex flex-col items-center">
+        <div className="mb-4 w-full flex flex-col items-center">
           <Carousel 
             components={[
               <BarGraphWeek key="bar-graph-week" />,
@@ -84,7 +84,7 @@ const StudyProblemPage = () => {
         </div>
 
         {/* Study Now Button */}
-        <div className="flex flex-col items-center mt-4">
+        <div className="flex flex-col items-center">
           <div className="flex items-center mb-2 text-primary text-lg">
             <span className="material-icons text-primary mr-1">schedule</span> 
             <span>Due today: <span className="text-error">{dueTodayCount}</span></span>

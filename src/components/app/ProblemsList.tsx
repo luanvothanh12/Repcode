@@ -277,7 +277,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
           </p>
         )}
     
-        {problems?.length > 0 && (
+        {/* {problems?.length > 0 && (
           <>
             <button onClick={chooseRandomProblemFromCollection} title="random problem from collection">
               <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary mr-2" style={{ fontSize: '30px' }}>
@@ -290,7 +290,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
               </span>
             </button>
           </>
-        )}
+        )} */}
     
         <table className="table-auto w-full text-left">
           <thead>
@@ -307,9 +307,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
               .map((problem: any, index: number) => (
                 <tr
                   key={problem.id}
-                  className={`cursor-pointer relative bg-base_100 hover:bg-hover2 text-secondary transition-colors duration-100 ${
-                    index !== problems.length - 1 ? 'border-b border-divide' : '' /* No border on last row */
-                  }`}
+                  className={`cursor-pointer relative bg-base_100 hover:bg-hover2 text-secondary transition-colors duration-100 border-b border-divide`}
                   onClick={() => router.push(`/app/collections/${collectionId}/problems/${problem.id}`)}
                 >
                   <td className="py-4">
@@ -381,28 +379,21 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                   </td>
                 </tr>
               ))}
+            {/* Add Problem row */}
+            <tr
+              className="cursor-pointer bg-base_100 hover:bg-hover2 text-secondary transition-colors duration-100"
+              onClick={() => {
+                setIsModalOpen(true);
+                setProblemToEdit(null);
+              }}
+            >
+              <td colSpan={4} className="text-center py-4">
+              <span className="material-icons text-primary" style={{ fontSize: '35px' }}>add_circle</span>
+              
+              </td>
+            </tr>
           </tbody>
         </table>
-    
-        <div className="flex justify-center mt-8">
-          <button
-            onClick={() => {
-              setIsModalOpen(true);
-              setProblemToEdit(null);
-            }}
-            className="bg-pop text-primary p-0 rounded-full h-12 w-12 flex items-center justify-center hover:scale-95 transition-transform duration-150 ease-in-out"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v12m6-6H6" />
-            </svg>
-          </button>
-        </div>
     
         <Toast message={toastMessage} isVisible={isToastVisible} />
       </>
