@@ -29,7 +29,7 @@ export default function Guide() {
                         <p className="text-secondary text-sm">The top part of the Neetcode 150 roadmap</p>
                     </div>
 
-                    <p className="text-secondary mb-8 text-xl">So then, where does Repcode factor in? Repcode provides a way to create <span className="font-bold">custom collections</span> to group problems by pattern or concept. For instance, if you're studying linked lists, you can create a collection called "Linked Lists" and store all your Leetcode problems, notes, and solutions for that pattern in one place. This allows you to easily revisit problems, review your thought processes, and reinforce your learning over time. </p>
+                    <p className="text-secondary mb-8 text-xl">So then, where does Repcode factor in? Repcode provides a way to create <span className="font-bold">custom collections</span> to group problems by pattern or concept. For instance, if you&apos;re studying linked lists, you can create a collection called &quot;Linked Lists&quot; and store all your Leetcode problems, notes, and solutions for that pattern in one place. This allows you to easily revisit problems, review your thought processes, and reinforce your learning over time. </p>
 
                     <p className="text-secondary mb-8 text-xl">Additionally, every problem you add to a collection is automatically included in <span className="font-bold">Study Mode</span>,  which leverages the spatial repetition algorithm. This ensures you review problems at the optimal time for retention, so you won&apos;t lose track of what you&apos;ve learned.</p>
 
@@ -183,7 +183,7 @@ export default function Guide() {
                     </ol>
 
                     <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 2.1: How to use Study Mode</h2>
-                    <p className="text-secondary mb-8 text-xl"><span className="font-bold">First, the easy part:</span> how to use it. The great thing about Study Mode is that it&apos;s largely <span className="font-bold">automatic</span> — the spatial repetition algorithm updates and manages itself. Whenever you add a problem to a collection, it&apos;s automatically included in Study Mode and factored into the algorithm. Your role is minimal: just navigate to the Study Mode section and, when you have problems due for review, a "Study Now" button will appear. Clicking this button will prompt you to solve the problems assigned for that day. </p>
+                    <p className="text-secondary mb-8 text-xl"><span className="font-bold">First, the easy part:</span> how to use it. The great thing about Study Mode is that it&apos;s largely <span className="font-bold">automatic</span> — the spatial repetition algorithm updates and manages itself. Whenever you add a problem to a collection, it&apos;s automatically included in Study Mode and factored into the algorithm. Your role is minimal: just navigate to the Study Mode section and, when you have problems due for review, a &quot;Study Now&quot; button will appear. Clicking this button will prompt you to solve the problems assigned for that day. </p>
                     <p className="text-secondary mb-8 text-xl">After solving each problem, head to the Solutions tab and choose the button that best reflects how difficult you found the problem: </p>
                     <div className="mb-8 flex justify-center items-center">
                         <button className={`mx-2 py-1 px-5 border border-divide transition-width duration-300 text-error rounded-md hover:bg-hover2`}>
@@ -339,12 +339,12 @@ export default function Guide() {
                                 <tr>
                                     <td className="px-4 py-2 border-b border-divide text-xl font-bold text-secondary">Learning steps</td>
                                     <td className="px-4 py-2 border-b border-divide text-xl text-secondary">10m, 1d</td>
-                                    <td className="px-4 py-2 border-b border-divide text-xl text-secondary">These apply to <span className="font-bold">New/Learning</span> problems. The first number (10m) represents how soon you&apos;ll see the problem again if you press <span className="font-bold">Again</span>. Every time you press <span className="font-bold">Good</span>, the problem advances to the next step (e.g., if the next step is 1d, you'll see it in 1 day).</td>
+                                    <td className="px-4 py-2 border-b border-divide text-xl text-secondary">These apply to <span className="font-bold">New/Learning</span> problems. The first number (10m) represents how soon you&apos;ll see the problem again if you press <span className="font-bold">Again</span>. Every time you press <span className="font-bold">Good</span>, the problem advances to the next step (e.g., if the next step is 1d, you&apos;ll see it in 1 day).</td>
                                 </tr>
                                 <tr>
                                     <td className="px-4 py-2 border-b border-divide text-xl font-bold text-secondary">Graduating interval</td>
                                     <td className="px-4 py-2 border-b border-divide text-xl text-secondary">3d</td>
-                                    <td className="px-4 py-2 border-b border-divide text-xl text-secondary">After a problem has gone through all its learning steps and you press <span className="font-bold">Good</span>, it "graduates" from a Learning problem to a <span className="font-bold">Review</span> problem. The graduating interval determines when it will be shown to you again right after it becomes a Review problem.</td>
+                                    <td className="px-4 py-2 border-b border-divide text-xl text-secondary">After a problem has gone through all its learning steps and you press <span className="font-bold">Good</span>, it &quot;graduates&quot; from a Learning problem to a <span className="font-bold">Review</span> problem. The graduating interval determines when it will be shown to you again right after it becomes a Review problem.</td>
                                 </tr>
                                 <tr>
                                     <td className="px-4 py-2 border-b border-divide text-xl font-bold text-secondary">Easy interval</td>
