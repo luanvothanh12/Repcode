@@ -422,7 +422,7 @@ export default function Guide() {
 
                 <div className="mb-24" id="ai-feedback">
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 3: AI Feedback</h2>
-                    <p className="text-secondary mb-8 text-xl">The final key feature of Repcode is its <span className="font-bold">AI-powered feedback system.</span> For every problem, you'll find an &quot;AI Feedback&quot; button that opens a chat window where the AI analyzes your solution. In a few sentences, the AI will determine if your solution is correct, and if not, it will highlight specific areas of your code that are flawed and explain why. </p>
+                    <p className="text-secondary mb-8 text-xl">The final key feature of Repcode is its <span className="font-bold">AI-powered feedback system.</span> For every problem, you&apos;ll find an &quot;AI Feedback&quot; button that opens a chat window where the AI analyzes your solution. In a few sentences, the AI will determine if your solution is correct, and if not, it will highlight specific areas of your code that are flawed and explain why. </p>
                     <div className="flex flex-col items-center mb-8">
                         <img src="/guide/Aifeedback.png" alt="collections image" />
                         <p className="text-secondary text-sm">An example of the AI giving feedback on a classic Leetcode problem</p>
