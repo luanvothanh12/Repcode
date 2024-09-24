@@ -17,6 +17,8 @@ guide:
 up next: 
 ---------------
 - finish/refine guide page 
+- bug: issue with, setting error Toast not showing 
+- bug: issue with, deleting collection doesn't invalidate cache to refetch duetoday problems 
 
 - thoroughly test the study mode function 
 - Thoroughly test Stripe payments 
@@ -28,7 +30,8 @@ All:
 ------------
 - bug: the study mode graph is still shown when the page is loading 
 - bug: timezone issue with heatmap. sometimes it updates the next day, not today 
-- posthog analytics 
+- posthog analytics
+- add a paint canvas in problems to whiteboard 
 - add options for renewing membership after cancelling (event check in webhook) 
 - home page elements should transition in 
 - add problem tags (like strings, binary search, heap, etc. Select from a dropdown menu) 

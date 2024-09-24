@@ -11,6 +11,7 @@ export default function Changelog() {
           {
             date: "V 0.1.18 - September 21st, 2024",
             changes: [
+              "➕Added nprogress loading bar to visually depict loading a new route",
               "🛠️Fixed issue with edit/delete menu not closing upon interaction", 
             ],
           },
