@@ -8,7 +8,22 @@ export default function Guide() {
         <div className="flex flex-col min-h-screen bg-base_100">
             <NavBar />
             <div className="p-8 m-24">
-                <div className="mb-24">
+                {/* Table of Contents */}
+                <div className="mb-16 flex flex-col items-center ">
+                    <h2 className="text-3xl font-bold mb-4 text-primary">Table of Contents</h2>
+                    <ul className="list-disc list-inside text-secondary text-lg ml-5">
+                        <li><a href="#what-is-repcode" className="text-primary hover:underline">What is Repcode?</a></li>
+                        <li><a href="#what-repcode-is-not" className="text-primary hover:underline">What Repcode is not</a></li>
+                        <li><a href="#exploring-platform" className="text-primary hover:underline">Part 0: Exploring the Platform</a></li>
+                        <li><a href="#organization-customization" className="text-primary hover:underline">Part 1: Organization and Customization</a></li>
+                        <li><a href="#spatial-repetition-algorithm" className="text-primary hover:underline">Part 2: The Spatial Repetition Algorithm</a></li>
+                        <li><a href="#how-to-use-study-mode" className="text-primary hover:underline">Part 2.1: How to Use Study Mode</a></li>
+                        <li><a href="#how-algorithm-works" className="text-primary hover:underline">Part 2.2: How the Spatial Repetition Algorithm Works</a></li>
+                        <li><a href="#ai-feedback" className="text-primary hover:underline">Part 3: AI Feedback</a></li>
+                    </ul>
+                </div>
+
+                <div className="mb-24" id="what-is-repcode">
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">What is Repcode?</h2>
                     <p className="text-secondary mb-8 text-xl">Repcode is a platform built to empower software engineers to excel in Leetcode-style technical interviews. It helps you achieve this in three main ways: </p>
                     <ol className="list-decimal text-secondary mb-8 ml-5 text-xl">
@@ -19,7 +34,7 @@ export default function Guide() {
                     <p className="text-secondary mb-8 text-xl">We will expand on each of these features in more detail below. But first, let&apos;s clarify how Repcode is meant to be used and what it is not designed for. </p>
                 </div>
 
-                <div className="mb-24">
+                <div className="mb-24" id="what-repcode-is-not">
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">What Repcode is not</h2>
                     <p className="text-secondary mb-8 text-xl">Repcode is not intended to replace Leetcode but rather to complement it. Think of Leetcode as your textbook and Repcode as your personalized notebook for problem-solving. Repcode helps you organize, review, and receive feedback on your work, making the learning process more structured and effective.  </p>
 
@@ -52,7 +67,7 @@ export default function Guide() {
                     <hr className="border-t border-feintwhite mt-16" />
                 </div>
 
-                <div className="mb-24">
+                <div className="mb-24" id="exploring-platform">
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 0: Exploring the Platform</h2>
                     <p className="text-secondary mb-8 text-xl">Before we dive into the specifics of how Repcode works, let&apos;s first explore the platform itself. When you login, you will see an expandable sidebar on the left. Use this to navigate to the different parts of the platform. Each symbol in the sidebar will take you to a seperate page: 
                     </p>
@@ -87,7 +102,7 @@ export default function Guide() {
                     
                 </div>
 
-                <div className="mb-24">
+                <div className="mb-24" id="organization-customization">
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 1: Organization and Customization</h2>
                     <p className="text-secondary mb-8 text-xl">The first part of this guide will cover how to use Repcode to effectively organize and customize your Leetcode problems. As mentioned earlier, the best way to improve at Leetcode is to break down problems into patterns and focus on practicing within those specific patterns. Repcode makes this easy by allowing you to create collections.
                     </p>
@@ -173,7 +188,7 @@ export default function Guide() {
                     <hr className="border-t border-feintwhite mt-16" />
                 </div>
 
-                <div className="mb-24">
+                <div className="mb-24" id="spatial-repetition-algorithm">
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 2: The Spatial Repitition Algorithm</h2>
                     <p className="text-secondary mb-8 text-xl">One of the unique aspects of Repcode is its ability to not only help you store and organize problems, but also review them efficiently through <span className="font-bold">Study Mode</span>, powered by a fully customizable spatial repetition algorithm. This algorithm, similar to the one used by Anki, ensures that you never forget what you&apos;ve learned by spacing out your review sessions. As of this writing, Repcode is the only actively maintained platform that offers this feature out of the box. </p>
                     <p className="text-secondary mb-8 text-xl"><span className="font-bold">What is spatial repetition?</span> In short, it&apos;s a learning technique that schedules review sessions at increasing intervals to improve long-term retention. It&apos;s based on the idea that the brain retains information best when it&apos;s reviewed at strategic points, rather than in one sitting. This section will be split into two sub-parts: </p>
@@ -182,7 +197,7 @@ export default function Guide() {
                         <li>How the spatial repitition algorithm works under the hood</li>
                     </ol>
 
-                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 2.1: How to use Study Mode</h2>
+                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-primary" id="how-to-use-study-mode">Part 2.1: How to use Study Mode</h2>
                     <p className="text-secondary mb-8 text-xl"><span className="font-bold">First, the easy part:</span> how to use it. The great thing about Study Mode is that it&apos;s largely <span className="font-bold">automatic</span> — the spatial repetition algorithm updates and manages itself. Whenever you add a problem to a collection, it&apos;s automatically included in Study Mode and factored into the algorithm. Your role is minimal: just navigate to the Study Mode section and, when you have problems due for review, a &quot;Study Now&quot; button will appear. Clicking this button will prompt you to solve the problems assigned for that day. </p>
                     <p className="text-secondary mb-8 text-xl">After solving each problem, head to the Solutions tab and choose the button that best reflects how difficult you found the problem: </p>
                     <div className="mb-8 flex justify-center items-center">
@@ -280,7 +295,7 @@ export default function Guide() {
                     </div>
 
 
-                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 2.2: How the Spatial Repitition Algorithm Works</h2>
+                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-primary" id="how-algorithm-works">Part 2.2: How the Spatial Repitition Algorithm Works</h2>
                     <p className="text-secondary mb-8 text-xl"><span className="font-bold">Second, let&apos;s now delve into how the spatial repitition algorithm works</span>, how the different settings are related to it, and how you can tweak them to make the algorithm more tailored to your learning style. Keep in mind that the default settings are not arbitrary; they were carefully chosen because they represent what works best for most users. However, if you&apos;d like to tailor the algorithm to better suit your needs, this section will explain the settings in detail and how to adjust them. </p>
                     <p className="text-secondary mb-8 text-xl">While entire books have been written about the spatial repetition algorithm, we&apos;ll keep it concise here. To get a deeper understanding of the technical aspects, I highly recommend watching the two videos below. Both were extensively referenced when we implemented the algorithm in Repcode. Although these videos discuss Anki, the algorithm used in Repcode is identical. </p>
                     <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -405,8 +420,30 @@ export default function Guide() {
 
                 </div>
 
-                <div className="mb-24">
+                <div className="mb-24" id="ai-feedback">
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 3: AI Feedback</h2>
+                    <p className="text-secondary mb-8 text-xl">The final key feature of Repcode is its <span className="font-bold">AI-powered feedback system.</span> For every problem, you'll find an &quot;AI Feedback&quot; button that opens a chat window where the AI analyzes your solution. In a few sentences, the AI will determine if your solution is correct, and if not, it will highlight specific areas of your code that are flawed and explain why. </p>
+                    <div className="flex flex-col items-center mb-8">
+                        <img src="/guide/Aifeedback.png" alt="collections image" />
+                        <p className="text-secondary text-sm">An example of the AI giving feedback on a classic Leetcode problem</p>
+                    </div>
+                    <p className="text-secondary mb-8 text-xl">Before generating feedback, the AI is provided with the problem statement and the optimal solution for context. It compares your solution to the optimal one and offers detailed feedback, including a comparison of runtimes between the two solutions. Additionally, the AI provides a brief explanation of the optimal approach to solving the problem. </p>
+                    <p className="text-secondary mb-8 text-xl">At present, the AI feedback is designed to be one-way: the AI provides feedback, but users cannot respond or ask for further clarification. This allows for quick feedback without needing to test your solution against multiple cases on Leetcode. In Study Mode, this feature becomes particularly useful as the AI can quickly and accurately validate your solution. In future updates, the feedback system will expand to allow for follow-up questions and more interactive feedback sessions. </p>
+                    <p className="text-secondary mb-8 text-xl">To use the AI feedback feature, ensure that you have entered a valid <span className="font-bold">OpenAI API key</span> on the Settings page. For security reasons, once you input your API key, it will be hidden from view in the input field but will remain active. </p>
+                </div>
+
+                {/* Key Takeaways Section */}
+                <div className="mb-24 ">
+                    <hr className="border-t border-feintwhite mb-16" />
+                    <div className="flex flex-col items-center ">
+                        <h2 className="text-2xl font-bold mb-8 text-primary">Key Takeaways:</h2>
+                        <ul className="list-disc list-inside text-secondary text-xl">
+                            <li><span className="font-bold">AI Feedback</span>: Provides instant, automated feedback on your solutions </li>
+                            <li><span className="font-bold">Quick Validation</span>: Useful for reviewing your solutions quickly, especially in Study Mode</li>
+                            <li><span className="font-bold">API Key Required</span>: Ensure a valid OpenAI API key is entered in the Settings page</li>
+                        </ul>
+                    </div>
+                    <hr className="border-t border-feintwhite mt-16" />
                 </div>
 
             </div>
