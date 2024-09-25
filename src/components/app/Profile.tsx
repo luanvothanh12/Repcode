@@ -67,7 +67,7 @@ const Profile = () => {
               <h2 className="text-2xl font-bold">Account Information</h2>
               <p className="text-secondary mb-8 text-sm">View your account information</p>
               <div className="flex items-center mb-4">
-                  <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center mb-6">
                       <img src="/default_avatar.jpg" alt="Avatar" className="w-full h-full object-cover" />
                   </div>
                   <div className="ml-4">
@@ -81,7 +81,7 @@ const Profile = () => {
           <div className="bg-[#1E1E20] text-primary p-8 rounded-md w-full md:w-1/2">
               <h2 className="text-2xl font-bold">Billing Information</h2>
               <p className="text-secondary mb-14 text-sm">View your invoice and payment history</p>
-              <p className="text-secondary mb-4">Invoice/Payment History is only available for PRO members with a monthly subscription.</p>
+              <p className="text-secondary mb-4">Repcode is currently completely FREE to use! Even if we add pricing in the future, your Lifetime status will never be revoked. Thanks for being a beta tester!</p>
               <button 
                   onClick={() => window.open('https://billing.stripe.com/p/login/bIY4gj80X3Q93LO5kk', '_blank')} 
                   className={`font-medium py-2 px-6 rounded-md transition ease-in-out duration-150 ${data?.membershipType !== 'pro' ? 'bg-disabled text-disabledText cursor-not-allowed' : 'bg-blue text-white'}`}
@@ -91,11 +91,11 @@ const Profile = () => {
               </button>
           </div>
       </div>
-      <div className="mt-8">
+      {/* <div className="mt-8">
           <Accordion title="I purchased a membership yet my membership type is still showing as Free. What do I do?" content="Please contact repcode.io@gmail.com. Issues relating to payment/membership are given the highest priority, so we will get back to you very soon." />
           <Accordion title="How do I cancel if I've purchased a monthly membership?" content="Simply click the View button above and then enter the email associated with the account you purchased membership for to receive a link to that email that will take you to your billing portal, where you can then cancel your membership." />
           <Accordion title="How do I upgrade my membership type?" content="To upgrade your membership, go to repcode.io/pricing." />
-      </div>
+      </div> */}
       </>
   );
 };

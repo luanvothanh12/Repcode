@@ -15,7 +15,7 @@ const Logo = () => {
               </div>
               <div className="mt-8 mb-10 max-w-4xl mx-auto px-4 sm:px-0"> {/* Added mx-auto for centering */}
                 <p className="text-xl text-secondary text-center">
-                  Everything you&apos;ll ever need to practice and master Leetcode-type questions, all in one place
+                  Everything you&apos;ll ever need to practice and master Leetcode, all in one place
                 </p>
               </div>
 
@@ -34,7 +34,7 @@ const Logo = () => {
                     <span className="material-icons text-pop" style={{ fontSize: '40px' }}>sync</span>
                   </div>
                   <h3 className="text-primary text-2xl font-semibold mb-2">Review via spatial repetition</h3>
-                  <p className="text-secondary">Optimize your learning with our smart review system</p>
+                  <p className="text-secondary">Optimize your learning using the SuperMemo spatial repitition algorithm</p>
                 </div>
 
                 <div className="bg-neutral p-6 rounded-lg shadow-lg text-center">
@@ -49,7 +49,7 @@ const Logo = () => {
 
             <div className="mt-8 flex flex-col sm:flex-row gap-12 justify-center">
               <Link className="animated-button inline-flex justify-center items-center gap-x-2 text-center text-lg font-medium rounded-lg py-3 px-20 w-full sm:w-auto transition-transform duration-200 hover:scale-95" href="/login">
-                <span>Get started</span>
+                <span>Get Started</span>
               </Link>
               <Link className="inline-flex justify-center items-center text-primary bg-base_100 border border-secondary gap-x-2 text-center text-lg font-medium rounded-lg py-3 px-20 w-full sm:w-auto transition-transform duration-200 hover:scale-95" href="/guide">
                 <div className="whitespace-nowrap">

@@ -42,7 +42,7 @@ const NavBar = () => {
               <Link className="text-lg font-medium text-secondary hover:text-pop sm:py-6" href="/guide" aria-current="page">Guide</Link>
               <Link href="/changelog" className="text-lg font-medium text-secondary hover:text-pop sm:py-6">Changelog</Link>
               <Link className="text-lg font-medium text-secondary hover:text-pop sm:py-6" href="/#contact">Contact</Link>
-              <Link href="/pricing" className="text-lg font-medium text-secondary hover:text-pop sm:py-6">Pricing</Link>
+              {/* <Link href="/pricing" className="text-lg font-medium text-secondary hover:text-pop sm:py-6">Pricing</Link> */}
             </div>
             <Link
               href="/login"

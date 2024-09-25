@@ -8,7 +8,7 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css'; 
 
-
+NProgress.configure({ showSpinner: false });
 
 
 const queryClient = new QueryClient({
