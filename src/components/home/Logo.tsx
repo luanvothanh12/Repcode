@@ -49,7 +49,7 @@ const Logo = () => {
 
             <div className="mt-8 flex flex-col sm:flex-row gap-12 justify-center">
               <Link className="animated-button inline-flex justify-center items-center gap-x-2 text-center text-lg font-medium rounded-lg py-3 px-20 w-full sm:w-auto transition-transform duration-200 hover:scale-95" href="/login">
-                <span>Get Started</span>
+                <span>Jump In - Free</span>
               </Link>
               <Link className="inline-flex justify-center items-center text-primary bg-base_100 border border-secondary gap-x-2 text-center text-lg font-medium rounded-lg py-3 px-20 w-full sm:w-auto transition-transform duration-200 hover:scale-95" href="/guide">
                 <div className="whitespace-nowrap">

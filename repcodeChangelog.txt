@@ -1,22 +1,15 @@
-guide: 
--------
-- what is repcode? 
-- what repcode is not 
-- Part 0: Exploring the platform (all the different pages. Simple: list the icons and what page they correspond to, and what they do) 
-- Part 1: Organizing/customizing problems 
-   - problem components (question, function signature, etc)
-- Part 2: Study Mode explained 
-   - user settings explained 
-- Part 3: AI integration explained 
-- The future of Repcode 
-- add table of contents 
-- add mobile responsiveness too 
+External dependencies: 
+------------------------
+- Firebase for Auth 
+- AWS RDS to host the MySQL database 
+- Formspree for emails 
+- Vercel for deployment 
+
 
 
 
 up next: 
 ---------------
-- finish/refine guide page 
 - bug: issue with, setting error Toast not showing 
 - bug: issue with, deleting collection doesn't invalidate cache to refetch duetoday problems 
 
@@ -62,8 +55,6 @@ Promotion:
 - Reddit (A New Way to Practice Leetcode), r/leetcode, r/cscareer 
 - Reach out to Neetcode via email/linkedin 
 - reaching out to random people on email (Aman on youtube, withmarble.io)
-- devtodollars 
-
 
 
 

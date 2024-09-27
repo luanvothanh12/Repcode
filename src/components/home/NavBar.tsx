@@ -15,7 +15,7 @@ const NavBar = () => {
       <nav className="relative w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8" aria-label="Global">
         <div className="flex items-center justify-between">
           <Link className="flex-none text-xl font-semibold text-secondary" href="/" aria-label="Brand">
-            <img src="/logo12.png" alt="Brand Logo" className="h-16" />
+            <img src="/logo12.png" alt="Brand Logo" className="h-12" />
           </Link>
           <div className="sm:hidden">
             <button

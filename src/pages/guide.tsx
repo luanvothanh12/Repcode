@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import NavBar from '@/components/home/NavBar';
 import Footer from '@/components/home/Footer';
 import "../app/globals.css";
+import posthog from 'posthog-js';
+
 
 export default function Guide() {
+
+    useEffect(() => {
+        posthog.capture('my event', { property: 'value' })
+      }, []);
+
     return (
         <div className="flex flex-col min-h-screen bg-base_100">
             <NavBar />
@@ -17,8 +24,10 @@ export default function Guide() {
                         <li><a href="#exploring-platform" className="text-primary hover:underline">Part 0: Exploring the Platform</a></li>
                         <li><a href="#organization-customization" className="text-primary hover:underline">Part 1: Organization and Customization</a></li>
                         <li><a href="#spatial-repetition-algorithm" className="text-primary hover:underline">Part 2: The Spatial Repetition Algorithm</a></li>
-                        <li><a href="#how-to-use-study-mode" className="text-primary hover:underline">Part 2.1: How to Use Study Mode</a></li>
-                        <li><a href="#how-algorithm-works" className="text-primary hover:underline">Part 2.2: How the Spatial Repetition Algorithm Works</a></li>
+                        <ul className="list-disc list-inside text-secondary text-lg ml-10">
+                            <li><a href="#how-to-use-study-mode" className="text-primary hover:underline">Part 2.1: How to Use Study Mode</a></li>
+                            <li><a href="#how-algorithm-works" className="text-primary hover:underline">Part 2.2: How the Spatial Repetition Algorithm Works</a></li>
+                        </ul>
                         <li><a href="#ai-feedback" className="text-primary hover:underline">Part 3: AI Feedback</a></li>
                     </ul>
                 </div>
@@ -231,11 +240,11 @@ export default function Guide() {
                                 </tr>
                                 <tr>
                                     <td className="px-4 py-2 border-b border-divide text-xl font-bold text-medium">Hard</td>
-                                    <td className="px-4 py-2 border-b border-divide text-xl text-secondary">Press this one if you were able to, after some time, at least come up with a solution that passed some test cases, but was not optimal.</td>
+                                    <td className="px-4 py-2 border-b border-divide text-xl text-secondary">Press this one if you were able to at least come up with a solution that passed some test cases, but was not optimal.</td>
                                 </tr>
                                 <tr>
                                     <td className="px-4 py-2 border-b border-divide text-xl font-bold text-easy">Good</td>
-                                    <td className="px-4 py-2 border-b border-divide text-xl text-secondary">Press this one if you could come up with and thoroughly explain the optimal approach to solving this problem, in less than 20min.</td>
+                                    <td className="px-4 py-2 border-b border-divide text-xl text-secondary">Press this one if you could come up with and thoroughly explain the optimal approach to solving this problem.</td>
                                 </tr>
                                 <tr>
                                     <td className="px-4 py-2 border-b border-divide text-xl font-bold text-blue">Easy</td>
@@ -328,11 +337,11 @@ export default function Guide() {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td className="px-4 py-2 border-b border-divide text-xl font-bold text-primary">Interval</td>
+                                    <td className="px-4 py-2 border-b border-divide text-xl font-bold text-secondary">Interval</td>
                                     <td className="px-4 py-2 border-b border-divide text-xl text-secondary">The interval represents how long the algorithm waits before showing a problem for review again, in days. Based on your feedback (via the buttons: Again, Hard, Good, Easy), the current interval, problem type, and other factors, the algorithm will calculate the next review interval.</td>
                                 </tr>
                                 <tr>
-                                    <td className="px-4 py-2 border-b border-divide text-xl font-bold text-primary">Ease Factor</td>
+                                    <td className="px-4 py-2 border-b border-divide text-xl font-bold text-secondary">Ease Factor</td>
                                     <td className="px-4 py-2 border-b border-divide text-xl text-secondary">This percentage indicates how easy the algorithm believes a problem is for you to solve. The easier a problem has been in the past, the greater the Ease will be, and the longer the intervals between reviews will be. Initially, all problems start with the same ease factor, but it adjusts based on your performance.</td>
                                 </tr>
                             </tbody>
