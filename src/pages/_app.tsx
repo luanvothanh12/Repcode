@@ -9,6 +9,8 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css'; 
 import posthog from 'posthog-js'; 
 import { PostHogProvider } from 'posthog-js/react'; 
+import { Analytics } from '@vercel/analytics/react'; // Import the Analytics component
+
 
 NProgress.configure({ showSpinner: false });
 
@@ -68,7 +70,8 @@ function App({ Component, pageProps }: AppProps) {
       <SidebarProvider>
         <AuthProvider>
           <PostHogProvider client={posthog}>
-            <Component {...pageProps} />
+              <Component {...pageProps} />
+            <Analytics />
           </PostHogProvider>
         </AuthProvider>
       </SidebarProvider>
