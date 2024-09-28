@@ -75,10 +75,12 @@ const Settings = () => {
 
         // Validate inputs
         if (!validateSteps(newSettings.learnSteps) || !validateSteps(newSettings.relearnSteps)) {
+            console.log("called")
             showToast("Learning Steps and Relearning Steps must be in the format: number[m or d]. Example: '10m 3d'.");
             return;
         }
         if (!validateNumber(newSettings.graduatingInterval) || !validateNumber(newSettings.easyInterval) || !validateNumber(newSettings.maximumInterval)) {
+            console.log("called")
             showToast("Graduating Interval, Easy Interval, and Maximum Interval must be numbers.");
             return;
         }
@@ -137,6 +139,7 @@ const Settings = () => {
         );
     }
     return (
+        <>
         <div className="bg-base_100 p-6 max-w-4xl mx-auto my-10">
             <div className="flex flex-wrap gap-12">
                 {/* New Cards Section */}
@@ -226,8 +229,9 @@ const Settings = () => {
                     style={{ backgroundColor: "#111111" }}
                 />
             </div>
-            <Toast message={toastMessage} isVisible={isToastVisible} />
         </div>
+        <Toast message={toastMessage} isVisible={isToastVisible} />
+        </>
     );
 };
 

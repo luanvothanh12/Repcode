@@ -7,13 +7,13 @@ const Logo = () => {
       <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10">
         <div className="flex flex-col justify-center items-center min-h-screen py-8"> {/* Adjusted to flex-col */}
           <div className="flex flex-col items-center gap-8"> {/* Ensures the content is centered */}
-            <div className="text-center"> {/* Center text explicitly */}
+            <div className="text-center fade-in-up"> {/* Apply fade-in-up class */}
               <div className="max-w-6xl mx-auto"> {/* Added mx-auto for centering */}
                 <h1 className="block font-bold text-primary text-4xl sm:text-5xl md:text-6xl lg:text-6xl text-center">
                   Your personalized online notebook <br className="hidden lg:block" /> <span className="text-pop">for everything Leetcode</span>
                 </h1>
               </div>
-              <div className="mt-8 mb-10 max-w-4xl mx-auto px-4 sm:px-0"> {/* Added mx-auto for centering */}
+              <div className="mt-8 mb-10 max-w-4xl mx-auto px-4 sm:px-0 fade-in-up"> {/* Apply fade-in-up class */}
                 <p className="text-xl text-secondary text-center">
                   Everything you&apos;ll ever need to practice and master Leetcode, all in one place
                 </p>
@@ -58,7 +58,7 @@ const Logo = () => {
               </Link>
             </div>
             <div className="flex justify-center w-full px-4 sm:px-0">
-              <video className="shadow-orange max-w-full md:max-w-4xl rounded-xl" src="/homeo.mp4" autoPlay loop muted playsInline></video>
+              <video className="shadow-orange max-w-full md:max-w-4xl rounded-xl" src="/homeo2.mp4" autoPlay loop muted playsInline></video>
             </div>
           </div>
         </div>

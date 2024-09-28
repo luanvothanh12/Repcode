@@ -3,14 +3,13 @@ External dependencies:
 - Firebase for Auth 
 - AWS RDS to host the MySQL database 
 - Formspree for emails 
-- Vercel for deployment 
-
+- Vercel for deployment/analytics 
+- posthog for analytics 
 
 
 
 up next: 
 ---------------
-- bug: issue with, setting error Toast not showing 
 - bug: issue with, deleting collection doesn't invalidate cache to refetch duetoday problems 
 
 - thoroughly test the study mode function 
@@ -55,18 +54,3 @@ Promotion:
 - Reddit (A New Way to Practice Leetcode), r/leetcode, r/cscareer 
 - Reach out to Neetcode via email/linkedin 
 - reaching out to random people on email (Aman on youtube, withmarble.io)
-
-
-
-
-
-promotion roadmap: 
-----------------------
-1. Tejes, Tariq 
-2. Neetcode, relevant ppl on YouTube (like Aman)
-3. DM random ppl on relevant reddit threads 
-4. devtodollars meeting 
-   - POSITIVE, we can effectively ignore everything else 
-   - NEGATIVE, continue below 
-5. LinkedIn Post 
-6. Another LinkedIn post saying reached 10k users (whether or not it happens, post this anyway) 
