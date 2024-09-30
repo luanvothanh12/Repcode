@@ -2,14 +2,10 @@ import React, { useEffect } from 'react';
 import NavBar from '@/components/home/NavBar';
 import Footer from '@/components/home/Footer';
 import "../app/globals.css";
-import posthog from 'posthog-js';
+import Link from 'next/link';
 
 
 export default function Guide() {
-
-    useEffect(() => {
-        posthog.capture('my event', { property: 'value' })
-      }, []);
 
     return (
         <div className="flex flex-col min-h-screen bg-base_100">
@@ -36,7 +32,7 @@ export default function Guide() {
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">What is Repcode?</h2>
                     <p className="text-secondary mb-8 text-xl">Repcode is a platform built to empower software engineers to excel in Leetcode-style technical interviews. It helps you achieve this in three main ways: </p>
                     <ol className="list-decimal text-secondary mb-8 ml-5 text-xl">
-                        <li className="mb-4"><span className="font-bold">Organize, Catagorize, and Analyze:</span> The intuitive UI/UX makes it simple to organize and categorize problems, ensuring that you can focus on specific problem types and patterns as you progress. In addition, a detailed statistic breakdowns of every problem you add to Repcode are available for you to view and target your weaknesses and identify your strengths  </li>
+                        <li className="mb-4"><span className="font-bold">Organize, Catagorize, and Analyze:</span> The intuitive UI/UX makes it simple to organize and categorize problems. In addition, a detailed statistic breakdown of every problem you add to Repcode is available, helping you target your weaknesses and identify your strengths. You can also store notes and commented solutions with each problem, allowing you to refer back to them at any time for further review </li>
                         <li className="mb-4"><span className="font-bold">Spatial Repitition Review:</span> A built-in spatial repetition algorithm ensures you don&apos;t forget what you&apos;ve learned, intelligently scheduling reviews of past problems to reinforce your understanding</li>
                         <li><span className="font-bold">AI-Powered Feedback: </span> Integrated AI (trained on the problem and its optimal solution) provides instant feedback on your solutions, helping you identify mistakes and areas for improvement in real-time.</li>
                     </ol>
@@ -47,7 +43,7 @@ export default function Guide() {
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">What Repcode is not</h2>
                     <p className="text-secondary mb-8 text-xl">Repcode is not intended to replace Leetcode but rather to complement it. Think of Leetcode as your textbook and Repcode as your personalized notebook for problem-solving. Repcode helps you organize, review, and receive feedback on your work, making the learning process more structured and effective.  </p>
 
-                    <p className="text-secondary mb-8 text-xl">To master Leetcode, it&apos;s important to understand that simply tackling random problems without focus or strategy isn&apos;t the best approach. Technical interviews often test your grasp of key data structures and algorithms, so building a strong foundation is critical. For example, trying to solve complex backtracking or binary search problems before you fully understand arrays and two-pointer techniques isn&apos;t productive. Mastering Leetcode requires solving problems in patterns, progressing from fundamental concepts to more complex ones. Roadmaps like the Neetcode 150 guide you through this process by organizing problems into patterns. Once you grasp the patterns, you&apos;re better equipped to solve a wide variety of new, unseen problems.</p>
+                    <p className="text-secondary mb-8 text-xl">To master Leetcode, it&apos;s important to understand that simply tackling random problems without focus or strategy isn&apos;t the best approach. Technical interviews often test your grasp of key data structures and algorithms, so building a strong foundation is critical. For example, trying to solve complex backtracking or binary search problems before you fully understand arrays and two-pointer techniques isn&apos;t productive. Mastering Leetcode requires solving problems in patterns, progressing from fundamental concepts to more complex ones. Roadmaps like the <Link className="text-blue underline" href="https://neetcode.io/" target="_blank" rel="noopener noreferrer">Neetcode 150</Link> guide you through this process by organizing problems into patterns. Once you grasp the patterns, you&apos;re better equipped to solve a wide variety of new, unseen problems.</p>
                     <div className="flex flex-col items-center mb-8">
                         <img src="/guide/neetcode.png" alt="collections image" className="w-5/6 max-w-xl mb-2" />
                         <p className="text-secondary text-sm">The top part of the Neetcode 150 roadmap</p>

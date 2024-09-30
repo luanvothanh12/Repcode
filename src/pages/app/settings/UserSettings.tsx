@@ -5,6 +5,7 @@ import SideBar from '@/components/app/SideBar';
 import nookies from "nookies"; 
 import firebaseAdmin from "../../../../firebaseAdmin"; 
 import Settings from '@/components/app/Settings';
+import Link from 'next/link';
 
 const StudyProblemPage = () => {
   const router = useRouter(); 
@@ -15,6 +16,9 @@ const StudyProblemPage = () => {
       <div className="flex-grow p-8">
         <div className="text-primary text-4xl font-bold mb-4 flex justify-center">Settings</div>
         <hr className="border-divide mb-8 transition-width duration-300"/>
+        <div className="mb-8 text-center text-secondary w-full">
+          Note: for most users, these default settings should be the most optimal and don&apos;t need to be adjusted. <br /> If you want to learn more about these settings and what they do, check out our comprehensive  <Link className="text-blue underline" href="/guide" target="_blank" rel="noopener noreferrer">Guide</Link>
+        </div>
         <Settings />
 
       </div>

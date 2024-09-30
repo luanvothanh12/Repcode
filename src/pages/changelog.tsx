@@ -9,6 +9,13 @@ export default function Changelog() {
         month: "September 2024",
         updates: [
           {
+            date: "V 0.1.18 - September 30th, 2024",
+            changes: [
+              "➕Added link to Guide page on the Settings page",
+              "⚙️Adjusted links to Guide page to open in a new tab", 
+            ],
+          },
+          {
             date: "V 0.1.18 - September 21st, 2024",
             changes: [
               "➕Added nprogress loading bar to visually depict loading a new route",

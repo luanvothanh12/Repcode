@@ -64,7 +64,7 @@ const StudyProblemPage = () => {
         <div className="text-primary text-4xl font-bold mb-4 flex justify-center">Study</div>
         <hr className="border-divide mb-8 transition-width duration-300 w-full"/>
         <div className="mb-8 text-center text-secondary w-full">
-          To learn more about Study Mode, check out our comprehensive <Link className="text-blue underline" href="/guide">Guide</Link>
+          To learn more about Study Mode, check out our comprehensive <Link className="text-blue underline" href="/guide" target="_blank" rel="noopener noreferrer">Guide</Link>
         </div>
         
         {/* Carousel Section */}
