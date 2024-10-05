@@ -9,7 +9,7 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css'; 
 import posthog from 'posthog-js'; 
 import { PostHogProvider } from 'posthog-js/react'; 
-import { Analytics } from '@vercel/analytics/react'; // Import the Analytics component
+import { Analytics } from '@vercel/analytics/react'; 
 
 
 NProgress.configure({ showSpinner: false });

@@ -6,10 +6,22 @@ import "../app/globals.css";
 export default function Changelog() {
     const changelogData = [
       {
+        month: "October 2024",
+        updates: [
+          {
+            date: "V 0.1.20 - October 2nd, 2024",
+            changes: [
+              "➕Added some more info to the Guide page",
+              "🛠️Fixed issue with guide page being unresponsive on mobile", 
+            ],
+          },
+        ],
+      },
+      {
         month: "September 2024",
         updates: [
           {
-            date: "V 0.1.18 - September 30th, 2024",
+            date: "V 0.1.19 - September 30th, 2024",
             changes: [
               "➕Added link to Guide page on the Settings page",
               "⚙️Adjusted links to Guide page to open in a new tab", 

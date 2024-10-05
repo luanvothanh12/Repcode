@@ -10,7 +10,7 @@ export default function Guide() {
     return (
         <div className="flex flex-col min-h-screen bg-base_100">
             <NavBar />
-            <div className="p-8 m-24">
+            <div className="p-4 md:p-8 md:m-24">
                 {/* Table of Contents */}
                 <div className="mb-16 flex flex-col items-center ">
                     <h2 className="text-3xl font-bold mb-4 text-primary">Table of Contents</h2>
