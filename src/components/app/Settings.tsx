@@ -10,12 +10,22 @@ const Settings = () => {
     const { user } = useContext(AuthContext);
     const [toastMessage, setToastMessage] = useState('');
     const [isToastVisible, setIsToastVisible] = useState(false);
+    const [isApiKeyVisible, setIsApiKeyVisible] = useState(false);
+
 
     const fetchUserSettings = async () => {
         if (!user) throw new Error("No user found");
         const response = await fetch(`/api/getUserSettings?userEmail=${user.email}`);
         if (!response.ok) throw new Error("Failed to fetch user settings");
         return response.json();
+    };
+
+    const { isLoading, data, error } = useQuery(['userSettings', user?.email], fetchUserSettings, {
+        enabled: !!user,
+    })
+
+    const toggleApiKeyVisibility = () => {
+        setIsApiKeyVisible(!isApiKeyVisible);
     };
 
     const updateSettingsMutation = useMutation(
@@ -92,10 +102,6 @@ const Settings = () => {
         // If all validations pass, proceed to mutate
         updateSettingsMutation.mutate(newSettings);
     };
-
-    const { isLoading, data, error } = useQuery(['userSettings', user?.email], fetchUserSettings, {
-        enabled: !!user,
-    })
 
     const showToast = (message: any) => {
         setToastMessage(message);
@@ -214,7 +220,11 @@ const Settings = () => {
                     <label className="text-secondary">
                       OpenAI API Key <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="Enter your OpenAI API key here to use the Check With AI feature.">help</span>
                     </label>
-                    <input id="apiKey" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue="[Hidden]" />
+                    {isApiKeyVisible ? (
+                      <input id="apiKey" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.apiKey} />
+                    ) : (
+                      <button onClick={toggleApiKeyVisibility} className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300">Show</button>
+                    )}
                   </div>
                 </div>
               </div>

@@ -17,7 +17,7 @@ const FirstTimeLogIn = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
           <div className="text-secondary">
             <p className="mb-6">No worries! Repcode actually works really well when you have little to no experience with Leetcode. To get the most out of Repcode and master Leetcode the quickest based on your experience level, I recommend:</p>
             <ul className="list-disc pl-5 mb-6 space-y-2">
-              <li>Visit the <Link className="text-blue underline" href="https://neetcode.io/" target="_blank" rel="noopener noreferrer">Neetcode 150 roadmap</Link>, and start solving the problems from the beginning, working your way from each pattern to the next</li>
+              <li>Visit the <Link className="text-blue underline" href="https://neetcode.io/" target="_blank" rel="noopener noreferrer">Neetcode 150 roadmap</Link>, and start solving the problems from the beginning, working your way from one pattern to the next</li>
               <li>Once you understand and can solve the problem, log this problem in the respective collection here on Repcode (if there isn't a collection for the pattern it belongs to yet, make one)</li>
               <li>Every day, make sure to navigate to the Study Mode page and solve the problems the algorithm tells you to for that day. Make sure to give honest feedback on how hard you thought the problem was to solve, so the algorithm can work properly</li>
               <li>When you get a chance, check out the <Link className="text-blue underline" href="/guide" target="_blank" rel="noopener noreferrer">guide</Link> page to learn how the algorithm works and to learn the nuances of this platform</li>
@@ -31,9 +31,9 @@ const FirstTimeLogIn = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
         return (
           <>
           <div className="text-secondary">
-            <p className="mb-6">Great, looks like you're off to a good start! Repcode was designed to seamlessly integrate into existing workflows, so it although you seem to already have the hang of things it can still help. To get the most out of Repcode and master Leetcode given your experience level, I recommend:</p>
+            <p className="mb-6">Great, looks like you&apos;re off to a good start! Repcode was designed to seamlessly integrate into existing workflows, so although you seem to already have the hang of things it can still help. To get the most out of Repcode and master Leetcode given your experience level, I recommend:</p>
             <ul className="list-disc pl-5 mb-6 space-y-2">
-              <li>From now on, for every problem you solve on Leetcode (either one you've solved before or a new one), if it isn't already logged into Repcode, log it. Make sure to create a collection that corresponds to the pattern that the problem belongs to</li>
+              <li>From now on, for every problem you solve on Leetcode (either one you&apos;ve solved before or a new one), if it isn&apos;t already logged into Repcode, log it. Make sure to create a collection that corresponds to the pattern that the problem belongs to</li>
               <li>Every day, make sure to navigate to the Study Mode page and solve the problems the algorithm tells you to for that day. Make sure to give honest feedback on how hard you thought the problem was to solve, so the algorithm can work properly</li>
               <li>When you get a chance, check out the <Link className="text-blue underline" href="/guide" target="_blank" rel="noopener noreferrer">guide</Link> page to learn how the algorithm works and to learn the nuances of this platform</li>
             </ul>
@@ -46,7 +46,7 @@ const FirstTimeLogIn = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
         return (
           <>
           <div className="text-secondary">
-            <p className="mb-6">Oops! Unfortunately, you're in the wrong place. If you can solve almost any Leetcode problem with little to no help, this platform isn't for you. Seriously, you're good. Go apply to NASA or something. Better yet, you should look into competitive programming if you aren't already, you'd probably be amazing at it.</p>
+            <p className="mb-6">Oops! Unfortunately, you&apos;re in the wrong place. If you can solve almost any Leetcode problem with little to no help, this platform isn&apos;t for you. Seriously, you&apos;re good. Go apply to NASA or something. Better yet, you should look into competitive programming if you aren&apos;t already, you&apos;d probably be amazing at it.</p>
             <p>This is kinda awkward. Umm, well thank you for checking out the platform at least! Bye!</p>
           </div>
           </>
