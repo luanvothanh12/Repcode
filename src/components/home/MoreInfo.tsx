@@ -53,6 +53,12 @@ const MoreInfo = () => {
           <p className="text-secondary mt-4 md:mt-2 text-lg">Receive immediate feedback on your solutions and get tips on how to improve and optimize your code</p>
         </div>
       </div>
+
+      {/* Image at the bottom */}
+      <div className="flex justify-center py-10">
+        <img src="/cycle.png" alt="Cycle" className="w-full sm:w-1/3 md:w-full" /> 
+      </div>
+
     </div>
   );
 };

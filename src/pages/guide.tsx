@@ -62,7 +62,7 @@ export default function Guide() {
                 <div className="mb-24 ">
                     <hr className="border-t border-feintwhite mb-16" />
                     <div className="flex flex-col items-center ">
-                        <h2 className="text-2xl font-bold mb-8 text-primary">Key Takeaways:</h2>
+                        <h2 className="text-2xl font-bold mb-8 text-primary">🔑Key Takeaways:</h2>
                         <ul className="list-disc list-inside text-secondary text-xl">
                             <li><span className="font-bold">Leetcode</span> = Problem source (textbook)</li>
                             <li><span className="font-bold">Repcode</span> = Learning tool (notebook)</li>
@@ -183,7 +183,7 @@ export default function Guide() {
                 <div className="mb-24 ">
                     <hr className="border-t border-feintwhite mb-16" />
                     <div className="flex flex-col items-center ">
-                        <h2 className="text-2xl font-bold mb-8 text-primary">Key Takeaways:</h2>
+                        <h2 className="text-2xl font-bold mb-8 text-primary">🔑Key Takeaways:</h2>
                         <ul className="list-disc list-inside text-secondary text-xl">
                             <li><span className="font-bold">Collections</span>: Organize your problems by patterns using collections</li>
                             <li><span className="font-bold">Customization</span>: Personalize every detail of the problems you add</li>
@@ -289,7 +289,7 @@ export default function Guide() {
                     <div className="mb-24 ">
                         <hr className="border-t border-feintwhite mb-16" />
                         <div className="flex flex-col items-center ">
-                            <h2 className="text-2xl font-bold mb-8 text-primary">Key Takeaways:</h2>
+                            <h2 className="text-2xl font-bold mb-8 text-primary">🔑Key Takeaways:</h2>
                             <ul className="list-disc list-inside text-secondary text-xl">
                                 <li><span className="font-bold">Automatic</span>: Just create problems and give feedback and let Repcode do the rest</li>
                                 <li><span className="font-bold">Feedback</span>: Use the appropriate button based on how well you solved the problem</li>
@@ -414,7 +414,7 @@ export default function Guide() {
                     <div className="mb-24 ">
                         <hr className="border-t border-feintwhite mb-16" />
                         <div className="flex flex-col items-center ">
-                            <h2 className="text-2xl font-bold mb-8 text-primary">Key Takeaways:</h2>
+                            <h2 className="text-2xl font-bold mb-8 text-primary">🔑Key Takeaways:</h2>
                             <ul className="list-disc list-inside text-secondary text-xl">
                                 <li><span className="font-bold">The algorithm</span>: Watch the above videos to fully understand how it works</li>
                                 <li><span className="font-bold">Customizable</span>: You can customize the algorithm by changing various settings</li>
@@ -441,7 +441,7 @@ export default function Guide() {
                 <div className="mb-24 ">
                     <hr className="border-t border-feintwhite mb-16" />
                     <div className="flex flex-col items-center ">
-                        <h2 className="text-2xl font-bold mb-8 text-primary">Key Takeaways:</h2>
+                        <h2 className="text-2xl font-bold mb-8 text-primary">🔑Key Takeaways:</h2>
                         <ul className="list-disc list-inside text-secondary text-xl">
                             <li><span className="font-bold">AI Feedback</span>: Provides instant, automated feedback on your solutions </li>
                             <li><span className="font-bold">Quick Validation</span>: Useful for reviewing your solutions quickly, especially in Study Mode</li>

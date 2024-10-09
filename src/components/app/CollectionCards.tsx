@@ -109,6 +109,11 @@ const CollectionCards = () => {
   };
 
   
+  const totalCollections = collections.length;
+  const totalProblems = collections.reduce((acc: number, collection: any) => {
+    return acc + collection.newCount + collection.learningCount + collection.reviewCount;
+  }, 0);
+
   if (error) return <div>Error: {(error as Error).message}</div>;
   if (isLoading) {
     return (
@@ -138,6 +143,10 @@ const CollectionCards = () => {
 
   return (
     <>
+      <div className="text-left mb-4">
+        <div className="text-secondary text-lg">Total collections: <span className="text-primary">{totalCollections}</span></div>
+        <div className="text-secondary text-lg">Total problems: <span className="text-primary">{totalProblems}</span></div>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-8 gap-y-8">
         {collections.map((collection: any) => (
           

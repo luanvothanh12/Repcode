@@ -1,7 +1,8 @@
 import prisma from "../../../prisma_client";
 import admin from "../../../firebaseAdmin";
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const apiKey = req.headers['x-api-key'];
 
   if (apiKey !== process.env.DELETE_USER_API_KEY) {
@@ -53,9 +54,14 @@ export default async function handler(req: any, res: any) {
         });
 
       res.status(200).json({ message: 'User deleted successfully', deletedUser });
-    } catch (error:any) {
-      console.error('Error deleting user:', error);
-      res.status(500).json({ error: 'Error deleting user', details: error.message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error deleting user:', error.message);
+        res.status(500).json({ error: 'Error deleting user', details: error.message });
+      } else {
+        console.error('Unknown error deleting user:', error);
+        res.status(500).json({ error: 'Error deleting user', details: 'Unknown error' });
+      }
     }
   } else {
     res.setHeader('Allow', ['DELETE']);

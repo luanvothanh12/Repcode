@@ -9,6 +9,16 @@ export default function Changelog() {
         month: "October 2024",
         updates: [
           {
+            date: "V 0.1.21 - October 7th, 2024",
+            changes: [
+              "➕Added total problems/collections count to Collections page",
+              "➕Added Leetcode Cycle infographic to landing page",
+              "➕Added donut charts to show problem difficulty/type breakdowns in problem lists",
+              "⚙️Adjusted layout of problem list pages", 
+              "⚙️Ajusted styling of problem/notes/solution tabs",
+            ],
+          },
+          {
             date: "V 0.1.20 - October 2nd, 2024",
             changes: [
               "➕Added some more info to the Guide page",
@@ -25,6 +35,7 @@ export default function Changelog() {
             changes: [
               "➕Added link to Guide page on the Settings page",
               "⚙️Adjusted links to Guide page to open in a new tab", 
+              "⚙️Adjusted logo to... well, not sure, but it looks cool!", 
             ],
           },
           {

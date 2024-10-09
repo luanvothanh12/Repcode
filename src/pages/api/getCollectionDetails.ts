@@ -1,6 +1,7 @@
 import prisma from "../../../prisma_client"; 
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     const collectionId = Number(req.query.collectionId);
 

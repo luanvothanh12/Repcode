@@ -1,8 +1,14 @@
 import prisma from "../../../prisma_client"; 
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     const { userEmail } = req.query;
+
+    // Ensure userEmail is a string
+    if (typeof userEmail !== 'string') {
+      return res.status(400).json({ error: 'Invalid user email' });
+    }
 
     try {
       const collections = await prisma.collection.findMany({

@@ -538,12 +538,11 @@ import ChatWindow from './ChatWindow';
       <div className="flex flex-col md:flex-row h-screen overflow-hidden">
         <div className="flex-1 overflow-auto bg-tertiary p-4 shadow-md rounded-sm" style={{ maxHeight: '70vh' }}>
           {/* Buttons for toggling between question and solution */}
-          <div className="mb-4">
-            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'question' ? 'border-b-2 border-divide' : 'border-b-2 border-tertiary'}`} onClick={() => setContent('question')}>Problem</button>
-            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'notes' ? 'border-b-2 border-divide' : 'border-b-2 border-tertiary'}`} onClick={() => setContent('notes')}>Notes</button>
-            <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${content === 'solution' ? 'border-b-2 border-divide' : 'border-b-2 border-tertiary'}`} onClick={() => setContent('solution')}>Solution</button>
-            
-        </div>
+          <div className="mb-4 flex space-x-2 bg-[#1e1e20] p-2 rounded-md">
+            <button className={`py-2 px-4 text-primary rounded-md transition duration-300 ${content === 'question' ? 'bg-divide' : 'bg-[#1e1e20]'}`} onClick={() => setContent('question')}><span className="material-icons text-secondary mr-1" style={{ fontSize: '19px' }}>library_books</span> Problem</button>
+            <button className={`py-2 px-4 text-primary rounded-md transition duration-300 ${content === 'notes' ? 'bg-divide' : 'bg-[#1e1e20]'}`} onClick={() => setContent('notes')}><span className="material-icons text-secondary mr-1" style={{ fontSize: '19px' }}>edit</span> Notes</button>
+            <button className={`py-2 px-4 text-primary rounded-md transition duration-300 ${content === 'solution' ? 'bg-divide' : 'bg-[#1e1e20]'}`} onClick={() => setContent('solution')}><span className="material-icons text-secondary mr-1" style={{ fontSize: '19px' }}>code</span> Solution</button>
+          </div>
         {content === 'solution' && buttons?.length > 0 && (
           <div className="mb-4 flex flex-wrap">
             {buttons.map((button: any, index: any) => (

@@ -101,13 +101,17 @@ import ChatWindow from './ChatWindow';
     <div className="flex flex-col md:flex-row h-screen overflow-hidden">
       <div className="flex-1 overflow-auto bg-tertiary p-4 rounded-sm shadow-md" style={{ maxHeight: '70vh' }}>
         {/* Buttons for toggling between question and solution */}
-        <button onClick={handleGoBack} title="back to collection">
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary" style={{ fontSize: '25px' }}>arrow_back</span>
+        <button 
+          onClick={handleGoBack} 
+          className="flex items-center space-x-2 text-secondary bg-transparent hover:bg-divide hover:text-primary transition duration-300 ease-in-out p-2 rounded-md mb-4"
+        >
+          <span className="material-icons" style={{ fontSize: '20px' }}>arrow_back</span>
+          <span>Back to collection</span>
         </button>
-        <div className="mb-4">
-          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'question' ? 'border-b-2 border-divide' : 'border-b-2 border-tertiary'}`} onClick={() => setContentActive('question')}>Problem</button>
-          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'notes' ? 'border-b-2 border-divide' : 'border-b-2 border-tertiary'}`} onClick={() => setContentActive('notes')}>Notes</button>
-          <button className={`mr-2 py-2 px-4 text-primary transition-width duration-300 ${contentActive === 'solution' ? 'border-b-2 border-divide' : 'border-b-2 border-tertiary'}`} onClick={() => setContentActive('solution')}>Solution</button>
+        <div className="mb-4 flex space-x-2 bg-[#1e1e20] p-2 rounded-md">
+          <button className={`py-2 px-4 text-primary rounded-md transition duration-300 ${contentActive === 'question' ? 'bg-divide' : 'bg-[#1e1e20]'}`} onClick={() => setContentActive('question')}><span className="material-icons text-secondary mr-1" style={{ fontSize: '19px' }}>library_books</span> Problem</button>
+          <button className={`py-2 px-4 text-primary rounded-md transition duration-300 ${contentActive === 'notes' ? 'bg-divide' : 'bg-[#1e1e20]'}`} onClick={() => setContentActive('notes')}><span className="material-icons text-secondary mr-1" style={{ fontSize: '19px' }}>edit</span> Notes</button>
+          <button className={`py-2 px-4 text-primary rounded-md transition duration-300 ${contentActive === 'solution' ? 'bg-divide' : 'bg-[#1e1e20]'}`} onClick={() => setContentActive('solution')}><span className="material-icons text-secondary mr-1" style={{ fontSize: '19px' }}>code</span> Solution</button>
         </div>
         {/* Left side content (The question) */}
         <div className="flex justify-between items-center text-secondary">

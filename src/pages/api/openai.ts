@@ -26,8 +26,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       } else {
         res.status(500).json({ error: "No choices returned from AI." });
       }
-  } catch (error: any) {
-    console.error("Error communicating with OpenAI:", error);
-    res.status(500).json({ error: error.message });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error communicating with OpenAI:", error.message);
+      res.status(500).json({ error: error.message });
+    } else {
+      console.error("Unknown error:", error);
+      res.status(500).json({ error: "Unknown error" });
+    }
   }
 };

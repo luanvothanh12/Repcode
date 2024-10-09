@@ -1,4 +1,5 @@
 import prisma from "../../../prisma_client"; 
+import { NextApiRequest, NextApiResponse } from 'next';
 
 enum Difficulty {
   Easy = "Easy",
@@ -186,7 +187,7 @@ class Solution:
 
 
 
-export default async function handler(req:any, res:any) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const { email } = req.body;
     try {

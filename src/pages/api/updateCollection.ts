@@ -1,7 +1,8 @@
 import prisma from "../../../prisma_client"; 
 import authenticate from "../../auth/Authenticate";
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Apply authentication middleware
   authenticate(req, res, async () => {
     // Existing handler code here...

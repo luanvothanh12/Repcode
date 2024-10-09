@@ -7,10 +7,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css'; 
-import posthog from 'posthog-js'; 
-import { PostHogProvider } from 'posthog-js/react'; 
 import { Analytics } from '@vercel/analytics/react'; 
-
 
 NProgress.configure({ showSpinner: false });
 
@@ -28,17 +25,6 @@ const stripePromise = loadStripe("your-stripe-key-here");
 
 function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-
-    if (typeof window !== 'undefined') {
-      posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY || '', {
-        api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://app.posthog.com',
-        person_profiles: 'identified_only',
-        loaded: (posthog) => {
-          if (process.env.NODE_ENV === 'development') posthog.debug();
-        },
-      });
-    }
-
     const handleStart = () => {
       NProgress.start();
     };
@@ -50,18 +36,10 @@ function App({ Component, pageProps }: AppProps) {
     Router.events.on('routeChangeComplete', handleStop);
     Router.events.on('routeChangeError', handleStop);
 
-    // Track page views with PostHog
-    const handleRouteChange = (url: string) => {
-      console.log(`Tracking pageview for: ${url}`); // Debug log
-      posthog.capture('$pageview', { url });
-    };
-    Router.events.on('routeChangeComplete', handleRouteChange);
-
     return () => {
       Router.events.off('routeChangeStart', handleStart);
       Router.events.off('routeChangeComplete', handleStop);
       Router.events.off('routeChangeError', handleStop);
-      Router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, []);
 
@@ -69,10 +47,8 @@ function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <SidebarProvider>
         <AuthProvider>
-          <PostHogProvider client={posthog}>
-              <Component {...pageProps} />
-            <Analytics />
-          </PostHogProvider>
+          <Component {...pageProps} />
+          <Analytics />
         </AuthProvider>
       </SidebarProvider>
     </QueryClientProvider>
