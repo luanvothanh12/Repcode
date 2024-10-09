@@ -18,7 +18,7 @@ const FirstTimeLogIn = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
             <p className="mb-6">No worries! Repcode actually works really well when you have little to no experience with Leetcode. To get the most out of Repcode and master Leetcode the quickest based on your experience level, I recommend:</p>
             <ul className="list-disc pl-5 mb-6 space-y-2">
               <li>Visit the <Link className="text-blue underline" href="https://neetcode.io/" target="_blank" rel="noopener noreferrer">Neetcode 150 roadmap</Link>, and start solving the problems from the beginning, working your way from one pattern to the next</li>
-              <li>Once you understand and can solve the problem, log this problem in the respective collection here on Repcode (if there isn't a collection for the pattern it belongs to yet, make one)</li>
+              <li>Once you understand and can solve the problem, log this problem in the respective collection here on Repcode (if there isn&apos;t a collection for the pattern it belongs to yet, make one)</li>
               <li>Every day, make sure to navigate to the Study Mode page and solve the problems the algorithm tells you to for that day. Make sure to give honest feedback on how hard you thought the problem was to solve, so the algorithm can work properly</li>
               <li>When you get a chance, check out the <Link className="text-blue underline" href="/guide" target="_blank" rel="noopener noreferrer">guide</Link> page to learn how the algorithm works and to learn the nuances of this platform</li>
             </ul>
