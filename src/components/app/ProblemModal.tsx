@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { auth } from '../../firebaseConfig';
 import { useQuery, useMutation, useQueryClient } from 'react-query'; 
 import { AuthContext } from '@/auth/AuthContext';
+import { Tooltip as ReactTooltip } from "react-tooltip";
+
 
 
 const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, problemToEdit = null, showToast }: {isOpen:any, onClose:any, collectionId:any, isEditMode?:boolean, problemToEdit?:any, showToast?:any}) => {
@@ -243,7 +245,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-secondary text-left">
-                      Function Signature:
+                      Function Signature:<span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="On Leetcode, this is the boilerplate code for the solution </br> already in the code editor before you even type anything">help</span>
                     </label>
                     <textarea
                       value={functionSignature}
@@ -261,7 +263,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                       className="mt-1 px-3 py-2 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full"
                     >
                       <option value="javascript">JavaScript</option>
-                      <option value="python">Python</option>
+                      <option value="python">Python3</option>
                       <option value="c_cpp">C/C++</option>
                       <option value="java">Java</option>
                     </select>
@@ -349,6 +351,11 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                     </button>
                   </div>
                 </form>
+                <ReactTooltip
+                    id="my-tooltip-1"
+                    place="bottom"
+                    style={{ backgroundColor: "#111111" }}
+                />
               </div>
             </>
           )}
