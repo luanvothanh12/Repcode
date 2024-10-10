@@ -58,7 +58,7 @@ const Logo = () => {
               </Link>
             </div>
             <div className="flex justify-center w-full px-4 sm:px-0">
-              <video className="shadow-orange max-w-full md:max-w-4xl rounded-xl" src="/homeo2.mp4" autoPlay loop muted playsInline></video>
+              <video className="shadow-orange max-w-full md:max-w-4xl rounded-xl" src="/homeo.mp4" autoPlay loop muted playsInline></video>
             </div>
           </div>
         </div>
