@@ -223,7 +223,7 @@ const Settings = () => {
                     {isApiKeyVisible ? (
                       <input id="apiKey" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.apiKey} />
                     ) : (
-                      <button onClick={toggleApiKeyVisibility} className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300">Show</button>
+                      <button onClick={toggleApiKeyVisibility} className="py-2 px-3 bg-nav border border-divide hover:bg-feintwhite text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300">Show</button>
                     )}
                   </div>
                 </div>

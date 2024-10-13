@@ -43,11 +43,11 @@ const ChatWindow = ({ problem, editorContent, apiKey, onClose }: { problem: any,
         const aiMessage = { text: data.message, sender: "ai" };
         setMessages(prevMessages => [...prevMessages, userMessage, aiMessage]);
       } else {
-        const errorMessage = { text: "Failed to get response from AI. Did you provide a valid API key?", sender: "ai" };
+        const errorMessage = { text: "Failed to get response from AI. Please make sure you have entered a valid API Key in the Settings page.", sender: "ai" };
         setMessages(prevMessages => [...prevMessages, userMessage, errorMessage]);
       }
     } catch (error) {
-      const errorMessage = { text: "Failed to get response from AI. Did you provide a valid API key?", sender: "ai" };
+      const errorMessage = { text: "Failed to get response from AI. Please make sure you have entered a valid API Key in the Settings page.", sender: "ai" };
       setMessages(prevMessages => [...prevMessages, userMessage, errorMessage]);
     }
   };

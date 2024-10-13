@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Toast from '../app/Toast';
-import { useForm, ValidationError } from '@formspree/react';
+import { useForm } from '@formspree/react';
 import Link from 'next/link'; 
 
 const ContactForm = () => {
@@ -12,10 +12,9 @@ const ContactForm = () => {
         setToastMessage(message);
         setIsToastVisible(true);
         setTimeout(() => setIsToastVisible(false), 3000); // Hide after 3 seconds
-      };
+    };
 
-
-      useEffect(() => {
+    useEffect(() => {
         if (state.succeeded) {
             showToast(
                 <>
@@ -42,38 +41,44 @@ const ContactForm = () => {
 
           <div className="mt-2 max-w-lg mx-auto">
               <div className="flex flex-col bg-base_100 p-4 sm:p-6 lg:p-8">
-                  <form onSubmit={handleSubmit}>
-                      <div className="grid gap-4 lg:gap-6">
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                              <div>
-                                  <label className="block text-sm mb-2 text-primary">First Name</label>             
-                                  <input type="text" name="hs-firstname-contacts-1" required id="hs-firstname-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
+                  {state.succeeded ? (
+                      <div className="text-center text-lg text-primary">
+                          Thanks! We'll get back to you soon!
+                      </div>
+                  ) : (
+                      <form onSubmit={handleSubmit}>
+                          <div className="grid gap-4 lg:gap-6">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                                  <div>
+                                      <label className="block text-sm mb-2 text-primary">First Name</label>             
+                                      <input type="text" name="hs-firstname-contacts-1" required id="hs-firstname-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
+                                  </div>
+                                  <div>
+                                      <label className="block text-sm mb-2 text-primary">Last Name</label>
+                                      <input type="text" name="hs-lastname-contacts-1" required id="hs-lastname-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
+                                  </div>
+                              </div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                                  <div>
+                                      <label className="block text-sm mb-2 text-primary">Email</label>
+                                      <input type="email" name="hs-email-contacts-1" required id="hs-email-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
+                                  </div>
                               </div>
                               <div>
-                                  <label className="block text-sm mb-2 text-primary">Last Name</label>
-                                  <input type="text" name="hs-lastname-contacts-1" required id="hs-lastname-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
+                                  <label className="block text-sm mb-2 text-primary">Details</label>
+                                  <textarea id="hs-about-contacts-1" name="hs-about-contacts-1" required rows={4} className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300"></textarea>
                               </div>
                           </div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                              <div>
-                                  <label className="block text-sm mb-2 text-primary">Email</label>
-                                  <input type="email" name="hs-email-contacts-1" required id="hs-email-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
-                              </div>
+                          <div className="mt-6 grid">
+                              <button type="submit" disabled={state.submitting} className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg bg-pop text-neutral transition-transform duration-200 hover:scale-95">Submit</button>
                           </div>
-                          <div>
-                              <label className="block text-sm mb-2 text-primary">Details</label>
-                              <textarea id="hs-about-contacts-1" name="hs-about-contacts-1" required rows={4} className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300"></textarea>
+                          <div className="mt-3 text-center">
+                              <p className="text-sm text-secondary">
+                                  We will get back to you in 1-2 business days.
+                              </p>
                           </div>
-                      </div>
-                      <div className="mt-6 grid">
-                          <button type="submit" disabled={state.submitting} className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg bg-pop text-neutral transition-transform duration-200 hover:scale-95">Submit</button>
-                      </div>
-                      <div className="mt-3 text-center">
-                          <p className="text-sm text-secondary">
-                              We will get back to you in 1-2 business days.
-                          </p>
-                      </div>
-                  </form>
+                      </form>
+                  )}
               </div>
           </div>
 
@@ -118,4 +123,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm; 
+export default ContactForm;

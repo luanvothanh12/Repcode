@@ -14,6 +14,7 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css'; // or any other style of your choice
 import { AuthContext } from '@/auth/AuthContext';
 import ChatWindow from './ChatWindow';
+import { Tooltip as ReactTooltip } from "react-tooltip";
   
   const Problem = ({ problem, contentActive, setContentActive, editorContent, setEditorContent }: {problem:any, contentActive:any, setContentActive:any, editorContent:any, setEditorContent:any}) => {
     const router = useRouter();
@@ -67,7 +68,7 @@ import ChatWindow from './ChatWindow';
   // Use useEffect to highlight code when the component mounts or updates
   useEffect(() => {
     hljs.highlightAll();
-  }, [contentActive, problem.solution]);
+  }, [contentActive, problem]);
 
   
     if (!problem) {
@@ -118,8 +119,8 @@ import ChatWindow from './ChatWindow';
           <h1 className="text-xl font-bold">
             {problem.name}
             <a href={problem.link} target="_blank" rel="noopener noreferrer">
-              <span className="material-icons hover:scale-110 text-pop2 ml-2">
-                link
+              <span className="material-icons hover:scale-110 text-pop2 ml-2"  data-tooltip-id="my-tooltip-1" data-tooltip-html="View on Leetcode">
+                open_in_new
               </span>
             </a>
           </h1>
@@ -134,11 +135,11 @@ import ChatWindow from './ChatWindow';
           </div>
         </div>
         {contentActive === 'notes' ? (
-          <p className="text-secondary mt-4 whitespace-pre-wrap text-lg">{problem.notes}</p>
+          <p className="text-secondary mt-4 whitespace-pre-wrap text-lg wrap-text">{problem.notes}</p>
         ) : contentActive === 'question' ? (
-          <p className="text-secondary mt-4 whitespace-pre-wrap text-lg">{problem.question}</p>
+          <p className="text-secondary mt-4 whitespace-pre-wrap text-lg wrap-text">{problem.question}</p>
         ) : (
-          <pre><code className={`language-${problem.language} mr-5`}>{problem.solution}</code></pre>
+          <pre className="wrap-text"><code className={`language-${problem.language} mr-5`}>{problem.solution}</code></pre>
         )}
       </div>
       
@@ -181,6 +182,11 @@ import ChatWindow from './ChatWindow';
           onClose={() => setShowChat(false)} 
         />
       )}
+      <ReactTooltip
+        id="my-tooltip-1"
+        place="bottom"
+        style={{ backgroundColor: "#111111" }}
+      />
     </div>
   );
   

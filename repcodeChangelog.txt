@@ -4,8 +4,6 @@ External dependencies:
 - AWS RDS to host the MySQL database 
 - Formspree for emails 
 - Vercel for deployment/analytics 
-- posthog for analytics 
-
 
 
 up next: 
@@ -13,7 +11,6 @@ up next:
 - bug: issue with, deleting collection doesn't invalidate cache to refetch duetoday problems 
 
 - thoroughly test the study mode function 
-- Thoroughly test Stripe payments 
 - SEO stuff (including logo in tab) 
 
 
@@ -22,10 +19,8 @@ All:
 ------------
 - bug: the study mode graph is still shown when the page is loading 
 - bug: timezone issue with heatmap. sometimes it updates the next day, not today 
-- posthog analytics
 - add a paint canvas in problems to whiteboard 
 - add options for renewing membership after cancelling (event check in webhook) 
-- home page elements should transition in 
 - add problem tags (like strings, binary search, heap, etc. Select from a dropdown menu) 
 - user setting to hide problem name, and hide problem type 
 - Any links in the actual application that take you to a home page page (like Guide) should open in a new tab 

@@ -92,11 +92,15 @@ export default function Guide() {
                         </li>
                         <li className="flex items-center mb-4">
                             <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>credit_card</span>
-                            <span className="text-xl"> <span className="font-bold">Billing/Profile:</span> Manage your Repcode subscription and account information here. You can see what type of subscription you have (free, pro, or lifetime), as well as cancel your monthly subscription.</span>
+                            <span className="text-xl"> <span className="font-bold">Profile/Billing:</span> Manage your Repcode subscription and account information here. Currently, Repcode is completely free to use, so no billing information will be available.</span>
                         </li>
                         <li className="flex items-center mb-4">
                             <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>home</span>
-                            <span className="text-xl"> <span className="font-bold">Home:</span> Exit the application and return to the main landing page.</span>
+                            <span className="text-xl"> <span className="font-bold">Homepage:</span> Exit the application and return to the main landing page.</span>
+                        </li>
+                        <li className="flex items-center mb-4">
+                            <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>question_mark</span>
+                            <span className="text-xl"> <span className="font-bold">Help:</span> Opens a new window to the guide page (where you are right now!)</span>
                         </li>
                         <li className="flex items-center mb-4">
                             <span className="material-icons text-error mr-4" style={{ fontSize: '36px' }}>logout</span>

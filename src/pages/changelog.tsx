@@ -9,6 +9,14 @@ export default function Changelog() {
         month: "October 2024",
         updates: [
           {
+            date: "V 0.1.22 - October 11th, 2024",
+            changes: [
+              "➕Added placeholder text to problem creation modal",
+              "⚙️Adjusted styling of the problem link icon", 
+              "🛠️Fixed issue with Toast notifications appearing off screen", 
+            ],
+          },
+          {
             date: "V 0.1.21 - October 7th, 2024",
             changes: [
               "➕Added total problems/collections count to Collections page",

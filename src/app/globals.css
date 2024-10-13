@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 
+/* Prevent weird white right side on pages when screen is too small */
+body {
+  overflow-x: hidden;
+}
+
 /*For ladning page transitions */
 @keyframes fadeInUp {
   from {
@@ -54,11 +59,11 @@
 
   @keyframes toastEnter {
     from {
-      transform: translate(150%, 100%); /* Start from off-screen right */
+      transform: translateY(100%); /* Start from off-screen bottom */
       opacity: 0;
     }
     to {
-      transform: translate(150%, 0); /* End at bottom right */
+      transform: translateY(0); /* End at the final position */
       opacity: 1;
     }
   }
@@ -180,6 +185,12 @@
 }
 
 
+/*For wrapping long text properly */
+.wrap-text {
+  word-wrap: break-word; /* For most browsers */
+  overflow-wrap: break-word; /* For modern browsers */
+  word-break: break-word; /* For older browsers */
+}
 
 
 /* Heatmap styles */

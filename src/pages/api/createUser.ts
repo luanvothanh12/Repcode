@@ -38,13 +38,18 @@ Constraints:
 -109 <= target <= 109
 Only one valid answer exists.`;
 
-var s1 = `class Solution(object):
-def twoSum(self, nums, target):
-  for i in range(len(nums)):
-      for j in range(i+1, len(nums)):
-          if nums[i] + nums[j] == target:
-              return [i, j]
-  return []`;
+var s1 = `# dont like this solution? Edit it to something else
+# by going back to the collection
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        prevMap = {}  # val -> index
+
+        for i, n in enumerate(nums):
+            diff = target - n
+            if diff in prevMap:
+                return [prevMap[diff], i]
+            prevMap[n] = i`;
 
 var f1 = `class Solution:
   def twoSum(self, nums: List[int], target: int) -> List[int]:
@@ -95,19 +100,24 @@ Constraints:
 s consists of English letters (lower-case and upper-case), ',' and '.'.
 1 <= numRows <= 1000`;
 
-var s2 = `def string_zigzag(s: str, rows: int):
-
-    # initialize the line number
-    line_no = 0
-
-    # row list. this list will decide which character in the string will go in which row number
-    ch_rows = [''] * rows
-
-    for i in range(len(s)):
-        # add characters to specific rows
-        ch_rows[line_no] += s[i]
-
-print(string_zigzag('PAYPALISHIRING', 3))`;
+var s2 = `class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        if(numRows < 2):
+            return s
+        arr = ['' for i in range(numRows)]
+        direction = 'down'
+        row = 0
+        for i in s:
+            arr[row] += i
+            if row == numRows-1:
+                direction = 'up'
+            elif row == 0:
+                direction = 'down'
+            if(direction == 'down'):
+                row += 1
+            else:
+                row -= 1
+        return(''.join(arr))`;
 
 var f2 = `class Solution:
     def convert(self, s: str, numRows: int) -> str:

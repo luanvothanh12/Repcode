@@ -220,7 +220,8 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="mt-1 px-3 py-2 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full"
+                      className="mt-1 px-3 py-2 bg-nav border border-divide text-primary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full"
+                      placeholder='Enter the name of the problem here'
                     />
                   </div>
                   <div>
@@ -230,7 +231,8 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                     <textarea
                       value={question}
                       onChange={(e) => setQuestion(e.target.value)}
-                      className="mt-1 px-3 py-2 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full h-96"
+                      className="mt-1 px-3 py-2 bg-nav border border-divide text-primary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full h-96"
+                      placeholder='Copy/paste the question details here (the description, examples, contraints, etc.)'
                     />
                   </div>
                   <div>
@@ -240,7 +242,8 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                     <textarea
                       value={solution}
                       onChange={(e) => setSolution(e.target.value)}
-                      className="mt-1 px-3 py-2 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full h-96"
+                      className="mt-1 px-3 py-2 bg-nav border border-divide text-primary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full h-96"
+                      placeholder='Copy/paste the solution here (syntax highlighting is applied after problem is created)'
                     />
                   </div>
                   <div>
@@ -250,7 +253,8 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                     <textarea
                       value={functionSignature}
                       onChange={(e) => setFunctionSignature(e.target.value)}
-                      className="mt-1 px-3 py-2 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full"
+                      className="mt-1 px-3 py-2 bg-nav border border-divide text-primary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full"
+                      placeholder="Copy/paste the function signature (aka the boilerplate solution code) here"
                     />
                   </div>
                   <div>
@@ -260,7 +264,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                     <select
                       value={language}
                       onChange={(e) => setLanguage(e.target.value)}
-                      className="mt-1 px-3 py-2 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full"
+                      className="mt-1 px-3 py-2 bg-nav border border-divide text-primary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full"
                     >
                       <option value="javascript">JavaScript</option>
                       <option value="python">Python3</option>
@@ -276,7 +280,8 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                       type="text"
                       value={link}
                       onChange={(e) => setLink(e.target.value)}
-                      className="mt-1 px-3 py-2 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full"
+                      className="mt-1 px-3 py-2 bg-nav border border-divide text-primary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full"
+                      placeholder="Copy/paste the URL to the problem here (Ex: https://leetcode.com/problems/two-sum/)"
                     />
                   </div>
                   <div>
@@ -286,14 +291,15 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                     <textarea
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
-                      className="mt-1 px-3 py-2 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full h-24"
+                      className="mt-1 px-3 py-2 bg-nav border border-divide text-primary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 block w-full h-24"
+                      placeholder='- Add any notes you have for yourself about this problem here'
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-secondary text-left">
                       Difficulty<span className="text-error">*</span>:
                     </label>
-                    <div className="flex justify-start gap-4 mt-2 text-secondary">
+                    <div className="flex justify-start gap-4 mt-2 text-primary">
                       <label className="inline-flex items-center">
                         <input
                           type="radio"
@@ -303,7 +309,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                           onChange={(e) => setDifficulty(e.target.value)}
                           className="form-radio"
                         />
-                        <span className="ml-2">Easy</span>
+                        <span className="ml-2 text-easy bg-easybg px-4 py-1 rounded-full">Easy</span>
                       </label>
                       <label className="inline-flex items-center">
                         <input
@@ -314,7 +320,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                           onChange={(e) => setDifficulty(e.target.value)}
                           className="form-radio"
                         />
-                        <span className="ml-2">Medium</span>
+                        <span className="ml-2 text-medium bg-mediumbg px-2 py-1 rounded-full">Medium</span>
                       </label>
                       <label className="inline-flex items-center">
                         <input
@@ -325,7 +331,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                           onChange={(e) => setDifficulty(e.target.value)}
                           className="form-radio"
                         />
-                        <span className="ml-2">Hard</span>
+                        <span className="ml-2 text-hard bg-hardbg px-4 py-1 rounded-full">Hard</span>
                       </label>
                     </div>
                   </div>

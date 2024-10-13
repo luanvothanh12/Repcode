@@ -255,7 +255,7 @@ import ChatWindow from './ChatWindow';
             updatedProblems.push(updatedProblem);
           }
           setDueProblems(updatedProblems);
-          refetchProblems();
+          await refetchProblems();
           setIsLoading(false);
     
           // Call updateCollectionCounts endpoint after problem type update

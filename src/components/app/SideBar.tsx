@@ -108,6 +108,10 @@ const SideBar = () => {
     router.push('/app/profile/UserProfile');
   }
 
+  const goGuide = () => {
+    window.open('/guide', '_blank');
+  };
+
 
   const logOut = async () => {
     try {
@@ -120,6 +124,8 @@ const SideBar = () => {
       console.error('Logout failed', error);
     }
   };
+
+  const isActive = (path: string) => router.pathname === path;
 
   return (
     
@@ -201,7 +207,7 @@ const SideBar = () => {
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>local_library</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Study</span>}
         </div>
-        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goSettings}>
+        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''}  transition-colors duration-100 cursor-pointer rounded`} onClick={goSettings}>
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>settings</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Settings</span>}
         </div>
@@ -212,6 +218,10 @@ const SideBar = () => {
         <div onClick={goHomepage} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>home</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Homepage</span>}
+        </div>
+        <div onClick={goGuide} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>question_mark</span>
+          {isExpanded && <span className={`ml-2 text-secondary`}>Help</span>}
         </div>
         <div onClick={logOut} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
           <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-error" style={{ fontSize: '35px' }}>logout</span>
