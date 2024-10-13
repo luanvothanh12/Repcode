@@ -43,7 +43,7 @@ const ContactForm = () => {
               <div className="flex flex-col bg-base_100 p-4 sm:p-6 lg:p-8">
                   {state.succeeded ? (
                       <div className="text-center text-lg text-primary">
-                          Thanks! We'll get back to you soon!
+                          Thanks! We&apos;ll get back to you soon!
                       </div>
                   ) : (
                       <form onSubmit={handleSubmit}>
