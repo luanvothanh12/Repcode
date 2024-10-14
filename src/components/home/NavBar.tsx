@@ -46,7 +46,7 @@ const NavBar = () => {
             </div>
             <Link
               href="/login"
-              className="flex items-center justify-center gap-x-2 text-neutral bg-primary font-medium px-4 py-2 rounded-lg hover:scale-95 transition-transform duration-100"
+              className="flex items-center justify-center gap-x-2 text-neutral bg-primary font-medium px-4 py-2 rounded-lg hover:scale-95 transition-transform duration-100 mt-8 sm:mt-0"
             >
               Launch App
             </Link>

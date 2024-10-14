@@ -33,7 +33,7 @@ export default function Guide() {
                     <p className="text-secondary mb-8 text-xl">Repcode is a platform built to empower software engineers to excel in Leetcode-style technical interviews. It helps you achieve this in three main ways: </p>
                     <ol className="list-decimal text-secondary mb-8 ml-5 text-xl">
                         <li className="mb-4"><span className="font-bold">Organize, Catagorize, and Analyze:</span> The intuitive UI/UX makes it simple to organize and categorize problems. In addition, a detailed statistic breakdown of every problem you add to Repcode is available, helping you target your weaknesses and identify your strengths. You can also store notes and commented solutions with each problem, allowing you to refer back to them at any time for further review </li>
-                        <li className="mb-4"><span className="font-bold">Spatial Repitition Review:</span> A built-in spatial repetition algorithm ensures you don&apos;t forget what you&apos;ve learned, intelligently scheduling reviews of past problems to reinforce your understanding</li>
+                        <li className="mb-4"><span className="font-bold">Spatial Repetition Review:</span> A built-in spatial repetition algorithm ensures you don&apos;t forget what you&apos;ve learned, intelligently scheduling reviews of past problems to reinforce your understanding</li>
                         <li><span className="font-bold">AI-Powered Feedback: </span> Integrated AI (trained on the problem and its optimal solution) provides instant feedback on your solutions, helping you identify mistakes and areas for improvement in real-time.</li>
                     </ol>
                     <p className="text-secondary mb-8 text-xl">We will expand on each of these features in more detail below. But first, let&apos;s clarify how Repcode is meant to be used and what it is not designed for. </p>
@@ -84,11 +84,11 @@ export default function Guide() {
                         </li>
                         <li className="flex items-center mb-4">
                             <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>local_library</span>
-                            <span className="text-xl"><span className='font-bold'>Study Mode:</span> Review problems using spacial repitition. A more detailed breakdown of how this works can be found in the following sections. </span>
+                            <span className="text-xl"><span className='font-bold'>Study Mode:</span> Review problems using spacial repetition. A more detailed breakdown of how this works can be found in the following sections. </span>
                         </li>
                         <li className="flex items-center mb-4">
                             <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>settings</span>
-                            <span className="text-xl"><span className='font-bold'>Settings:</span> Customize various aspects of the spatial repitition algorithm. Again, a detailed breakdown of these settings can be found in the following sections. </span>
+                            <span className="text-xl"><span className='font-bold'>Settings:</span> Customize various aspects of the spatial repetition algorithm. Again, a detailed breakdown of these settings can be found in the following sections. </span>
                         </li>
                         <li className="flex items-center mb-4">
                             <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>credit_card</span>
@@ -198,12 +198,12 @@ export default function Guide() {
                 </div>
 
                 <div className="mb-24" id="spatial-repetition-algorithm">
-                    <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 2: The Spatial Repitition Algorithm</h2>
+                    <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 2: The Spatial Repetition Algorithm</h2>
                     <p className="text-secondary mb-8 text-xl">One of the unique aspects of Repcode is its ability to not only help you store and organize problems, but also review them efficiently through <span className="font-bold">Study Mode</span>, powered by a fully customizable spatial repetition algorithm. This algorithm, similar to the one used by Anki, ensures that you never forget what you&apos;ve learned by spacing out your review sessions. As of this writing, Repcode is the only actively maintained platform that offers this feature out of the box. </p>
                     <p className="text-secondary mb-8 text-xl"><span className="font-bold">What is spatial repetition?</span> In short, it&apos;s a learning technique that schedules review sessions at increasing intervals to improve long-term retention. It&apos;s based on the idea that the brain retains information best when it&apos;s reviewed at strategic points, rather than in one sitting. This section will be split into two sub-parts: </p>
                     <ol className="list-decimal text-secondary mb-16 ml-5 text-xl">
                         <li>How to use Study Mode </li>
-                        <li>How the spatial repitition algorithm works under the hood</li>
+                        <li>How the spatial repetition algorithm works under the hood</li>
                     </ol>
 
                     <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-primary" id="how-to-use-study-mode">Part 2.1: How to use Study Mode</h2>
@@ -304,8 +304,8 @@ export default function Guide() {
                     </div>
 
 
-                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-primary" id="how-algorithm-works">Part 2.2: How the Spatial Repitition Algorithm Works</h2>
-                    <p className="text-secondary mb-8 text-xl"><span className="font-bold">Second, let&apos;s now delve into how the spatial repitition algorithm works</span>, how the different settings are related to it, and how you can tweak them to make the algorithm more tailored to your learning style. Keep in mind that the default settings are not arbitrary; they were carefully chosen because they represent what works best for most users. However, if you&apos;d like to tailor the algorithm to better suit your needs, this section will explain the settings in detail and how to adjust them. </p>
+                    <h2 className="text-2xl font-bold mb-2 inline-block border-b-2 border-divide text-primary" id="how-algorithm-works">Part 2.2: How the Spatial Repetition Algorithm Works</h2>
+                    <p className="text-secondary mb-8 text-xl"><span className="font-bold">Second, let&apos;s now delve into how the spatial repetition algorithm works</span>, how the different settings are related to it, and how you can tweak them to make the algorithm more tailored to your learning style. Keep in mind that the default settings are not arbitrary; they were carefully chosen because they represent what works best for most users. However, if you&apos;d like to tailor the algorithm to better suit your needs, this section will explain the settings in detail and how to adjust them. </p>
                     <p className="text-secondary mb-8 text-xl">While entire books have been written about the spatial repetition algorithm, we&apos;ll keep it concise here. To get a deeper understanding of the technical aspects, I highly recommend watching the two videos below. Both were extensively referenced when we implemented the algorithm in Repcode. Although these videos discuss Anki, the algorithm used in Repcode is identical. </p>
                     <div className="flex flex-wrap justify-center gap-4 mb-8">
                         <iframe
@@ -348,7 +348,7 @@ export default function Guide() {
                         </table>
                     </div>
 
-                    <p className="text-secondary mb-8 text-xl">Alright, so with that vocabulary out of the way, let us now talk about each of the settings in detail, what they do, along with examples so you can fully understand how they all work in relation to the spatial repitition algorithm. Again, to truly understand how everything works, please watch the above two videos in full. </p>
+                    <p className="text-secondary mb-8 text-xl">Alright, so with that vocabulary out of the way, let us now talk about each of the settings in detail, what they do, along with examples so you can fully understand how they all work in relation to the spatial repetition algorithm. Again, to truly understand how everything works, please watch the above two videos in full. </p>
 
                     <div className="mb-8 flex justify-center items-center">
                         <table className="min-w-full bg-base_100 border border-divide">

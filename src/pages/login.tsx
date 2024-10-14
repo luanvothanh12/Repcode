@@ -138,11 +138,11 @@ const Login = () => {
         <div className="mt-7 bg-base_100">
           <div className="p-4 sm:p-7">
             <div className="text-center">
-              <img src="/loggy.png" alt="Logo" className="mx-auto mb-4 w-16 h-16" />
+              <img src="/loggyreal.png" alt="Logo" className="mx-auto mb-4 w-16 h-16" />
               <h1 className="block text-3xl font-bold text-secondary">
-                {showSignUp ? "Create an account" : "Welcome back"}
+                Welcome back
               </h1>
-              <p className="mt-2 text-sm text-primary">
+              {/* <p className="mt-2 text-sm text-primary">
                 {showSignUp ? "Already have an account? " : "Don't have an account yet? "}
                 <span 
                   className="text-primary decoration-2 hover:underline font-medium cursor-pointer"
@@ -150,7 +150,7 @@ const Login = () => {
                 >
                   {showSignUp ? "Sign in here" : "Sign up here"}
                 </span>
-              </p>
+              </p> */}
             </div>
             <div className="mt-8 grid">
               <button onClick={googleSignIn} type="button" className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-divide bg-base_100 shadow-sm text-secondary hover:bg-hover2">
@@ -162,11 +162,11 @@ const Login = () => {
                 </svg>
                 Continue with Google
               </button>
-              <div className="py-6 flex items-center text-sm text-secondary uppercase before:flex-[1_1_0%] before:border-t before:me-6 after:flex-[1_1_0%] after:border-t after:ms-6">Or</div>
+              {/* <div className="py-6 flex items-center text-sm text-secondary uppercase before:flex-[1_1_0%] before:border-t before:me-6 after:flex-[1_1_0%] after:border-t after:ms-6">Or</div> */}
             </div>
             <div className="mt-5">
               {error && <div className="text-error">{error}</div>}
-              <form onSubmit={(e) => {
+              {/* <form onSubmit={(e) => {
                 e.preventDefault();
                 showSignUp ? signUp() : signIn();
               }}>
@@ -200,18 +200,7 @@ const Login = () => {
                     {showSignUp ? "Sign Up" : "Sign In"}
                   </button>
                 </div>
-              </form>
-              {!showSignUp && (
-                <div className="mt-4 text-center">
-                  <button
-                    type="button"
-                    className="text-sm text-primary decoration-2 hover:underline font-medium"
-                    onClick={handlePasswordReset}
-                  >
-                    Forgot Password?
-                  </button>
-                </div>
-              )}
+              </form> */}
               <p className="mt-4 text-xs text-center text-secondary">
                 By continuing, you agree to our&nbsp;
                 <Link href="/privacy" className="underline text-primary">

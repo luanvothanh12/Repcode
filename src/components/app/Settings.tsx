@@ -147,6 +147,17 @@ const Settings = () => {
     return (
         <>
         <div className="bg-base_100 p-6 max-w-4xl mx-auto my-10">
+            {/* OpenAI API Key Input Field */}
+            <div className="flex items-center mb-16 space-x-14">
+                <label className="text-secondary">
+                    OpenAI API Key <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="Enter your OpenAI API key here to use the AI Feedback feature.">help</span>
+                </label>
+                {isApiKeyVisible ? (
+                    <input id="apiKey" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.apiKey} />
+                ) : (
+                    <button onClick={toggleApiKeyVisibility} className="py-2 px-20 bg-nav border border-divide hover:bg-feintwhite text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300">Show</button>
+                )}
+            </div>
             <div className="flex flex-wrap gap-12">
                 {/* New Cards Section */}
                 <div className="flex-1 card">
@@ -216,16 +227,7 @@ const Settings = () => {
                     </label>
                     <input id="intervalModifier" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.intervalModifier} />
                   </div>
-                  <div className="grid grid-cols-2 items-center">
-                    <label className="text-secondary">
-                      OpenAI API Key <span className="material-icons text-xl hover:cursor-pointer" data-tooltip-id="my-tooltip-1" data-tooltip-html="Enter your OpenAI API key here to use the Check With AI feature.">help</span>
-                    </label>
-                    {isApiKeyVisible ? (
-                      <input id="apiKey" type="text" className="py-2 px-3 bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" defaultValue={data.apiKey} />
-                    ) : (
-                      <button onClick={toggleApiKeyVisibility} className="py-2 px-3 bg-nav border border-divide hover:bg-feintwhite text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300">Show</button>
-                    )}
-                  </div>
+                  
                 </div>
               </div>
             </div>

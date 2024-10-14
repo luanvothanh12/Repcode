@@ -300,7 +300,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                     <td className='py-4'>
                       <div className='flex items-center relative'>
                         <button
-                          className='text-feintwhite hover:text-primary'
+                          className='text-primary hover:text-pop'
                           onClick={(e) => {
                             e.stopPropagation();
                             toggleMenu(problem.id);

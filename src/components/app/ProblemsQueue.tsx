@@ -13,6 +13,8 @@ import 'highlight.js/styles/atom-one-dark-reasonable.css'; // or any other style
 import { AuthContext } from '@/auth/AuthContext';
 import { useMutation, useQueryClient } from 'react-query';
 import ChatWindow from './ChatWindow';
+import { Tooltip as ReactTooltip } from "react-tooltip";
+
   
   const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:any, userSettings:any, refetchProblems: any}) => {
     const [dueProblems, setDueProblems] = useState<any>([]);
@@ -575,8 +577,8 @@ import ChatWindow from './ChatWindow';
         <div className="flex justify-between items-center text-secondary">
           <h1 className="text-xl font-bold">{dueProblems[0].name}
             <a href={dueProblems[0].link} target="_blank" rel="noopener noreferrer">
-              <span className="material-icons hover:scale-110 text-pop2 ml-2">
-                link
+              <span className="material-icons hover:scale-110 text-pop2 ml-2"  data-tooltip-id="my-tooltip-1" data-tooltip-html="View on Leetcode">
+                open_in_new
               </span>
             </a>
           </h1>
@@ -636,6 +638,11 @@ import ChatWindow from './ChatWindow';
           onClose={() => setShowChat(false)} 
         />
       )}
+      <ReactTooltip
+        id="my-tooltip-1"
+        place="bottom"
+        style={{ backgroundColor: "#111111" }}
+      />
         </div>
       
     );
