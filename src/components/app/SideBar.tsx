@@ -7,6 +7,7 @@ import "../../app/globals.css";
 // import useDarkMode from '../../../useDarkMode';
 import { useQuery, useMutation, useQueryClient } from 'react-query'; 
 import { useSidebar } from '../../auth/SidebarContext';
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const SideBar = () => {
   // const [colorTheme, setTheme] = useDarkMode() as any; 
@@ -148,7 +149,7 @@ const SideBar = () => {
       <div className="px-4 py-2 flex flex-col items-start">
         <hr className="my-2 w-full text-divide transition-width duration-300" />
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goHome}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>style</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Collections' })}>style</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Collections</span>}
         </div>
   
@@ -204,27 +205,27 @@ const SideBar = () => {
         </div>
    */}
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goStudy}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>local_library</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Study' })}>local_library</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Study</span>}
         </div>
         <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''}  transition-colors duration-100 cursor-pointer rounded`} onClick={goSettings}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>settings</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Settings' })}>settings</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Settings</span>}
         </div>
         <div onClick={goBilling} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>credit_card</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Profile/Billing' })}>credit_card</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Profile/Billing</span>}
         </div>
         <div onClick={goHomepage} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>home</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Homepage' })}>home</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Homepage</span>}
         </div>
         <div onClick={goGuide} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }}>question_mark</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Help Page' })}>question_mark</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Help</span>}
         </div>
         <div onClick={logOut} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-error" style={{ fontSize: '35px' }}>logout</span>
+          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-error" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Logout' })}>logout</span>
           {isExpanded && <span className={`ml-2 text-secondary`}>Logout</span>}
         </div>
         <div className={`flex items-center my-2 w-full`}>
@@ -264,6 +265,11 @@ const SideBar = () => {
     </svg>
   )} */}
 </div>
+  <ReactTooltip
+      id="my-tooltip-1"
+      place="bottom"
+      style={{ backgroundColor: "#111111" }}
+  />
 
       </div>
     </div>

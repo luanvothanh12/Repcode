@@ -9,6 +9,12 @@ export default function Changelog() {
         month: "October 2024",
         updates: [
           {
+            date: "V 0.1.23 - October 14th, 2024",
+            changes: [
+              "➕Added hover tooltips to sidebar icons (Credit: u/Chamrockk)",
+            ],
+          },
+          {
             date: "V 0.1.22 - October 11th, 2024",
             changes: [
               "➕Added placeholder text to problem creation modal",
