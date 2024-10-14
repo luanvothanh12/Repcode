@@ -36,6 +36,9 @@ const ContactForm = () => {
                   <p className="mt-1 text-secondary">
                       Questions? Bugs? Want to contribute? Let us know!
                   </p>
+                  <p className="mt-1 text-secondary">
+                      Email repcode.io@gmail.com, or fill out the form below. 
+                  </p>
               </div>
           </div>
 
