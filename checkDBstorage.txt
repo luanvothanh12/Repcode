@@ -1,0 +1,8 @@
+SELECT ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS "Total Size (MB)"
+FROM information_schema.tables
+WHERE table_schema = 'Flashcode';  -- Replace 'Flashcode' with the actual name of your database
+
+
+
+sometimes it takes a sec for the storage to be updated on the actual DB, so you can run this to force update: 
+ANALYZE TABLE your_table_name;  -- Replace 'your_table_name' with the actual table names you modified

@@ -23,11 +23,9 @@ All:
 - add options for renewing membership after cancelling (event check in webhook) 
 - add problem tags (like strings, binary search, heap, etc. Select from a dropdown menu) 
 - user setting to hide problem name, and hide problem type 
-- Any links in the actual application that take you to a home page page (like Guide) should open in a new tab 
 - filters (checkboxes) for problem difficulty and type 
 - Review problems need to be dispersed more: the fuzz factor doesn't seem to do anything. All 'Good' on newly added Reveiw problems are 7 days, and 'New' is 9 days. There should always be += a day or two to spread these out 
 - rate limiting for API calls so peeps cant troll with Postman. Although, most endpoints are now authenticated so this may not be needed anymore. ig see which endpoints aren't authenticated and see if we need rate limiting for them 
-- limiting for how much text a user can submit for certain fields (specifically the TEXT fields. Make sure they cant spam the database) 
 - make the actual application itself mobile responsive (perhaps add an app?) 
 
 

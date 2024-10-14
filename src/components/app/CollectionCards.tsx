@@ -7,8 +7,6 @@ import Toast from "./Toast";
 import { useQuery, useMutation, useQueryClient } from 'react-query'; 
 import { formatDistanceToNow } from 'date-fns'; 
 
-
-
 const CollectionCards = () => {
   const [toastMessage, setToastMessage] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
