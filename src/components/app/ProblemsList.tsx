@@ -15,6 +15,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   const [visibleMenuId, setVisibleMenuId] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [problemToEdit, setProblemToEdit] = useState(null);
+  const [deletingProblems, setDeletingProblems] = useState<Set<number>>(new Set()); // Track deleting problems, so that users cant click inside collection they just deleted 
   const [searchTerm, setSearchTerm] = useState('');
   const queryClient = useQueryClient();
   const { user } = useContext(AuthContext);
@@ -138,6 +139,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   );
 
   const deleteProblem = (problemId: any, collectionId: any) => {
+    setDeletingProblems((prev) => new Set(prev).add(problemId)); 
     deleteProblemMutation.mutate(problemId, {
       onSuccess: async () => {
         try {
@@ -291,11 +293,11 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                   <tr
                     key={problem.id}
                     className={`cursor-pointer relative bg-base_100 hover:bg-hover2 text-secondary transition-colors duration-100 border-b border-divide`}
-                    onClick={() =>
-                      router.push(
-                        `/app/collections/${collectionId}/problems/${problem.id}`
-                      )
-                    }
+                    onClick={() => {
+                      if (!deletingProblems.has(problem.id)) {
+                        router.push(`/app/collections/${collectionId}/problems/${problem.id}`);
+                      }
+                    }}
                   >
                     <td className='py-4'>
                       <div className='flex items-center relative'>

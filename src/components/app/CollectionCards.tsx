@@ -16,6 +16,7 @@ const CollectionCards = () => {
   const [visibleMenuId, setVisibleMenuId] = useState(null); // Added state to manage visibility of dropdown
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [collectionToDelete, setCollectionToDelete] = useState<any>(null);
+  const [deletingCollections, setDeletingCollections] = useState<Set<number>>(new Set()); // Track deleting collections, so that users cant click inside collection they just deleted 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [collectionToEdit, setCollectionToEdit] = useState<any>(null);
   const { user } = useContext(AuthContext); 
@@ -92,8 +93,9 @@ const CollectionCards = () => {
 
   const deleteCollection = () => {
     if (collectionToDelete) {
+      setDeletingCollections((prev) => new Set(prev).add(collectionToDelete.id));
       deleteCollectionMutation.mutate(collectionToDelete.id);
-    };
+    }
   }
 
   const openEditModal = (collection: any) => {
@@ -153,7 +155,11 @@ const CollectionCards = () => {
           <div
             key={collection.id}
             className="border border-[#2a2a2d] relative text-secondary text-2xl min-w-[20vw] aspect-square flex flex-col justify-center items-center bg-[#1e1e20] rounded-lg shadow-md transition duration-300 ease-in-out hover:border-feintwhite hover:text-pop cursor-pointer"
-            onClick={() => router.push(`/app/collections/${collection.id}`)}
+            onClick={() => {
+              if (!deletingCollections.has(collection.id)) {
+                router.push(`/app/collections/${collection.id}`);
+              }
+            }}
           >
             {/* 3 Dots Menu (Top Left) */}
             <span
