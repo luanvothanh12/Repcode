@@ -58,7 +58,14 @@ const Logo = () => {
               </Link>
             </div>
             <div className="flex justify-center w-full px-4 sm:px-0">
-              <video className="shadow-orange max-w-full md:max-w-4xl rounded-xl" src="/homeo.mp4" autoPlay loop muted playsInline></video>
+            <iframe
+                className="shadow-orange max-w-full md:max-w-4xl rounded-xl"
+                width="900"
+                height="455"
+                src="https://www.youtube.com/embed/XSPhwt_0nSQ?autoplay=1&controls=0&mute=1&loop=1&playlist=XSPhwt_0nSQ"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              ></iframe>
             </div>
           </div>
         </div>
