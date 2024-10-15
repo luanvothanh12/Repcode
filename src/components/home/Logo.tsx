@@ -62,7 +62,7 @@ const Logo = () => {
                 className="shadow-orange max-w-full md:max-w-4xl rounded-xl"
                 width="900"
                 height="455"
-                src="https://www.youtube.com/embed/XSPhwt_0nSQ?autoplay=1&controls=0&mute=1&loop=1&playlist=XSPhwt_0nSQ"
+                src="https://www.youtube.com/embed/rnvFQ3G3ndo?autoplay=1&controls=0&mute=1&loop=1&playlist=rnvFQ3G3ndo"
                 title="YouTube video player"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               ></iframe>
