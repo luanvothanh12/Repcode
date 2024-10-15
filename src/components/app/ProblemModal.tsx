@@ -3,10 +3,11 @@ import { auth } from '../../firebaseConfig';
 import { useQuery, useMutation, useQueryClient } from 'react-query'; 
 import { AuthContext } from '@/auth/AuthContext';
 import { Tooltip as ReactTooltip } from "react-tooltip";
-
+import { convert } from 'html-to-text';
 
 
 const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, problemToEdit = null, showToast }: {isOpen:any, onClose:any, collectionId:any, isEditMode?:boolean, problemToEdit?:any, showToast?:any}) => {
+  const [problemNumber, setProblemNumber] = useState('');
   const [name, setName] = useState(isEditMode && problemToEdit ? problemToEdit.name : '');
   const [question, setQuestion] = useState(isEditMode && problemToEdit ? problemToEdit.question : '');
   const [solution, setSolution] = useState(isEditMode && problemToEdit ? problemToEdit.solution : '');
@@ -121,6 +122,33 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
 
   if (!isOpen) return null;
 
+  const handleAutofill = async () => {
+    try {
+      const response = await fetch('/problems.json');
+      if (!response.ok) throw new Error('Failed to load problems data');
+      const problemsData = await response.json();
+
+      // Compare the problem number as a string
+      const problem = problemsData.find((p: any) => p.number === problemNumber.trim());
+      if (problem) {
+        setName(problem.title);
+        // Convert HTML content to plain text
+        const plainTextContent = convert(problem.content, {
+          wordwrap: 130, // Optional: set word wrap limit
+        });
+        setQuestion(plainTextContent);
+        setDifficulty(problem.difficulty);
+        setLink(problem.url);
+        setFunctionSignature(problem.boilerplate);  
+      } else {
+        showToast('Problem not found');
+      }
+    } catch (error) {
+      console.error('Error fetching problem data:', error);
+      showToast('Error fetching problem data');
+    }
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
   
@@ -212,6 +240,27 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
               </h3>
               <div className="mt-2 px-7 py-3">
                 <form className="space-y-4">
+                <div className="mb-12">
+                    <label className="block text-sm font-medium text-secondary text-left">
+                      Leetcode Problem Number:
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={problemNumber}
+                        onChange={(e) => setProblemNumber(e.target.value)}
+                        className="mt-1 px-3 py-2 bg-nav border border-divide text-primary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300 w-1/4"
+                        placeholder='Any number 1-3322'
+                      />
+                      <button
+                        type="button"
+                        onClick={handleAutofill}
+                        className="inline-flex justify-center items-center gap-x-3 text-center bg-pop text-neutral text-lg font-medium rounded-md focus:ring-1 py-2 px-4 transition-transform duration-200 hover:scale-95"
+                      >
+                        Autofill
+                      </button>
+                    </div>
+                  </div>
                   <div>
                     <label className="block text-sm font-medium text-secondary text-left">
                       Name<span className="text-error">*</span>:

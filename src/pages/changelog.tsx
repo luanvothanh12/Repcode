@@ -12,6 +12,7 @@ export default function Changelog() {
             date: "V 0.1.23 - October 14th, 2024",
             changes: [
               "➕Added hover tooltips to sidebar icons (Credit: u/Chamrockk)",
+              "➕Added ability to autofill problem details (Credit: u/Chamrockk, u/KayySean, u/Strict-Inspection-99)", 
             ],
           },
           {
