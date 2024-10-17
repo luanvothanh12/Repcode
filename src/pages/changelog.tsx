@@ -9,6 +9,12 @@ export default function Changelog() {
         month: "October 2024",
         updates: [
           {
+            date: "V 0.1.24 - October 16th, 2024",
+            changes: [
+              "➕Added Dhruv C. as CFO because he asked nicely",
+            ],
+          },
+          {
             date: "V 0.1.23 - October 14th, 2024",
             changes: [
               "➕Added hover tooltips to sidebar icons (Credit: u/Chamrockk)",
