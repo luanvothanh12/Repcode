@@ -9,6 +9,13 @@ export default function Changelog() {
         month: "October 2024",
         updates: [
           {
+            date: "V 0.1.25 - October 21st, 2024",
+            changes: [
+              "⚙️Adjusted spatial repetition algorithm so that newly created problems are due the day after they are created, instead of on the same day, to avoid confusion (Credit: Ramses G.)",
+              "⚙️Adjusted styling of problem modal",
+            ],
+          },
+          {
             date: "V 0.1.24 - October 16th, 2024",
             changes: [
               "➕Added Dhruv C. as CFO because he asked nicely",

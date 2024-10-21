@@ -9,6 +9,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const { name, question, solution, difficulty, collectionId, functionSignature, language, link, notes } = req.body;
   
       try {
+        // Calculate tomorrow's date
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
         // Create the problem and link it to the collection by collectionId
         const problem = await prisma.problem.create({
           data: {
@@ -20,7 +24,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             functionSignature,
             language,
             link,
-            notes
+            notes, 
+            dueDate: tomorrow, 
           },
         });
 
