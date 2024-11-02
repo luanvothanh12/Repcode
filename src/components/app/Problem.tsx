@@ -163,7 +163,7 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
             enableLiveAutocompletion: true,
             enableSnippets: true,
             showLineNumbers: true,
-            tabSize: 2,
+            tabSize: 4,
           }}
           style={{ height: '100%', width: '100%' }}  
         />

@@ -9,6 +9,14 @@ export default function Changelog() {
         month: "October 2024",
         updates: [
           {
+            date: "V 0.1.26 - October 31st, 2024",
+            changes: [
+              "🎃Happy Halloween!",
+              "⚙️Adjusted AI Feedback error message to be more descriptive", 
+              "⚙️Adjusted tab indenting in code editor to be 4 instead of 2 (Credit: Jay)"
+            ],
+          },
+          {
             date: "V 0.1.25 - October 21st, 2024",
             changes: [
               "⚙️Adjusted spatial repetition algorithm so that newly created problems are due the day after they are created, instead of on the same day, to avoid confusion (Credit: Ramses G.)",
