@@ -11,6 +11,7 @@ export default function Changelog() {
           {
             date: "V 0.1.27 - November 20th, 2024",
             changes: [
+              "➕Added README file to explain how to set up dev environment, with comprehensive instructions",
               "⚙️Adjusted some color schemes on the landing page", 
               "🛠️Codebase fixes in preperation for open source release",
             ],
