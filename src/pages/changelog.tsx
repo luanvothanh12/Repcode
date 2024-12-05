@@ -6,6 +6,18 @@ import "../app/globals.css";
 export default function Changelog() {
     const changelogData = [
       {
+        month: "November 2024",
+        updates: [
+          {
+            date: "V 0.1.27 - November 20th, 2024",
+            changes: [
+              "⚙️Adjusted some color schemes on the landing page", 
+              "🛠️Codebase fixes in preperation for open source release",
+            ],
+          },
+        ],
+      },
+      {
         month: "October 2024",
         updates: [
           {
