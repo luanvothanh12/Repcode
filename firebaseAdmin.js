@@ -8,7 +8,7 @@ if (!admin.apps.length) {
         // Replace these with your actual config values
         projectId: "flashcode-6cb10",
         clientEmail: "firebase-adminsdk-xns55@flashcode-6cb10.iam.gserviceaccount.com",
-        privateKey: "REDACTED",
+        privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
       }),
       // databaseURL: "https://your-database-url.firebaseio.com", // If you are using Firebase Realtime Database
     });
