@@ -9,9 +9,10 @@ External dependencies:
 up next: 
 ---------------
 - bug: issue with, deleting collection doesn't invalidate cache to refetch duetoday problems 
+- the update endpoints need to be more secure 
 
 - thoroughly test the study mode function 
-- SEO stuff (including logo in tab) 
+- SEO stuff
 
 
 

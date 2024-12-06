@@ -1,14 +1,27 @@
 import prisma from "../../../prisma_client"; 
 import authenticate from "../../auth/Authenticate";
-import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: any, res: any) {
   // Apply authentication middleware
   authenticate(req, res, async () => {
     if (req.method === 'POST') {
       const { name, question, solution, difficulty, collectionId, functionSignature, language, link, notes } = req.body;
   
       try {
+        const userObject = await prisma.user.findUnique({
+          where: {
+            email: req.user?.email as string,
+          },
+        });
+
+        const collection = await prisma.collection.findUnique({
+          where: { id: parseInt(collectionId) },
+        });
+
+        if (collection?.userId !== userObject?.id) {
+          return res.status(403).json({ error: 'Forbidden: You do not own this collection' });
+        }
+
         // Calculate tomorrow's date
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);

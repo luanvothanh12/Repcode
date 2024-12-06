@@ -114,6 +114,8 @@ const CollectionCards = () => {
     return acc + collection.newCount + collection.learningCount + collection.reviewCount;
   }, 0);
 
+
+  console.log(user?.getIdToken())
   if (error) return <div>Error: {(error as Error).message}</div>;
   if (isLoading) {
     return (

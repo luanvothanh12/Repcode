@@ -1,8 +1,7 @@
 import prisma from "../../../prisma_client"; 
 import authenticate from "../../auth/Authenticate";
-import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: any, res: any) {
   // Apply authentication middleware
   authenticate(req, res, async () => {
     // Existing handler code here...
@@ -10,6 +9,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const { collectionId } = req.query;
   
       try {
+        const collection = await prisma.collection.findUnique({
+          where: { id: parseInt(collectionId as string) },
+        });
+
+        const userObject = await prisma.user.findUnique({
+          where: {
+            email: req.user?.email as string,
+          },
+        });
+
+        if (collection?.userId !== userObject?.id) {
+          return res.status(403).json({ error: 'Forbidden: You do not own this collection' });
+        }
+
         // Delete all problems associated with the collection
         await prisma.problem.deleteMany({
           where: {

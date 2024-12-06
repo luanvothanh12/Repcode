@@ -1,4 +1,4 @@
-# FlashCode
+# Repcode 
 
 Your personalized online notebook for everything Leetcode. 
 
@@ -102,11 +102,7 @@ We welcome contributions! Follow these steps to contribute:
 1. **Fork the repository**:
    * Go to the repository's GitHub page and click the "Fork" button.
 
-2. **Clone your forked repository**:
-```bash
-git clone https://github.com/your-username/repo-name.git
-cd repo-name
-```
+2. **Clone your forked repository**
 
 3. **Create a new branch for your changes**:
 ```bash
@@ -114,7 +110,7 @@ git checkout -b feature/your-feature-name
 ```
 
 4. **Make your changes locally**:
-   * Follow the setup instructions under Getting Started.
+   * Follow the setup instructions under Getting Started to set up the dev environment 
 
 5. **Commit your changes**:
 ```bash
