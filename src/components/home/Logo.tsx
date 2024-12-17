@@ -4,9 +4,9 @@ import Link from 'next/link';
 const Logo = () => {
   return (
     <div className="dark:bg-base_100 relative overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-white before:bg-no-repeat before:bg-top before:bg-cover before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2">
-      <div className="bg-[#FEF08A] text-[#854D0E] p-4 text-center font-semibold">
+      {/* <div className="bg-[#FEF08A] text-[#854D0E] p-4 text-center font-semibold">
         In an effort to make this project open-source, some data related to authentication is being migrated/tested. You may experience login issues during this time. If you do, please try again in a few hours.
-      </div>
+      </div> */}
       <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10">
         <div className="flex flex-col justify-center items-center min-h-screen py-8"> {/* Adjusted to flex-col */}
           <div className="flex flex-col items-center gap-8"> {/* Ensures the content is centered */}
