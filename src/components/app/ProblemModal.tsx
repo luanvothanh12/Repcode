@@ -5,6 +5,7 @@ import { AuthContext } from '@/auth/AuthContext';
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { convert } from 'html-to-text';
 
+const MAX_PROBLEMS = 152;
 
 const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, problemToEdit = null, showToast }: {isOpen:any, onClose:any, collectionId:any, isEditMode?:boolean, problemToEdit?:any, showToast?:any}) => {
   const [problemNumber, setProblemNumber] = useState('');
@@ -18,6 +19,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
   const [notes, setNotes] = useState(isEditMode && problemToEdit ? problemToEdit.notes : '');
   const queryClient = useQueryClient();
   const { user } = useContext(AuthContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     setName(isEditMode && problemToEdit ? problemToEdit.name : '');
@@ -56,11 +58,23 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
     }
   );
 
-
+  const { data: problemCount } = useQuery(
+    ['problemCount', collectionId],
+    async () => {
+      const response = await fetch(`/api/getCollectionProblems?collectionId=${collectionId}`);
+      const problems = await response.json();
+      return problems.length;
+    },
+    { enabled: !!collectionId && !isEditMode }
+  );
 
   const mutation = useMutation(
     async ({ name, question, solution, difficulty, collectionId, functionSignature, language, link, notes, headers }: { name: any, question: any, solution: any, difficulty: any, collectionId: any, functionSignature: any, language: any, link: any, notes: any, headers: HeadersInit }) => {
-      onClose(); 
+      if (!isEditMode && problemCount >= MAX_PROBLEMS) {
+        throw new Error(`Collections cannot have more than ${MAX_PROBLEMS} problems`);
+      }
+
+      setIsSubmitting(true);
       const url = isEditMode ? `/api/updateProblem?problemId=${problemToEdit.id}` : '/api/createProblem';
       const method = isEditMode ? 'PUT' : 'POST';
       const response = await fetch(url, {
@@ -112,11 +126,20 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
             {isEditMode ? 'Problem updated successfully' : 'Problem created successfully'}
           </>
         );
+        onClose();
       },
       onError: (error: any) => {
         console.error('Failed to submit problem:', error);
-        // Optionally, show an error toast
+        showToast(
+          <>
+            <span className="inline-block mr-2 bg-error rounded-full" style={{ width: '10px', height: '10px' }}></span>
+            {error.message}
+          </>
+        );
       },
+      onSettled: () => {
+        setIsSubmitting(false);
+      }
     }
   );
 
@@ -210,7 +233,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
               </div>
             </div>
             </>
-          ) : problems?.length >= 100 && !isEditMode ? (
+          ) : problems?.length >= MAX_PROBLEMS && !isEditMode ? (
             <>
             <div className={`${isOpen ? '' : 'hidden'} fixed inset-0 bg-base_100 bg-opacity-50 flex items-center justify-center`}>
               <div className="relative w-96 bg-[#1E1E20] rounded-lg shadow-lg p-5 modalBounceFadeIn">
@@ -222,7 +245,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                 <div className="text-left">
                   <h3 className="text-xl font-semibold text-primary">Problem limit reached!</h3>
                   <div className="mt-4">
-                    <p className="text-secondary text-sm">For now, you may only create up to 100 problems per collection. As we upgrade our servers, this limit will increase. Consider making another collection if you want to create more problems.</p>
+                    <p className="text-secondary text-sm">For now, you may only create up to 152 problems per collection. As we upgrade our servers, this limit will increase. Consider making another collection if you want to create more problems.</p>
                   </div>
                   <div className="mt-6 flex justify-end">
                     <button onClick={onClose} className="bg-pop text-white font-medium py-2 px-6 rounded-md transition ease-in-out duration-150">
@@ -384,25 +407,33 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                       </label>
                     </div>
                   </div>
-                  <div className="flex justify-end gap-3">
+                  <div className="mt-6 flex justify-end gap-3">
                     <button
                       type="button"
                       onClick={onClose}
-                      className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 transition-transform duration-200 hover:scale-95"
+                      className="bg-transparent hover:border-feintwhite border border-divide text-primary py-2 px-4 rounded"
                     >
-                      Close
+                      Cancel
                     </button>
                     <button
-                      type="submit"
+                      type="button"
                       onClick={handleSubmit}
-                      disabled={!name.trim() || !question.trim() || !solution.trim()}
-                      className={`inline-flex justify-center items-center gap-x-3 text-center ${
-                        !name.trim() || !question.trim() || !solution.trim() || !difficulty.trim()
-                          ? 'bg-disabled border border-disabled text-feintwhite'
-                          : 'bg-success border border-success text-neutral'
-                      } text-lg font-medium rounded-md focus:outline-none focus:ring-1 py-1 px-4 transition-transform duration-200 hover:scale-95`}
+                      disabled={!name.trim() || !question.trim() || !solution.trim() || isSubmitting}
+                      className={`
+                        flex items-center gap-2 py-2 px-6 rounded-md transition ease-in-out duration-150
+                        ${!name.trim() || !question.trim() || !solution.trim() || isSubmitting
+                          ? 'bg-disabled text-disabledText cursor-not-allowed'
+                          : 'bg-success text-neutral hover:bg-opacity-90'}
+                      `}
                     >
-                      {isEditMode ? 'Update' : 'Create'}
+                      {isSubmitting ? (
+                        <>
+                          <span className="material-icons animate-spin text-xl">sync</span>
+                          {isEditMode ? 'Updating...' : 'Creating...'}
+                        </>
+                      ) : (
+                        isEditMode ? 'Update' : 'Create'
+                      )}
                     </button>
                   </div>
                 </form>

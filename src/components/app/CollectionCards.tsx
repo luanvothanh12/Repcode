@@ -50,24 +50,23 @@ const CollectionCards = () => {
     setCollectionToDelete(null);
   };
 
+  const [isDeletingCollection, setIsDeletingCollection] = useState(false);
+
   const deleteCollectionMutation = useMutation(
     async (collectionId: any) => {
+      setIsDeletingCollection(true);
       const token = await auth.currentUser?.getIdToken();
   
       if (!token) {
         throw new Error('Authentication token is not available.');
       }
   
-      // Include the token in the Authorization header
-      const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      };
-  
-      setDeleteConfirmationOpen(false);
       const response = await fetch(`/api/deleteCollection?collectionId=${collectionId}`, {
         method: 'DELETE',
-        headers: headers
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
       });
   
       if (!response.ok) throw new Error('Problem deletion failed');
@@ -75,10 +74,11 @@ const CollectionCards = () => {
     },
     {
       onSuccess: () => {
-        // Invalidate and refetch to update the list
+        setDeleteConfirmationOpen(false);
+        
         queryClient.invalidateQueries(['collections', user?.email]);
         queryClient.invalidateQueries(['allProblems', user?.email]);
-        queryClient.invalidateQueries(['userSettings', user?.email]); // for the free tier checking 
+        queryClient.invalidateQueries(['userSettings', user?.email]);
         showToast(
           <>
             <span className="inline-block mr-2 bg-error rounded-full" style={{ width: '10px', height: '10px' }}></span>
@@ -86,6 +86,9 @@ const CollectionCards = () => {
           </>
         );
       },
+      onSettled: () => {
+        setIsDeletingCollection(false);
+      }
     }
   );
 
@@ -265,40 +268,37 @@ const CollectionCards = () => {
               </svg>
             </button>
             <div className="text-left">
-              {collectionToDelete && (collectionToDelete?.newCount + collectionToDelete.learningCount + collectionToDelete.reviewCount) > 20 ? (
-                <>
-                  <h3 className="text-xl font-semibold text-primary">Too many problems</h3>
-                  <div className="mt-4">
-                    <p className="text-secondary text-sm">To reduce server strain, please manually delete the problems in this collection until there are less than 20, then try deleting this collection again.</p>
-                  </div>
-                  <div className="mt-6 flex justify-end">
-                    <button onClick={closeDeleteConfirmation} className="bg-pop text-white font-medium py-2 px-6 rounded-md transition ease-in-out duration-150">
-                      Close
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <h3 className="text-xl font-semibold text-primary">Delete collection?</h3>
-                  <div className="mt-4">
-                    <p className="text-secondary text-sm">This will delete all the problems inside as well.</p>
-                  </div>
-                  <div className="mt-6 flex justify-end gap-3">
-                    <button
-                      onClick={closeDeleteConfirmation}
-                      className="bg-transparent hover:border-feintwhite border border-divide text-primary py-2 px-4 rounded"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={deleteCollection}
-                      className="bg-error text-white font-medium py-2 px-6 rounded-md transition ease-in-out duration-150"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </>
-              )}
+              <h3 className="text-xl font-semibold text-primary">Delete collection?</h3>
+              <div className="mt-4">
+                <p className="text-secondary text-sm">This will delete all the problems inside as well.</p>
+              </div>
+              <div className="mt-6 flex justify-end gap-3">
+                <button
+                  onClick={closeDeleteConfirmation}
+                  className="bg-transparent hover:border-feintwhite border border-divide text-primary py-2 px-4 rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={deleteCollection}
+                  disabled={isDeletingCollection}
+                  className={`
+                    flex items-center gap-2 py-2 px-6 rounded-md transition ease-in-out duration-150
+                    ${isDeletingCollection 
+                      ? 'bg-disabled text-disabledText cursor-not-allowed' 
+                      : 'bg-error text-white'}
+                  `}
+                >
+                  {isDeletingCollection ? (
+                    <>
+                      <span className="material-icons animate-spin text-xl">sync</span>
+                      Deleting...
+                    </>
+                  ) : (
+                    'Delete'
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ import { AuthContext } from "@/auth/AuthContext";
 
 const CollectionModal = ({ isOpen, onClose, isEditMode = false, collectionToEdit = null, showToast }: { isOpen: boolean, isEditMode?:any, collectionToEdit?:any, onClose: any, showToast:any }) => {
   const [collectionName, setCollectionName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
   const { user } = useContext(AuthContext); 
 
@@ -30,7 +31,7 @@ const CollectionModal = ({ isOpen, onClose, isEditMode = false, collectionToEdit
 
   const mutation = useMutation(
     async ({ title, userEmail, headers }: { title: any, userEmail: any, headers: HeadersInit }) => {
-      onClose(); // Close the modal
+      setIsSubmitting(true);
       const url = isEditMode ? `/api/updateCollection?collectionId=${collectionToEdit.id}` : '/api/createCollection';
       const method = isEditMode ? 'PUT' : 'POST';
       const response = await fetch(url, {
@@ -49,18 +50,21 @@ const CollectionModal = ({ isOpen, onClose, isEditMode = false, collectionToEdit
         queryClient.invalidateQueries(['collections', user?.email]);
         queryClient.invalidateQueries(['collectionDetails']);
         queryClient.invalidateQueries(['userSettings', user?.email]);
-  
+        
         showToast(
           <>
             <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>
             {isEditMode ? 'Collection updated successfully' : 'Collection created successfully'}
           </>
         );
+        onClose();
       },
       onError: (error: any) => {
         console.error('Failed to submit collection:', error);
-        // Optionally, show an error toast
       },
+      onSettled: () => {
+        setIsSubmitting(false);
+      }
     }
   );
 
@@ -129,15 +133,40 @@ const handleSubmit = async (e: any) => {
           <div className="mt-2 px-7 py-3">
             <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
               <label htmlFor="collectionName" className="block text-sm font-medium text-secondary">Collection Name:</label>
-              <input type="text" id="collectionName" name="collectionName" value={collectionName} onChange={(e) => setCollectionName(e.target.value)} className="text-secondary mt-1 block w-full px-3 py-2 bg-base_100 border border-divide rounded-md shadow-sm focus:outline-none focus:border-blue transition-colors duration-300 sm:text-sm" />
+              <input 
+                type="text" 
+                id="collectionName" 
+                name="collectionName" 
+                value={collectionName} 
+                onChange={(e) => setCollectionName(e.target.value)} 
+                className="text-secondary mt-1 block w-full px-3 py-2 bg-base_100 border border-divide rounded-md shadow-sm focus:outline-none focus:border-blue transition-colors duration-300 sm:text-sm" 
+              />
             </form>
           </div>
           <div className="flex justify-end gap-3 px-7 py-3">
-            <button type="button" onClick={onClose} className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 transition-transform duration-200 hover:scale-95">
+            <button 
+              type="button" 
+              onClick={onClose} 
+              className="inline-flex justify-center items-center gap-x-3 text-center bg-error border border-error text-neutral text-lg font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-1 px-4 transition-transform duration-200 hover:scale-95"
+            >
               Close
             </button>
-            <button type="button" onClick={handleSubmit} disabled={!collectionName.trim()} className={`inline-flex justify-center items-center gap-x-3 text-center ${collectionName.trim() ? 'bg-success border border-success text-neutral' : 'bg-disabled border border-disabled text-feintwhite'} text-lg font-medium rounded-md focus:outline-none focus:ring-1 py-1 px-4 transition-transform duration-200 hover:scale-95`}>
-              {isEditMode ? 'Update' : 'Create'}
+            <button 
+              type="button" 
+              onClick={handleSubmit} 
+              disabled={!collectionName.trim() || isSubmitting}
+              className={`inline-flex justify-center items-center gap-x-2 text-center 
+                ${collectionName.trim() && !isSubmitting ? 'bg-success border border-success text-neutral' : 'bg-disabled border border-disabled text-feintwhite'} 
+                text-lg font-medium rounded-md focus:outline-none focus:ring-1 py-1 px-4 transition-transform duration-200 hover:scale-95`}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="material-icons animate-spin text-xl">sync</span>
+                  {isEditMode ? 'Updating...' : 'Creating...'}
+                </>
+              ) : (
+                isEditMode ? 'Update' : 'Create'
+              )}
             </button>
           </div>
         </div>

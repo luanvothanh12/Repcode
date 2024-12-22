@@ -7,6 +7,9 @@ import { AuthContext } from '@/auth/AuthContext';
 import { useRouter } from 'next/router';
 import ProblemStatsModal from './ProblemStatsModal';
 import DonutChart from './DonutChart';
+import ImportModal from './ImportModal';
+
+const MAX_PROBLEMS = 152;
 
 const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   const [toastMessage, setToastMessage] = useState('');
@@ -22,6 +25,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   const router = useRouter();
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
   const [problemToViewStats, setProblemToViewStats] = useState(null);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   const fetchUserSettings = async () => {
     if (!user) throw new Error('No user found');
@@ -245,11 +249,16 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         onClose={() => setIsStatsModalOpen(false)}
         problem={problemToViewStats}
       />
+      <ImportModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        collectionId={collectionId}
+      />
 
       <div className='flex'>
         <div className='flex-1'>
-          <div className='flex justify-start mb-4'>
-            <div className='relative flex items-center w-full max-w-sm h-12 rounded-lg focus-within:shadow-lg bg-tertiary overflow-hidden transition-width duration-300 border border-tertiary'>
+          <div className='flex justify-start mb-4 items-center gap-4'>
+            <div className='relative flex items-center w-full max-w-sm h-12 mr-8 rounded-lg focus-within:shadow-lg bg-tertiary overflow-hidden transition-width duration-300 border border-tertiary'>
               <div className='grid place-items-center h-full w-12 text-feintwhite'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -273,8 +282,33 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className='peer h-full w-full outline-none text-sm text-secondary pr-2 bg-tertiary transition-width duration-300'
               />
-            </div> 
+            </div>
+            <button
+              onClick={() => setIsImportModalOpen(true)}
+              className='inline-flex items-center gap-2 h-12 px-4 py-2 bg-base_100 text-secondary hover:text-primary rounded-lg transition-colors duration-200 border border-dashed border-divide'
+            >
+              <span className='material-icons text-xl'>cloud_download</span>
+              Import From Leetcode
+            </button>
           </div>
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-4">
+              {/* Existing search bar */}
+            </div>
+            <div className="text-secondary text-sm">
+              {problems.length} problems
+            </div>
+          </div>
+          
+          {problems.length >= MAX_PROBLEMS && (
+            <div className="mb-4 p-4 bg-warning rounded-lg">
+              <p className="text-hardbg text-sm font-bold">
+                This collection has reached the maximum limit of {MAX_PROBLEMS} problems. 
+                Delete some problems to add new ones.
+              </p>
+            </div>
+          )}
+          
           <table className='table-auto w-full text-left'>
             <thead>
               <tr className='text-secondary border-b border-divide'>

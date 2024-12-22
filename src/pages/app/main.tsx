@@ -56,6 +56,7 @@ import { useQuery, useQueryClient } from 'react-query';
       }
     };
 
+    console.log(auth.currentUser)
     return (
       <>
         <FirstTimeLogIn isOpen={isModalOpen} onClose={handleCloseModal} />
