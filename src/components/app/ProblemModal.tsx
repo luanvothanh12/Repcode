@@ -20,6 +20,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
   const queryClient = useQueryClient();
   const { user } = useContext(AuthContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAutofilling, setIsAutofilling] = useState(false);
 
   useEffect(() => {
     setName(isEditMode && problemToEdit ? problemToEdit.name : '');
@@ -146,6 +147,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
   if (!isOpen) return null;
 
   const handleAutofill = async () => {
+    setIsAutofilling(true);
     try {
       const response = await fetch('/problems.json');
       if (!response.ok) throw new Error('Failed to load problems data');
@@ -157,7 +159,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
         setName(problem.title);
         // Convert HTML content to plain text
         const plainTextContent = convert(problem.content, {
-          wordwrap: 130, // Optional: set word wrap limit
+          wordwrap: 130,
         });
         setQuestion(plainTextContent);
         setDifficulty(problem.difficulty);
@@ -169,6 +171,8 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
     } catch (error) {
       console.error('Error fetching problem data:', error);
       showToast('Error fetching problem data');
+    } finally {
+      setIsAutofilling(false);
     }
   };
 
@@ -278,9 +282,19 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
                       <button
                         type="button"
                         onClick={handleAutofill}
-                        className="inline-flex justify-center items-center gap-x-3 text-center bg-pop text-neutral text-lg font-medium rounded-md focus:ring-1 py-2 px-4 transition-transform duration-200 hover:scale-95"
+                        disabled={isAutofilling}
+                        className={`inline-flex justify-center items-center gap-x-3 text-center ${
+                          isAutofilling ? 'bg-disabled text-disabledText cursor-not-allowed' : 'bg-pop text-neutral hover:scale-95'
+                        } text-lg font-medium rounded-md focus:ring-1 py-2 px-4 transition-transform duration-200`}
                       >
-                        Autofill
+                        {isAutofilling ? (
+                          <>
+                            <span className="material-icons animate-spin text-xl">sync</span>
+                            Autofilling...
+                          </>
+                        ) : (
+                          'Autofill'
+                        )}
                       </button>
                     </div>
                   </div>

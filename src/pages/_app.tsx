@@ -21,7 +21,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const stripePromise = loadStripe("your-stripe-key-here"); 
+// const stripePromise = loadStripe("your-stripe-key-here"); 
 
 function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
