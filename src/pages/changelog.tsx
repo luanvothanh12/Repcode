@@ -9,6 +9,14 @@ export default function Changelog() {
         month: "December 2024",
         updates: [
           {
+            date: "V 1.11 - December 25th, 2024",
+            changes: [
+              "🎄Merry Christmas!!",
+              "⚙️Adjusted landing page UI",
+              "⚙️Adjusted problem modal UI"
+            ],
+          },
+          {
             date: "V 1.10 - December 22nd, 2024",
             changes: [
               "➕Added ability to import problems from any public list on leetcode",
@@ -56,7 +64,7 @@ export default function Changelog() {
           {
             date: "V 1.5 - October 31st, 2024",
             changes: [
-              "🎃Happy Halloween!",
+              "🎃Happy Halloween!!",
               "⚙️Adjusted AI Feedback error message to be more descriptive", 
               "⚙️Adjusted tab indenting in code editor to be 4 instead of 2 (Credit: Jay)"
             ],
