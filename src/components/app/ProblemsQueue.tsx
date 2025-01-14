@@ -18,8 +18,26 @@ import ProblemModal from './ProblemModal';
 import ProblemStatsModal from './ProblemStatsModal';
 import Toast from './Toast';
 
+// If there's ever a <code> nested within a <pre>, it breaks everything, so we need to check for this and remove it 
+const sanitizeCodeBlocks = (html: string) => {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+
+  const preTags = Array.from(div.getElementsByTagName('pre'));
   
-  const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:any, userSettings:any, refetchProblems: any}) => {
+  for (const pre of preTags) {
+    const nestedCodeTags = Array.from(pre.getElementsByTagName('code'));
+    
+    for (const code of nestedCodeTags) {
+      const textNode = document.createTextNode(code.textContent || '');
+      code.parentNode?.replaceChild(textNode, code);
+    }
+  }
+
+  return div.innerHTML;
+};
+
+const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:any, userSettings:any, refetchProblems: any}) => {
     const [dueProblems, setDueProblems] = useState<any>([]);
     const [buttons, setButtons] = useState<any[]>([]);
     const [againText, setAgainText] = useState<any>();
@@ -629,7 +647,9 @@ import Toast from './Toast';
         ) : content === 'question' ? (
           <div 
             className="text-secondary mt-4 problem-content"
-            dangerouslySetInnerHTML={{ __html: dueProblems[0].question }}
+            dangerouslySetInnerHTML={{ 
+              __html: sanitizeCodeBlocks(dueProblems[0].question)
+            }}
           />
         ) : (
           <pre><code className={`language-${dueProblems[0].language} mr-5`}>{dueProblems[0].solution}</code></pre>
