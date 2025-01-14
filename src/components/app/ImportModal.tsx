@@ -104,7 +104,7 @@ const ImportModal = ({ isOpen, onClose, collectionId }: ImportModalProps) => {
 
         <div className="mb-6">
           <h2 className="text-secondary text-xl font-semibold mb-2">
-            Import from Leetcode
+            Import Leetcode List
           </h2>
           <p className="text-secondary text-sm mb-4">
             Enter the slug of any public Leetcode list, then press Import to add all the problems and their details from that list to this collection.

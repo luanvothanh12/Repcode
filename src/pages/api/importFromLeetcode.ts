@@ -30,11 +30,6 @@ interface LeetcodeProblemResponse {
   };
 }
 
-function preprocessHtml(html: string): string {
-  // Replace inline code elements with their content
-  return html.replace(/<code>(.*?)<\/code>/g, '$1');
-}
-
 const MAX_PROBLEMS = 152;
 
 export default async function handler(req: any, res: any) {
@@ -185,21 +180,15 @@ export default async function handler(req: any, res: any) {
                 // Create the problem with the calculated due date
                 const createdProblem = await prisma.problem.create({
                 data: {
-                    name: questionData.title || 'Untitled Problem',
-                    question: convert(preprocessHtml(questionData.content || 'No content available'), {
-                    wordwrap: 130,
-                    selectors: [
-                        { selector: 'pre', format: 'blockquote' },
-                        { selector: 'ul', options: { itemPrefix: '• ' } }
-                    ]
-                    }),
+                    name: `${questionData.questionFrontendId}. ${questionData.title}` || 'Untitled Problem',
+                    question: questionData.content || 'No content available',
                     solution: 'TODO: Add your solution here',
                     difficulty: mapDifficulty(questionData.difficulty || 'Medium'),
                     collectionId: parseInt(collectionId),
                     functionSignature,
                     language: 'python',
                     link: `https://leetcode.com/problems/${problem.titleSlug}/`,
-                    dueDate, // Use our calculated date
+                    dueDate,
                 },
                 });
 

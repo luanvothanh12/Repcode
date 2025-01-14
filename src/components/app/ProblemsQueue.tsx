@@ -14,6 +14,9 @@ import { AuthContext } from '@/auth/AuthContext';
 import { useMutation, useQueryClient } from 'react-query';
 import ChatWindow from './ChatWindow';
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import ProblemModal from './ProblemModal';
+import ProblemStatsModal from './ProblemStatsModal';
+import Toast from './Toast';
 
   
   const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:any, userSettings:any, refetchProblems: any}) => {
@@ -28,6 +31,10 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
     const [editorContent, setEditorContent] = useState<any>('');  
     const queryClient = useQueryClient();
     const [showChat, setShowChat] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [isToastVisible, setIsToastVisible] = useState(false);
 
     const { user } = useContext(AuthContext);
 
@@ -535,12 +542,37 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
     );
   }
 
+  const showToast = (message: string) => {
+    setToastMessage(message);
+    setIsToastVisible(true);
+    setTimeout(() => setIsToastVisible(false), 3000);
+  };
 
     return (
       <div className="flex flex-col md:flex-row h-screen overflow-hidden">
         <div className="flex-1 overflow-auto bg-tertiary p-4 shadow-md rounded-sm" style={{ maxHeight: '70vh' }}>
+          {/* Top buttons row */}
+          <div className="flex justify-end mb-4">
+            <div className="flex space-x-2">
+              <button 
+                onClick={() => setIsEditModalOpen(true)}
+                className="py-2 px-4 text-secondary rounded-md transition duration-300 bg-tertiary hover:bg-divide flex items-center gap-1"
+              >
+                <span className="material-icons text-secondary" style={{ fontSize: '19px' }}>edit</span>
+                Edit
+              </button>
+              <button 
+                onClick={() => setIsStatsModalOpen(true)}
+                className="py-2 px-4 text-secondary rounded-md transition duration-300 bg-tertiary hover:bg-divide flex items-center gap-1"
+              >
+                <span className="material-icons text-secondary" style={{ fontSize: '19px' }}>bar_chart</span>
+                Stats
+              </button>
+            </div>
+          </div>
+
           {/* Buttons for toggling between question and solution */}
-          <div className="mb-4 flex space-x-2 bg-[#1e1e20] p-2 rounded-md">
+          <div className="mb-4 flex space-x-2 bg-tertiary p-2 rounded-md">
             <button className={`py-2 px-4 text-primary rounded-md transition duration-300 ${content === 'question' ? 'bg-divide' : 'bg-[#1e1e20]'}`} onClick={() => setContent('question')}><span className="material-icons text-secondary mr-1" style={{ fontSize: '19px' }}>library_books</span> Problem</button>
             <button className={`py-2 px-4 text-primary rounded-md transition duration-300 ${content === 'notes' ? 'bg-divide' : 'bg-[#1e1e20]'}`} onClick={() => setContent('notes')}><span className="material-icons text-secondary mr-1" style={{ fontSize: '19px' }}>edit</span> Notes</button>
             <button className={`py-2 px-4 text-primary rounded-md transition duration-300 ${content === 'solution' ? 'bg-divide' : 'bg-[#1e1e20]'}`} onClick={() => setContent('solution')}><span className="material-icons text-secondary mr-1" style={{ fontSize: '19px' }}>code</span> Solution</button>
@@ -595,7 +627,10 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
         {content === 'notes' ? (
           <p className="text-secondary mt-4 whitespace-pre-wrap text-lg">{dueProblems[0].notes}</p>
         ) : content === 'question' ? (
-          <p className="text-secondary mt-4 whitespace-pre-wrap text-lg">{dueProblems[0].question}</p>
+          <div 
+            className="text-secondary mt-4 problem-content"
+            dangerouslySetInnerHTML={{ __html: dueProblems[0].question }}
+          />
         ) : (
           <pre><code className={`language-${dueProblems[0].language} mr-5`}>{dueProblems[0].solution}</code></pre>
         )}
@@ -643,6 +678,29 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
         place="bottom"
         style={{ backgroundColor: "#111111" }}
       />
+            {isEditModalOpen && dueProblems[0] && (
+        <ProblemModal
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            refetchProblems(); // Refresh problems after edit
+          }}
+          collectionId={dueProblems[0].collectionId}
+          isEditMode={true}
+          problemToEdit={dueProblems[0]}
+          showToast={showToast}
+        />
+      )}
+
+      {isStatsModalOpen && dueProblems[0] && (
+        <ProblemStatsModal
+          isOpen={isStatsModalOpen}
+          onClose={() => setIsStatsModalOpen(false)}
+          problem={dueProblems[0]}
+        />
+      )}
+
+      <Toast message={toastMessage} isVisible={isToastVisible} />
         </div>
       
     );

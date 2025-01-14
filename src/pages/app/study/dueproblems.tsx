@@ -6,9 +6,11 @@ import firebaseAdmin from "../../../../firebaseAdmin";
 import ProblemsQueue from '@/components/app/ProblemsQueue';
 import { AuthContext } from '@/auth/AuthContext';
 import { useQuery } from 'react-query';
+import VideoModal from '@/components/app/VideoModal';
 
 const DueProblems = () => {
   const { user } = useContext(AuthContext);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   const fetchDueTodayProblems = async () => {
     if (!user) throw new Error("No user found");
@@ -81,6 +83,31 @@ const DueProblems = () => {
             <>
               <div className="text-primary text-4xl font-bold mb-4 flex justify-center">Study Mode</div>
               <hr className="border-divide mb-8 transition-width duration-300"/>
+
+              <div className="flex items-start gap-3 p-4 mb-8 bg-[#ffd70015] border-l-4 border-[#ffd700] rounded">
+                <span className="material-icons text-2xl text-[#ffd700] flex-shrink-0">warning</span>
+                <div className="text-md text-secondary">
+                  <strong>IMPORTANT:</strong> We've updated how Repcode renders problems to match Leetcode exactly, so existing problem statements will look incorrect. To fix this, please re-import the problem by clicking 'Edit', entering the problem number, and clicking 'Autofill' (make sure to copy/paste your prior solution beforehand).{' '}
+                  <a 
+                    href="#" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsVideoModalOpen(true);
+                    }} 
+                    className="text-link hover:underline"
+                  >
+                    Watch this video for a quick walkthrough.
+                  </a>
+                  <span> I know this banner is annoying sorry, it will go away a few days from now</span>
+                </div>
+              </div>
+
+              <VideoModal
+                isOpen={isVideoModalOpen}
+                onClose={() => setIsVideoModalOpen(false)}
+                videoId="5wKetDFAki4"
+              />
+
               <ProblemsQueue
                 problems={dueTodayProblems}
                 userSettings={userSettings}
