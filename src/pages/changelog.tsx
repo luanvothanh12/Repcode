@@ -6,6 +6,25 @@ import "../app/globals.css";
 export default function Changelog() {
     const changelogData = [
       {
+        month: "January 2025",
+        updates: [
+          {
+            date: "V 1.13 - January 12th, 2025",
+            changes: [
+              "➕Added ability to actually see the problems due today by pressing the `Due Today:` text on the study dashboard",
+            ],
+          },
+          {
+            date: "V 1.12 - January 10th, 2025",
+            changes: [
+              "➕Added Edit and Stats button to problem view",
+              "⚙️Adjusted functionality of Autofilling leetcode problems so that how the question is formatted here on Repcode exactly matches how it looks on Leetcode",
+              "⚙️Adjusted problem modal UI/UX",
+            ],
+          },
+        ],
+      },
+      {
         month: "December 2024",
         updates: [
           {

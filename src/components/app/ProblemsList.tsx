@@ -288,7 +288,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
               className='inline-flex items-center gap-2 h-12 px-4 py-2 bg-base_100 text-secondary hover:text-primary rounded-lg transition-colors duration-200 border border-dashed border-divide'
             >
               <span className='material-icons text-xl'>cloud_download</span>
-              Import From Leetcode
+              Import Leetcode List
             </button>
           </div>
           <div className="flex justify-between items-center mb-4">
