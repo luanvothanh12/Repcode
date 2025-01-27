@@ -8,6 +8,7 @@ External dependencies:
 
 up next: 
 ---------------
+- Bug: for new users, Total Problems says 3 but should say 1 
 - In the Study Mode page, the "Due Today: [x]" text should be a dropdown that, when expanded, shows the actual problems that are due on that day (their name, difficulty, and due date)
 - make AI chat look much much better, and also allow for follow ups 
 - add Repcode vs. Leetcode vs. Neetcode comparison table in landing page 
