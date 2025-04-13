@@ -2,11 +2,26 @@ import React, { useState, useEffect, useContext } from 'react';
 import { auth } from '../../firebaseConfig';
 import { useQuery, useMutation, useQueryClient } from 'react-query'; 
 import { AuthContext } from '@/auth/AuthContext';
-import { convert } from 'html-to-text';
 
 const MAX_PROBLEMS = 152;
 
-const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, problemToEdit = null, showToast }: {isOpen:any, onClose:any, collectionId:any, isEditMode?:boolean, problemToEdit?:any, showToast?:any}) => {
+interface ProblemModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  collectionId: number;
+  isEditMode?: boolean;
+  problemToEdit?: any;
+  showToast?: any;
+}
+
+const ProblemModal = ({
+  isOpen,
+  onClose,
+  collectionId,
+  isEditMode = false,
+  problemToEdit = null,
+  showToast
+}: ProblemModalProps) => {
   const [problemNumber, setProblemNumber] = useState('');
   const [name, setName] = useState(isEditMode && problemToEdit ? problemToEdit.name : '');
   const [question, setQuestion] = useState(isEditMode && problemToEdit ? problemToEdit.question : '');
@@ -16,23 +31,30 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
   const [language, setLanguage] = useState(isEditMode && problemToEdit ? problemToEdit.language : 'python');
   const [link, setLink] = useState(isEditMode && problemToEdit ? problemToEdit.link : '');
   const [notes, setNotes] = useState(isEditMode && problemToEdit ? problemToEdit.notes : '');
-  const queryClient = useQueryClient();
-  const { user } = useContext(AuthContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAutofilling, setIsAutofilling] = useState(false);
   const [isManualEntryOpen, setIsManualEntryOpen] = useState(false);
 
-  useEffect(() => {
-    setName(isEditMode && problemToEdit ? problemToEdit.name : '');
-    setQuestion(isEditMode && problemToEdit ? problemToEdit.question : '');
-    setSolution(isEditMode && problemToEdit ? problemToEdit.solution : '');
-    setDifficulty(isEditMode && problemToEdit ? problemToEdit.difficulty : 'Easy');
-    setFunctionSignature(isEditMode && problemToEdit ? problemToEdit.functionSignature : '');
-    setLanguage(isEditMode && problemToEdit ? problemToEdit.language : 'python');
-    setLink(isEditMode && problemToEdit ? problemToEdit.link : '');
-    setNotes(isEditMode && problemToEdit ? problemToEdit.notes : ''); 
+  const queryClient = useQueryClient();
+  const { user } = useContext(AuthContext);
 
-  }, [isOpen]);
+  // Reset fields when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setName(isEditMode && problemToEdit ? problemToEdit.name : '');
+      setQuestion(isEditMode && problemToEdit ? problemToEdit.question : '');
+      setSolution(isEditMode && problemToEdit ? problemToEdit.solution : '');
+      setDifficulty(isEditMode && problemToEdit ? problemToEdit.difficulty : 'Easy');
+      setFunctionSignature(isEditMode && problemToEdit ? problemToEdit.functionSignature : '');
+      setLanguage(isEditMode && problemToEdit ? problemToEdit.language : 'python');
+      setLink(isEditMode && problemToEdit ? problemToEdit.link : '');
+      setNotes(isEditMode && problemToEdit ? problemToEdit.notes : '');
+      setProblemNumber('');
+      setIsManualEntryOpen(false);
+    }
+  }, [isOpen, isEditMode, problemToEdit]);
+
+  // ======= React Query hooks =======
 
   const fetchUserSettings = async () => {
     if (!user) throw new Error("No user found");
@@ -40,10 +62,14 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
     if (!response.ok) throw new Error("Failed to fetch user settings");
     return response.json();
   };
-  
-  const { isLoading: userLoading, data: theUser, error: userError } = useQuery(['userSettings', user?.email], fetchUserSettings, {
-    enabled: !!user, 
-  })
+
+  const {
+    isLoading: userLoading,
+    data: theUser,
+    error: userError
+  } = useQuery(['userSettings', user?.email], fetchUserSettings, {
+    enabled: !!user,
+  });
 
   const fetchProblems = async () => {
     const response = await fetch(`/api/getCollectionProblems?collectionId=${collectionId}&userId=${theUser?.id}`);
@@ -51,77 +77,105 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
     return response.json();
   };
 
-  const { data: problems, isLoading: problemsLoading, error: problemsError } = useQuery(
+  useQuery(
     ['collectionProblems', collectionId, theUser?.id],
     fetchProblems,
-    {
-      enabled: isOpen && !!user,
-    }
+    { enabled: isOpen && !!user }
   );
 
   const { data: problemCount } = useQuery(
     ['problemCount', collectionId],
     async () => {
       const response = await fetch(`/api/getCollectionProblems?collectionId=${collectionId}`);
-      const problems = await response.json();
-      return problems.length;
+      const probs = await response.json();
+      return probs.length;
     },
     { enabled: !!collectionId && !isEditMode }
   );
 
+  // ======= Mutations =======
+
   const mutation = useMutation(
-    async ({ name, question, solution, difficulty, collectionId, functionSignature, language, link, notes, headers }: { name: any, question: any, solution: any, difficulty: any, collectionId: any, functionSignature: any, language: any, link: any, notes: any, headers: HeadersInit }) => {
-      if (!isEditMode && problemCount >= MAX_PROBLEMS) {
+    async ({
+      name,
+      question,
+      solution,
+      difficulty,
+      collectionId,
+      functionSignature,
+      language,
+      link,
+      notes,
+      headers
+    }: {
+      name: string;
+      question: string;
+      solution: string;
+      difficulty: string;
+      collectionId: number;
+      functionSignature: string;
+      language: string;
+      link: string;
+      notes: string;
+      headers: HeadersInit;
+    }) => {
+      if (!isEditMode && problemCount && problemCount >= MAX_PROBLEMS) {
         throw new Error(`Collections cannot have more than ${MAX_PROBLEMS} problems`);
       }
 
       setIsSubmitting(true);
-      const url = isEditMode ? `/api/updateProblem?problemId=${problemToEdit.id}` : '/api/createProblem';
+      const url = isEditMode
+        ? `/api/updateProblem?problemId=${problemToEdit.id}`
+        : '/api/createProblem';
       const method = isEditMode ? 'PUT' : 'POST';
+
       const response = await fetch(url, {
-        method: method,
-        headers: headers,
+        method,
+        headers,
         body: JSON.stringify({
-          name: name, 
-          question: question, 
-          solution: solution, 
-          difficulty: difficulty, 
-          collectionId: collectionId, 
-          functionSignature: functionSignature, 
-          language: language, 
-          link: link, 
-          notes: notes
+          name,
+          question,
+          solution,
+          difficulty,
+          collectionId,
+          functionSignature,
+          language,
+          link,
+          notes
         }),
       });
-      if (!response.ok) throw new Error('Failed to submit problem');
+
+      if (!response.ok) {
+        throw new Error('Failed to submit problem');
+      }
       const result = await response.json();
 
-      // Call updateCollectionCounts endpoint after problem creation
+      // Update collection counts if this is a new problem
       if (!isEditMode) {
         const updateResponse = await fetch('/api/updateCollectionCounts', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ collectionId: collectionId }),
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ collectionId }),
         });
-        if (!updateResponse.ok) throw new Error('Failed to update collection counts');
+        if (!updateResponse.ok) {
+          throw new Error('Failed to update collection counts');
+        }
       }
 
       return result;
-
     },
     {
       onSuccess: () => {
-        // Invalidate and refetch problems list
+        // Invalidate queries
         queryClient.invalidateQueries(['collectionDetails']);
-        queryClient.invalidateQueries(['problemDetails']); // for problem view 
-        queryClient.invalidateQueries(['allProblems', user?.email]); // for dashboard numbers 
-        queryClient.invalidateQueries(['dueTodayProblems', user?.email]); // for the ProblemQueue
-        queryClient.invalidateQueries(['userSettings', user?.email]); // for free tier checks 
-        queryClient.invalidateQueries(['collectionProblems', collectionId]); // for free tier checks 
-        queryClient.invalidateQueries(['collections', user?.email]); // for collection problem type counts  
-        showToast(
+        queryClient.invalidateQueries(['problemDetails']);
+        queryClient.invalidateQueries(['allProblems', user?.email]);
+        queryClient.invalidateQueries(['dueTodayProblems', user?.email]);
+        queryClient.invalidateQueries(['userSettings', user?.email]);
+        queryClient.invalidateQueries(['collectionProblems', collectionId]);
+        queryClient.invalidateQueries(['collections', user?.email]);
+
+        showToast?.(
           <>
             <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>
             {isEditMode ? 'Problem updated successfully' : 'Problem created successfully'}
@@ -131,7 +185,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
       },
       onError: (error: any) => {
         console.error('Failed to submit problem:', error);
-        showToast(
+        showToast?.(
           <>
             <span className="inline-block mr-2 bg-error rounded-full" style={{ width: '10px', height: '10px' }}></span>
             {error.message}
@@ -144,7 +198,7 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
     }
   );
 
-  if (!isOpen) return null;
+  // ======= Handlers =======
 
   const handleAutofill = async () => {
     setIsAutofilling(true);
@@ -156,48 +210,44 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
       // Compare the problem number as a string
       const problem = problemsData.find((p: any) => p.number === problemNumber.trim());
       if (problem) {
-        // Concatenate the problem number with the title
         setName(`${problem.number}. ${problem.title}`);
         setQuestion(problem.content);
         setDifficulty(problem.difficulty);
         setLink(problem.url);
-        setFunctionSignature(problem.boilerplate);  
-        setSolution("# TODO: Enter your solution here by editing the problem");
-        
-        showToast(
+        setFunctionSignature(problem.boilerplate);
+        setSolution('# TODO: Enter your solution here by editing the problem');
+
+        showToast?.(
           <>
             <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>
             Problem autofilled successfully
           </>
         );
       } else {
-        showToast('Problem not found');
+        showToast?.('Problem not found');
       }
     } catch (error) {
       console.error('Error fetching problem data:', error);
-      showToast('Error fetching problem data');
+      showToast?.('Error fetching problem data');
     } finally {
       setIsAutofilling(false);
     }
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
-    // Retrieve the Firebase authentication token
+
     const token = await auth.currentUser?.getIdToken();
-  
     if (!token) {
       console.error('Authentication token is not available.');
       return;
     }
-  
-    // Include the token in the Authorization header
+
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     };
-  
+
     mutation.mutate({
       name,
       question,
@@ -207,283 +257,506 @@ const ProblemModal = ({ isOpen, onClose, collectionId, isEditMode = false, probl
       functionSignature,
       language,
       link,
-      notes, 
-      headers: headers, 
+      notes,
+      headers
     });
   };
 
-
+  // ======= Render =======
   return (
-    <div className={`${isOpen ? '' : 'hidden'} fixed inset-0 bg-base_100 bg-opacity-75 overflow-y-auto h-full w-full z-10`}>
-      <div className="relative top-10 mx-auto p-8 w-[90%] max-w-4xl bg-nav rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-primary mb-6 text-center">Add New Problem</h2>
+    <>
+      {/* Backdrop */}
+      <div
+        className={`
+          fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-all duration-300 
+          ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}
+        `}
+        onClick={onClose}
+      />
+      
+      {/* Modal Container */}
+      <div
+        className={`
+          fixed top-1/2 left-1/2 -translate-x-1/2 z-50 w-full max-w-4xl rounded-xl 
+          shadow-[0_10px_40px_rgba(0,0,0,0.3)] transition-all duration-500 
+          bg-gradient-to-b from-[#2A303C] to-[#252B38] border border-[#3A4150]/50 
+          text-primary overflow-hidden max-h-[90vh] flex flex-col
+          ${isOpen ? "opacity-100 -translate-y-1/2" : "opacity-0 -translate-y-[40%] pointer-events-none"}
+        `}
+        onClick={(e) => e.stopPropagation()} 
+      >
+        {/* Top accent line */}
+        <div className="h-1 w-full bg-gradient-to-r from-[#06b6d4] to-[#3b82f6]" />
 
-        {/* Quick Import Section */}
-        <div className="mb-8 p-6 border-2 border-dashed border-divide rounded-lg">
-          <h3 className="text-xl font-semibold text-primary mb-2 text-center">Quick Import</h3>
-          <p className="text-secondary mb-4 text-center">Enter a Leetcode problem number to automatically fill out the details</p>
-          
-          <div className="flex justify-center gap-12">
-            <input
-              type="text"
-              value={problemNumber}
-              onChange={(e) => setProblemNumber(e.target.value)}
-              className="w-36 px-4 py-3 bg-nav border border-divide text-primary rounded-lg focus:outline-none focus:border-blue transition-colors duration-300 text-center"
-              placeholder="e.g. 1337"
-            />
+        <div className="p-6 relative overflow-y-auto">
+          {/* Header with close button and curved gradient line */}
+          <div className="flex items-center justify-between mb-6 relative z-10">
+            <div className="flex items-center">
+              <h2 className="text-xl font-semibold tracking-tight text-primary">
+                {isEditMode ? 'Edit Problem' : 'Add New Problem'}
+              </h2>
+              
+              {/* Curved gradient line - now positioned next to the header with increased width */}
+              <div className="ml-4 w-[600px] h-6 overflow-hidden pointer-events-none">
+                <svg
+                  className="w-full"
+                  height="20"
+                  viewBox="0 0 400 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="none"
+                >
+                  <path d="M0 10C80 20 180 0 400 10" stroke="url(#blueGradient)" strokeWidth="1.5" strokeLinecap="round" />
+                  <defs>
+                    <linearGradient id="blueGradient" x1="0" y1="10" x2="400" y2="10" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#06b6d4" />
+                      <stop offset="1" stopColor="#3b82f6" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+            
             <button
-              type="button"
-              onClick={handleAutofill}
-              disabled={isAutofilling}
-              className={`flex items-center gap-2 px-6 rounded-lg transition duration-200 ${
-                isAutofilling ? 'bg-disabled text-disabledText' : 'bg-[#FAFAFA] text-neutral hover:opacity-90'
-              }`}
+              onClick={onClose}
+              className="h-8 w-8 rounded-full hover:bg-[#3A4150]/70 transition-colors duration-200 flex items-center justify-center"
             >
-              {isAutofilling ? (
-                <>
-                  <span className="material-icons animate-spin">sync</span>
-                  <span>Autofilling...</span>
-                </>
-              ) : (
-                <>
-                  <span className="material-icons">auto_fix_high</span>
-                  <span>Autofill</span>
-                </>
-              )}
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                strokeWidth="2" 
+                stroke="currentColor" 
+                className="w-4 h-4"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </button>
           </div>
-        </div>
 
-        {/* Manual Entry Section */}
-        <div className="mb-6">
-          <div 
-            onClick={() => setIsManualEntryOpen(!isManualEntryOpen)}
-            className="p-3 rounded-lg hover:bg-hover2 cursor-pointer transition-colors duration-200"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-xl font-semibold text-primary">Manual Entry</span>
-              <span className={`material-icons transition-transform duration-300 text-secondary ${isManualEntryOpen ? 'rotate-180' : ''}`}>
-                expand_more
-              </span>
-            </div>
-            <p className="text-secondary text-sm mt-1">Manually enter or edit problem details</p>
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
+            {/* QUICK IMPORT SECTION */}
+            <div className="p-4 rounded-lg bg-[#343B4A]/50">
+              <h3 className="text-lg font-semibold text-primary mb-2 text-center">Quick Import</h3>
+              <p className="text-gray-300 text-sm mb-4 text-center">
+                Enter a Leetcode problem number to automatically fill out the details
+              </p>
 
-          {/* Collapsible Form Section */}
-          <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
-            isManualEntryOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
-          }`}>
-            <div className="space-y-6 pt-4">
-              {/* Existing form fields go here, with updated styling */}
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-2">
-                  Name<span className="text-error">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 bg-nav border border-divide text-primary rounded-lg focus:outline-none focus:border-blue transition-colors duration-300"
-                  placeholder="Enter the name of the problem"
-                />
-              </div>
+              <div className="flex justify-center gap-6">
+                {/* Problem number input */}
+                <div className="relative group">
+                  <input
+                    type="text"
+                    value={problemNumber}
+                    onChange={(e) => setProblemNumber(e.target.value)}
+                    className="w-36 px-3 py-2 bg-[#1E232C] border border-[#3A4150]/70 rounded-md shadow-sm 
+                               outline-none focus:outline-none focus:border-[#06b6d4]/70 focus:ring-1 focus:ring-[#3b82f6]/50 
+                               transition-colors duration-75 text-primary h-11 text-center"
+                    placeholder="e.g. 1337"
+                  />
+                  <div className="absolute inset-0 rounded-md border border-[#3b82f6]/0 
+                                  group-focus-within:border-[#3b82f6]/30 pointer-events-none 
+                                  transition-all duration-75 shadow-[0_0_0_0_rgba(59,130,246,0)]
+                                  group-focus-within:shadow-[0_0_10px_1px_rgba(59,130,246,0.2)]"
+                  />
+                </div>
 
-              {/* Question field */}
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-2">
-                  Question<span className="text-error">*</span>
-                </label>
-                <textarea
-                  value={question}
-                  onChange={(e) => setQuestion(e.target.value)}
-                  className="w-full px-4 py-3 bg-nav border border-divide text-primary rounded-lg focus:outline-none focus:border-blue transition-colors duration-300 h-48"
-                  placeholder={`Copy/paste the actual question here. 
-
-Make sure to use proper HTML formatting tags (like <code>, <pre>, <p>, etc. ), not just plaintext, so that the question is rendered exactly like how it is on Leetcode. Use the Autofill feature to do this automatically.
-`}
-                />
-              </div>
-
-              {/* Solution field */}
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-2">
-                  Solution<span className="text-error">*</span>
-                </label>
-                <textarea
-                  value={solution}
-                  onChange={(e) => setSolution(e.target.value)}
-                  className="w-full px-4 py-3 bg-nav border border-divide text-primary rounded-lg focus:outline-none focus:border-blue transition-colors duration-300 h-48"
-                  placeholder="Copy/paste the solution here (syntax highlighting is applied after problem is created)"
-                />
-              </div>
-
-              {/* Function Signature field */}
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-2 flex items-center gap-2">
-                  Function Signature
-                </label>
-                <textarea
-                  value={functionSignature}
-                  onChange={(e) => setFunctionSignature(e.target.value)}
-                  className="w-full px-4 py-3 bg-nav border border-divide text-primary rounded-lg focus:outline-none focus:border-blue transition-colors duration-300"
-                  placeholder="Copy/paste the function signature here (this is the boilerplate code that&apos;s in the solution tab before you even type anything)"
-                />
-              </div>
-
-              {/* Programming Language field */}
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-2">
-                  Programming Language<span className="text-error">*</span>
-                </label>
-                <select
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value)}
-                  className="w-full px-4 py-3 bg-nav border border-divide text-primary rounded-lg focus:outline-none focus:border-blue transition-colors duration-300"
+                {/* Autofill button */}
+                <button
+                  type="button"
+                  onClick={handleAutofill}
+                  disabled={isAutofilling}
+                  className={`
+                    relative overflow-hidden bg-[#FAFAFA] text-neutral px-6 py-2 rounded-md 
+                    transition duration-200 border border-transparent
+                    hover:opacity-90
+                    ${isAutofilling ? 'opacity-50 cursor-not-allowed' : ''}
+                  `}
                 >
-                  <option value="javascript">JavaScript</option>
-                  <option value="python">Python3</option>
-                  <option value="c_cpp">C/C++</option>
-                  <option value="java">Java</option>
-                </select>
+                  {isAutofilling ? (
+                    <div className="flex items-center gap-2">
+                      <svg
+                        className="animate-spin -ml-1 mr-2 h-4 w-4 text-neutral inline-block"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Autofilling...
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <span className="material-icons">auto_fix_high</span>
+                      Autofill
+                    </div>
+                  )}
+                  <span className="absolute inset-0 bg-black/10 opacity-0 hover:opacity-10 transition-opacity duration-300" />
+                </button>
+              </div>
+            </div>
+
+            {/* MANUAL ENTRY SECTION */}
+            <div className="bg-[#343B4A]/50 p-4 rounded-lg border border-[#3A4150]/30">
+              <div
+                onClick={() => setIsManualEntryOpen(!isManualEntryOpen)}
+                className="p-2 rounded-md hover:bg-[#3A4150]/50 cursor-pointer transition-colors duration-200 flex items-center justify-between"
+              >
+                <span className="text-lg font-semibold text-primary">Manual Entry</span>
+                <span
+                  className={`material-icons transition-transform duration-300 text-secondary ${
+                    isManualEntryOpen ? 'rotate-180' : ''
+                  }`}
+                >
+                  expand_more
+                </span>
               </div>
 
-              {/* Link field */}
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-2">
-                  Link to Problem
-                </label>
-                <input
-                  type="text"
-                  value={link}
-                  onChange={(e) => setLink(e.target.value)}
-                  className="w-full px-4 py-3 bg-nav border border-divide text-primary rounded-lg focus:outline-none focus:border-blue transition-colors duration-300"
-                  placeholder="Copy/paste the URL to the problem here (Ex: https://leetcode.com/problems/two-sum/)"
-                />
-              </div>
+              <div
+                className={`
+                  transition-all duration-300 ease-in-out overflow-hidden
+                  ${isManualEntryOpen ? 'max-h-[2000px] opacity-100 mt-4' : 'max-h-0 opacity-0'}
+                `}
+              >
+                <div className="space-y-4">
+                  {/* NAME */}
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-gray-300 flex items-center">
+                      Name <span className="ml-1 text-error">*</span>
+                    </label>
+                    <div className="relative group">
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="w-full px-3 py-2 bg-[#1E232C] border border-[#3A4150]/70 
+                                   rounded-md shadow-sm outline-none focus:outline-none focus:border-[#06b6d4]/70 
+                                   focus:ring-1 focus:ring-[#3b82f6]/50 transition-colors duration-75
+                                   text-primary h-11"
+                        placeholder="Enter the name of the problem"
+                      />
+                      <div className="absolute inset-0 rounded-md border border-[#3b82f6]/0 
+                                      group-focus-within:border-[#3b82f6]/30 pointer-events-none 
+                                      transition-all duration-75 shadow-[0_0_0_0_rgba(59,130,246,0)]
+                                      group-focus-within:shadow-[0_0_10px_1px_rgba(59,130,246,0.2)]"
+                      />
+                    </div>
+                  </div>
 
-              {/* Notes field */}
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-2">
-                  Additional Notes
-                </label>
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-4 py-3 bg-nav border border-divide text-primary rounded-lg focus:outline-none focus:border-blue transition-colors duration-300 h-24"
-                  placeholder="- Add any notes you have for yourself about this problem here"
-                />
-              </div>
+                  {/* QUESTION */}
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-gray-300 flex items-center">
+                      Question <span className="ml-1 text-error">*</span>
+                    </label>
+                    <div className="relative group">
+                      <textarea
+                        value={question}
+                        onChange={(e) => setQuestion(e.target.value)}
+                        className="w-full px-3 py-2 bg-[#1E232C] border border-[#3A4150]/70 
+                                   rounded-md shadow-sm outline-none focus:outline-none focus:border-[#06b6d4]/70 
+                                   focus:ring-1 focus:ring-[#3b82f6]/50 transition-colors duration-75
+                                   text-primary min-h-[8rem] resize-none appearance-none"
+                        placeholder={`Copy/paste the actual question here. Use HTML tags (<code>, <pre>, <p>, etc.) if needed.`}
+                      />
+                      <div className="absolute inset-0 rounded-md 
+                                      group-focus-within:border-[#3b82f6]/30 pointer-events-none 
+                                      transition-all duration-75"
+                      />
+                    </div>
+                  </div>
 
-              {/* Difficulty field */}
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-2">
-                  Difficulty<span className="text-error">*</span>
-                </label>
-                <div className="flex gap-4 mt-2">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      value="Easy"
-                      name="difficulty"
-                      checked={difficulty === 'Easy'}
-                      onChange={(e) => setDifficulty(e.target.value)}
-                      className="form-radio"
-                    />
-                    <span className="ml-2 text-easy bg-easybg px-4 py-1 rounded-full">Easy</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      value="Medium"
-                      name="difficulty"
-                      checked={difficulty === 'Medium'}
-                      onChange={(e) => setDifficulty(e.target.value)}
-                      className="form-radio"
-                    />
-                    <span className="ml-2 text-medium bg-mediumbg px-2 py-1 rounded-full">Medium</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      value="Hard"
-                      name="difficulty"
-                      checked={difficulty === 'Hard'}
-                      onChange={(e) => setDifficulty(e.target.value)}
-                      className="form-radio"
-                    />
-                    <span className="ml-2 text-hard bg-hardbg px-4 py-1 rounded-full">Hard</span>
-                  </label>
+                  {/* SOLUTION */}
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-gray-300 flex items-center">
+                      Solution <span className="ml-1 text-error">*</span>
+                    </label>
+                    <div className="relative group">
+                      <textarea
+                        value={solution}
+                        onChange={(e) => setSolution(e.target.value)}
+                        className="w-full px-3 py-2 bg-[#1E232C] border border-[#3A4150]/70 
+                                   rounded-md shadow-sm outline-none focus:outline-none focus:border-[#06b6d4]/70 
+                                   focus:ring-1 focus:ring-[#3b82f6]/50 transition-colors duration-75
+                                   text-primary min-h-[8rem] resize-none appearance-none"
+                        placeholder="Copy/paste the solution here (syntax highlighting is applied after creation)."
+                      />
+                      <div className="absolute inset-0 rounded-md
+                                      group-focus-within:border-[#3b82f6]/30 pointer-events-none 
+                                      transition-all duration-75"
+                      />
+                    </div>
+                  </div>
+
+                  {/* FUNCTION SIGNATURE */}
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-gray-300 flex items-center">
+                      Function Signature
+                    </label>
+                    <div className="relative group">
+                      <textarea
+                        value={functionSignature}
+                        onChange={(e) => setFunctionSignature(e.target.value)}
+                        className="w-full px-3 py-2 bg-[#1E232C] border border-[#3A4150]/70 
+                                   rounded-md shadow-sm outline-none focus:outline-none focus:border-[#06b6d4]/70 
+                                   focus:ring-1 focus:ring-[#3b82f6]/50 transition-colors duration-75
+                                   text-primary min-h-[4rem]"
+                        placeholder="Paste the boilerplate code or function signature here."
+                      />
+                      <div className="absolute inset-0 rounded-md 
+                                      group-focus-within:border-[#3b82f6]/30 pointer-events-none 
+                                      transition-all duration-75 "
+                      />
+                    </div>
+                  </div>
+
+                  {/* PROGRAMMING LANGUAGE */}
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-gray-300 flex items-center">
+                      Programming Language <span className="ml-1 text-error">*</span>
+                    </label>
+                    <div className="relative group">
+                      <select
+                        value={language}
+                        onChange={(e) => setLanguage(e.target.value)}
+                        className="w-full px-3 py-2 bg-[#1E232C] border border-[#3A4150]/70 
+                                   rounded-md shadow-sm outline-none focus:outline-none focus:border-[#06b6d4]/70 
+                                   focus:ring-1 focus:ring-[#3b82f6]/50 transition-colors duration-75
+                                   text-primary h-11"
+                      >
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python3</option>
+                        <option value="c_cpp">C/C++</option>
+                        <option value="java">Java</option>
+                      </select>
+                      <div className="absolute inset-0 rounded-md border border-[#3b82f6]/0 
+                                      group-focus-within:border-[#3b82f6]/30 pointer-events-none 
+                                      transition-all duration-75 shadow-[0_0_0_0_rgba(59,130,246,0)]
+                                      group-focus-within:shadow-[0_0_10px_1px_rgba(59,130,246,0.2)]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* LINK */}
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-gray-300 flex items-center">
+                      Link to Problem
+                    </label>
+                    <div className="relative group">
+                      <input
+                        type="text"
+                        value={link}
+                        onChange={(e) => setLink(e.target.value)}
+                        className="w-full px-3 py-2 bg-[#1E232C] border border-[#3A4150]/70 
+                                   rounded-md shadow-sm outline-none focus:outline-none focus:border-[#06b6d4]/70 
+                                   focus:ring-1 focus:ring-[#3b82f6]/50 transition-colors duration-75
+                                   text-primary h-11"
+                        placeholder="https://leetcode.com/problems/two-sum/"
+                      />
+                      <div className="absolute inset-0 rounded-md border border-[#3b82f6]/0 
+                                      group-focus-within:border-[#3b82f6]/30 pointer-events-none 
+                                      transition-all duration-75 shadow-[0_0_0_0_rgba(59,130,246,0)]
+                                      group-focus-within:shadow-[0_0_10px_1px_rgba(59,130,246,0.2)]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* NOTES */}
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-gray-300 flex items-center">
+                      Additional Notes
+                    </label>
+                    <div className="relative group">
+                      <textarea
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        className="w-full px-3 py-2 bg-[#1E232C] border border-[#3A4150]/70 
+                                   rounded-md shadow-sm outline-none focus:outline-none focus:border-[#06b6d4]/70 
+                                   focus:ring-1 focus:ring-[#3b82f6]/50 transition-colors duration-75
+                                   text-primary min-h-[4rem]"
+                        placeholder="- Add any notes for yourself about this problem"
+                      />
+                      <div className="absolute inset-0 rounded-md 
+                                      group-focus-within:border-[#3b82f6]/30 pointer-events-none 
+                                      transition-all duration-75"
+                      />
+                    </div>
+                  </div>
+
+                  {/* DIFFICULTY */}
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-gray-300 flex items-center">
+                      Difficulty <span className="ml-1 text-error">*</span>
+                    </label>
+                    <div className="flex gap-4 pt-2">
+                      <label className="inline-flex items-center">
+                        <input
+                          type="radio"
+                          value="Easy"
+                          name="difficulty"
+                          checked={difficulty === 'Easy'}
+                          onChange={(e) => setDifficulty(e.target.value)}
+                          className="absolute opacity-0 w-0 h-0"
+                        />
+                        <span 
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border 
+                                     ${difficulty === 'Easy' 
+                                       ? 'text-easy bg-easybg border-[#296C62]' 
+                                       : 'text-[#B0B7C3] bg-[#3A4253] border-[#3A4253]'} 
+                                     transition-all duration-200 cursor-pointer`}
+                        >
+                          <span className="material-icons mr-1.5 fill-current" style={{ fontSize: '12px' }}>circle</span>
+                          Easy
+                        </span>
+                      </label>
+                      <label className="inline-flex items-center">
+                        <input
+                          type="radio"
+                          value="Medium"
+                          name="difficulty"
+                          checked={difficulty === 'Medium'}
+                          onChange={(e) => setDifficulty(e.target.value)}
+                          className="absolute opacity-0 w-0 h-0"
+                        />
+                        <span 
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border 
+                                     ${difficulty === 'Medium' 
+                                       ? 'text-medium bg-mediumbg border-[#815954]' 
+                                       : 'text-[#B0B7C3] bg-[#3A4253] border-[#3A4253]'} 
+                                     transition-all duration-200 cursor-pointer`}
+                        >
+                          <span className="material-icons mr-1.5 fill-current" style={{ fontSize: '12px' }}>circle</span>
+                          Medium
+                        </span>
+                      </label>
+                      <label className="inline-flex items-center">
+                        <input
+                          type="radio"
+                          value="Hard"
+                          name="difficulty"
+                          checked={difficulty === 'Hard'}
+                          onChange={(e) => setDifficulty(e.target.value)}
+                          className="absolute opacity-0 w-0 h-0"
+                        />
+                        <span 
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border 
+                                     ${difficulty === 'Hard' 
+                                       ? 'text-hard bg-hardbg border-[#7D3E55]' 
+                                       : 'text-[#B0B7C3] bg-[#3A4253] border-[#3A4253]'} 
+                                     transition-all duration-200 cursor-pointer`}
+                        >
+                          <span className="material-icons mr-1.5 fill-current" style={{ fontSize: '12px' }}>circle</span>
+                          Hard
+                        </span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Bottom section with status indicator and buttons */}
-        <div className="flex justify-between items-center pt-6 border-t border-divide">
-          {/* Status indicator */}
-          <div className="flex items-center">
-            {(() => {
-              const requiredFields = [name, question, solution, functionSignature];
-              const filledFields = requiredFields.filter(field => field.trim() !== '');
-              
-              if (filledFields.length === 0) {
-                return (
-                  <div className="flex items-center">
-                    <span className="inline-block mr-2 bg-error rounded-full" style={{ width: '10px', height: '10px' }}></span>
-                    <span className="text-secondary text-sm">No problem selected</span>
-                  </div>
-                );
-              } else if (filledFields.length < requiredFields.length) {
-                return (
-                  <div className="flex items-center">
-                    <span className="inline-block mr-2 bg-warning rounded-full" style={{ width: '10px', height: '10px' }}></span>
-                    <span className="text-secondary text-sm">Partially filled out</span>
-                  </div>
-                );
-              } else {
-                return (
-                  <div className="flex items-center">
-                    <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>
-                    <span className="text-secondary text-sm">{name}</span>
-                  </div>
-                );
-              }
-            })()}
-          </div>
+            {/* FOOTER / STATUS & BUTTONS */}
+            <div className="border-t border-[#3A4150]/70 pt-4 flex items-center justify-between">
+              {/* Status Indicator */}
+              <div className="flex items-center">
+                {(() => {
+                  const requiredFields = [name, question, solution];
+                  const filledFields = requiredFields.filter(field => field.trim() !== '');
+                  
+                  if (filledFields.length === 0) {
+                    return (
+                      <div className="flex items-center">
+                        <span
+                          className="inline-block mr-2 bg-error rounded-full"
+                          style={{ width: '10px', height: '10px' }}
+                        />
+                        <span className="text-secondary text-sm">No problem selected</span>
+                      </div>
+                    );
+                  } else if (filledFields.length < requiredFields.length) {
+                    return (
+                      <div className="flex items-center">
+                        <span
+                          className="inline-block mr-2 bg-warning rounded-full"
+                          style={{ width: '10px', height: '10px' }}
+                        />
+                        <span className="text-secondary text-sm">Partially filled out</span>
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div className="flex items-center">
+                        <span
+                          className="inline-block mr-2 bg-success rounded-full"
+                          style={{ width: '10px', height: '10px' }}
+                        />
+                        <span className="text-secondary text-sm">{name}</span>
+                      </div>
+                    );
+                  }
+                })()}
+              </div>
 
-          {/* Buttons */}
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-6 py-2 border border-divide text-secondary rounded-lg hover:border-feintwhite transition-colors duration-200"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={!name.trim() || !question.trim() || !solution.trim() || isSubmitting}
-              className={`flex items-center gap-2 px-6 py-2 rounded-lg transition-colors duration-200 ${
-                !name.trim() || !question.trim() || !solution.trim() || isSubmitting
-                  ? 'bg-disabled text-disabledText'
-                  : 'bg-success text-neutral hover:opacity-90'
-              }`}
-            >
-              {isSubmitting ? (
-                <>
-                  <span className="material-icons animate-spin">sync</span>
-                  {isEditMode ? 'Updating...' : 'Creating...'}
-                </>
-              ) : (
-                isEditMode ? 'Update' : 'Create'
-              )}
-            </button>
-          </div>
+              {/* Action Buttons */}
+              <div className="flex gap-2">
+                <button
+                  type="submit"
+                  disabled={!name.trim() || !question.trim() || !solution.trim() || isSubmitting}
+                  className={`
+                    relative overflow-hidden bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] 
+                    text-primary px-6 py-2 rounded-md transition-all duration-200
+                    ${(!name.trim() || !question.trim() || !solution.trim() || isSubmitting)
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:from-[#0ea5c4] hover:to-[#2d74e7]"
+                    }
+                  `}
+                >
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2">
+                      <svg
+                        className="animate-spin -ml-1 mr-2 h-4 w-4 text-primary inline-block"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      {isEditMode ? 'Updating...' : 'Creating...'}
+                    </div>
+                  ) : (
+                    isEditMode ? 'Update' : 'Create'
+                  )}
+                  <span className="absolute inset-0 w-full h-full bg-primary/10 opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

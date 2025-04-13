@@ -36,14 +36,31 @@ const BarGraphWeek = () => {
         plugins: {
             legend: {
                 display: false
+            },
+            tooltip: {
+                backgroundColor: '#1e1e1e',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                borderColor: '#3A4253',
+                borderWidth: 1,
+                padding: 10,
+                displayColors: false,
+                callbacks: {
+                    title: function(tooltipItems: any) {
+                        return 'Due Problems';
+                    },
+                    label: function(context: any) {
+                        return `${context.parsed.y} problems due on ${context.label}`;
+                    }
+                }
             }
         },
         scales: {
             y: {
                 beginAtZero: true,
                 grid: {
-                    color: "#FFFFFF",
-                    display: false, 
+                    color: "rgba(255, 255, 255, 0.1)",
+                    display: true, 
                 },
                 ticks: {
                     // Use a callback function to format the tick labels
@@ -90,7 +107,6 @@ const BarGraphWeek = () => {
         let dueCounts = Array(7).fill(0); // Array to hold counts for the next 7 days  
 
         (problems || []).forEach((problem: any) => {
-            console.log(problem.dueDate);
             // Ensure the dueDate is interpreted as UTC, then converted to local time
             const dueDate = new Date(problem.dueDate);
             dueDate.setHours(0, 0, 0, 0);
@@ -102,41 +118,48 @@ const BarGraphWeek = () => {
             if (diffDays >= 0 && diffDays < 7) {
                 dueCounts[diffDays] += 1; // Increment the count for the respective day
             }
-            });
+        });
 
-      
         return dueCounts;
       };
       
 
-        if (error) {
-          return <div>Error: {(error as Error).message}</div>
-      } else {
+    if (error) {
+        return <div>Error: {(error as Error).message}</div>
+    } else {
         const dueCounts = processData(data); // Assuming `data` is the array of problems
-        console.log(dueCounts)
         const chartData = {
             labels: generateLabels(),
             datasets: [
                 {
                     label: 'Problems Due',
                     data: dueCounts, 
-                    backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                    backgroundColor: 'rgba(56, 189, 248, 0.7)',
+                    borderColor: 'rgba(56, 189, 248, 1)',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                    hoverBackgroundColor: 'rgba(56, 189, 248, 0.9)',
                 },
             ],
         };
 
-    return (
-        <div className="flex flex-col items-center">
-            <div style={{ height: '300px', width: '500px' }}>
-            <Bar 
-                data={chartData} 
-                options={chartOptions}
-            />
+        return (
+            <div className="flex flex-col items-center">
+                <div style={{ height: '300px', width: '100%' }}>
+                    {isLoading ? (
+                        <div className="flex items-center justify-center h-full">
+                            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#37B0E7]"></div>
+                        </div>
+                    ) : (
+                        <Bar 
+                            data={chartData} 
+                            options={chartOptions}
+                        />
+                    )}
+                </div>
             </div>
-        </div>
-    );
-    };
-
+        );
+    }
 }
 
 export default BarGraphWeek; 

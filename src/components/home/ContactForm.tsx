@@ -1,128 +1,211 @@
 import React, { useState, useEffect } from 'react';
-import Toast from '../app/Toast';
+import Link from 'next/link';
 import { useForm } from '@formspree/react';
-import Link from 'next/link'; 
 
 const ContactForm = () => {
-    const [state, handleSubmit] = useForm("xkndvdrp"); 
-    const [toastMessage, setToastMessage] = useState('');
-    const [isToastVisible, setIsToastVisible] = useState(false);
+  const [state, handleSubmit] = useForm("xkndvdrp");
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    details: "",
+  });
 
-    const showToast = (message: any) => {
-        setToastMessage(message);
-        setIsToastVisible(true);
-        setTimeout(() => setIsToastVisible(false), 3000); // Hide after 3 seconds
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    
+    // Map form field names to state property names
+    const fieldMap: {[key: string]: string} = {
+      'firstname': 'firstname',
+      'lastname': 'lastname',
+      'email': 'email',
+      'details': 'details'
     };
+    
+    const stateField = fieldMap[name] || name;
+    setFormData((prev) => ({ ...prev, [stateField]: value }));
+  };
 
-    useEffect(() => {
-        if (state.succeeded) {
-            showToast(
-                <>
-                  <span className="inline-block mr-2 bg-success rounded-full" style={{ width: '10px', height: '10px' }}></span>
-                  {'Success, I will read it soon, thanks :)'}
-                </>
-            );
-        }
-    }, [state.succeeded]);
+  // Reset form after success
+  useEffect(() => {
+    if (state.succeeded) {
+      setFormData({
+        firstname: "",
+        lastname: "",
+        email: "",
+        details: "",
+      });
+      
+      // Reset success message after 5 seconds (optional)
+      // setTimeout(() => {
+      //   // We don't need to reset state.succeeded as Formspree handles this
+      // }, 5000);
+    }
+  }, [state.succeeded]);
 
-    return (
-      <div id="contact" className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-          <Toast message={toastMessage} isVisible={isToastVisible} />
-          <div className="max-w-xl mx-auto">
-              <div className="text-center">
-                  <h1 className="text-3xl font-bold text-primary sm:text-4xl">
-                      Contact us
-                  </h1>
-                  <p className="mt-1 text-secondary">
-                      Questions? Bugs? Want to contribute? Let us know!
-                  </p>
-                  <p className="mt-1 text-secondary">
-                      Email repcode.io@gmail.com, or fill out the form below. 
-                  </p>
-              </div>
-          </div>
-
-          <div className="mt-2 max-w-lg mx-auto">
-              <div className="flex flex-col bg-base_100 p-4 sm:p-6 lg:p-8">
-                  {state.succeeded ? (
-                      <div className="text-center text-lg text-primary">
-                          Thanks! We&apos;ll get back to you soon!
-                      </div>
-                  ) : (
-                      <form onSubmit={handleSubmit}>
-                          <div className="grid gap-4 lg:gap-6">
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                                  <div>
-                                      <label className="block text-sm mb-2 text-primary">First Name</label>             
-                                      <input type="text" name="hs-firstname-contacts-1" required id="hs-firstname-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
-                                  </div>
-                                  <div>
-                                      <label className="block text-sm mb-2 text-primary">Last Name</label>
-                                      <input type="text" name="hs-lastname-contacts-1" required id="hs-lastname-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
-                                  </div>
-                              </div>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                                  <div>
-                                      <label className="block text-sm mb-2 text-primary">Email</label>
-                                      <input type="email" name="hs-email-contacts-1" required id="hs-email-contacts-1" className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300" />
-                                  </div>
-                              </div>
-                              <div>
-                                  <label className="block text-sm mb-2 text-primary">Details</label>
-                                  <textarea id="hs-about-contacts-1" name="hs-about-contacts-1" required rows={4} className="py-3 px-4 block w-full bg-nav border border-divide text-secondary shadow-sm rounded-md focus:outline-none focus:border-blue transition-colors duration-300"></textarea>
-                              </div>
-                          </div>
-                          <div className="mt-6 grid">
-                              <button type="submit" disabled={state.submitting} className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg bg-pop text-neutral transition-transform duration-200 hover:scale-95">Submit</button>
-                          </div>
-                          <div className="mt-3 text-center">
-                              <p className="text-sm text-secondary">
-                                  We will get back to you in 1-2 business days.
-                              </p>
-                          </div>
-                      </form>
-                  )}
-              </div>
-          </div>
-
-          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 items-center gap-4 lg:gap-8">
-              <Link className="group flex flex-col h-full text-center rounded-lg hover:bg-hover p-4 sm:p-6" href="/guide">
-                  <svg className="size-9 text-secondary mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
-                  <div className="mt-5">
-                      <h3 className="text-lg font-semibold text-primary">Guide</h3>
-                      <p className="mt-1 text-secondary">If you are confused on where to start, try reading our extensive guide</p>
-                      <p className="mt-5 inline-flex items-center gap-x-1 font-medium text-primary">
-                          Read the guide
-                          <svg className="flex-shrink-0 size-4 transition ease-in-out group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                      </p>
-                  </div>
-              </Link>
-
-              <Link className="group flex flex-col h-full text-center rounded-lg hover:bg-hover p-4 sm:p-6" href="/changelog">
-                  <svg className="size-9 text-secondary mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>
-                  <div className="mt-5">
-                      <h3 className="text-lg font-semibold text-primary">Updates</h3>
-                      <p className="mt-1 text-secondary">Been a while? No worries, see what has been changed and what is new</p>
-                      <p className="mt-5 inline-flex items-center gap-x-1 font-medium text-primary">
-                          View updates
-                          <svg className="flex-shrink-0 size-4 transition ease-in-out group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                      </p>
-                  </div>
-              </Link>
-
-              <Link className="group flex flex-col h-full text-center rounded-lg hover:bg-hover p-4 sm:p-6" href="/login">
-                  <svg className="size-9 text-secondary mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/></svg>
-                  <div className="mt-5">
-                      <h3 className="text-lg font-semibold text-primary">Get Started</h3>
-                      <p className="mt-1 text-secondary">Jump right in and start creating collections and problems today!</p>
-                      <p className="mt-5 inline-flex items-center gap-x-1 font-medium text-primary">
-                          Log in
-                          <svg className="flex-shrink-0 size-4 transition ease-in-out group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                      </p>
-                  </div>
-              </Link>
-          </div>
+  return (
+    <div id="contact" className="max-w-[85rem] px-4 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+      <div className="max-w-xl mx-auto">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-primary sm:text-4xl">
+            Contact us
+          </h1>
+          <p className="mt-1 text-[#B0B7C3]">
+            Questions? Bugs? Want to contribute? Let us know!
+          </p>
+          <p className="mt-1 text-[#B0B7C3]">
+            Email repcode.io@gmail.com, or fill out the form below.
+          </p>
+        </div>
       </div>
+
+      <div className="mt-8 max-w-lg mx-auto">
+        <div className="bg-[#2A303C] rounded-xl border border-[#3A4253] shadow-lg overflow-hidden p-6">
+          {state.succeeded ? (
+            <div className="bg-[#4ade80]/10 border border-[#4ade80]/30 rounded-lg p-4 mb-6">
+              <p className="text-[#4ade80] flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                Thanks! We&apos;ll get back to you soon!
+              </p>
+            </div>
+          ) : state.errors ? (
+            <div className="bg-[#f87171]/10 border border-[#f87171]/30 rounded-lg p-4 mb-6">
+              <p className="text-[#f87171] flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                There was an error submitting the form. Please try again.
+              </p>
+            </div>
+          ) : null}
+
+          <form onSubmit={handleSubmit}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label htmlFor="firstname" className="block text-[#B0B7C3] text-sm font-medium mb-2">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  id="firstname"
+                  name="firstname"
+                  value={formData.firstname}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-[#343B4A] border border-[#3A4253] rounded-lg px-4 py-2.5 text-primary placeholder-[#8A94A6] focus:outline-none focus:border-[#3b82f6] transition-colors"
+                  placeholder="First name"
+                />
+              </div>
+              <div>
+                <label htmlFor="lastname" className="block text-[#B0B7C3] text-sm font-medium mb-2">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  id="lastname"
+                  name="lastname"
+                  value={formData.lastname}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-[#343B4A] border border-[#3A4253] rounded-lg px-4 py-2.5 text-primary placeholder-[#8A94A6] focus:outline-none focus:border-[#3b82f6] transition-colors"
+                  placeholder="Last name"
+                />
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <label htmlFor="email" className="block text-[#B0B7C3] text-sm font-medium mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full bg-[#343B4A] border border-[#3A4253] rounded-lg px-4 py-2.5 text-primary placeholder-[#8A94A6] focus:outline-none focus:border-[#3b82f6] transition-colors"
+                placeholder="your.email@example.com"
+              />
+            </div>
+
+            <div className="mb-6">
+              <label htmlFor="details" className="block text-[#B0B7C3] text-sm font-medium mb-2">
+                Details
+              </label>
+              <textarea
+                id="details"
+                name="details"
+                value={formData.details}
+                onChange={handleChange}
+                required
+                rows={5}
+                className="w-full bg-[#343B4A] border border-[#3A4253] rounded-lg px-4 py-2.5 text-primary placeholder-[#8A94A6] focus:outline-none focus:border-[#3b82f6] transition-colors"
+                placeholder="Your message..."
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              disabled={state.submitting}
+              className="w-full bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] hover:from-[#0891b2] hover:to-[#2563eb] text-primary py-3 px-4 rounded-lg font-medium transition-all duration-200 shadow-lg shadow-[0_4px_14px_0_rgba(59,130,246,0.2)] hover:shadow-[0_4px_14px_0_rgba(59,130,246,0.3)] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+            >
+              {state.submitting ? (
+                <>
+                  <svg
+                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-primary"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Sending...
+                </>
+              ) : (
+                "Submit"
+              )}
+            </button>
+            
+            <div className="mt-3 text-center">
+              <p className="text-sm text-[#B0B7C3]">
+                We will get back to you in 1-2 business days.
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      
+    </div>
   );
 };
 

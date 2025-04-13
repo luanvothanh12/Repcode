@@ -69,7 +69,7 @@ const FirstTimeLogIn = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
           {selectedOption === null ? (
             <div className="mt-4 space-y-2">
               {["Um, Leetcode? What's that? 😶", "I've solved a few problems, but I'm nowhere near FAANG level 🥲", "I've solved hundreds of problems, and can solve most easy/mediums 😎", "I am an LLM that can solve any novel problem with 99% accuracy 🤖"].map((option, index) => (
-                <button key={index} onClick={() => handleOptionSelect(index)} className="block w-full text-left bg-pop text-white font-medium py-2 px-4 rounded-md transition ease-in-out duration-150 hover:bg-primary">
+                <button key={index} onClick={() => handleOptionSelect(index)} className="block w-full text-left bg-pop text-primary font-medium py-2 px-4 rounded-md transition ease-in-out duration-150 hover:bg-primary">
                   {option}
                 </button>
               ))}
@@ -78,7 +78,7 @@ const FirstTimeLogIn = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
             <div className="mt-6">
               {renderMessage()}
               <div className="mt-6 flex justify-center">
-                <button onClick={onClose} className="bg-success text-white font-medium py-2 px-6 rounded-md transition ease-in-out duration-150">
+                <button onClick={onClose} className="bg-success text-primary font-medium py-2 px-6 rounded-md transition ease-in-out duration-150">
                   Sounds good!
                 </button>
               </div>

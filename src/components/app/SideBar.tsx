@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { auth } from '../../firebaseConfig'; 
 import { signOut } from "firebase/auth";
 import { useRouter } from 'next/router';
@@ -8,16 +8,105 @@ import "../../app/globals.css";
 import { useQuery, useMutation, useQueryClient } from 'react-query'; 
 import { useSidebar } from '../../auth/SidebarContext';
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { AuthContext } from '@/auth/AuthContext';
+import { 
+  FolderIcon, 
+  BookOpenIcon, 
+  Settings as SettingsIcon, 
+  User as UserIcon, 
+  Home as HomeIcon, 
+  HelpCircle as HelpCircleIcon, 
+  LogOut as LogOutIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon
+} from 'lucide-react';
+
+// SidebarItem component
+interface SidebarItemProps {
+  icon: React.ReactNode;
+  text: string;
+  active?: boolean;
+  expanded: boolean;
+  onClick?: () => void;
+  href?: string;
+  tooltip?: string;
+}
+
+function SidebarItem({
+  icon,
+  text,
+  active = false,
+  expanded,
+  onClick,
+  href,
+  tooltip,
+}: SidebarItemProps) {
+  // Create a fixed-height container with absolute positioning for the icon
+  const content = (
+    <div className="h-8 relative flex items-center">
+      {/* Icon is positioned absolutely to prevent layout shifts */}
+      <div className="absolute left-1 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5">
+        {icon}
+      </div>
+      
+      {/* Text container with fixed left position */}
+      {expanded && (
+        <div className="pl-10 whitespace-nowrap transition-opacity duration-200">
+          {text}
+        </div>
+      )}
+    </div>
+  );
+  
+  const className = `block w-full py-1.5 px-2 rounded-lg transition-all duration-300 ${
+    active 
+      ? "bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] text-primary" 
+      : "text-[#8A94A6] hover:bg-[#343B4A] hover:text-primary"
+  }`;
+  
+  return (
+    <li>
+      {href ? (
+        <Link href={href} className={className}>
+          {content}
+        </Link>
+      ) : (
+        <button 
+          className={className} 
+          onClick={onClick}
+          {...(!expanded && tooltip ? { 'data-tooltip-id': 'sidebar-tooltip', 'data-tooltip-content': tooltip } : {})}
+        >
+          {content}
+        </button>
+      )}
+    </li>
+  );
+}
 
 const SideBar = () => {
   // const [colorTheme, setTheme] = useDarkMode() as any; 
   const router = useRouter();
   const { isExpanded, setIsExpanded } = useSidebar() as any;
+  const { user } = useContext(AuthContext);
+  const queryClient = useQueryClient();
 
   const [masterCollectionsDropdownOpen, setMasterCollectionsDropdownOpen] = useState(false);
   const [collections, setCollections] = useState<{id: any; title: any; isLoading: boolean; problems:any}[]>([]);
   const [expandedCollectionId, setExpandedCollectionId] = useState(null); // Track expanded collection
-  const queryClient = useQueryClient();
+
+  // User settings query
+  const fetchUserSettings = async () => {
+    if (!user) throw new Error('No user found');
+    const response = await fetch(`/api/getUserSettings?userEmail=${user.email}`);
+    if (!response.ok) throw new Error('Failed to fetch user settings');
+    return response.json();
+  };
+
+  const { data: userSettings } = useQuery(
+    ['userSettings', user?.email],
+    fetchUserSettings,
+    { enabled: !!user }
+  );
 
   // useEffect(() => {
   //   // Listen for authentication state changes
@@ -88,31 +177,9 @@ const SideBar = () => {
     }
   };
   
-
-  const goHome = () => {
-    router.push('/app/main');
-  }
-
-  const goHomepage = () => {
-    router.push('/');
-  }
-
-  const goStudy = () => {
-    router.push('/app/study/dashboard');
-  }
-
-  const goSettings = () => {
-    router.push('/app/settings/UserSettings');
-  }
-
-  const goBilling = () => {
-    router.push('/app/profile/UserProfile');
-  }
-
   const goGuide = () => {
     window.open('/guide', '_blank');
   };
-
 
   const logOut = async () => {
     try {
@@ -128,154 +195,165 @@ const SideBar = () => {
 
   const isActive = (path: string) => router.pathname === path;
 
-  return (
-    
-    <div className={`h-100vh bg-nav flex-shrink-0 transition-width duration-300 ${isExpanded ? 'w-64' : 'w-20'}`}>
-      {/* Toggle button and logo */}
-      <button className="mt-9 text-secondary rounded flex justify-center items-center w-full">
-        <div className="flex items-center justify-center w-full">
-          {isExpanded ? (
-            <>
-              <span className="flex-1 text-center font-bold text-xl text-primary">Menu</span>
-              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary mr-2" style={{ fontSize: '35px' }} onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }}>arrow_back</span>
-            </>
-          ) : (
-            <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-primary" style={{ fontSize: '35px' }} onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }}>arrow_forward</span>
-          )}
-        </div>
-      </button>
-  
-      {/* Sidebar content */}
-      <div className="px-4 py-2 flex flex-col items-start">
-        <hr className="my-2 w-full text-divide transition-width duration-300" />
-        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goHome}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Collections' })}>style</span>
-          {isExpanded && <span className={`ml-2 text-secondary`}>Collections</span>}
-        </div>
-  
-        {/* Master Collections Dropdown */}
-        {/* <div className="w-full">
-          <div onClick={toggleMasterCollectionsDropdown} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-feintwhite dark:hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded justify-between width-full`}>
-            <div className="flex items-center">
-              <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-neutral dark:text-secondary" style={{ fontSize: '35px' }}>style</span>
-              {isExpanded && <span className={`ml-2 text-neutral dark:text-secondary ${isExpanded ? 'hs-dropdown-enter' : ''}`}>Collections</span>}
-            </div>
-            {isExpanded && (
-              <span className="material-icons transition duration-300 ease-in-out text-neutral dark:text-secondary" style={{ fontSize: '24px' }}>
-                {masterCollectionsDropdownOpen ? 'expand_less' : 'expand_more'}
-              </span>
-            )}
-          </div>
-          <div className={`transition-max-height duration-700 ease-in-out overflow-hidden ${masterCollectionsDropdownOpen ? 'max-h-96' : 'max-h-0'}`}>
-          {collections.map((collection) => (
-  <div key={collection.id} className="pl-4 flex flex-col w-full">
-    <div className="flex items-center my-2 hover:bg-feintwhite dark:hover:bg-hover transition-colors duration-100 cursor-pointer rounded justify-between" onClick={() => fetchProblemsForCollection(collection.id)}>
-      <div className="flex items-center">
-        <span className="material-icons transition duration-300 ease-in-out text-neutral dark:text-secondary" style={{ fontSize: '30px' }}>folder_open</span>
-        {isExpanded && <span className="ml-2 text-neutral dark:text-secondary">{collection.title}</span>}
-        {collection.isLoading && <span>Loading...</span>}
-      </div>
-      {isExpanded && (
-        <span className="material-icons transition duration-300 ease-in-out text-neutral dark:text-secondary" style={{ fontSize: '24px' }}>
-          {expandedCollectionId === collection.id ? 'expand_less' : 'expand_more'}
-        </span>
-      )}
-    </div>
-    <div className={`transition-max-height duration-700 ease-in-out overflow-hidden ${expandedCollectionId ? 'max-h-96' : 'max-h-0'}`}>
-    {expandedCollectionId === collection.id && (
-      <div className="pl-4">
-        {collection.problems.length > 0 ? (
-          collection.problems.map((problem: any) => (
-            <div key={problem.id} className="text-neutral dark:text-secondary my-1 hover:bg-feintwhite dark:hover:bg-hover cursor:pointer rounded">
-              <Link href={`/app/collections/${collection.id}/problems/${problem.id}`}>
-              <span className={`material-icons transition duration-300 ease-in-out ${problem.difficulty === 'Easy' ? 'text-easy' : problem.difficulty === 'Medium' ? 'text-medium' : 'text-hard'}`} style={{ fontSize: '20px' }}>description</span>
-                {problem.name}
-              </Link>
-            </div>
-          ))
-        ) : (
-          <div className="text-neutral dark:text-secondary my-1">No problems found.</div>
-        )}
-      </div>
-    )}
-    </div>
-  </div>
-))}
-          </div>
-        </div>
-   */}
-        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`} onClick={goStudy}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Study' })}>local_library</span>
-          {isExpanded && <span className={`ml-2 text-secondary`}>Study</span>}
-        </div>
-        <div className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''}  transition-colors duration-100 cursor-pointer rounded`} onClick={goSettings}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Settings' })}>settings</span>
-          {isExpanded && <span className={`ml-2 text-secondary`}>Settings</span>}
-        </div>
-        <div onClick={goBilling} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Profile/Billing' })}>credit_card</span>
-          {isExpanded && <span className={`ml-2 text-secondary`}>Profile/Billing</span>}
-        </div>
-        <div onClick={goHomepage} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Homepage' })}>home</span>
-          {isExpanded && <span className={`ml-2 text-secondary`}>Homepage</span>}
-        </div>
-        <div onClick={goGuide} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-secondary" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Help Page' })}>question_mark</span>
-          {isExpanded && <span className={`ml-2 text-secondary`}>Help</span>}
-        </div>
-        <div onClick={logOut} className={`flex items-center my-2 w-full ${isExpanded ? 'hover:bg-hover' : ''} transition-colors duration-100 cursor-pointer rounded`}>
-          <span className="material-icons transition duration-300 ease-in-out hover:scale-110 text-error" style={{ fontSize: '35px' }} {...(!isExpanded && { 'data-tooltip-id': 'my-tooltip-1', 'data-tooltip-html': 'Logout' })}>logout</span>
-          {isExpanded && <span className={`ml-2 text-secondary`}>Logout</span>}
-        </div>
-        <div className={`flex items-center my-2 w-full`}>
-  {/* {colorTheme === "light" ? (
-    <svg
-      onClick={() => setTheme("light")}
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-6 w-6 text-warning hover:cursor-pointer transition duration-300 ease-in-out hover:scale-110"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      style={{ width: '35px', height: '35px', marginRight: '8px' }} // Adjust size and margin to match Material icons
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-      />
-    </svg>
-  ) : (
-    <svg
-      onClick={() => setTheme("dark")}
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-6 w-6 text-new hover:cursor-pointer transition duration-300 ease-in-out hover:scale-110"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      style={{ width: '35px', height: '35px', marginRight: '8px' }} // Adjust size and margin to match Material icons
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-      />
-    </svg>
-  )} */}
-</div>
-  <ReactTooltip
-      id="my-tooltip-1"
-      place="bottom"
-      style={{ backgroundColor: "#111111" }}
-  />
+  // Determine active page based on current route
+  const getActivePage = () => {
+    const path = router.pathname;
+    if (path.includes('/app/main') || path.includes('/app/collections')) return 'Collections';
+    if (path.includes('/app/study')) return 'Study';
+    if (path.includes('/app/settings')) return 'Settings';
+    if (path === '/') return 'Homepage';
+    if (path.includes('/guide')) return 'Help';
+    return '';
+  };
 
+  const activePage = getActivePage();
+
+  // User information
+  const userName = user?.displayName || user?.email?.split('@')[0] || 'User';
+  const userEmail = user?.email || '';
+  const isPro = userSettings?.membershipType === "lifetime";
+  const avatarUrl = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
+
+  return (
+    <aside
+      className={`h-screen bg-[#222831] border-r border-[#3A4253] transition-all duration-300 ease-in-out flex flex-col overflow-hidden ${isExpanded ? "w-64" : "w-[69px]"} sticky left-0 top-0 z-10`}
+      style={{ flexShrink: 0 }}
+    >
+      <div
+        className={`flex items-center h-16 border-b border-[#3A4253] overflow-hidden ${isExpanded ? "justify-between px-6" : "justify-center px-3"}`}
+      >
+        {isExpanded && (
+          <h2 className="text-xl font-bold text-primary tracking-tight truncate">
+            Repcode
+          </h2>
+        )}
+        <button
+          onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }}
+          className="p-1.5 rounded-lg text-[#8A94A6] hover:text-primary hover:bg-[#343B4A] transition-colors flex-shrink-0"
+        >
+          {isExpanded ? <ChevronLeftIcon size={20} /> : <ChevronRightIcon size={20} />}
+        </button>
       </div>
-    </div>
+      
+      <nav className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3">
+        <ul className="space-y-2">
+          <SidebarItem
+            icon={<FolderIcon size={20} />}
+            text="Collections"
+            active={activePage === 'Collections'}
+            expanded={isExpanded}
+            href="/app/main"
+          />
+          <SidebarItem
+            icon={<BookOpenIcon size={20} />}
+            text="Study"
+            active={activePage === 'Study'}
+            expanded={isExpanded}
+            href="/app/study/dashboard"
+          />
+          <SidebarItem
+            icon={<SettingsIcon size={20} />}
+            text="Settings"
+            active={activePage === 'Settings'}
+            expanded={isExpanded}
+            href="/app/settings/UserSettings"
+          />
+          <SidebarItem
+            icon={<HomeIcon size={20} />}
+            text="Homepage"
+            active={activePage === 'Homepage'}
+            expanded={isExpanded}
+            href="/"
+          />
+          <SidebarItem
+            icon={<HelpCircleIcon size={20} />}
+            text="Help"
+            active={activePage === 'Help'}
+            expanded={isExpanded}
+            onClick={goGuide}
+          />
+        </ul>
+      </nav>
+      
+      <div className="p-3 border-t border-[#3A4253] mt-auto overflow-hidden">
+        <div
+          className={`
+          relative p-3
+          ${isExpanded ? 'bg-[#343B4A]/50 backdrop-blur-sm border border-[#3A4253] rounded-lg' : 'flex flex-col items-center'}
+        `}
+        >
+          <div className={`flex ${isExpanded ? 'items-center' : 'flex-col gap-2'}`}>
+            <div className="relative">
+              {/* Add subtle glow and animation to the avatar */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#06b6d4]/40 to-[#3b82f6]/40 blur-md opacity-70 animate-pulse"></div>
+              
+              <div className="w-11 h-11 rounded-full overflow-hidden shadow-lg shadow-[#3b82f6]/20 relative">
+                <img
+                  src={avatarUrl}
+                  alt={userName}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              {isPro && !isExpanded && (
+                <div
+                  className={`
+                  absolute -bottom-1 left-1/2 -translate-x-1/2
+                  px-1.5 py-0.5 text-[10px] font-medium
+                  rounded-sm text-primary
+                  bg-gradient-to-r from-[#06b6d4] to-[#3b82f6]
+                  border border-[#3b82f6]/20
+                  hover:scale-110 transition-transform duration-200
+                  cursor-default
+                `}
+                >
+                  PRO
+                </div>
+              )}
+            </div>
+            {isExpanded ? (
+              <div className="ml-3 overflow-hidden flex-1">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium text-primary truncate">{userName}</p>
+                    {isPro && (
+                      <div
+                        className={`
+                        px-1.5 py-0.5 text-[10px] font-medium
+                        rounded-sm text-primary
+                        bg-gradient-to-r from-[#06b6d4] to-[#3b82f6]
+                        border border-[#3b82f6]/20
+                        hover:scale-110 transition-transform duration-200
+                        cursor-default
+                      `}
+                      >
+                        PRO
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    onClick={logOut}
+                    className="p-1.5 rounded-lg text-[#8A94A6] hover:text-[#ef4444] hover:bg-[#3F475A] transition-colors"
+                    aria-label="Logout"
+                    data-tooltip-id="sidebar-tooltip"
+                    data-tooltip-content="Logout"
+                  >
+                    <LogOutIcon size={16} />
+                  </button>
+                </div>
+                <p className="text-sm text-[#B0B7C3] truncate">{userEmail}</p>
+              </div>
+            ) : null /* No content for collapsed state - just showing the avatar */}
+          </div>
+        </div>
+      </div>
+
+      <ReactTooltip
+        id="sidebar-tooltip"
+        place="right"
+        style={{ backgroundColor: "#343B4A", color: "primary" }}
+      />
+    </aside>
   );
-  
-  
 };
 
 export default SideBar;
