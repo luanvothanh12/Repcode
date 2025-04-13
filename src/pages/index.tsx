@@ -407,7 +407,7 @@ function merge(left, right) {
                     </span>
                   ))}
                 </div>
-                <p className="text-[#B0B7C3] mb-6 italic">"{testimonial.quote}"</p>
+                <p className="text-[#B0B7C3] mb-6 italic">&quot;{testimonial.quote}&quot;</p>
                 <div className="flex items-center">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] flex items-center justify-center text-primary font-bold">
                     {testimonial.name.charAt(0)}

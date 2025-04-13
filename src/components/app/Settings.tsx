@@ -126,7 +126,7 @@ const Settings = () => {
       !validateSteps(newSettings.learnSteps) ||
       !validateSteps(newSettings.relearnSteps)
     ) {
-      showToast("Learning Steps and Relearning Steps must be in the format: number[m or d]. Example: '10m 3d'.");
+      showToast("Learning Steps and Relearning Steps must be in the format: number[m or d]. Example: &apos;10m 3d&apos;.");
       return;
     }
     if (

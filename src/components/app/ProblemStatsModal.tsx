@@ -7,9 +7,6 @@ import DonutChart from './DonutChart';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ProblemStatsModal = ({ isOpen, onClose, problem }: { isOpen: boolean, onClose: () => void, problem: any }) => {
-  // Don't return null, but use the animation classes to show/hide
-  if (!problem) return null;
-
   // Handle keyboard events (Escape to close)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -21,6 +18,9 @@ const ProblemStatsModal = ({ isOpen, onClose, problem }: { isOpen: boolean, onCl
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
+
+  // Don't render the modal content if problem is null
+  if (!problem) return null;
 
   // Prepare data for DonutChart format
   const chartLabels = ['Again', 'Hard', 'Good', 'Easy'];
