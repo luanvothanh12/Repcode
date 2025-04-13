@@ -230,7 +230,7 @@ const Settings = () => {
               </label>
               <StyledInput id="learnSteps" defaultValue={data.learnSteps} />
               <p className="text-xs text-[#8A94A6]">
-                One or more delays, separated by spaces. Example: '10m 3d'.
+                One or more delays, separated by spaces. Example: &apos;10m 3d&apos;.
               </p>
             </div>
             
