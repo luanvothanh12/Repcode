@@ -2,30 +2,60 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import OpenAI from 'openai';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { question, solution, userSolution, userMessage, apiKey } = req.body;
+  const { question, solution, userSolution, userMessage, apiKey, mode = "chat" } = req.body;
 
   const openai = new OpenAI({
     apiKey: apiKey,
   });
 
-  const messages: any = [
-    { role: "system", content: "You are a helpful assistant. I am going to send you a Leetcode problem, the expected solution, and my solution. I need some help with it." },
-    { role: "user", content: `Problem: ${question}\nExpected Solution: ${solution}\nMy Solution: ${userSolution}\nWhat I need help with: ${userMessage}\n\nProvide feedback on the my solution in 2-3 sentences. If there are any issues, explain what they are and how to fix them. Also, if my code is incorrect, can you please show me the correct code? You dont have to post the full code, if there's a small mistake then just providing the correct relevent code snippet will do. Remember: regardless of your response, please keep it as brief and concise as you can. And if my solution code is correct, then there's no need for you to show me the correct code then, of course. Also, somewhere in your response please mention the runtime.` }
-  ];
+  let messages: any = [];
+  
+  if (mode === "analyze") {
+    // Just load the context without asking a specific question
+    messages = [
+      { 
+        role: "system", 
+        content: "You are a helpful coding assistant. The user is working on a programming problem. I'm going to send you their code so you'll be ready to help when they ask questions." 
+      },
+      { 
+        role: "user", 
+        content: `Problem: ${question}\nExpected Solution: ${solution}\nUser's Current Code: ${userSolution}\n\nPlease prepare to help with this code. No response needed right now.` 
+      }
+    ];
+  } else {
+    // Normal chat mode with a user question
+    messages = [
+      { 
+        role: "system", 
+        content: "You are a helpful coding assistant. I am going to send you a programming problem, the expected solution, and the user's solution. The user needs help with their code." 
+      },
+      { 
+        role: "user", 
+        content: `Problem: ${question}\nExpected Solution: ${solution}\nMy Solution: ${userSolution}\nWhat I need help with: ${userMessage}` 
+      }
+    ];
+  }
 
   try {
+    if (mode === "analyze") {
+      // Just return success for analyze mode without calling OpenAI
+      // This saves tokens since we don't need a response yet
+      res.status(200).json({ message: "Analysis complete" });
+      return;
+    }
+    
     const completion = await openai.chat.completions.create({
       model: "gpt-4o",
       messages,
-      max_tokens: 300,
+      max_tokens: 300, 
     });
 
     if (completion.choices && completion.choices.length > 0) {
-        const message = completion.choices[0].message?.content?.trim() || "No response from AI.";
-        res.status(200).json({ message });
-      } else {
-        res.status(500).json({ error: "No choices returned from AI." });
-      }
+      const message = completion.choices[0].message?.content?.trim() || "No response from AI.";
+      res.status(200).json({ message });
+    } else {
+      res.status(500).json({ error: "No choices returned from AI." });
+    }
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Error communicating with OpenAI:", error.message);

@@ -47,6 +47,7 @@ Resources:
 
 
 Promotion: 
+- hacker news 
 - dev.to 
 - devhunt 
 - LinkedIn post 

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState, useContext } from 'react';
+import React from 'react';
 import "../../../app/globals.css"; 
 import SideBar from '@/components/app/SideBar';
 import nookies from "nookies"; 
@@ -7,20 +7,46 @@ import firebaseAdmin from "../../../../firebaseAdmin";
 import Settings from '@/components/app/Settings';
 import Link from 'next/link';
 
-const StudyProblemPage = () => {
+const UserSettingsPage = () => {
   const router = useRouter(); 
 
   return ( 
     <div className="flex min-h-screen bg-base_100">
       <SideBar />
-      <div className="flex-grow p-8">
-        <div className="text-primary text-4xl font-bold mb-4 flex justify-center">Settings</div>
-        <hr className="border-divide mb-8 transition-width duration-300"/>
-        <div className="mb-8 text-center text-secondary w-full">
-          Note: for most users, the default algorithm settings should be the most optimal and don&apos;t need to be adjusted. <br /> If you want to learn more about these settings and what they do, check out our comprehensive  <Link className="text-blue underline" href="/guide" target="_blank" rel="noopener noreferrer">Guide</Link>
-        </div>
-        <Settings />
+      <div className="flex-1 transition-all duration-300">
+        <div className="p-6 md:p-8 lg:p-10">
+          <div className="max-w-6xl mx-auto">
+            <header className="mb-8">
+              <h1 className="text-3xl md:text-4xl font-bold text-primary tracking-tight mb-2">
+                Settings
+              </h1>
+              <p className="text-secondary text-lg">
+                Configure your study preferences and algorithm settings
+              </p>
+            </header>
 
+            <div className="flex items-start bg-[#343B4A]/50 p-4 rounded-lg border border-[#FACC15]/20 mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#FACC15] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="ml-3 text-sm text-[#B0B7C3]">
+                For most users, the default algorithm settings should be the
+                most optimal and don&apos;t need to be adjusted. If you want to learn more
+                about these settings, check out our comprehensive{' '}
+                <Link
+                  className="text-new underline"
+                  href="/guide"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Guide
+                </Link>.
+              </p>
+            </div>
+
+            <Settings />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -31,14 +57,10 @@ export async function getServerSideProps(context:any) {
     const cookies = nookies.get(context);
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
     
-    // Optionally fetch more data for your page using token.uid or other identifiers
-
-    // If the token is valid, return empty props (or props based on token/user data)
     return {
       props: {},
     };
   } catch (err) {
-    // If token verification fails or token doesn't exist, redirect to sign-in page
     return {
       redirect: {
         destination: '/login',
@@ -48,5 +70,4 @@ export async function getServerSideProps(context:any) {
   }
 }
 
-
-export default StudyProblemPage;
+export default UserSettingsPage;

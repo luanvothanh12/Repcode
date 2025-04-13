@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import '../../app/globals.css'; 
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/theme-one_dark";
 import "ace-builds/src-noconflict/theme-chaos";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
@@ -17,6 +18,7 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import ProblemModal from './ProblemModal';
 import ProblemStatsModal from './ProblemStatsModal';
 import Toast from './Toast';
+import Badge from '@/components/ui/Badge';
 
 // If there's ever a <code> nested within a <pre>, it breaks everything, so we need to check for this and remove it 
 const sanitizeCodeBlocks = (html: string) => {
@@ -37,6 +39,36 @@ const sanitizeCodeBlocks = (html: string) => {
   return div.innerHTML;
 };
 
+// Update the CSS block with styling for <code> elements
+const preBlockStyles = `
+  .problem-content pre {
+    background-color: #343B4A !important;
+    border: 1px solid #3A4253 !important;
+    border-radius: 6px !important;
+    padding: 12px !important;
+    margin: 12px 0 !important;
+    overflow-x: auto !important;
+    color: #E2E8F0 !important;
+  }
+  
+  .problem-content pre code {
+    color: #E2E8F0 !important;
+    font-family: monospace !important;
+  }
+  
+  /* Style for inline code elements (not inside pre) */
+  .problem-content code:not(pre code) {
+    background-color: #3A4253 !important;
+    color: #FFFFFF !important;
+    padding: 2px 5px !important;
+    border-radius: 4px !important;
+    font-family: monospace !important;
+    font-size: 0.9em !important;
+    border: 1px solid #4A5267 !important;
+  }
+
+`;
+
 const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:any, userSettings:any, refetchProblems: any}) => {
     const [dueProblems, setDueProblems] = useState<any>([]);
     const [buttons, setButtons] = useState<any[]>([]);
@@ -56,7 +88,40 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
 
     const { user } = useContext(AuthContext);
 
-     // Use useEffect to highlight code when the component mounts or updates
+    // For resizable panels
+    const [panelWidth, setPanelWidth] = useState(50);
+    const [isDragging, setIsDragging] = useState(false);
+    const [buttonPosition, setButtonPosition] = useState<{ x: number, y: number } | null>(null);
+    const aiButtonRef = useRef<HTMLButtonElement>(null);
+
+    const handleMouseDown = () => {
+      setIsDragging(true);
+      document.body.style.userSelect = 'none';
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+      document.body.style.userSelect = 'auto';
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+      if (!isDragging) return;
+      const container = e.currentTarget as HTMLElement;
+      const containerRect = container.getBoundingClientRect();
+      const newWidth = ((e.clientX - containerRect.left) / containerRect.width) * 100;
+      if (newWidth >= 30 && newWidth <= 70) {
+        setPanelWidth(newWidth);
+      }
+    };
+
+    useEffect(() => {
+      if (isDragging) {
+        window.addEventListener('mouseup', handleMouseUp);
+        return () => window.removeEventListener('mouseup', handleMouseUp);
+      }
+    }, [isDragging]);
+
+    // Use useEffect to highlight code when the component mounts or updates
     useEffect(() => {
       hljs.highlightAll();
     }, [content]);
@@ -199,35 +264,6 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
           return 'text-neutral dark:text-secondary rounded-md hover:bg-hover2'; 
       }
     };
-
-    const getDifficultyColor = (difficulty: string) => {
-      switch (difficulty.toLowerCase()) {
-        case 'easy':
-            return 'text-easy bg-easybg px-4'; 
-        case 'medium':
-            return 'text-medium bg-mediumbg px-2';
-        case 'hard':
-            return 'text-hard bg-hardbg px-4';
-        default:
-            return 'text-secondary';
-      }
-  };
-
-  const getTypeColor = (type: string) => {
-    switch (type.toLowerCase()) {
-      case 'new':
-          return 'text-new bg-newbg px-4'; 
-      case 'learning':
-          return 'text-learning bg-warningbg px-2'; 
-      case 'relearning':
-          return 'text-learning bg-warningbg px-2'; 
-      case 'review':
-          return 'text-review bg-successbg px-2'; 
-      default:
-          return 'text-neutral dark:text-secondary'; 
-    }
-  };
-
 
     const updateProblemMutation = useMutation(async ({ problemId, updates }: { problemId: any, updates: any }) => {
       const response = await fetch('/api/updateProblemForAlgo', {
@@ -566,163 +602,351 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
     setTimeout(() => setIsToastVisible(false), 3000);
   };
 
+  // Function to toggle chat open/closed
+  const handleToggleChat = () => {
+    if (showChat) {
+      setShowChat(false);
+    } else {
+      if (aiButtonRef.current) {
+        const rect = aiButtonRef.current.getBoundingClientRect();
+        setButtonPosition({ 
+          x: rect.left + rect.width / 2, 
+          y: rect.top 
+        });
+        setShowChat(true);
+      }
+    }
+  };
+
+  // Tab button component to match Problem.tsx
+  const TabButton = ({ active, label, onClick, icon }: { active: boolean, label: string, onClick: () => void, icon?: string }) => {
     return (
-      <div className="flex flex-col md:flex-row h-screen overflow-hidden">
-        <div className="flex-1 overflow-auto bg-tertiary p-4 shadow-md rounded-sm" style={{ maxHeight: '70vh' }}>
-          {/* Top buttons row */}
-          <div className="flex justify-end mb-4">
-            <div className="flex space-x-2">
-              <button 
-                onClick={() => setIsEditModalOpen(true)}
-                className="py-2 px-4 text-secondary rounded-md transition duration-300 bg-tertiary hover:bg-divide flex items-center gap-1"
-              >
-                <span className="material-icons text-secondary" style={{ fontSize: '19px' }}>edit</span>
-                Edit
-              </button>
-              <button 
-                onClick={() => setIsStatsModalOpen(true)}
-                className="py-2 px-4 text-secondary rounded-md transition duration-300 bg-tertiary hover:bg-divide flex items-center gap-1"
-              >
-                <span className="material-icons text-secondary" style={{ fontSize: '19px' }}>bar_chart</span>
-                Stats
-              </button>
+      <button
+        onClick={onClick}
+        className={`
+          px-4 py-2 text-sm font-medium rounded-lg flex items-center
+          transition-all duration-200
+          ${active ? 'bg-[#2A303C] text-primary shadow-sm' : 'text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C]/50'}
+        `}
+      >
+        {icon && <span className="material-icons mr-1" style={{ fontSize: '18px' }}>{icon}</span>}
+        {label}
+      </button>
+    );
+  };
+
+    return (
+      <div className="h-screen bg-[#2A303C] flex flex-col">
+        {/* Add the style tag to the component */}
+        <style>{preBlockStyles}</style>
+        
+        {/* Top Navigation */}
+        <div className="flex items-center justify-between px-6 h-16 border-b border-[#3A4253] bg-[#343B4A]">
+          <div className="flex items-center">
+            {/* Title showing the current problem name */}
+            <h1 className="text-2xl font-semibold text-primary mr-4">
+              {dueProblems.length > 0 ? dueProblems[0].name : "Problem Queue"}
+            </h1>
+            
+            {/* Add badges next to title if there are due problems */}
+            {dueProblems.length > 0 && (
+              <div className="flex gap-2 mr-4">
+                <Badge 
+                  type="difficulty" 
+                  value={dueProblems[0].difficulty} 
+                  className="text-sm py-1.5 px-4" 
+                />
+                <Badge 
+                  type="problemType" 
+                  value={dueProblems[0].type} 
+                  className="text-sm py-1.5 px-4"
+                />
+              </div>
+            )}
+            
+            {/* Action buttons moved here next to badges */}
+            {dueProblems.length > 0 && (
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => setIsEditModalOpen(true)}
+                  className="p-2 rounded-lg text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C] transition-colors"
+                >
+                  <span className="material-icons">edit</span>
+                </button>
+                <button 
+                  onClick={() => setIsStatsModalOpen(true)}
+                  className="p-2 rounded-lg text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C] transition-colors"
+                >
+                  <span className="material-icons">bar_chart</span>
+                </button>
+                {dueProblems[0]?.link && (
+                  <a 
+                    href={dueProblems[0].link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="p-2 rounded-lg text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C] transition-colors"
+                  >
+                    <span className="material-icons">open_in_new</span>
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+          
+          {/* Status indicator stays on the right */}
+          <div className="flex items-center text-xs text-[#B0B7C3]">
+            <div className="relative mr-2">
+              <div className="w-2.5 h-2.5 bg-review rounded-full"></div>
+              <div 
+                className="absolute inset-0 w-2.5 h-2.5 bg-[#00FF00] rounded-full opacity-70"
+                style={{
+                  animation: "breathe 3s ease-in-out infinite",
+                  filter: "blur(1px)"
+                }}
+              ></div>
+              <style jsx>{`
+                @keyframes breathe {
+                  0%, 100% {
+                    transform: scale(1);
+                    opacity: 0.3;
+                    filter: blur(0.5px);
+                  }
+                  50% {
+                    transform: scale(1.2);
+                    opacity: 0.7;
+                    filter: blur(2px);
+                  }
+                }
+              `}</style>
+            </div>
+            <span>all systems operational</span>
+          </div>
+        </div>
+
+        {/* Main Content with Resizable Panels */}
+        <div 
+          className="flex-1 flex overflow-hidden"
+          onMouseMove={handleMouseMove}
+        >
+          {/* Left Panel */}
+          <div 
+            className="h-full overflow-auto bg-base_100"
+            style={{ width: `${panelWidth}%` }}
+          >
+            <div className="h-full border-r border-[#3A4253] bg-base_100">
+              <div className="p-4 border-b border-[#3A4253]">
+                <div className="flex gap-2">
+                  <TabButton 
+                    active={content === 'question'} 
+                    label="Description" 
+                    onClick={() => setContent('question')}
+                    icon="description"
+                  />
+                  <TabButton 
+                    active={content === 'notes'} 
+                    label="Notes" 
+                    onClick={() => setContent('notes')}
+                    icon="edit_note"
+                  />
+                  <TabButton 
+                    active={content === 'solution'} 
+                    label="Solution" 
+                    onClick={() => setContent('solution')}
+                    icon="code"
+                  />
+                </div>
+              </div>
+              <div className="p-6 bg-base_100">
+                {content === 'solution' && buttons?.length > 0 && (
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    {buttons.map((button: any, index: any) => {
+                      // Determine button styling based on label
+                      let buttonStyle = '';
+                      switch (button.label) {
+                        case 'Again':
+                          buttonStyle = 'border-[#8B3A3A] text-[#FF6B6B] hover:bg-[#3A2A2A]';
+                          break;
+                        case 'Hard':
+                          buttonStyle = 'border-[#8C5E2A] text-[#FFA94D] hover:bg-[#3A332A]';
+                          break;
+                        case 'Good':
+                          buttonStyle = 'border-[#2D6A39] text-[#69DB7C] hover:bg-[#2A3A2E]';
+                          break;
+                        case 'Easy':
+                          buttonStyle = 'border-[#2A5A8C] text-[#74C0FC] hover:bg-[#202C3A]';
+                          break;
+                        default:
+                          buttonStyle = 'border-[#3A4253] text-primary';
+                      }
+                      
+                      return (
+                        <button
+                          key={index}
+                          className={`mx-2 py-0.5 px-4 border rounded-md transition-all duration-300 ${buttonStyle}`}
+                          onClick={() => Algorithm(button.value)}
+                        >
+                          <span className="text-lg">{button.label}</span>
+                          {/* Show the time in smaller text */}
+                          <span className="text-xs ml-1 opacity-80">
+                            ({(() => {
+                              switch (button.label) {
+                                case 'Again':
+                                  return againText;
+                                case 'Hard':
+                                  return hardText;
+                                case 'Good':
+                                  return goodText;
+                                case 'Easy':
+                                  return easyText;
+                                default:
+                                  return '';
+                              }
+                            })()})
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+                {dueProblems.length > 0 && (
+                  <>
+                    {content === 'notes' ? (
+                      <p className="text-primary mt-4 whitespace-pre-wrap text-lg wrap-text">{dueProblems[0].notes}</p>
+                    ) : content === 'question' ? (
+                      <div 
+                        className="text-primary mt-4 problem-content prose prose-invert max-w-none"
+                        dangerouslySetInnerHTML={{ 
+                          __html: sanitizeCodeBlocks(dueProblems[0].question)
+                        }}
+                      />
+                    ) : (
+                      <pre className="wrap-text"><code className={`language-${dueProblems[0].language} mr-5`}>{dueProblems[0].solution}</code></pre>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Buttons for toggling between question and solution */}
-          <div className="mb-4 flex space-x-2 bg-tertiary p-2 rounded-md">
-            <button className={`py-2 px-4 text-primary rounded-md transition duration-300 ${content === 'question' ? 'bg-divide' : 'bg-[#1e1e20]'}`} onClick={() => setContent('question')}><span className="material-icons text-secondary mr-1" style={{ fontSize: '19px' }}>library_books</span> Problem</button>
-            <button className={`py-2 px-4 text-primary rounded-md transition duration-300 ${content === 'notes' ? 'bg-divide' : 'bg-[#1e1e20]'}`} onClick={() => setContent('notes')}><span className="material-icons text-secondary mr-1" style={{ fontSize: '19px' }}>edit</span> Notes</button>
-            <button className={`py-2 px-4 text-primary rounded-md transition duration-300 ${content === 'solution' ? 'bg-divide' : 'bg-[#1e1e20]'}`} onClick={() => setContent('solution')}><span className="material-icons text-secondary mr-1" style={{ fontSize: '19px' }}>code</span> Solution</button>
+          {/* Resize Handle */}
+          <div
+            className={`
+              w-1 hover:w-2 bg-[#3A4253] cursor-col-resize relative group
+              transition-all duration-200
+              ${isDragging ? 'w-2' : ''}
+            `}
+            onMouseDown={handleMouseDown}
+          >
+            <div
+              className={`
+                absolute top-1/2 -translate-y-1/2
+                transition-all duration-200 opacity-0
+                ${isDragging || 'group-hover:opacity-100'}
+              `}
+            >
+              <div className="bg-[#4A5267] rounded-md p-1 -ml-3">
+                <span className="material-icons text-[#B0B7C3]" style={{ fontSize: '16px' }}>chevron_left</span>
+              </div>
+              <div className="bg-[#4A5267] rounded-md p-1 -ml-3 mt-1">
+                <span className="material-icons text-[#B0B7C3]" style={{ fontSize: '16px' }}>chevron_right</span>
+              </div>
+            </div>
           </div>
-        {content === 'solution' && buttons?.length > 0 && (
-          <div className="mb-4 flex flex-wrap">
-            {buttons.map((button: any, index: any) => (
-              <button
-                key={index}
-                className={`mx-2 py-1 px-1 border border-divide transition-width duration-300 ${getButtonColor(button.label)}`}
-                onClick={() => Algorithm(button.value)}
-              >
-                {button.label}(
-                  {(() => {
-                    switch (button.label) {
-                      case 'Again':
-                        return againText;
-                      case 'Hard':
-                        return hardText;
-                      case 'Good':
-                        return goodText;
-                      case 'Easy':
-                        return easyText;
-                      default:
-                        return '';
-                    }
-                  })()}
-                )
-              </button>
-            ))}
-          </div>
-        )}
-        {/* Left side content (The question) */}
-        <div className="flex justify-between items-center text-secondary">
-          <h1 className="text-xl font-bold">{dueProblems[0].name}
-            <a href={dueProblems[0].link} target="_blank" rel="noopener noreferrer">
-              <span className="material-icons hover:scale-110 text-pop2 ml-2"  data-tooltip-id="my-tooltip-1" data-tooltip-html="View on Leetcode">
-                open_in_new
-              </span>
-            </a>
-          </h1>
-          <div className="text-right m-5">
-          <span className={`${getDifficultyColor(dueProblems[0].difficulty)} rounded-full py-1`}>
-                {dueProblems[0].difficulty}
-            </span> 
-            <span className="text-divide"> / </span> 
-            <span className={`${getTypeColor(dueProblems[0].type)} rounded-full py-1`}>
-                {dueProblems[0].type}
-            </span>
-          </div>
-        </div>
-        {content === 'notes' ? (
-          <p className="text-secondary mt-4 whitespace-pre-wrap text-lg">{dueProblems[0].notes}</p>
-        ) : content === 'question' ? (
+
+          {/* Right Panel */}
           <div 
-            className="text-secondary mt-4 problem-content"
-            dangerouslySetInnerHTML={{ 
-              __html: sanitizeCodeBlocks(dueProblems[0].question)
-            }}
-          />
-        ) : (
-          <pre><code className={`language-${dueProblems[0].language} mr-5`}>{dueProblems[0].solution}</code></pre>
-        )}
+            className="h-full overflow-hidden"
+            style={{ width: `${100 - panelWidth}%` }}
+          >
+            {dueProblems.length > 0 && (
+              <AceEditor
+                className="rounded"
+                mode={dueProblems[0].language}
+                theme="one_dark"
+                name="UNIQUE_ID_OF_DIV"
+                editorProps={{ $blockScrolling: true }}
+                fontSize={14}
+                showPrintMargin={false}
+                showGutter={true}
+                highlightActiveLine={true}
+                value={editorContent || dueProblems[0].functionSignature}
+                onChange={(newValue) => setEditorContent(newValue)}
+                setOptions={{
+                  enableBasicAutocompletion: true,
+                  enableLiveAutocompletion: true,
+                  enableSnippets: true,
+                  showLineNumbers: true,
+                  tabSize: 4,
+                  fadeFoldWidgets: false,
+                  scrollPastEnd: false,
+                }}
+                style={{ height: '100%', width: '100%' }}  
+              />
+            )}
+          </div>
         </div>
-        <div className="w-px bg-gray-800"></div> {/* Vertical line */}
-        <div className="flex-1 overflow-auto" style={{ maxHeight: '70vh' }}>
-          <AceEditor
-            className="rounded"
-            mode={dueProblems[0].language}
-            theme="chaos"
-            name="UNIQUE_ID_OF_DIV"
-            editorProps={{ $blockScrolling: true }}
-            fontSize={16}
-            showPrintMargin={true}
-            showGutter={true}
-            highlightActiveLine={true}
-            value={editorContent || dueProblems[0].functionSignature}
-            onChange={(newValue) => setEditorContent(newValue)}
-            setOptions={{
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              enableSnippets: true,
-              showLineNumbers: true,
-              tabSize: 2,
-            }}
-            style={{ height: '100%', width: '100%' }}  
+
+        {showChat && dueProblems[0] && (
+          <ChatWindow 
+            problem={dueProblems[0]} 
+            editorContent={editorContent} 
+            apiKey={userSettings?.apiKey}
+            onClose={() => setShowChat(false)}
+            buttonPosition={buttonPosition}
           />
-                  <button 
-          onClick={() => setShowChat(true)} 
-          className="inline-flex justify-center items-center absolute bottom-2 right-4 text-neutral bg-primary font-medium px-4 py-2 rounded-lg hover:scale-95 transition-transform duration-100"
+        )}
+        
+        <ReactTooltip
+          id="my-tooltip-1"
+          place="bottom"
+          style={{ backgroundColor: "#111111" }}
+        />
+        
+        {/* Modals and Toast */}
+        {isEditModalOpen && dueProblems[0] && (
+          <ProblemModal
+            isOpen={isEditModalOpen}
+            onClose={() => {
+              setIsEditModalOpen(false);
+              refetchProblems(); // Refresh problems after edit
+            }}
+            collectionId={dueProblems[0].collectionId}
+            isEditMode={true}
+            problemToEdit={dueProblems[0]}
+            showToast={showToast}
+          />
+        )}
+
+        {isStatsModalOpen && dueProblems[0] && (
+          <ProblemStatsModal
+            isOpen={isStatsModalOpen}
+            onClose={() => setIsStatsModalOpen(false)}
+            problem={dueProblems[0]}
+          />
+        )}
+
+        <Toast message={toastMessage} isVisible={isToastVisible} />
+
+        {/* Floating AI Help button with matching gradient and shadow */}
+        <button 
+          ref={aiButtonRef}
+          onClick={handleToggleChat} 
+          className={`fixed bottom-6 right-6 flex items-center px-4 py-3 bg-gradient-to-r ${
+            showChat 
+              ? "from-[#0891b2] to-[#2563eb]" // Slightly different gradient when active
+              : "from-[#06b6d4] to-[#3b82f6]"
+          } hover:from-[#0891b2] hover:to-[#2563eb] text-primary rounded-full transition-all duration-200 z-10 group`}
+          style={{ 
+            boxShadow: '0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -4px rgba(59, 130, 246, 0.2)'
+          }}
+          onMouseOver={(e) => e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -4px rgba(59, 130, 246, 0.3)'}
+          onMouseOut={(e) => e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -4px rgba(59, 130, 246, 0.2)'}
         >
-          <span className="material-icons text-neutral mr-1" style={{ fontSize: '20px' }}>chat</span> AI Feedback
+          <span className="material-icons mr-2" style={{ fontSize: '20px' }}>auto_awesome</span>
+          <span className="font-medium">{showChat ? "Close AI" : "AI Help"}</span>
+          <div className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
         </button>
       </div>
-      {showChat && (
-        <ChatWindow 
-          problem={dueProblems[0]} 
-          editorContent={editorContent} 
-          apiKey={userSettings.apiKey}
-          onClose={() => setShowChat(false)} 
-        />
-      )}
-      <ReactTooltip
-        id="my-tooltip-1"
-        place="bottom"
-        style={{ backgroundColor: "#111111" }}
-      />
-            {isEditModalOpen && dueProblems[0] && (
-        <ProblemModal
-          isOpen={isEditModalOpen}
-          onClose={() => {
-            setIsEditModalOpen(false);
-            refetchProblems(); // Refresh problems after edit
-          }}
-          collectionId={dueProblems[0].collectionId}
-          isEditMode={true}
-          problemToEdit={dueProblems[0]}
-          showToast={showToast}
-        />
-      )}
-
-      {isStatsModalOpen && dueProblems[0] && (
-        <ProblemStatsModal
-          isOpen={isStatsModalOpen}
-          onClose={() => setIsStatsModalOpen(false)}
-          problem={dueProblems[0]}
-        />
-      )}
-
-      <Toast message={toastMessage} isVisible={isToastVisible} />
-        </div>
-      
     );
   };
 

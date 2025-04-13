@@ -22,13 +22,13 @@ const Pricing = () => {
       <NavBar />
       <div className="w-full mx-auto px-5 py-10 mb-5">
         <div className="text-center max-w-xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold mb-5 text-white">Pricing</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-5 text-primary">Pricing</h1>
           <h3 className="text-xl font-medium mb-5 text-gray-400">Take your <span className='text-pop'>Leetcoding skills</span> to the <span className='text-pop'>next level</span> - explore our different membership options and their benefits below.</h3>
         </div>
         <div className="max-w-4xl mx-auto md:flex">
           <div className="w-full md:w-1/3 bg-cards p-6 mb-5 md:mb-0 rounded-lg shadow-lg text-center mr-8">
-            <h2 className="text-xl font-bold mb-4 text-white">Free</h2>
-            <p className="text-5xl font-bold text-white">$0</p>
+            <h2 className="text-xl font-bold mb-4 text-primary">Free</h2>
+            <p className="text-5xl font-bold text-primary">$0</p>
             <p className="mt-2 mb-4 text-secondary">per month</p>
             <ul className="mb-6 space-y-2 text-left">
               <li className="flex items-center space-x-2"><span className="material-icons">check</span> 3 collections</li>
@@ -39,7 +39,7 @@ const Pricing = () => {
           </div>
           <div className="w-full md:w-1/3 bg-cards p-6 mb-5 md:mb-0 rounded-lg shadow-lg text-center mr-8">
             <h2 className="text-xl font-bold mb-4 text-warning">Pro</h2>
-            <p className="text-5xl font-bold text-white">$3.99</p>
+            <p className="text-5xl font-bold text-primary">$3.99</p>
             <p className="mt-2 mb-4 text-secondary">per month</p>
             <ul className="mb-14 space-y-2 text-left">
               <li className="flex items-center space-x-2"><span className="material-icons text-warning">check</span> Unlimited collections</li>
@@ -53,7 +53,7 @@ const Pricing = () => {
           </div>
           <div className="w-full md:w-1/3 bg-cards p-6 mb-5 md:mb-0 rounded-lg shadow-lg text-center">
             <h2 className="text-xl font-bold mb-4 text-new">Lifetime</h2>
-            <p className="text-5xl font-bold text-white">$39.99</p>
+            <p className="text-5xl font-bold text-primary">$39.99</p>
             <p className="mt-2 mb-4 text-secondary">one time</p>
             <ul className="mb-6 space-y-2 text-left">
               <li className="flex items-center space-x-2"><span className="material-icons text-new">check</span> Pay only once</li>

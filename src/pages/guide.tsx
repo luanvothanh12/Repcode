@@ -210,16 +210,16 @@ export default function Guide() {
                     <p className="text-secondary mb-8 text-xl"><span className="font-bold">First, the easy part:</span> how to use it. The great thing about Study Mode is that it&apos;s largely <span className="font-bold">automatic</span> — the spatial repetition algorithm updates and manages itself. Whenever you add a problem to a collection, it&apos;s automatically included in Study Mode and factored into the algorithm. Your role is minimal: just navigate to the Study Mode section and, when you have problems due for review, a &quot;Study Now&quot; button will appear. Clicking this button will prompt you to solve the problems assigned for that day. </p>
                     <p className="text-secondary mb-8 text-xl">After solving each problem, head to the Solutions tab and choose the button that best reflects how difficult you found the problem: </p>
                     <div className="mb-8 flex justify-center items-center">
-                        <button className={`mx-2 py-1 px-5 border border-divide transition-width duration-300 text-error rounded-md hover:bg-hover2`}>
+                        <button className={`mx-2 py-1 px-5 border border-[#8B3A3A] transition-all duration-300 text-[#FF6B6B] rounded-md hover:bg-[#3A2A2A]`}>
                             <span className="text-xl">Again</span>
                         </button>
-                        <button className={`mx-2 py-1 px-5 border border-divide transition-width duration-300 text-medium rounded-md hover:bg-hover2`}>
+                        <button className={`mx-2 py-1 px-5 border border-[#8C5E2A] transition-all duration-300 text-[#FFA94D] rounded-md hover:bg-[#3A332A]`}>
                             <span className="text-xl">Hard</span>
                         </button>
-                        <button className={`mx-2 py-1 px-5 border border-divide transition-width duration-300 text-easy rounded-md hover:bg-hover2`}>
+                        <button className={`mx-2 py-1 px-5 border border-[#2D6A39] transition-all duration-300 text-[#69DB7C] rounded-md hover:bg-[#2A3A2E]`}>
                             <span className="text-xl">Good</span>
                         </button>
-                        <button className={`mx-2 py-1 px-5 border border-divide transition-width duration-300 text-blue rounded-md hover:bg-hover2`}>
+                        <button className={`mx-2 py-1 px-5 border border-[#2A5A8C] transition-all duration-300 text-[#74C0FC] rounded-md hover:bg-[#202C3A]`}>
                             <span className="text-xl">Easy</span>
                         </button>
                     </div>

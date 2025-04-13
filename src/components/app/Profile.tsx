@@ -84,7 +84,7 @@ const Profile = () => {
               <p className="text-secondary mb-4">Repcode is currently completely FREE to use! Even if we add pricing in the future, your Lifetime status will never be revoked. Thanks for being a beta tester!</p>
               <button 
                   onClick={() => window.open('https://billing.stripe.com/p/login/bIY4gj80X3Q93LO5kk', '_blank')} 
-                  className={`font-medium py-2 px-6 rounded-md transition ease-in-out duration-150 ${data?.membershipType !== 'pro' ? 'bg-disabled text-disabledText cursor-not-allowed' : 'bg-blue text-white'}`}
+                  className={`font-medium py-2 px-6 rounded-md transition ease-in-out duration-150 ${data?.membershipType !== 'pro' ? 'bg-disabled text-disabledText cursor-not-allowed' : 'bg-blue text-primary'}`}
                   disabled={data?.membershipType !== 'pro'}
               >
                   View Full History

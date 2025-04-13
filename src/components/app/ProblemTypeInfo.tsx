@@ -70,7 +70,7 @@ const ProblemTypeInfo = () => {
                 key={category.name}
                 className="overflow-hidden bg-base_100 border-divide border rounded-lg"
               >
-                <div className={`${category.color} text-white px-4 py-3 flex justify-between items-center`}>
+                <div className={`${category.color} text-primary px-4 py-3 flex justify-between items-center`}>
                   <h2 className="text-lg font-bold">{category.name}</h2>
                   <span className="bg-feintwhite px-2 py-1 rounded-full text-sm text-primary">{category.count}</span>
                 </div>

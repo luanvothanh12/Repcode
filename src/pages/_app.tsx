@@ -8,6 +8,7 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css'; 
 import { Analytics } from '@vercel/analytics/react'; 
+import { Inter } from 'next/font/google'; 
 
 NProgress.configure({ showSpinner: false });
 
@@ -22,6 +23,11 @@ const queryClient = new QueryClient({
 });
 
 // const stripePromise = loadStripe("your-stripe-key-here"); 
+
+const inter = Inter({
+  subsets: ['latin'], 
+  weight: '400', 
+})
 
 function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -47,7 +53,9 @@ function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <SidebarProvider>
         <AuthProvider>
+          <main className={inter.className}>
           <Component {...pageProps} />
+          </main>
           <Analytics />
         </AuthProvider>
       </SidebarProvider>

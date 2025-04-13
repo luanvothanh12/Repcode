@@ -1,32 +1,31 @@
-import React from 'react';
-import { Pie } from 'react-chartjs-2';
+import React, { useEffect } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { X, Calendar, Clock, BarChart3, Tag, Percent, ArrowRight, RefreshCw, PieChart } from 'lucide-react';
+import Badge from '../ui/Badge';
+import DonutChart from './DonutChart';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ProblemStatsModal = ({ isOpen, onClose, problem }: { isOpen: boolean, onClose: () => void, problem: any }) => {
-  if (!isOpen || !problem) return null;
+  // Don't return null, but use the animation classes to show/hide
+  if (!problem) return null;
 
-  const data = {
-    labels: ['Again', 'Hard', 'Good', 'Easy'],
-    datasets: [
-      {
-        data: [problem.againCount, problem.hardCount, problem.goodCount, problem.easyCount],
-        backgroundColor: ['#FF395F', '#FFBF1A', '#87cf3a', '#59FF00'],
-        borderColor: ['#FF395F', '#FFBF1A', '#87cf3a', '#59FF00'],
-        borderWidth: 1,
-      },
-    ],
-  };
+  // Handle keyboard events (Escape to close)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose();
+      }
+    };
 
-  const options = {
-    plugins: {
-      legend: {
-        display: true,
-        position: 'right' as 'right' | 'left' | 'top' | 'bottom',
-      },
-    },
-  };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
+  // Prepare data for DonutChart format
+  const chartLabels = ['Again', 'Hard', 'Good', 'Easy'];
+  const chartData = [problem.againCount, problem.hardCount, problem.goodCount, problem.easyCount];
+  const chartColors = ['#FF395F', '#FFBF1A', '#87cf3a', '#59FF00'];
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -37,61 +36,156 @@ const ProblemStatsModal = ({ isOpen, onClose, problem }: { isOpen: boolean, onCl
     return `${Math.round(interval / (60 * 24))} days`;
   };
 
-  const isDataEmpty = data.datasets[0].data.every((value) => value === 0);
+  const isDataEmpty = chartData.every((value) => value === 0);
+
+  const StatItem = ({
+    icon,
+    label,
+    value,
+    className,
+    customValue,
+  }: {
+    icon: React.ReactNode
+    label: string
+    value?: string | number
+    className?: string
+    customValue?: React.ReactNode
+  }) => (
+    <div className={`flex items-start gap-3 ${className || ''}`}>
+      <div className="mt-0.5 p-2 rounded-md bg-[#1E232C] text-[#3b82f6]">{icon}</div>
+      <div className="flex flex-col gap-1">
+        <p className="text-sm font-medium text-primary">{label}</p>
+        {customValue ? (
+          customValue
+        ) : (
+          <p className="text-base font-semibold text-sm text-[#8A94A6]">{value}</p>
+        )}
+      </div>
+    </div>
+  );
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-base_100 bg-opacity-50">
-      <div className="bg-[#1E1E20] p-6 rounded-lg shadow-lg w-[800px]">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-primary text-lg font-bold">{problem.name}</h2>
-          <button onClick={onClose} className="text-secondary hover:text-primary">
-            <span className="material-icons">close</span>
-          </button>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-secondary">Created</p>
-              <p className="text-primary">{formatDate(problem.creationDate)}</p>
-            </div>
-            <div>
-              <p className="text-secondary">Next Due</p>
-              <p className="text-primary">{formatDate(problem.dueDate)}</p>
-            </div>
-            <div>
-              <p className="text-secondary">Difficulty</p>
-              <p className="text-primary">{problem.difficulty}</p>
-            </div>
-            <div>
-              <p className="text-secondary">Type</p>
-              <p className="text-primary">{problem.type}</p>
-            </div>
-            <div>
-              <p className="text-secondary">Ease Factor</p>
-              <p className="text-primary">{problem.ease.toFixed(2)}</p>
-            </div>
-            <div>
-              <p className="text-secondary">Current Interval</p>
-              <p className="text-primary">{formatInterval(problem.interval)}</p>
-            </div>
-            <div>
-              <p className="text-secondary">Relearn Interval</p>
-              <p className="text-primary">{formatInterval(problem.relearnInterval)}</p>
-            </div>
-          </div>
-          <div className="flex justify-center items-center">
-            <div>
-              <h3 className="text-primary text-center mr-20">Feedback Breakdown:</h3>
-              {isDataEmpty ? (
-                <p className="text-secondary text-center">(No data yet)</p>
-              ) : (
-                <Pie data={data} options={options} />
-              )}
+    <>
+      {/* Modal Backdrop */}
+      <div
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-all duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+        onClick={onClose}
+      />
+
+      {/* Modal Container - Centered with animation */}
+      <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-500 ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+        {/* Modal */}
+        <div
+          className={`w-full max-w-4xl rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.3)] 
+                     transition-all duration-500 max-h-[90vh] overflow-hidden
+                     bg-gradient-to-b from-[#2A303C] to-[#252B38] border border-[#3A4150]/50 text-primary
+                     relative ${isOpen ? "opacity-100 -translate-y-0" : "opacity-0 -translate-y-[40px]"}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Decorative accent line at top */}
+          <div className="h-1 w-full bg-gradient-to-r from-[#06b6d4] to-[#3b82f6]"></div>
+
+          {/* Scrollable content area */}
+          <div className="overflow-y-auto max-h-[calc(90vh-1px)]">
+            <div className="p-6">
+              {/* Modal Header */}
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold tracking-tight">{problem.name}</h2>
+                <button
+                  onClick={onClose}
+                  className="h-8 w-8 rounded-full hover:bg-[#3A4150]/70 transition-colors duration-200 flex items-center justify-center"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              {/* Modal Content */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Left Column - Stats Information */}
+                <div className="space-y-6">
+                  {/* Basic Info */}
+                  <div className="space-y-4">
+                    <h3 className="text-sm font-medium text-gray-300">Basic Information</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      <StatItem 
+                        icon={<Calendar className="h-4 w-4" />} 
+                        label="Date Created" 
+                        value={formatDate(problem.creationDate)} 
+                      />
+                      <StatItem 
+                        icon={<Clock className="h-4 w-4" />} 
+                        label="Next Due" 
+                        value={formatDate(problem.dueDate)} 
+                      />
+                      <StatItem 
+                        icon={<BarChart3 className="h-4 w-4" />} 
+                        label="Difficulty"
+                        customValue={<Badge type="difficulty" value={problem.difficulty} />}
+                      />
+                      <StatItem 
+                        icon={<Tag className="h-4 w-4" />} 
+                        label="Type" 
+                        customValue={<Badge type="problemType" value={problem.type} />}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="h-px bg-gradient-to-r from-transparent via-[#3A4150]/70 to-transparent" />
+
+                  {/* Advanced Stats */}
+                  <div className="space-y-4">
+                    <h3 className="text-sm font-medium text-gray-300">Advanced Statistics</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      <StatItem
+                        icon={<Percent className="h-4 w-4" />}
+                        label="Ease Factor"
+                        value={problem.ease.toFixed(2)}
+                      />
+                      <StatItem
+                        icon={<ArrowRight className="h-4 w-4" />}
+                        label="Current Interval"
+                        value={formatInterval(problem.interval)}
+                      />
+                      <StatItem
+                        icon={<RefreshCw className="h-4 w-4" />}
+                        label="Relearn Interval"
+                        value={formatInterval(problem.relearnInterval)}
+                        className="col-span-2"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column - Feedback Breakdown Chart */}
+                <div className="border border-[#3A4150]/70 bg-[#1E232C] rounded-lg h-full flex flex-col">
+                  <div className="p-4 flex-1 flex flex-col">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-medium text-gray-300">Feedback Breakdown</h3>
+                      <PieChart className="h-4 w-4 text-[#3b82f6]" />
+                    </div>
+
+                    <div className="flex-1 flex justify-center items-center">
+                      {isDataEmpty ? (
+                        <div className="h-full flex items-center justify-center">
+                          <p className="text-gray-400 text-sm">No data available yet</p>
+                        </div>
+                      ) : (
+                        <DonutChart 
+                          labels={chartLabels} 
+                          data={chartData} 
+                          backgroundColors={chartColors} 
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

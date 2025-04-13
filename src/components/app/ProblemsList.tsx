@@ -8,6 +8,15 @@ import { useRouter } from 'next/router';
 import ProblemStatsModal from './ProblemStatsModal';
 import DonutChart from './DonutChart';
 import ImportModal from './ImportModal';
+import Link from 'next/link';
+import { formatDistanceToNow } from 'date-fns';
+import {
+  CircleIcon,
+  SparklesIcon,
+  BookOpenIcon,
+  CheckCircleIcon,
+} from "lucide-react";
+import Badge from '@/components/ui/Badge';
 
 const MAX_PROBLEMS = 152;
 
@@ -47,43 +56,69 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
     return response.json();
   };
 
+  const fetchCollectionDetails = async () => {
+    const response = await fetch(`/api/getCollectionDetails?collectionId=${collectionId}`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    return response.json();
+  };
+
   const { isLoading: isLoadingUser, data: currentUser, error: userError } = useQuery(
     ['userSettings', user?.email],
     fetchUserSettings,
     { enabled: !!user }
   );
 
-  const { data: problems, isLoading, error } = useQuery(
+  const { data: problems, isLoading: isLoadingProblems, error: problemsError } = useQuery(
     ['collectionDetails', collectionId, currentUser?.id],
     () => fetchProblems(collectionId, currentUser.id),
     { enabled: !!collectionId && !!currentUser }
   );
 
+  const { data: collectionData, isLoading: isLoadingCollection, error: collectionError } = useQuery(
+    ['collectionDetails', collectionId],
+    fetchCollectionDetails,
+    { enabled: !!collectionId }
+  );
+
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty.toLowerCase()) {
       case 'easy':
-        return 'text-easy bg-easybg px-4';
+        return 'text-easy bg-easybg border-[#296C62]';
       case 'medium':
-        return 'text-medium bg-mediumbg px-2';
+        return 'text-medium bg-mediumbg border-[#815954]';
       case 'hard':
-        return 'text-hard bg-hardbg px-4';
+        return 'text-hard bg-hardbg border-[#7D3E55]';
       default:
-        return 'text-secondary';
+        return 'text-[#B0B7C3] bg-[#3A4253] border-[#3A4253]';
     }
   };
 
   const getTypeColor = (type: string) => {
     switch (type.toLowerCase()) {
       case 'new':
-        return 'text-new bg-newbg px-4';
+        return 'text-new bg-newbg border-[#395A79]';
       case 'learning':
-        return 'text-learning bg-warningbg px-2';
+        return 'text-learning bg-warningbg border-[#6B603A]';
       case 'relearning':
-        return 'text-learning bg-warningbg px-2';
+        return 'text-learning bg-warningbg border-[#6B603A]';
       case 'review':
-        return 'text-review bg-successbg px-2';
+        return 'text-easy bg-easybg border-[#296C62]';
       default:
-        return 'text-neutral dark:text-secondary';
+        return 'text-[#B0B7C3] bg-[#3A4253] border-[#3A4253]';
+    }
+  };
+
+  const getTypeIcon = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'new':
+        return <SparklesIcon size={14} className="mr-1.5" />;
+      case 'learning':
+      case 'relearning':
+        return <BookOpenIcon size={14} className="mr-1.5" />;
+      case 'review':
+        return <CheckCircleIcon size={14} className="mr-1.5" />;
+      default:
+        return 'circle';
     }
   };
 
@@ -201,28 +236,43 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
     }
   };
 
-  if (error) return <div>Error: {(error as Error).message}</div>;
-  if (isLoading || isLoadingUser) {
+  if (problemsError || userError || collectionError) return <div>Error: {((problemsError || userError || collectionError) as Error).message}</div>;
+  if (isLoadingProblems || isLoadingUser || isLoadingCollection) {
     return (
-      <div className='flex justify-center items-center h-screen'>
-        <div role='status'>
-          <svg
-            aria-hidden='true'
-            className='w-12 h-12 text-base_100 animate-spin dark:text-base_100 fill-load'
-            viewBox='0 0 100 101'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <path
-              d='M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z'
-              fill='currentColor'
-            />
-            <path
-              d='M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z'
-              fill='currentFill'
-            />
-          </svg>
-          <span className='sr-only'>Loading...</span>
+      <div className="flex justify-center items-center h-[80vh]">
+        <div className="relative flex flex-col items-center">
+          {/* Outer glow effect */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] blur-xl opacity-20 animate-pulse"></div>
+          
+          {/* Spinner container */}
+          <div className="relative">
+            {/* Gradient ring */}
+            <div className="w-16 h-16 rounded-full border-2 border-transparent 
+                           bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] opacity-20"></div>
+            
+            {/* Spinning gradient arc */}
+            <div className="absolute top-0 left-0 w-16 h-16 border-2 border-transparent 
+                           rounded-full animate-spin duration-1000" 
+                 style={{
+                   borderTopColor: '#06b6d4',
+                   borderRightColor: '#3b82f6',
+                   animationDuration: '1s'
+                 }}>
+            </div>
+            
+            {/* Inner circle with logo or icon */}
+            
+          </div>
+          
+          {/* Loading text with shimmer effect */}
+          <div className="mt-4 text-sm font-medium text-[#B0B7C3] relative overflow-hidden">
+            <span>Loading</span>
+            <span className="inline-flex overflow-hidden ml-1">
+              <span className="animate-ellipsis">.</span>
+              <span className="animate-ellipsis animation-delay-300">.</span>
+              <span className="animate-ellipsis animation-delay-600">.</span>
+            </span>
+          </div>
         </div>
       </div>
     );
@@ -255,200 +305,251 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
         collectionId={collectionId}
       />
 
-      <div className='flex'>
-        <div className='flex-1'>
-          <div className='flex justify-start mb-4 items-center gap-4'>
-            <div className='relative flex items-center w-full max-w-sm h-12 mr-8 rounded-lg focus-within:shadow-lg bg-tertiary overflow-hidden transition-width duration-300 border border-tertiary'>
-              <div className='grid place-items-center h-full w-12 text-feintwhite'>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  className='h-6 w-6'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  stroke='currentColor'
+      <div className="max-w-full mx-auto px-2">
+        <div className="mb-4">
+          <div className="flex items-center mb-2">
+            <Link
+              href="/app/main"
+              className="
+                relative inline-flex items-center
+                px-3 py-2 -ml-1 mb-6
+                text-sm font-medium
+                text-[#B0B7C3]
+                rounded-lg
+                transition-all duration-300
+                hover:text-[#60a5fa]
+                group
+              "
+            >
+              <div
+                className="
+                absolute left-0 opacity-0 -translate-x-3
+                transition-all duration-300 ease-out
+                group-hover:opacity-100 group-hover:translate-x-0
+              "
+              >
+                <div
+                  className="
+                  bg-[#343B4A] p-2 rounded-lg
+                  shadow-sm shadow-black/5
+                  group-hover:bg-[#60a5fa]/10
+                  group-hover:shadow-[#60a5fa]/10
+                  transition-all duration-300
+                "
                 >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-                  />
-                </svg>
+                  <span className="material-icons text-sm text-[#8A94A6] group-hover:text-[#60a5fa] transition-colors duration-300">
+                    arrow_back
+                  </span>
+                </div>
               </div>
-              <input
-                type='text'
-                placeholder='Search problems...'
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className='peer h-full w-full outline-none text-sm text-secondary pr-2 bg-tertiary transition-width duration-300'
-              />
-            </div>
+              <span
+                className="
+                transition-all duration-300
+                group-hover:translate-x-8
+              "
+              >
+                Back to Collections
+              </span>
+            </Link>
+          </div>
+          <h1 className="text-2xl md:text-3xl font-bold text-primary tracking-tight">
+            {collectionData?.title}
+          </h1>
+        </div>
+
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#343B4A] text-[#B0B7C3]">
+              {problems?.length || 0} problems
+            </span>
+            {collectionData?.lastAdded && (
+              <>
+                <div className="h-4 w-px bg-[#3A4253] mx-3"></div>
+                <span className="text-[#B0B7C3] text-sm flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  Last updated: {formatDistanceToNow(new Date(collectionData.lastAdded), { addSuffix: true })}
+                </span>
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center mb-6">
+          <div className="relative w-2/5 max-w-xl">
+            <span className="material-icons absolute left-4 top-1/2 -translate-y-1/2 text-[#8A94A6]" style={{ fontSize: '18px' }}>
+              search
+            </span>
+            <input
+              type="text"
+              placeholder="Search problems..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full bg-[#343B4A] border border-[#3A4253] rounded-lg pl-11 pr-4 py-2.5 text-primary placeholder-[#8A94A6] focus:outline-none focus:border-blue-500 transition-colors"
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8A94A6] hover:text-primary transition-colors"
+              >
+                <span className="material-icons" style={{ fontSize: '18px' }}>close</span>
+              </button>
+            )}
+          </div>
+          
+          <div className="flex items-center space-x-3">
             <button
               onClick={() => setIsImportModalOpen(true)}
-              className='inline-flex items-center gap-2 h-12 px-4 py-2 bg-base_100 text-secondary hover:text-primary rounded-lg transition-colors duration-200 border border-dashed border-divide'
+              className="flex items-center px-4 py-2 bg-[#343B4A] border border-dashed border-[#4A5267] hover:border-[#60a5fa] text-[#B0B7C3] hover:text-[#60a5fa] rounded-lg transition-all duration-200 group"
             >
-              <span className='material-icons text-xl'>cloud_download</span>
-              Import Leetcode List
+              <span className="material-icons text-sm mr-1.5 group-hover:text-[#60a5fa] transition-colors">cloud_download</span>
+              <span className="group-hover:text-[#60a5fa] transition-colors">Import Leetcode List</span>
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-0 h-4 ml-1 opacity-0 group-hover:w-4 group-hover:opacity-100 transition-all duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+            <button
+              onClick={() => {
+                setIsModalOpen(true);
+                setProblemToEdit(null);
+              }}
+              className="flex items-center px-4 py-2 bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] hover:from-[#0891b2] hover:to-[#2563eb] text-primary rounded-lg transition-all duration-200"
+              style={{ 
+                boxShadow: '0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -4px rgba(59, 130, 246, 0.2)'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -4px rgba(59, 130, 246, 0.3)'}
+              onMouseOut={(e) => e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -4px rgba(59, 130, 246, 0.2)'}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 8v8"></path>
+                <path d="M8 12h8"></path>
+              </svg>
+              <span>Add Problem</span>
             </button>
           </div>
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center gap-4">
-              {/* Existing search bar */}
-            </div>
-            <div className="text-secondary text-sm">
-              {problems.length} problems
-            </div>
+        </div>
+
+        {problems?.length >= MAX_PROBLEMS && (
+          <div className="mb-4 p-4 bg-rose-500/10 border border-rose-500/30 rounded-lg">
+            <p className="text-rose-300 text-sm font-medium flex items-center">
+              <span className="material-icons mr-2 text-rose-300" style={{ fontSize: '18px' }}>warning</span>
+              This collection has reached the maximum limit of {MAX_PROBLEMS} problems. 
+              Delete some problems to add new ones.
+            </p>
           </div>
-          
-          {problems.length >= MAX_PROBLEMS && (
-            <div className="mb-4 p-4 bg-warning rounded-lg">
-              <p className="text-hardbg text-sm font-bold">
-                This collection has reached the maximum limit of {MAX_PROBLEMS} problems. 
-                Delete some problems to add new ones.
-              </p>
-            </div>
-          )}
-          
-          <table className='table-auto w-full text-left'>
-            <thead>
-              <tr className='text-secondary border-b border-divide'>
-                <th className='w-10 py-4'></th>
-                <th className='py-4'>Problem</th>
-                <th className='text-right py-4'>Difficulty</th>
-                <th className='text-right py-4'>Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              {problems
-                ?.filter((problem: any) =>
-                  problem.name.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-                .map((problem: any, index: number) => (
-                  <tr
-                    key={problem.id}
-                    className={`cursor-pointer relative bg-base_100 hover:bg-hover2 text-secondary transition-colors duration-100 border-b border-divide`}
-                    onClick={() => {
-                      if (!deletingProblems.has(problem.id)) {
-                        router.push(`/app/collections/${collectionId}/problems/${problem.id}`);
-                      }
-                    }}
-                  >
-                    <td className='py-4'>
-                      <div className='flex items-center relative'>
-                        <button
-                          className='text-primary hover:text-pop'
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleMenu(problem.id);
+        )}
+
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex-1">
+            <div className="bg-[#343B4A] rounded-xl overflow-hidden border border-[#3A4253] shadow-lg">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-[#3A4253]">
+                      <th className="text-left py-4 px-6 text-[#B0B7C3] font-medium text-sm w-10"></th>
+                      <th className="text-left py-4 px-6 text-[#B0B7C3] font-medium text-sm">Problem Name</th>
+                      <th className="text-right py-4 px-6 text-[#B0B7C3] font-medium text-sm">Difficulty</th>
+                      <th className="text-right py-4 px-6 text-[#B0B7C3] font-medium text-sm">Type</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {problems
+                      ?.filter((problem: any) =>
+                        problem.name.toLowerCase().includes(searchTerm.toLowerCase())
+                      )
+                      .map((problem: any, index: number) => (
+                        <tr
+                          key={problem.id}
+                          className={`border-b border-[#3A4253] hover:bg-[#3A4253]/50 transition-colors ${
+                            index === problems.length - 1 ? "border-b-0" : ""
+                          }`}
+                          onClick={() => {
+                            if (!deletingProblems.has(problem.id)) {
+                              router.push(`/app/collections/${collectionId}/problems/${problem.id}`);
+                            }
                           }}
                         >
-                          <span className='material-icons text-lg'>more_vert</span>
-                        </button>
-                        {visibleMenuId === problem.id && (
-                          <div className='absolute top-full left-0 mt-2 w-32 bg-tertiary shadow-lg rounded-md z-10'>
-                            <button
-                              className='block w-full text-left px-4 py-2 text-error hover:bg-hover2'
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                deleteProblem(problem.id, collectionId);
-                              }}
-                            >
-                              Delete
-                            </button>
-                            <button
-                              className='block w-full text-left px-4 py-2 text-link hover:bg-hover2'
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                openEditModal(problem);
-                                setVisibleMenuId(null);
-                              }}
-                            >
-                              Edit
-                            </button>
-                            <button
-                              className='block w-full text-left px-4 py-2 text-primary hover:bg-hover2 flex items-center gap-1'
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                openStatsModal(problem);
-                                setVisibleMenuId(null);
-                              }}
-                            >
-                              Stats
-                              <span
-                                className='material-icons text-primary'
-                                style={{ fontSize: '22px' }}
+                          <td className="py-4 px-6">
+                            <div className="flex items-center relative">
+                              <button
+                                className="p-1.5 rounded-lg hover:bg-[#3F475A] text-[#8A94A6] hover:text-primary transition-colors"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleMenu(problem.id);
+                                }}
                               >
-                                bar_chart_4_bars
-                              </span>
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                    <td className='py-4'>{problem.name}</td>
-                    <td className='text-right'>
-                      <span
-                        className={`${getDifficultyColor(
-                          problem.difficulty
-                        )} rounded-full px-2 py-1`}
-                      >
-                        {problem.difficulty}
-                      </span>
-                    </td>
-                    <td className='text-right'>
-                      <span
-                        className={`${getTypeColor(
-                          problem.type
-                        )} rounded-full px-2 py-1`}
-                      >
-                        {problem.type}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              <tr
-                className='cursor-pointer bg-base_100 hover:bg-hover2 text-secondary transition-colors duration-100'
-                onClick={() => {
-                  setIsModalOpen(true);
-                  setProblemToEdit(null);
-                }}
-              >
-                <td colSpan={4} className='text-center py-4'>
-                  <span
-                    className='material-icons text-primary'
-                    style={{ fontSize: '35px' }}
-                  >
-                    add_circle
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className='flex flex-col space-y-4 ml-8 mt-20'>
-          <div className='text-center mb-12'>
-            <h3 className='text-lg font-bold text-secondary mb-8'>Difficulties</h3>
-            <DonutChart
-              labels={['Easy', 'Medium', 'Hard']}
-              data={[
-                difficultyCounts.Easy,
-                difficultyCounts.Medium,
-                difficultyCounts.Hard,
-              ]}
-              backgroundColors={['#4CAF50', '#FFC107', '#F44336']}
-            />
-          </div>
-          <div className='text-center'>
-            <h3 className='text-lg font-bold text-secondary mb-8'>Types</h3>
-            <DonutChart
-              labels={['New', 'Learning', 'Review']}
-              data={[
-                typeCounts.New,
-                typeCounts.Learning + typeCounts.Relearning, 
-                typeCounts.Review,
-              ]}
-              backgroundColors={['#2196F3', '#FF9800', '#8BC34A']}
-            />
+                                <span className="material-icons" style={{ fontSize: '18px' }}>more_vert</span>
+                              </button>
+                              {visibleMenuId === problem.id && (
+                                <div className="absolute top-full left-0 mt-2 w-36 rounded-lg bg-[#343B4A] shadow-lg border border-[#3A4253] py-1 z-10">
+                                  <button
+                                    className="w-full px-4 py-2 text-sm text-hard hover:bg-[#3A4253] hover:hard flex items-center"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      deleteProblem(problem.id, collectionId);
+                                    }}
+                                  >
+                                    <span className="material-icons mr-2" style={{ fontSize: '14px' }}>delete</span>
+                                    Delete
+                                  </button>
+                                  <button
+                                    className="w-full px-4 py-2 text-sm text-[#B0B7C3] hover:bg-[#3A4253] hover:text-primary flex items-center"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      openEditModal(problem);
+                                      setVisibleMenuId(null);
+                                    }}
+                                  >
+                                    <span className="material-icons mr-2" style={{ fontSize: '14px' }}>edit</span>
+                                    Edit
+                                  </button>
+                                  <button
+                                    className="w-full px-4 py-2 text-sm text-[#B0B7C3] hover:bg-[#3A4253] hover:text-primary flex items-center"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      openStatsModal(problem);
+                                      setVisibleMenuId(null);
+                                    }}
+                                  >
+                                    <span className="material-icons mr-2" style={{ fontSize: '14px' }}>bar_chart</span>
+                                    Stats
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td className="py-4 px-6">
+                            <span className="font-medium text-primary hover:text-[#60a5fa] transition-colors cursor-pointer flex items-center">
+                              {problem.name}
+                              <svg xmlns="http://www.w3.org/2000/svg" className="w-0 h-4 ml-1 opacity-0 group-hover:w-4 group-hover:opacity-100 transition-all duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                              </svg>
+                            </span>
+                          </td>
+                          <td className="py-4 px-6 text-right">
+                            <Badge type="difficulty" value={problem.difficulty} />
+                          </td>
+                          <td className="py-4 px-6 text-right">
+                            <Badge type="problemType" value={problem.type} />
+                          </td>
+                        </tr>
+                      ))}
+                    {problems?.filter((problem: any) => problem.name.toLowerCase().includes(searchTerm.toLowerCase())).length === 0 && (
+                      <tr>
+                        <td colSpan={4} className="py-12 text-center text-[#B0B7C3]">
+                          No problems found matching your search.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>

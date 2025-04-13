@@ -125,19 +125,19 @@
 //         <div className="mb-4 flex justify-center">
 //           <button
 //             onClick={() => setTool('pen')}
-//             className={`px-4 py-2 mr-2 ${tool === 'pen' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'} rounded`}
+//             className={`px-4 py-2 mr-2 ${tool === 'pen' ? 'bg-blue-500 text-primary' : 'bg-gray-200 text-black'} rounded`}
 //           >
 //             Draw
 //           </button>
 //           <button
 //             onClick={() => setTool('eraser')}
-//             className={`px-4 py-2 mr-2 ${tool === 'eraser' ? 'bg-red-500 text-white' : 'bg-gray-200 text-black'} rounded`}
+//             className={`px-4 py-2 mr-2 ${tool === 'eraser' ? 'bg-red-500 text-primary' : 'bg-gray-200 text-black'} rounded`}
 //           >
 //             Erase
 //           </button>
 //           <button
 //             onClick={() => setTool('select')}
-//             className={`px-4 py-2 ${tool === 'select' ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'} rounded`}
+//             className={`px-4 py-2 ${tool === 'select' ? 'bg-green-500 text-primary' : 'bg-gray-200 text-black'} rounded`}
 //           >
 //             Select/Move
 //           </button>
