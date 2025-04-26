@@ -333,7 +333,7 @@ export default function Changelog() {
     return (
       <div className="flex flex-col min-h-screen bg-base_100">
           <NavBar />
-          <div className="flex flex-1">
+          <div className="flex flex-1 pt-16">
               <div className="hidden md:block md:w-1/4 p-4 border-r border-divide overflow-auto">
                   {changelogData.map((log) => (
                       <div key={log.month} className="mb-4">
