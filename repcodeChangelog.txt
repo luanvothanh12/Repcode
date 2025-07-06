@@ -8,10 +8,16 @@ External dependencies:
 
 up next: 
 ---------------
+- fix changelog 
+- fix guide page 
+- new user pop up needs to be restyled 
+- add Repcode vs. Leetcode vs. Neetcode comparison table in landing page 
+- check open source stuff, mainly branch protection rules and can other githib accounts push to master? 
+- quickly test every feature on an alt acc to make sure it's all working 
+- AWS RDS upgrade (CPU i think to make it faster)
+
 - Bug: for new users, Total Problems says 3 but should say 1 
 - In the Study Mode page, the "Due Today: [x]" text should be a dropdown that, when expanded, shows the actual problems that are due on that day (their name, difficulty, and due date)
-- make AI chat look much much better, and also allow for follow ups 
-- add Repcode vs. Leetcode vs. Neetcode comparison table in landing page 
 - "generate solution using AI" button 
 - the update endpoints need to be more secure 
 
@@ -26,13 +32,11 @@ All:
 - bug: the study mode graph is still shown when the page is loading 
 - bug: timezone issue with heatmap. sometimes it updates the next day, not today 
 - add a paint canvas in problems to whiteboard 
-- add options for renewing membership after cancelling (event check in webhook) 
 - add problem tags (like strings, binary search, heap, etc. Select from a dropdown menu) 
 - user setting to hide problem name, and hide problem type 
 - filters (checkboxes) for problem difficulty and type 
 - Review problems need to be dispersed more: the fuzz factor doesn't seem to do anything. All 'Good' on newly added Reveiw problems are 7 days, and 'New' is 9 days. There should always be += a day or two to spread these out 
 - rate limiting for API calls so peeps cant troll with Postman. Although, most endpoints are now authenticated so this may not be needed anymore. ig see which endpoints aren't authenticated and see if we need rate limiting for them 
-- make the actual application itself mobile responsive (perhaps add an app?) 
 
 
 
@@ -54,3 +58,5 @@ Promotion:
 - Reddit (A New Way to Practice Leetcode), r/leetcode, r/cscareer 
 - Reach out to Neetcode via email/linkedin 
 - reaching out to random people on email (Aman on youtube, withmarble.io)
+- TikTok, insta, twitter promoters 
+- Maybe reach out to people like FireShip for sponsor? unlikely to work though 

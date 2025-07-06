@@ -6,6 +6,110 @@ import "../app/globals.css";
 export default function Changelog() {
     const changelogData = [
       {
+        month: "July 2025",
+        updates: [
+          {
+            date: "V 2.3 - July 10th, 2025",
+            changes: [
+              "➕Added a new First Time User popup, this one is more helpful and comprehensive", 
+              "⚙️Some more preparations for open source release",
+            ],
+          },
+          {
+            date: "V 2.2 - July 2nd, 2025",
+            changes: [
+              "⚙️More preparations for open source release", 
+              "⚙️Small adjustments to UI/UX throughout", 
+            ],
+          },
+        ],
+      },
+      {
+        month: "April 2025",
+        updates: [
+          {
+            date: "V 2.1 - April 15th, 2025",
+            changes: [
+              "🛠️Fixed several styling issues with the new UI/UX", 
+              "🛠️Fixed another issue with account creation not working properly", 
+            ],
+          },
+          {
+            date: "V 2.0 - April 13th, 2025",
+            changes: [
+              "🎉🎉 Repcode.io official 2.0 release build!! 🎉🎉", 
+              "⚙️MASSIVE UI/UX overhaul, including a new landing page, a new dashboard, a new problem view, new everything!", 
+            ],
+          },
+        ],
+      },
+      {
+        month: "March 2025",
+        updates: [
+          {
+            date: "V 1.18 - March 30th, 2025",
+            changes: [
+              "⚙️Adjusted problem view UI",
+              "🛠️Fixed issue with AI Feedback not working",
+              "🛠️Fixed issue with contact form not sending emails properly",
+            ],
+          },
+          {
+            date: "V 1.17 - March 21st, 2025",
+            changes: [
+              "🛠️Fixed user account creation bug where you couldn&apos;t access the dashboard",
+              "🛠️Fixed issues with time calculation for review on study page",
+            ],
+          },
+          {
+            date: "V 1.16 - March 20th, 2025",
+            changes: [
+              "⚙️Adjusted landing page UI (yet again)", 
+              "⚙️Adjusted AI UI to be more user friendly", 
+              "⚙️Adjusted AI Feedback to be more accurate"
+            ],
+          },
+        ],
+      },
+      {
+        month: "February 2025",
+        updates: [
+          {
+            date: "V 1.15 - February 6th, 2025",
+            changes: [
+              "➕Added Name field to contact form", 
+            ],
+          },
+          {
+            date: "V 1.14 - February 1st, 2025",
+            changes: [
+              "⚙️Adjusted landing page UI", 
+              "⚙️Adjusted changelog page UI", 
+              "⚙️Adjusted update endpoints to make the code clearer"
+            ],
+          },
+        ],
+      },
+      {
+        month: "January 2025",
+        updates: [
+          {
+            date: "V 1.13 - January 12th, 2025",
+            changes: [
+              "➕Added ability to actually see the problems due today by pressing the `Due Today:` text on the study dashboard",
+            ],
+          },
+          {
+            date: "V 1.12 - January 10th, 2025",
+            changes: [
+              "➕Added Edit and Stats button to problem view",
+              "⚙️Adjusted functionality of Autofilling leetcode problems so that how the question is formatted here on Repcode exactly matches how it looks on Leetcode",
+              "⚙️Adjusted problem modal UI/UX",
+            ],
+          },
+        ],
+      },
+      {
         month: "January 2025",
         updates: [
           {
@@ -111,7 +215,7 @@ export default function Changelog() {
           {
             date: "V 1.0 - October 11th, 2024",
             changes: [
-              "Repcode.io official release build!! 🎉🎉", 
+              "🎉🎉 Repcode.io official 1.0 release build!! 🎉🎉", 
               "➕Added placeholder text to problem creation modal",
               "⚙️Adjusted styling of the problem link icon", 
               "🛠️Fixed issue with Toast notifications appearing off screen", 
@@ -323,7 +427,7 @@ export default function Changelog() {
           {
             date: "V 0.1 - March 25, 2024",
             changes: [
-              "Repcode.io beta release build!! 🎉🎉",
+              "🎉🎉 Repcode.io beta release build!! 🎉🎉",
             ],
           },
         ],

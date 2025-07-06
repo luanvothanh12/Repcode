@@ -1,3 +1,5 @@
+// DEPRECATED: DOES NOT WORK ANYMORE 
+
 // import { useEffect, useState } from "react";
 
 // function useDarkMode() {
