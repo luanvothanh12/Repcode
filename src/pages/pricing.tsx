@@ -1,3 +1,5 @@
+// f**k capitalism, Repcode will be free forever. This page is deprecated
+
 import React, { useContext } from 'react';
 import NavBar from '@/components/home/NavBar';
 import Footer from '@/components/home/Footer';
@@ -10,11 +12,11 @@ const Pricing = () => {
   const { user } = useContext(AuthContext);
 
   const handleBuyNowPro = () => {
-    window.open('https://buy.stripe.com/eVag2J3xI0w1cdq8ww', '_blank'); // Replace with your Stripe payment link
+    window.open('https://buy.stripe.com/', '_blank'); // Replace with Stripe payment link
   };
 
   const handleBuyNowLifetime = () => {
-    window.open('https://buy.stripe.com/eVa8Ah7NYceJa5ifZ0', '_blank');
+    window.open('https://buy.stripe.com/', '_blank');
   };
 
   return (
@@ -53,7 +55,7 @@ const Pricing = () => {
           </div>
           <div className="w-full md:w-1/3 bg-cards p-6 mb-5 md:mb-0 rounded-lg shadow-lg text-center">
             <h2 className="text-xl font-bold mb-4 text-new">Lifetime</h2>
-            <p className="text-5xl font-bold text-primary">$39.99</p>
+            <p className="text-5xl font-bold text-primary">$9.99</p>
             <p className="mt-2 mb-4 text-secondary">one time</p>
             <ul className="mb-6 space-y-2 text-left">
               <li className="flex items-center space-x-2"><span className="material-icons text-new">check</span> Pay only once</li>

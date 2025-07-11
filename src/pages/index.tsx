@@ -4,26 +4,16 @@ import React, { useEffect } from 'react';
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRightIcon, SparklesIcon, CheckIcon, BrainIcon, CodeIcon, BarChartIcon } from "lucide-react"
-// import Logo from '@/components/home/Logo';
-// import Description from '@/components/home/Description';
 import NavBar from '@/components/home/NavBar';
-// import MoreInfo from '@/components/home/MoreInfo';
 import ContactForm from '@/components/home/ContactForm';
-// import BackgroundDots from '@/components/home/BackgroundDots';
 import Footer from "@/components/home/Footer";
-// import Rundown from '@/components/home/Rundown';
-// import nookies from "nookies";
-// import firebaseAdmin from "../../firebaseAdmin"; 
-// import List from '@/components/home/List';
-import "../app/globals.css";
-
 import FeatureCard from '@/components/home/FeatureCard';
 import ProblemListPreview from '@/components/home/ProblemListPreview';
 import StudyDashboardPreview from '@/components/home/StudyDashboardPreview';
 import CodeEditorPreview from '@/components/home/CodeEditorPreview';
-import PricingTable from '@/components/home/PricingTable';
 import UserCounter from '@/components/home/UserCounter';
 import LogoScroller from '@/components/home/LogoScroller';
+import "../app/globals.css";
 
 export default function Home() {
   return (

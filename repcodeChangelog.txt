@@ -8,7 +8,7 @@ External dependencies:
 
 up next: 
 ---------------
-- fix changelog 
+- update favicon to have new logo 
 - fix guide page 
 - new user pop up needs to be restyled 
 - add Repcode vs. Leetcode vs. Neetcode comparison table in landing page 
