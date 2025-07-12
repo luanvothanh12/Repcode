@@ -110,7 +110,7 @@ const PlatformComparison = () => {
                         We&apos;re not biased! 
                       </p>
                       <p className="text-[#B0B7C3] text-xs">
-                        No platform does everything, even Repcode has its pros and cons. It's meant to supplement the other two platforms, not replace them.
+                        No platform does everything, even Repcode has its pros and cons. It&apos;s meant to supplement the other two platforms, not replace them.
                       </p>
                     </div>
                   </div>
