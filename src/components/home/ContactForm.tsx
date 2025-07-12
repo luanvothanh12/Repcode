@@ -44,22 +44,22 @@ const ContactForm = () => {
   }, [state.succeeded]);
 
   return (
-    <div id="contact" className="max-w-[85rem] px-4 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <div className="max-w-4xl mx-auto">
       <div className="max-w-xl mx-auto">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-primary sm:text-4xl">
+          <h1 className="text-3xl font-bold text-primary sm:text-4xl mb-4">
             Contact us
           </h1>
-          <p className="mt-1 text-[#B0B7C3]">
+          <p className="text-[#B0B7C3] mb-2">
             Questions? Bugs? Want to contribute? Let us know!
           </p>
-          <p className="mt-1 text-[#B0B7C3]">
+          <p className="text-[#B0B7C3]">
             Email repcode.io@gmail.com, or fill out the form below.
           </p>
         </div>
       </div>
 
-      <div className="mt-8 max-w-lg mx-auto">
+      <div className="mt-12 max-w-lg mx-auto">
         <div className="bg-[#2A303C] rounded-xl border border-[#3A4253] shadow-lg overflow-hidden p-6">
           {state.succeeded ? (
             <div className="bg-[#4ade80]/10 border border-[#4ade80]/30 rounded-lg p-4 mb-6">

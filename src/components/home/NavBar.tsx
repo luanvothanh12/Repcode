@@ -40,21 +40,21 @@ const NavBar = () => {
             : 'bg-transparent'
         }`}
       >
-        <div className="w-full px-12"> 
+        <div className="w-full px-4 sm:px-6 md:px-12"> 
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <Link href="/" className="flex-none text-xl font-semibold text-[#FFFFFF]">
-                <img src="/logo14.png" alt="Brand Logo" className="h-12" />
+                <img src="/logo14.png" alt="Brand Logo" className="h-8 sm:h-10 md:h-12" />
               </Link>
               
-              {/* Version indicator with divider */}
-              <div className="flex items-center ml-4">
+              {/* Version indicator with divider - hidden on small screens */}
+              <div className="hidden sm:flex items-center ml-2 md:ml-4">
                 {/* Angled divider */}
                 <div className="h-6 w-px bg-gradient-to-b from-[#4B5563]/20 to-[#6B7280]/20 transform rotate-12"></div>
                 
                 {/* Version pill */}
                 <div 
-                  className={`ml-4 flex items-center px-3 py-1 rounded-full transition-all duration-300 border border-[#4B5563]/20 bg-[#0F172A]/20`}
+                  className={`ml-2 md:ml-4 flex items-center px-2 md:px-3 py-1 rounded-full transition-all duration-300 border border-[#4B5563]/20 bg-[#0F172A]/20`}
                 >
                   {/* Pulsing dot */}
                   <div className="relative mr-1.5">
@@ -94,6 +94,17 @@ const NavBar = () => {
                 Contact
               </Link>
               <Link
+                href="https://github.com/hussiiii/Repcode"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center text-[#B0B7C3] hover:text-[#FFFFFF] transition-colors"
+              >
+                <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </Link>
+              <Link
                 href="/login"
                 className="flex items-center px-4 py-2 rounded-lg transition-all duration-200"
                 style={{ 
@@ -131,37 +142,57 @@ const NavBar = () => {
           </div>
 
           {/* Mobile menu */}
-          <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden py-2 space-y-3`}>
-            <Link
-              href="/guide"
-              className="block text-[#B0B7C3] hover:text-[#FFFFFF] transition-colors py-2"
-            >
-              Guide
-            </Link>
-            <Link
-              href="/changelog"
-              className="block text-[#B0B7C3] hover:text-[#FFFFFF] transition-colors py-2"
-            >
-              Changelog
-            </Link>
-            <Link
-              href="/#contact"
-              className="block text-[#B0B7C3] hover:text-[#FFFFFF] transition-colors py-2"
-            >
-              Contact
-            </Link>
-            <Link
-              href="/login"
-              className="flex items-center justify-center w-full px-4 py-2 mt-4 rounded-lg transition-all duration-200"
-              style={{ 
-                background: 'linear-gradient(to right, #06b6d4, #3b82f6)',
-                color: '#FFFFFF',
-                boxShadow: '0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -4px rgba(59, 130, 246, 0.2)'
-              }}
-            >
-              <span className="material-icons mr-2" style={{ fontSize: '18px' }}>auto_awesome</span>
-              <span>Launch App</span>
-            </Link>
+          <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden`}>
+            <div className="mt-2 mx-4 p-4 rounded-lg bg-[#343B4A]/95 backdrop-blur-md border border-[#4B5563]/20 shadow-lg shadow-black/20">
+              <div className="space-y-3">
+                <Link
+                  href="/guide"
+                  className="block text-[#B0B7C3] hover:text-[#FFFFFF] transition-colors py-2 px-2 rounded-md hover:bg-[#4B5563]/20"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Guide
+                </Link>
+                <Link
+                  href="/changelog"
+                  className="block text-[#B0B7C3] hover:text-[#FFFFFF] transition-colors py-2 px-2 rounded-md hover:bg-[#4B5563]/20"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Changelog
+                </Link>
+                <Link
+                  href="/#contact"
+                  className="block text-[#B0B7C3] hover:text-[#FFFFFF] transition-colors py-2 px-2 rounded-md hover:bg-[#4B5563]/20"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Contact
+                </Link>
+                <Link
+                  href="https://github.com/hussiiii/Repcode"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-[#B0B7C3] hover:text-[#FFFFFF] transition-colors py-2 px-2 rounded-md hover:bg-[#4B5563]/20"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                  GitHub
+                </Link>
+                <Link
+                  href="/login"
+                  className="flex items-center justify-center w-full px-4 py-2 mt-4 rounded-lg transition-all duration-200"
+                  style={{ 
+                    background: 'linear-gradient(to right, #06b6d4, #3b82f6)',
+                    color: '#FFFFFF',
+                    boxShadow: '0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -4px rgba(59, 130, 246, 0.2)'
+                  }}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <span className="material-icons mr-2" style={{ fontSize: '18px' }}>auto_awesome</span>
+                  <span>Launch App</span>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </nav>

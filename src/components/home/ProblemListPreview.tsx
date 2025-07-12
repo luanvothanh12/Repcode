@@ -13,8 +13,8 @@ const ProblemListPreview = () => {
   ]
 
   return (
-    <div className="overflow-hidden">
-      <div className="p-5 border-b border-[#3A4253] flex justify-between items-center">
+    <div className="p-6 overflow-hidden">
+      <div className="py-5 border-b border-[#3A4253] flex justify-between items-center">
         <h2 className="text-lg font-semibold text-primary">Algorithm Problems</h2>
         <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#2A303C] text-[#B0B7C3]">
           {problems.length} problems
@@ -24,23 +24,23 @@ const ProblemListPreview = () => {
         <table className="w-full">
           <thead>
             <tr className="border-b border-[#3A4253]">
-              <th className="text-left py-4 px-6 text-[#B0B7C3] font-medium text-sm">Problem Name</th>
-              <th className="text-right py-4 px-6 text-[#B0B7C3] font-medium text-sm">Difficulty</th>
-              <th className="text-right py-4 px-6 text-[#B0B7C3] font-medium text-sm">Type</th>
+              <th className="text-left py-4 text-[#B0B7C3] font-medium text-sm">Problem Name</th>
+              <th className="text-right py-4 text-[#B0B7C3] font-medium text-sm">Difficulty</th>
+              <th className="text-right py-4 text-[#B0B7C3] font-medium text-sm">Type</th>
             </tr>
           </thead>
           <tbody>
             {problems.map((problem) => (
               <tr key={problem.id} className="border-b border-[#3A4253] hover:bg-[#3A4253]/50 transition-colors">
-                <td className="py-4 px-6">
+                <td className="py-4">
                   <span className="font-medium text-primary hover:text-[#60a5fa] transition-colors cursor-pointer">
                     {problem.name}
                   </span>
                 </td>
-                <td className="py-4 px-6 text-right">
+                <td className="py-4 text-right">
                   <Badge type="difficulty" value={problem.difficulty} />
                 </td>
-                <td className="py-4 px-6 text-right">
+                <td className="py-4 text-right">
                   <Badge type="problemType" value={problem.type} />
                 </td>
               </tr>
@@ -53,4 +53,3 @@ const ProblemListPreview = () => {
 }
 
 export default ProblemListPreview
-

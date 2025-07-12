@@ -69,7 +69,8 @@ const UserCounter: React.FC<UserCounterProps> = ({ targetCount, duration = 4000 
         <span className="text-[#60a5fa]">
           {count.toLocaleString()}+
         </span>{" "}
-        users mastering LeetCode today
+        users
+        <span className="hidden sm:inline"> mastering LeetCode today</span>
       </span>
     </div>
   )

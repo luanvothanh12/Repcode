@@ -23,6 +23,100 @@ const CodeEditorPreview = () => {
   const [activeTab, setActiveTab] = useState("question")
   const [panelWidth, setPanelWidth] = useState(50)
 
+  // Simple syntax highlighter for JavaScript
+  const highlightCode = (code: string) => {
+    const lines = code.split('\n')
+    return lines.map((line, index) => {
+      // Comments (both single-line and JSDoc)
+      if (line.trim().startsWith('//') || line.trim().startsWith('*') || line.trim().startsWith('/**')) {
+        return (
+          <div key={index} className="text-[#6A9955]">
+            {line}
+          </div>
+        )
+      }
+      
+      // For other lines, we'll tokenize and render with React components
+      const tokens = tokenizeLine(line)
+      return (
+        <div key={index}>
+          {tokens.map((token, tokenIndex) => (
+            <span key={tokenIndex} className={token.className}>
+              {token.text}
+            </span>
+          ))}
+        </div>
+      )
+    })
+  }
+
+  const tokenizeLine = (line: string) => {
+    const tokens: Array<{text: string, className: string}> = []
+    let currentPos = 0
+    
+    // Define patterns with their corresponding classes
+    const patterns = [
+      { regex: /\b(function|return|const|let|var|if|else|for|while|do|switch|case|break|continue)\b/g, className: 'text-[#569CD6]' },
+      { regex: /(@\w+)/g, className: 'text-[#569CD6]' },
+      { regex: /(\{[^}]+\})/g, className: 'text-[#4EC9B0]' },
+      { regex: /(\w+)(\s*\()/g, className: 'text-[#DCDCAA]', matchIndex: 1 },
+      { regex: /(["'])(.*?)\1/g, className: 'text-[#CE9178]' },
+      { regex: /\b\d+\b/g, className: 'text-[#B5CEA8]' },
+      { regex: /([{}()\[\]])/g, className: 'text-[#D4D4D4]' },
+    ]
+    
+    // Find all matches
+    const allMatches: Array<{start: number, end: number, text: string, className: string}> = []
+    
+    patterns.forEach(pattern => {
+      let match
+      while ((match = pattern.regex.exec(line)) !== null) {
+        const matchText = pattern.matchIndex ? match[pattern.matchIndex] : match[0]
+        const matchStart = pattern.matchIndex ? match.index + match[0].indexOf(matchText) : match.index
+        allMatches.push({
+          start: matchStart,
+          end: matchStart + matchText.length,
+          text: matchText,
+          className: pattern.className
+        })
+      }
+    })
+    
+    // Sort matches by position
+    allMatches.sort((a, b) => a.start - b.start)
+    
+    // Build tokens, handling overlaps
+    let pos = 0
+    allMatches.forEach(match => {
+      // Add text before match
+      if (pos < match.start) {
+        tokens.push({
+          text: line.substring(pos, match.start),
+          className: 'text-[#D4D4D4]'
+        })
+      }
+      
+      // Add the match if it doesn't overlap with previous
+      if (pos <= match.start) {
+        tokens.push({
+          text: match.text,
+          className: match.className
+        })
+        pos = match.end
+      }
+    })
+    
+    // Add remaining text
+    if (pos < line.length) {
+      tokens.push({
+        text: line.substring(pos),
+        className: 'text-[#D4D4D4]'
+      })
+    }
+    
+    return tokens.length > 0 ? tokens : [{text: line, className: 'text-[#D4D4D4]'}]
+  }
+
   // Sample problem data
   const problem = {
     name: "Two Sum",
@@ -113,23 +207,23 @@ function twoSum(nums, target) {
   }
 
   return (
-    <div className="h-[500px] bg-[#2A303C] flex flex-col rounded-xl overflow-hidden border border-[#3A4253] shadow-xl">
+    <div className="h-[500px] md:h-[500px] bg-[#2A303C] flex flex-col rounded-xl overflow-hidden border border-[#3A4253] shadow-xl">
       {/* Top Navigation */}
       <div className="flex items-center justify-between px-4 h-12 border-b border-[#3A4253] bg-[#343B4A]">
-        <div className="flex items-center">
-          <button className="flex items-center text-[#B0B7C3] hover:text-primary transition-colors mr-3 group">
+        <div className="flex items-center min-w-0 flex-1">
+          <button className="flex items-center text-[#B0B7C3] hover:text-primary transition-colors mr-3 group flex-shrink-0">
             <div className="p-1 rounded-lg group-hover:bg-[#2A303C] transition-colors">
               <ArrowLeftIcon className="w-4 h-4" />
             </div>
           </button>
-          <h1 className="text-sm font-semibold text-primary mr-3">{problem.name}</h1>
-          <div className="flex gap-2">
+          <h1 className="text-sm font-semibold text-primary mr-3 truncate">{problem.name}</h1>
+          <div className="flex gap-2 flex-shrink-0">
             <Badge type="difficulty" value={problem.difficulty} />
             <Badge type="problemType" value={problem.type} />
           </div>
         </div>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 flex-shrink-0">
           <button className="p-1 rounded-lg text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C] transition-colors">
             <EditIcon className="w-3.5 h-3.5" />
           </button>
@@ -143,12 +237,12 @@ function twoSum(nums, target) {
       </div>
 
       {/* Main Content with Panels */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* Left Panel */}
-        <div className="h-full overflow-auto bg-[#343B4A]" style={{ width: `${panelWidth}%` }}>
-          <div className="h-full border-r border-[#3A4253]">
-            <div className="p-2 border-b border-[#3A4253]">
-              <div className="flex gap-1">
+        <div className="h-1/2 md:h-full bg-[#343B4A] w-full md:w-1/2 flex flex-col">
+          <div className="h-full border-b md:border-b-0 md:border-r border-[#3A4253] flex flex-col">
+            <div className="p-2 border-b border-[#3A4253] flex-shrink-0">
+              <div className="flex gap-1 overflow-x-auto">
                 <TabButton
                   active={activeTab === "question"}
                   label="Description"
@@ -166,26 +260,32 @@ function twoSum(nums, target) {
                 />
               </div>
             </div>
-            <div className="p-4">{renderTabContent()}</div>
+            <div className="flex-1 p-2 md:p-4 overflow-y-auto">
+              <div className="prose prose-invert max-w-none text-xs md:text-sm [&_pre]:text-xs [&_pre]:overflow-x-auto [&_code]:text-xs [&_code]:break-words">
+                {renderTabContent()}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Resize Handle */}
-        <div className="w-1 bg-[#3A4253] cursor-col-resize relative"></div>
+        {/* Resize Handle - hidden on mobile */}
+        <div className="hidden md:block w-1 bg-[#3A4253] cursor-col-resize relative"></div>
 
         {/* Right Panel - Code Editor */}
-        <div className="h-full overflow-hidden bg-[#282c34]" style={{ width: `${100 - panelWidth}%` }}>
-          <div className="h-full p-4 font-mono text-sm text-primary">
-            <pre className="whitespace-pre-wrap">{problem.functionSignature}</pre>
+        <div className="h-1/2 md:h-full bg-[#282c34] w-full md:w-1/2 flex flex-col">
+          <div className="flex-1 p-2 md:p-4 font-mono text-sm text-primary overflow-y-auto">
+            <div className="whitespace-pre-wrap text-xs md:text-sm leading-relaxed">
+              {highlightCode(problem.functionSignature)}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Floating AI Help button */}
-      <button className="absolute bottom-4 right-4 flex items-center px-3 py-2 bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] hover:from-[#0891b2] hover:to-[#2563eb] text-primary rounded-full text-xs font-medium shadow-lg shadow-[0_4px_14px_0_rgba(59,130,246,0.2)]">
+      <button className="absolute bottom-2 right-2 md:bottom-4 md:right-4 flex items-center px-2 py-1.5 md:px-3 md:py-2 bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] hover:from-[#0891b2] hover:to-[#2563eb] text-primary rounded-full text-xs font-medium shadow-lg shadow-[0_4px_14px_0_rgba(59,130,246,0.2)] z-10">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="w-4 h-4 mr-1.5"
+          className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-1.5"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -197,11 +297,11 @@ function twoSum(nums, target) {
           <path d="M2 17l10 5 10-5"></path>
           <path d="M2 12l10 5 10-5"></path>
         </svg>
-        <span>AI Help</span>
+        <span className="hidden sm:inline">AI Help</span>
+        <span className="sm:hidden">AI</span>
       </button>
     </div>
   )
 }
 
 export default CodeEditorPreview
-

@@ -11,6 +11,7 @@ export default function Changelog() {
           {
             date: "V 2.3 - July 10th, 2025",
             changes: [
+              "➕Added GitHub link to Navbar and Footer", 
               "➕Added a new First Time User popup, this one is more helpful and comprehensive", 
               "⚙️Some more preparations for open source release",
             ],

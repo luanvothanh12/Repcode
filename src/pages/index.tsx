@@ -105,8 +105,8 @@ function merge(left, right) {
               <SparklesIcon className="w-4 h-4 text-easy mr-2" />
               <span className="text-[#B0B7C3]">Welcome to Version 2.0</span>
             </div>
-            <h1 className="text-6xl font-bold mb-4">
-              <span className="text-primary">Your personalized online notebook</span>
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+              <span className="text-primary">Your personalized notebook</span>
               <br />
               <span
                 className="inline-block bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] bg-clip-text text-transparent leading-tight pb-1"
@@ -116,9 +116,10 @@ function merge(left, right) {
               </span>
             </h1>
 
-            <p className="text-xl text-[#B0B7C3] mb-8 max-w-3xl mx-auto">
-              Track, organize, and master coding problems with an intelligent platform that adapts to your learning
-              style and helps you retain knowledge longer
+            <p className="text-lg md:text-xl text-[#B0B7C3] mb-8 max-w-3xl mx-auto">
+              <span className="block md:hidden">Track, organize, and master coding problems the right way!</span>
+              <span className="hidden md:block">Track, organize, and master coding problems with an intelligent platform that adapts to your learning
+              style and helps you retain knowledge longer</span>
             </p>
 
             {/* User Counter */}
@@ -289,8 +290,8 @@ function merge(left, right) {
                 ))}
               </ul>
             </div>
-            <div className="lg:w-1/2">
-              <div className="bg-[#343B4A] rounded-xl border border-[#3A4253] shadow-xl overflow-hidden transform transition-all duration-500 hover:shadow-[0_4px_14px_0_rgba(59,130,246,0.1)] hover:-translate-y-1">
+            <div className="lg:w-1/2 w-full">
+              <div className="bg-[#343B4A] rounded-xl border border-[#3A4253] shadow-xl overflow-hidden transform transition-all duration-500 hover:shadow-[0_4px_14px_0_rgba(59,130,246,0.1)] hover:-translate-y-1 mx-auto max-w-full">
                 <CodeEditorPreview />
               </div>
             </div>
@@ -428,7 +429,7 @@ function merge(left, right) {
       </section> */}
 
       {/* Contact Section */}
-      <section id="contact" className="bg-[#2A303C]">
+      <section id="contact" className="py-20 bg-[#2A303C]">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto">
             <ContactForm />

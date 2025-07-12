@@ -55,12 +55,25 @@ const Footer = () => {
             <ul className="space-y-2">
               {[
                 { name: "Changelog", href: "/changelog" },
-                { name: "Contact", href: "#contact" }
+                { name: "Contact", href: "#contact" },
+                { name: "GitHub", href: "https://github.com/hussiiii/Repcode", external: true }
               ].map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-[#B0B7C3] hover:text-primary transition-colors">
-                    {link.name}
-                  </Link>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center text-[#B0B7C3] hover:text-primary transition-colors"
+                    >
+                      {link.name === "GitHub" && <GithubIcon size={16} className="mr-1" />}
+                      {link.name}
+                    </a>
+                  ) : (
+                    <Link href={link.href} className="text-[#B0B7C3] hover:text-primary transition-colors">
+                      {link.name}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

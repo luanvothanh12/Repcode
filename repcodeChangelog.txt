@@ -8,13 +8,14 @@ External dependencies:
 
 up next: 
 ---------------
-- update favicon to have new logo 
 - fix guide page 
+- remove toasts or restyle them 
 - new user pop up needs to be restyled 
 - add Repcode vs. Leetcode vs. Neetcode comparison table in landing page 
 - check open source stuff, mainly branch protection rules and can other githib accounts push to master? 
 - quickly test every feature on an alt acc to make sure it's all working 
 - AWS RDS upgrade (CPU i think to make it faster)
+- AFTER LAUNCH: add open source GitHub link somewhere in landing page 
 
 - Bug: for new users, Total Problems says 3 but should say 1 
 - In the Study Mode page, the "Due Today: [x]" text should be a dropdown that, when expanded, shows the actual problems that are due on that day (their name, difficulty, and due date)
