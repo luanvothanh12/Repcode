@@ -18,12 +18,8 @@ up next:
 - AFTER LAUNCH: add open source GitHub link somewhere in landing page 
 
 - Bug: for new users, Total Problems says 3 but should say 1 
-- In the Study Mode page, the "Due Today: [x]" text should be a dropdown that, when expanded, shows the actual problems that are due on that day (their name, difficulty, and due date)
 - "generate solution using AI" button 
 - the update endpoints need to be more secure 
-
-- thoroughly test the study mode function 
-- SEO stuff
 
 
 

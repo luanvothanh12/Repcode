@@ -13,6 +13,7 @@ import StudyDashboardPreview from '@/components/home/StudyDashboardPreview';
 import CodeEditorPreview from '@/components/home/CodeEditorPreview';
 import UserCounter from '@/components/home/UserCounter';
 import LogoScroller from '@/components/home/LogoScroller';
+import PlatformComparison from '@/components/home/PlatformComparison';
 import "../app/globals.css";
 
 export default function Home() {
@@ -159,7 +160,7 @@ function merge(left, right) {
       {/* Company Logos Section */}
       <section className="py-12 bg-[#343B4A] border-y border-[#3A4253]">
         <div className="container mx-auto px-6">
-          <h2 className="text-2xl font-bold text-center text-primary mb-8">Ace the Technical Interview at Top Companies</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-8">Ace the Technical Interview at Top Companies</h2>
           <LogoScroller />
         </div>
       </section>
@@ -209,6 +210,9 @@ function merge(left, right) {
           </div>
         </div>
       </section>
+
+      {/* Platform Comparison Section */}
+      <PlatformComparison />
 
       {/* Problem List Preview Section */}
       <section className="py-20 bg-[#2A303C] relative overflow-hidden">
@@ -312,7 +316,7 @@ function merge(left, right) {
               <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#343B4A] text-[#B0B7C3] mb-4">
                 TRACK YOUR PROGRESS
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">Spatial Repitition Review</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">Spatial Repetition Review</h2>
               <p className="text-[#B0B7C3] mb-8">
                 Each day, solve only the problems you need to so your brain learns new strategies and reinforces key concepts in the most effective way possible. 
               </p>
