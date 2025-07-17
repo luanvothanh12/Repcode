@@ -94,7 +94,7 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
         target: '#solution-tab',
         content: (
           <div>
-            <p className="mb-3 text-base">When you're finished solving the problem, click here to give feedback:</p>
+            <p className="mb-3 text-base">When you&apos;re finished solving the problem, click here to give feedback:</p>
             <div className="space-y-2 text-sm">
               <div className="flex items-start">
                 <span className="font-semibold mr-2" style={{ color: '#ff6b6b' }}>Again:</span>

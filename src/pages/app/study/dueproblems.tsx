@@ -140,7 +140,7 @@ const DueProblems = () => {
                     
                     {/* Message */}
                     <p className="text-secondary leading-relaxed mb-6">
-                      Congratulations! You don't have any problems due today. Take a break or review some old problems to stay sharp.
+                      Congratulations! You don&apos;t have any problems due today. Take a break or review some old problems to stay sharp.
                     </p>
                     
                     

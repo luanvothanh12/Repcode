@@ -496,7 +496,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                   
                   {/* Message */}
                   <p className="text-secondary leading-relaxed mb-6">
-                    This collection doesn&apos;t have any problems yet. Click "Add Problem" to get started!
+                    This collection doesn&apos;t have any problems yet. Click &quot;Add Problem&quot; to get started!
                   </p>
                   
                   {/* Decorative element */}
