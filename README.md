@@ -6,7 +6,8 @@ This is the codebase, it's all hosted online for free though so if you just want
 
 
 ❤️❤️ SPECIAL THANKS TO ALL OUR CONTRIBUTORS: ❤️❤️
-* No one yet :( submit a PR to see your name here!
+* knownotunknown
+* add a PR to see your name here! 
 
 
 
@@ -75,9 +76,9 @@ npx prisma migrate dev --name init
 npx prisma generate
 ```
 
-7. Comment out the following line in `ProblemsQueue.tsx`, on line 284:
+7. Comment out the following line in `ProblemsQueue.tsx`, on line 412:
 ```typescript
-// Comment this out to avoid runtime errors in development
+// Comment out the below line to avoid runtime errors in development
 // await updateContribution(user?.email || '');
 ```
 
@@ -99,36 +100,33 @@ We welcome contributions! Follow these steps to contribute:
 
 ### Workflow for Contributors
 
-1. **Fork the repository**:
-   * Go to the repository's GitHub page and click the "Fork" button.
+1. Follow the 'Getting Started' instructions above 
 
-2. **Clone your forked repository**
-
-3. **Create a new branch for your changes**:
+2. **Create a new branch for your changes**:
 ```bash
 git checkout -b feature/your-feature-name
 ```
 
-4. **Make your changes locally**:
+3. **Make your changes locally**:
    * Follow the setup instructions under Getting Started to set up the dev environment 
 
-5. **Commit your changes**:
+4. **Commit your changes**:
 ```bash
 git add .
 git commit -m "Description of your changes"
 ```
 
-6. **Push your branch to your fork**:
+5. **Push your branch to your fork**:
 ```bash
 git push origin feature/your-feature-name
 ```
 
-7. **Create a Pull Request (PR)**:
+6. **Create a Pull Request (PR)**:
    * Go to the original repository's GitHub page.
    * Click the "Pull Request" tab.
    * Select your branch and submit the PR.
 
-8. **Wait for Review**:
+7. **Wait for Review**:
    * A maintainer will review your PR.
    * Make any requested changes and update the PR.
 

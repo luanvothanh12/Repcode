@@ -8,16 +8,11 @@ External dependencies:
 
 up next: 
 ---------------
-- fix guide page 
-- remove toasts or restyle them 
-- new user pop up needs to be restyled 
-- add Repcode vs. Leetcode vs. Neetcode comparison table in landing page 
 - check open source stuff, mainly branch protection rules and can other githib accounts push to master? 
-- quickly test every feature on an alt acc to make sure it's all working 
+- quickly test every feature on an alt acc to make sure it's all working. esp. study mode. 
 - AWS RDS upgrade (CPU i think to make it faster)
 - AFTER LAUNCH: add open source GitHub link somewhere in landing page 
 
-- Bug: for new users, Total Problems says 3 but should say 1 
 - "generate solution using AI" button 
 - the update endpoints need to be more secure 
 
@@ -26,7 +21,6 @@ up next:
 All:
 ------------
 - bug: issue with, deleting collection doesn't invalidate cache to refetch duetoday problems 
-- bug: the study mode graph is still shown when the page is loading 
 - bug: timezone issue with heatmap. sometimes it updates the next day, not today 
 - add a paint canvas in problems to whiteboard 
 - add problem tags (like strings, binary search, heap, etc. Select from a dropdown menu) 

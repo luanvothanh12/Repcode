@@ -182,8 +182,47 @@ const StudyProblemPage = () => {
               </p>
             </header>
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            {data && totalProblems === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 px-6">
+                <div className="max-w-md mx-auto text-center">
+                  {/* Icon */}
+                  <div className="mb-6 relative">
+                    <div className="w-20 h-20 mx-auto bg-tertiary rounded-2xl flex items-center justify-center relative overflow-hidden">
+                      {/* Subtle gradient background */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6]/10 to-[#06b6d4]/5"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-secondary relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                      </svg>
+                    </div>
+                    {/* Floating dots decoration */}
+                    <div className="absolute -top-2 -right-2 w-3 h-3 bg-[#3b82f6]/30 rounded-full animate-pulse"></div>
+                    <div className="absolute -bottom-1 -left-3 w-2 h-2 bg-[#06b6d4]/40 rounded-full animate-pulse animation-delay-300"></div>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-xl font-semibold text-primary mb-3">
+                    No Problems Tracked
+                  </h3>
+                  
+                  {/* Message */}
+                  <p className="text-secondary leading-relaxed mb-6">
+                    Create problems to access Study Mode and start tracking your progress!
+                  </p>
+                  
+                  
+                  {/* Decorative element */}
+                  <div className="flex items-center justify-center space-x-1 opacity-50 mt-6">
+                    <div className="w-1 h-1 bg-[#3b82f6] rounded-full animate-pulse"></div>
+                    <div className="w-1 h-1 bg-[#06b6d4] rounded-full animate-pulse animation-delay-300"></div>
+                    <div className="w-1 h-1 bg-[#3b82f6] rounded-full animate-pulse animation-delay-600"></div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Stats Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
               <div className="bg-tertiary rounded-xl p-5 border border-divide shadow-lg">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-secondary text-sm font-medium">
@@ -360,6 +399,8 @@ const StudyProblemPage = () => {
                 </div>
               </div>
             </div>
+                </>
+              )}
           </div>
         </div>
       </div>

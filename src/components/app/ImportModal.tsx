@@ -169,6 +169,16 @@ const ImportModal = ({ isOpen, onClose, collectionId }: ImportModalProps) => {
               Enter the slug of any public Leetcode list, then press Import to add all the problems and their details from that list to this collection.
             </p>
             
+            {/* Warning Banner */}
+            <div className="flex items-start bg-[#4A3E51]/30 p-3 rounded-lg border border-[#ff6b6b]/30">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#ff6b6b] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.728-.833-2.498 0L4.316 16.5c-.77.833.192 2.5 1.732 2.5z" />
+              </svg>
+              <p className="ml-3 text-xs text-[#B0B7C3]">
+                <span className="text-[#ff6b6b] font-medium">Warning:</span> This feature is experimental and sometimes doesn't work properly. If you import and nothing happens or it loads for a long time, just refresh the page.
+              </p>
+            </div>
+            
             <div className="flex items-start bg-[#343B4A]/50 p-3 rounded-lg border border-[#FACC15]/20">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#FACC15] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

@@ -56,6 +56,18 @@ const TabButton = ({ active, label, onClick, icon }: { active: boolean, label: s
   );
 };
 
+const ActionButton = ({ onClick, icon, label }: { onClick: () => void, icon: string, label: string }) => {
+  return (
+    <button
+      onClick={onClick}
+      className="px-4 py-2 text-sm font-medium rounded-lg flex items-center text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C]/50 transition-all duration-200"
+    >
+      <span className="material-icons mr-1" style={{ fontSize: '18px' }}>{icon}</span>
+      {label}
+    </button>
+  );
+};
+
 // Add this CSS block (same as in ProblemsQueue.tsx)
 const preBlockStyles = `
   .problem-content pre {
@@ -263,30 +275,6 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
               className="text-sm py-1.5 px-4"
             />
           </div>
-          
-          {/* Action buttons moved here */}
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={() => setIsEditModalOpen(true)}
-              className="p-2 rounded-lg text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C] transition-colors"
-            >
-              <span className="material-icons">edit</span>
-            </button>
-            <button 
-              onClick={() => setIsStatsModalOpen(true)}
-              className="p-2 rounded-lg text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C] transition-colors"
-            >
-              <span className="material-icons">bar_chart</span>
-            </button>
-            <a 
-              href={problem.link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="p-2 rounded-lg text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C] transition-colors"
-            >
-              <span className="material-icons">open_in_new</span>
-            </a>
-          </div>
         </div>
         
         {/* System status indicator moved to the right */}
@@ -331,7 +319,7 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
         >
           <div className="h-full border-r border-[#3A4253] bg-base_100">
             <div className="p-4 border-b border-[#3A4253]">
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
                 <TabButton 
                   active={contentActive === 'question'} 
                   label="Description" 
@@ -350,6 +338,28 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
                   onClick={() => setContentActive('solution')}
                   icon="code"
                 />
+                
+                {/* Vertical divider */}
+                <div className="h-8 w-px bg-[#3A4253] mx-3"></div>
+                
+                                 {/* Action buttons */}
+                 <div className="flex items-center gap-1">
+                   <ActionButton 
+                     onClick={() => setIsEditModalOpen(true)}
+                     icon="edit"
+                     label="Edit"
+                   />
+                   <ActionButton 
+                     onClick={() => setIsStatsModalOpen(true)}
+                     icon="bar_chart"
+                     label="Stats"
+                   />
+                   <ActionButton 
+                     onClick={() => window.open(problem.link, '_blank')}
+                     icon="open_in_new"
+                     label="Run on Leetcode"
+                   />
+                 </div>
               </div>
             </div>
             <div className="p-6 bg-base_100">
@@ -394,7 +404,7 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
             theme="one_dark"
             name="UNIQUE_ID_OF_DIV"
             editorProps={{ $blockScrolling: true }}
-            fontSize={14}
+            fontSize={16}
             showPrintMargin={false}
             showGutter={true}
             highlightActiveLine={true}

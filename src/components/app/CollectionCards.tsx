@@ -22,6 +22,16 @@ const CollectionCards = () => {
 
   const router = useRouter();
 
+  // Helper function to check if a date is older than 30 days
+  const isOlderThanMonth = (date: string | null) => {
+    if (!date) return false;
+    const lastUpdated = new Date(date);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - lastUpdated.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays > 30;
+  };
+
   // Add this effect to listen for the add-collection-button click
   useEffect(() => {
     const addButton = document.getElementById('add-collection-button');
@@ -169,7 +179,46 @@ const CollectionCards = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-8 gap-y-8">
+      {collections.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-16 px-6">
+          <div className="max-w-md mx-auto text-center">
+            {/* Icon */}
+            <div className="mb-6 relative">
+              <div className="w-20 h-20 mx-auto bg-tertiary rounded-2xl flex items-center justify-center relative overflow-hidden">
+                {/* Subtle gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6]/10 to-[#06b6d4]/5"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-secondary relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+              </div>
+              {/* Floating dots decoration */}
+              <div className="absolute -top-2 -right-2 w-3 h-3 bg-[#3b82f6]/30 rounded-full animate-pulse"></div>
+              <div className="absolute -bottom-1 -left-3 w-2 h-2 bg-[#06b6d4]/40 rounded-full animate-pulse animation-delay-300"></div>
+            </div>
+
+            {/* Title */}
+            <h3 className="text-xl font-semibold text-primary mb-3">
+              No Collections Yet
+            </h3>
+            
+            {/* Message */}
+            <p className="text-secondary leading-relaxed mb-6">
+              Looks like you don&apos;t have any collections. You can create one by clicking the button in the top right!
+            </p>
+            
+            {/* Decorative element */}
+            <div className="flex items-center justify-center space-x-1 opacity-50">
+              <div className="w-1 h-1 bg-[#3b82f6] rounded-full animate-pulse"></div>
+              <div className="w-1 h-1 bg-[#06b6d4] rounded-full animate-pulse animation-delay-300"></div>
+              <div className="w-1 h-1 bg-[#3b82f6] rounded-full animate-pulse animation-delay-600"></div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-8 gap-y-8">
         {collections.map((collection: any) => (
           <div
             key={collection.id}
@@ -185,6 +234,23 @@ const CollectionCards = () => {
                   <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
                 <span>Last updated: {collection.lastAdded ? formatDistanceToNow(new Date(collection.lastAdded), { addSuffix: true }) : 'N/A'}</span>
+                {collection.lastAdded && isOlderThanMonth(collection.lastAdded) && (
+                  <div className="relative group ml-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-[#f87171] hover:text-[#ef4444] transition-colors cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                      <line x1="12" y1="9" x2="12" y2="13"></line>
+                      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <div className="fixed z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-[#2A303C] border border-[#3A4150] rounded-lg shadow-xl w-56">
+                        <div className="text-xs text-[#B0B7C3] leading-relaxed">
+                          It&apos;s been a while since you&apos;ve solved a new problem from this pattern. Solve a new one soon to keep your understanding fresh!
+                        </div>
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-[#3A4150]"></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
               
               {/* Progress Bar */}
@@ -268,7 +334,8 @@ const CollectionCards = () => {
             </div>
           </div>
         ))}
-      </div>
+        </div>
+      )}
   
       {/* Modal Components */}
       <CollectionModal

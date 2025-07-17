@@ -9,6 +9,15 @@ export default function Changelog() {
         month: "July 2025",
         updates: [
           {
+            date: "V 2.4 - July 15th, 2025",
+            changes: [
+              "➕Added platform comparison table on landing page", 
+              "➕Added warning symbol and text next to collections that have not been added to in a while",
+              "⚙️Adjusted styling of all Toast pop-ups",
+              "➖Removed Example collection and problem on new user accounts", 
+            ],
+          },
+          {
             date: "V 2.3 - July 10th, 2025",
             changes: [
               "➕Added GitHub link to Navbar and Footer", 

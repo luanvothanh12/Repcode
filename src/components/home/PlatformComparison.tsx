@@ -17,6 +17,7 @@ const PlatformComparison = () => {
         { text: 'Spaced repetition system', included: false },
         { text: 'AI-powered feedback', included: false },
         { text: 'Personalized analytics', included: false },
+        { text: '100% free and open source', included: false }
       ]
     },
     {
@@ -32,6 +33,7 @@ const PlatformComparison = () => {
         { text: 'Spaced repetition system', included: false },
         { text: 'AI-powered feedback', included: false },
         { text: 'Personalized analytics', included: false },
+        { text: '100% free and open source', included: false }
       ]
     },
     {
@@ -48,6 +50,7 @@ const PlatformComparison = () => {
         { text: 'Spaced repetition system', included: true },
         { text: 'AI-powered feedback', included: true },
         { text: 'Personalized analytics', included: true },
+        { text: '100% free and open source', included: true }
       ]
     }
   ];

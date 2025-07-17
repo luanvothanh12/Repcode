@@ -19,6 +19,7 @@ import ProblemModal from './ProblemModal';
 import ProblemStatsModal from './ProblemStatsModal';
 import Toast from './Toast';
 import Badge from '@/components/ui/Badge';
+import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
 
 // If there's ever a <code> nested within a <pre>, it breaks everything, so we need to check for this and remove it 
 const sanitizeCodeBlocks = (html: string) => {
@@ -86,6 +87,45 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
     const [toastMessage, setToastMessage] = useState('');
     const [isToastVisible, setIsToastVisible] = useState(false);
 
+    // Joyride tour state
+    const [runTour, setRunTour] = useState(false);
+    const [tourSteps] = useState<Step[]>([
+      {
+        target: '#solution-tab',
+        content: (
+          <div>
+            <p className="mb-3 text-base">When you're finished solving the problem, click here to give feedback:</p>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-start">
+                <span className="font-semibold mr-2" style={{ color: '#ff6b6b' }}>Again:</span>
+                <span>You had no clue how to solve it</span>
+              </div>
+              <div className="flex items-start">
+                <span className="font-semibold mr-2" style={{ color: '#F6903C' }}>Hard:</span>
+                <span>You found a partial solution that passed some tests but was not optimal, and took you a while</span>
+              </div>
+              <div className="flex items-start">
+                <span className="font-semibold mr-2" style={{ color: '#34BF8F' }}>Good:</span>
+                <span>You could come up with and thoroughly explain the optimal approach</span>
+              </div>
+              <div className="flex items-start">
+                <span className="font-semibold mr-2" style={{ color: '#2563EB' }}>Easy:</span>
+                <span>You could optimally solve the problem very quickly</span>
+              </div>
+            </div>
+          </div>
+        ),
+        disableBeacon: true,
+        placement: 'bottom',
+      },
+      {
+        target: '#run-leetcode-button',
+        content: "Click here to visit this problem's leetcode page and run your solution against test cases",
+        disableBeacon: true,
+        placement: 'bottom',
+      },
+    ]);
+
     const { user } = useContext(AuthContext);
 
     // For resizable panels
@@ -120,6 +160,33 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
         return () => window.removeEventListener('mouseup', handleMouseUp);
       }
     }, [isDragging]);
+
+    // Check if user has seen the tour before and start it if they haven't
+    useEffect(() => {
+      if (user?.email && dueProblems.length > 0) {
+        const tourKey = `problemsQueueTour_${user.email}`;
+        const hasSeenTour = localStorage.getItem(tourKey);
+        
+        if (!hasSeenTour) {
+          // Small delay to ensure elements are rendered
+          setTimeout(() => {
+            setRunTour(true);
+          }, 1000);
+        }
+      }
+    }, [user?.email, dueProblems.length]);
+
+    // Handle Joyride tour completion
+    const handleJoyrideCallback = (data: CallBackProps) => {
+      const { status } = data;
+      const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
+      
+      if (finishedStatuses.includes(status) && user?.email) {
+        const tourKey = `problemsQueueTour_${user.email}`;
+        localStorage.setItem(tourKey, 'true');
+        setRunTour(false);
+      }
+    };
 
     // Use useEffect to highlight code when the component mounts or updates
     useEffect(() => {
@@ -635,6 +702,18 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
     );
   };
 
+  const ActionButton = ({ onClick, icon, label }: { onClick: () => void, icon: string, label: string }) => {
+    return (
+      <button
+        onClick={onClick}
+        className="px-4 py-2 text-sm font-medium rounded-lg flex items-center text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C]/50 transition-all duration-200"
+      >
+        <span className="material-icons mr-1" style={{ fontSize: '18px' }}>{icon}</span>
+        {label}
+      </button>
+    );
+  };
+
     return (
       <div className="h-screen bg-[#2A303C] flex flex-col">
         {/* Add the style tag to the component */}
@@ -663,34 +742,7 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
                 />
               </div>
             )}
-            
-            {/* Action buttons moved here next to badges */}
-            {dueProblems.length > 0 && (
-              <div className="flex items-center gap-2">
-                <button 
-                  onClick={() => setIsEditModalOpen(true)}
-                  className="p-2 rounded-lg text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C] transition-colors"
-                >
-                  <span className="material-icons">edit</span>
-                </button>
-                <button 
-                  onClick={() => setIsStatsModalOpen(true)}
-                  className="p-2 rounded-lg text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C] transition-colors"
-                >
-                  <span className="material-icons">bar_chart</span>
-                </button>
-                {dueProblems[0]?.link && (
-                  <a 
-                    href={dueProblems[0].link} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="p-2 rounded-lg text-[#B0B7C3] hover:text-primary hover:bg-[#2A303C] transition-colors"
-                  >
-                    <span className="material-icons">open_in_new</span>
-                  </a>
-                )}
-              </div>
-            )}
+
           </div>
           
           {/* Status indicator stays on the right */}
@@ -730,12 +782,12 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
         >
           {/* Left Panel */}
           <div 
-            className="h-full overflow-auto bg-base_100"
+            className="h-full flex flex-col bg-base_100"
             style={{ width: `${panelWidth}%` }}
           >
-            <div className="h-full border-r border-[#3A4253] bg-base_100">
-              <div className="p-4 border-b border-[#3A4253]">
-                <div className="flex gap-2">
+            <div className="h-full border-r border-[#3A4253] bg-base_100 flex flex-col">
+              <div className="p-4 border-b border-[#3A4253] flex-shrink-0">
+                <div className="flex gap-2 items-center">
                   <TabButton 
                     active={content === 'question'} 
                     label="Description" 
@@ -748,15 +800,48 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
                     onClick={() => setContent('notes')}
                     icon="edit_note"
                   />
-                  <TabButton 
-                    active={content === 'solution'} 
-                    label="Solution" 
-                    onClick={() => setContent('solution')}
-                    icon="code"
-                  />
+                  <div id="solution-tab">
+                    <TabButton 
+                      active={content === 'solution'} 
+                      label="Solution" 
+                      onClick={() => setContent('solution')}
+                      icon="code"
+                    />
+                  </div>
+                  
+                  {/* Vertical divider */}
+                  {dueProblems.length > 0 && (
+                    <>
+                      <div className="h-8 w-px bg-[#3A4253] mx-3"></div>
+                      
+                      {/* Action buttons */}
+                      <div className="flex items-center gap-1">
+                        <ActionButton 
+                          onClick={() => setIsEditModalOpen(true)}
+                          icon="edit"
+                          label="Edit"
+                        />
+                        <ActionButton 
+                          onClick={() => setIsStatsModalOpen(true)}
+                          icon="bar_chart"
+                          label="Stats"
+                        />
+                        {dueProblems[0]?.link && (
+                          <div id="run-leetcode-button">
+                            <ActionButton 
+                              onClick={() => window.open(dueProblems[0].link, '_blank')}
+                              icon="open_in_new"
+                              label="Run on Leetcode"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
-              <div className="p-6 bg-base_100">
+              <div className="flex-1 overflow-auto">
+                <div className="p-6 bg-base_100">
                 {content === 'solution' && buttons?.length > 0 && (
                   <div className="mb-4 flex flex-wrap gap-2">
                     {buttons.map((button: any, index: any) => {
@@ -809,21 +894,22 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
                   </div>
                 )}
                 {dueProblems.length > 0 && (
-                  <>
+                  <div key={content} className="min-h-0">
                     {content === 'notes' ? (
                       <p className="text-primary mt-4 whitespace-pre-wrap text-lg wrap-text">{dueProblems[0].notes}</p>
                     ) : content === 'question' ? (
                       <div 
-                        className="text-primary mt-4 problem-content prose prose-invert max-w-none"
+                        className="text-primary mt-4 problem-content prose prose-invert max-w-none overflow-auto"
                         dangerouslySetInnerHTML={{ 
                           __html: sanitizeCodeBlocks(dueProblems[0].question)
                         }}
                       />
                     ) : (
-                      <pre className="wrap-text"><code className={`language-${dueProblems[0].language} mr-5`}>{dueProblems[0].solution}</code></pre>
+                      <pre className="wrap-text overflow-auto"><code className={`language-${dueProblems[0].language} mr-5`}>{dueProblems[0].solution}</code></pre>
                     )}
-                  </>
+                  </div>
                 )}
+                </div>
               </div>
             </div>
           </div>
@@ -865,7 +951,7 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
                 theme="one_dark"
                 name="UNIQUE_ID_OF_DIV"
                 editorProps={{ $blockScrolling: true }}
-                fontSize={14}
+                fontSize={16}
                 showPrintMargin={false}
                 showGutter={true}
                 highlightActiveLine={true}
@@ -926,6 +1012,49 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
         )}
 
         <Toast message={toastMessage} isVisible={isToastVisible} />
+
+        {/* Joyride Tour */}
+        <Joyride
+          steps={tourSteps}
+          run={runTour}
+          continuous={true}
+          showProgress={false}
+          showSkipButton={false}
+          callback={handleJoyrideCallback}
+          locale={{
+            next: 'Next',
+            last: 'Finish',
+          }}
+          styles={{
+            options: {
+              primaryColor: '#3b82f6',
+              backgroundColor: '#343B4A',
+              textColor: '#E2E8F0',
+              arrowColor: '#343B4A',
+              overlayColor: 'rgba(0, 0, 0, 0.4)',
+            },
+            tooltip: {
+              borderRadius: 8,
+              fontSize: 14,
+              minWidth: 350,
+            },
+            tooltipContent: {
+              padding: '16px 20px',
+            },
+            buttonNext: {
+              backgroundColor: '#3b82f6',
+              fontSize: 14,
+              fontWeight: 500,
+              padding: '8px 16px',
+              borderRadius: 6,
+            },
+            buttonBack: {
+              marginRight: 10,
+              color: '#B0B7C3',
+              fontSize: 14,
+            },
+          }}
+        />
 
         {/* Floating AI Help button with matching gradient and shadow */}
         <button 

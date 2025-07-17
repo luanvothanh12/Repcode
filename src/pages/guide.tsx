@@ -3,6 +3,15 @@ import NavBar from '@/components/home/NavBar';
 import Footer from '@/components/home/Footer';
 import "../app/globals.css";
 import Link from 'next/link';
+import { 
+    FolderIcon, 
+    BookOpenIcon, 
+    Settings as SettingsIcon, 
+    User as UserIcon, 
+    Home as HomeIcon, 
+    HelpCircle as HelpCircleIcon, 
+    LogOut as LogOutIcon,
+  } from 'lucide-react';
 
 
 export default function Guide() {
@@ -28,6 +37,23 @@ export default function Guide() {
                     </ul>
                 </div>
 
+                {/* Banner */}
+                <div className="bg-gradient-to-r from-[#f97316]/20 to-[#eab308]/20 border-l-4 border-[#f97316] mx-4 md:mx-32 mb-16 p-4 rounded-r-lg">
+                    <div className="flex items-start">
+                        <div className="flex-shrink-0 mr-3">
+                            <div className="w-6 h-6 bg-[#f97316] rounded-full flex items-center justify-center">
+                                <span className="text-[#FFFFFF] text-sm font-bold">!</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className="text-lg font-semibold text-primary mb-1">Quick Note</h3>
+                            <p className="text-secondary text-base">
+                                This guide is kinda scuffed, but I hope it is comprehensive enough to explain how to best use this application. The first-time user video is probably better, so go watch that too!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="mb-24" id="what-is-repcode">
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">What is Repcode?</h2>
                     <p className="text-secondary mb-8 text-xl">Repcode is a platform built to empower software engineers to excel in Leetcode-style technical interviews. It helps you achieve this in three main ways: </p>
@@ -49,9 +75,9 @@ export default function Guide() {
                         <p className="text-secondary text-sm">The top part of the Neetcode 150 roadmap</p>
                     </div>
 
-                    <p className="text-secondary mb-8 text-xl">So then, where does Repcode factor in? Repcode provides a way to create <span className="font-bold">custom collections</span> to group problems by pattern or concept. For instance, if you&apos;re studying linked lists, you can create a collection called &quot;Linked Lists&quot; and store all your Leetcode problems, notes, and solutions for that pattern in one place. This allows you to easily revisit problems, review your thought processes, and reinforce your learning over time. </p>
+                    <p className="text-secondary mb-8 text-xl">So then, where does Repcode factor in? Repcode provides a way to create <span className="font-bold">custom collections</span> to group problems by pattern or concept. For instance, if you&apos;re studying linked lists, you can create a collection called &quot;Linked Lists&quot; and store all your Leetcode problems, notes, and solutions for that pattern in one place. This allows you to easily revisit problems and review your thought processes.  </p>
 
-                    <p className="text-secondary mb-8 text-xl">Additionally, every problem you add to a collection is automatically included in <span className="font-bold">Study Mode</span>,  which leverages the spatial repetition algorithm. This ensures you review problems at the optimal time for retention, so you won&apos;t lose track of what you&apos;ve learned.</p>
+                    <p className="text-secondary mb-8 text-xl">Additionally, every problem you add to a collection is automatically included in <span className="font-bold">Study Mode</span>,  which leverages the spatial repetition algorithm. This ensures you review problems at the optimal time for retention, so you won&apos;t lose track of what you&apos;ve learned and reinforce your learning over time.</p>
 
                     <p className="text-secondary mb-8 text-xl">To further enhance your study process, Repcode integrates with an <span className="font-bold">AI-Powered Assistant</span> that provides instant feedback when you&apos;re stuck on a solution, giving you helpful hints and corrections in real-time. </p>
 
@@ -79,31 +105,39 @@ export default function Guide() {
 
                     <ul className="list-none text-secondary mb-8 ml-5">
                         <li className="flex items-center mb-4">
-                            <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>style</span>
+                            <div className="w-9 h-9 flex items-center justify-center mr-4">
+                                <FolderIcon size={30} className="text-secondary" />
+                            </div>
                             <span className="text-xl"><span className='font-bold'>Collections:</span> View and manage your collections. Here, you can see a grid layout showing all the collections you have made so far, and you can click into any one of them to access the problems stored within. You can also edit, delete, and create new collections from this page. </span>
                         </li>
                         <li className="flex items-center mb-4">
-                            <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>local_library</span>
-                            <span className="text-xl"><span className='font-bold'>Study Mode:</span> Review problems using spacial repetition. A more detailed breakdown of how this works can be found in the following sections. </span>
+                            <div className="w-9 h-9 flex items-center justify-center mr-4">
+                                <BookOpenIcon size={30} className="text-secondary" />
+                            </div>
+                            <span className="text-xl"><span className='font-bold'>Study:</span> Review problems using spacial repetition. A more detailed breakdown of how this works can be found in the following sections. </span>
                         </li>
                         <li className="flex items-center mb-4">
-                            <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>settings</span>
+                            <div className="w-9 h-9 flex items-center justify-center mr-4">
+                                <SettingsIcon size={30} className="text-secondary" />
+                            </div>
                             <span className="text-xl"><span className='font-bold'>Settings:</span> Customize various aspects of the spatial repetition algorithm. Again, a detailed breakdown of these settings can be found in the following sections. </span>
                         </li>
                         <li className="flex items-center mb-4">
-                            <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>credit_card</span>
-                            <span className="text-xl"> <span className="font-bold">Profile/Billing:</span> Manage your Repcode subscription and account information here. Currently, Repcode is completely free to use, so no billing information will be available.</span>
-                        </li>
-                        <li className="flex items-center mb-4">
-                            <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>home</span>
+                            <div className="w-9 h-9 flex items-center justify-center mr-4">
+                                <HomeIcon size={30} className="text-secondary" />
+                            </div>
                             <span className="text-xl"> <span className="font-bold">Homepage:</span> Exit the application and return to the main landing page.</span>
                         </li>
                         <li className="flex items-center mb-4">
-                            <span className="material-icons text-secondary mr-4" style={{ fontSize: '36px' }}>question_mark</span>
+                            <div className="w-9 h-9 flex items-center justify-center mr-4">
+                                <HelpCircleIcon size={30} className="text-secondary" />
+                            </div>
                             <span className="text-xl"> <span className="font-bold">Help:</span> Opens a new window to the guide page (where you are right now!)</span>
                         </li>
                         <li className="flex items-center mb-4">
-                            <span className="material-icons text-error mr-4" style={{ fontSize: '36px' }}>logout</span>
+                            <div className="w-9 h-9 flex items-center justify-center mr-4">
+                                <LogOutIcon size={30} className="text-error" />
+                            </div>
                             <span className="text-xl"> <span className="font-bold">Logout:</span> Sign out of your account.</span>
                         </li>
                     </ul>
@@ -113,19 +147,19 @@ export default function Guide() {
 
                 <div className="mb-24" id="organization-customization">
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 1: Organization and Customization</h2>
-                    <p className="text-secondary mb-8 text-xl">The first part of this guide will cover how to use Repcode to effectively organize and customize your Leetcode problems. As mentioned earlier, the best way to improve at Leetcode is to break down problems into patterns and focus on practicing within those specific patterns. Repcode makes this easy by allowing you to create collections.
+                    <p className="text-secondary mb-8 text-xl">The first part of this guide will cover how to use Repcode to effectively organize your Leetcode problems, and attach notes and solutions and stuff to them. As mentioned earlier, the best way to improve at Leetcode is to break down problems into patterns and focus on practicing within those specific patterns. Repcode makes this easy by allowing you to create collections.
                     </p>
-                    <p className="text-secondary mb-8 text-xl">Each collection can hold multiple problems, and you can customize these collections as needed. For example, you can rename a collection at any time by clicking on the three dots in the top left corner of the collection card. You can also delete a collection from this menu, but keep in mind that doing so will permanently delete all the problems within it, and this action cannot be undone.
+                    <p className="text-secondary mb-8 text-xl">Each collection can hold multiple problems, and you can customize these collections as needed. For example, you can rename a collection at any time by clicking the pen and paper icon on the bottom left of the collection card. You can also delete a collection by clicking the trash icon next to it, but keep in mind that doing so will permanently delete all the problems within it, and this action cannot be undone.
                     </p>
                     <div className="flex flex-col items-center mb-8">
                         <img src="/guide/collections.png" alt="collections image" />
                         <p className="text-secondary text-sm">An example dashboard showing some collections</p>
                     </div>
                     <p className="text-secondary mb-8 text-xl">
-                    From the <span className="font-bold">dashboard view</span>, which shows all your collections, you can quickly access key information at a glance. This includes when the last problem was added to a collection, as well as a breakdown of the problems by type — categorized into <span className="font-bold">New</span>, <span className="font-bold">Learning</span>, and <span className="font-bold">Review</span> stages. The color bar at the bottom gives you an instant snapshot of your progress within each collection. The more green the bar, the better your understanding of that pattern, as it means more problems are in the Review stage, indicating strong familiarity.
+                    From the <span className="font-bold">dashboard view</span>, which shows all your collections, you can quickly access key information at a glance. This includes when the last problem was added to a collection, as well as a breakdown of the problems by type — categorized into <span className="font-bold">New</span>, <span className="font-bold">Learning</span>, and <span className="font-bold">Review</span> stages. The color bar at the bottom gives you an instant snapshot of your progress within each collection. The more green the bar, the better your understanding of that pattern, as it means more problems are in the Review stage, indicating strong familiarity. Note that if there is a red warning symbol next to the Last Updated date, it means it has been longer than a month since you last solved a new problem from that collection, so it&apos;s recommended you should try and solve a new one soon to keep your understanding fresh! Remember that it is important to tackle novel problems from time to time, in addition to reviewing old ones! 
                     </p>
                     <p className="text-secondary mb-8 text-xl">
-                        When creating a new problem in a collection, you will be prompted to fill out a form with all sorts of information about the problem, such as: 
+                        When creating a new problem in a collection, you will be prompted to fill out a form with all sorts of information about the problem. You can enter the Leetcode problem number and click Autofill to automatically scrape these details from Leetcode directly, or you can manually fill out the details yourself. These include: 
                     </p>
                     <table className="min-w-full bg-base_100 border border-divide mb-8">
                         <thead>
@@ -141,11 +175,11 @@ export default function Guide() {
                             </tr>
                             <tr>
                                 <td className="px-4 py-2 border-b border-divide text-xl font-bold text-secondary">Question</td>
-                                <td className="px-4 py-2 border-b border-divide text-xl text-secondary">The actual problem itself.</td>
+                                <td className="px-4 py-2 border-b border-divide text-xl text-secondary">The actual problem statement itself.</td>
                             </tr>
                             <tr>
                                 <td className="px-4 py-2 border-b border-divide text-xl font-bold text-secondary">Solution</td>
-                                <td className="px-4 py-2 border-b border-divide text-xl text-secondary">The code solution to the problem.</td>
+                                <td className="px-4 py-2 border-b border-divide text-xl text-secondary">The code solution to the problem. It is recommended you put your own solution here, one that makes sense to you.</td>
                             </tr>
                             <tr>
                                 <td className="px-4 py-2 border-b border-divide text-xl font-bold text-secondary">Function Signature (optional)</td>
@@ -200,7 +234,7 @@ export default function Guide() {
                 <div className="mb-24" id="spatial-repetition-algorithm">
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">Part 2: The Spatial Repetition Algorithm</h2>
                     <p className="text-secondary mb-8 text-xl">One of the unique aspects of Repcode is its ability to not only help you store and organize problems, but also review them efficiently through <span className="font-bold">Study Mode</span>, powered by a fully customizable spatial repetition algorithm. This algorithm, similar to the one used by Anki, ensures that you never forget what you&apos;ve learned by spacing out your review sessions. As of this writing, Repcode is the only actively maintained platform that offers this feature out of the box. </p>
-                    <p className="text-secondary mb-8 text-xl"><span className="font-bold">What is spatial repetition?</span> In short, it&apos;s a learning technique that schedules review sessions at increasing intervals to improve long-term retention. It&apos;s based on the idea that the brain retains information best when it&apos;s reviewed at strategic points, rather than in one sitting. This section will be split into two sub-parts: </p>
+                    <p className="text-secondary mb-8 text-xl"><span className="font-bold">What is spatial repetition?</span> In short, it&apos;s a learning technique that schedules review sessions at increasing intervals to improve long-term retention. It&apos;s based on the idea that the brain retains information best when it&apos;s reviewed at strategic points, rather than in one sitting. Also, the algorithm is very smart, and will quickly determine what data structures and specific problems you struggle with, and which ones you find easier, and adjust itself accordingly so that you spend more time on problems that you have trouble with. This section will be split into two sub-parts: </p>
                     <ol className="list-decimal text-secondary mb-16 ml-5 text-xl">
                         <li>How to use Study Mode </li>
                         <li>How the spatial repetition algorithm works under the hood</li>
@@ -437,7 +471,6 @@ export default function Guide() {
                         <p className="text-secondary text-sm">An example of the AI giving feedback on a classic Leetcode problem</p>
                     </div>
                     <p className="text-secondary mb-8 text-xl">Before generating feedback, the AI is provided with the problem statement and the optimal solution for context. It compares your solution to the optimal one and offers detailed feedback, including a comparison of runtimes between the two solutions. Additionally, the AI provides a brief explanation of the optimal approach to solving the problem. </p>
-                    <p className="text-secondary mb-8 text-xl">At present, the AI feedback is designed to be one-way: the AI provides feedback, but users cannot respond or ask for further clarification. This allows for quick feedback without needing to test your solution against multiple cases on Leetcode. In Study Mode, this feature becomes particularly useful as the AI can quickly and accurately validate your solution. In future updates, the feedback system will expand to allow for follow-up questions and more interactive feedback sessions. </p>
                     <p className="text-secondary mb-8 text-xl">To use the AI feedback feature, ensure that you have entered a valid <span className="font-bold">OpenAI API key</span> on the Settings page. For security reasons, once you input your API key, it will be hidden from view in the input field but will remain active. </p>
                 </div>
 

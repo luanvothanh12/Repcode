@@ -223,9 +223,16 @@ const SideBar = () => {
         className={`flex items-center h-16 border-b border-[#3A4253] overflow-hidden ${isExpanded ? "justify-between px-6" : "justify-center px-3"}`}
       >
         {isExpanded && (
-          <h2 className="text-xl font-bold text-primary tracking-tight truncate">
-            Repcode
-          </h2>
+          <div className="flex items-center gap-3">
+            <img 
+              src="/repcode.png" 
+              alt="Repcode" 
+              className="w-8 h-8 object-contain"
+            />
+            <h2 className="text-xl font-bold text-primary tracking-tight truncate">
+              Repcode
+            </h2>
+          </div>
         )}
         <button
           onClick={() => { setIsExpanded(!isExpanded); setMasterCollectionsDropdownOpen(false); }}

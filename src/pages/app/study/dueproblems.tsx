@@ -116,11 +116,49 @@ const DueProblems = () => {
                 videoId="5wKetDFAki4"
               />
 
-              <ProblemsQueue
-                problems={dueTodayProblems}
-                userSettings={userSettings}
-                refetchProblems={refetch}
-              />
+              {dueTodayProblems && dueTodayProblems.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-full py-16 px-6">
+                  <div className="max-w-md mx-auto text-center">
+                    {/* Icon */}
+                    <div className="mb-6 relative">
+                      <div className="w-20 h-20 mx-auto bg-tertiary rounded-2xl flex items-center justify-center relative overflow-hidden">
+                        {/* Subtle gradient background */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#0fb20c]/10 to-[#87cf3a]/5"></div>
+                                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-success relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                           <path d="M20 6L9 17l-5-5"></path>
+                         </svg>
+                      </div>
+                      {/* Floating dots decoration */}
+                      <div className="absolute -top-2 -right-2 w-3 h-3 bg-success/30 rounded-full animate-pulse"></div>
+                      <div className="absolute -bottom-1 -left-3 w-2 h-2 bg-[#87cf3a]/40 rounded-full animate-pulse animation-delay-300"></div>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-xl font-semibold text-primary mb-3">
+                      🎉 All Caught Up!
+                    </h3>
+                    
+                    {/* Message */}
+                    <p className="text-secondary leading-relaxed mb-6">
+                      Congratulations! You don't have any problems due today. Take a break or review some old problems to stay sharp.
+                    </p>
+                    
+                    
+                    {/* Decorative element */}
+                    <div className="flex items-center justify-center space-x-1 opacity-50">
+                      <div className="w-1 h-1 bg-success rounded-full animate-pulse"></div>
+                      <div className="w-1 h-1 bg-[#87cf3a] rounded-full animate-pulse animation-delay-300"></div>
+                      <div className="w-1 h-1 bg-success rounded-full animate-pulse animation-delay-600"></div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <ProblemsQueue
+                  problems={dueTodayProblems}
+                  userSettings={userSettings}
+                  refetchProblems={refetch}
+                />
+              )}
             </>
           )}
       </div>

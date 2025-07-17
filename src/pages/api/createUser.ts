@@ -73,37 +73,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       });
 
-      // Create the "Example" collection for the new user
-      const exampleCollection = await prisma.collection.create({
-        data: {
-          title: "Example",
-          userId: user.id,
-          image: "pattern1.svg",
-          newCount: 3
-        },
-      });
-
-      // Define default problems to add to the "Example" collection
-      const defaultProblems = [
-        { 
-          name: "Two Sum", 
-          question: q1, 
-          solution: s1, 
-          functionSignature: f1, 
-          notes: n1, 
-          link: "https://leetcode.com/problems/two-sum/", 
-          difficulty: Difficulty.Easy,
-          collectionId: exampleCollection.id 
-        },
-        
-      ];
-      // Create each default problem
-      for (const problem of defaultProblems) {
-        await prisma.problem.create({
-          data: problem,
-        });
-      }
-
       console.log("CALLED: /createUser");
       res.status(200).json(user);
     } catch (error) {

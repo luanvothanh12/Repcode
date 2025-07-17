@@ -36,6 +36,16 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   const [problemToViewStats, setProblemToViewStats] = useState(null);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
+  // Helper function to check if a date is older than 30 days
+  const isOlderThanMonth = (date: string | null) => {
+    if (!date) return false;
+    const lastUpdated = new Date(date);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - lastUpdated.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays > 30;
+  };
+
   const fetchUserSettings = async () => {
     if (!user) throw new Error('No user found');
     const response = await fetch(`/api/getUserSettings?userEmail=${user.email}`);
@@ -371,6 +381,21 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
                   Last updated: {formatDistanceToNow(new Date(collectionData.lastAdded), { addSuffix: true })}
+                  {isOlderThanMonth(collectionData.lastAdded) && (
+                    <div className="relative group ml-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-[#f87171] hover:text-[#ef4444] transition-colors cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                      </svg>
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-[#2A303C] border border-[#3A4150] rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10 w-64">
+                        <div className="text-xs text-[#B0B7C3] leading-relaxed">
+                        It&apos;s been a while since you&apos;ve solved a new problem from this pattern. Solve a new one soon to keep your understanding fresh!
+                        </div>
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-[#3A4150]"></div>
+                      </div>
+                    </div>
+                  )}
                 </span>
               </>
             )}
@@ -445,7 +470,45 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
 
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1">
-            <div className="bg-[#343B4A] rounded-xl overflow-hidden border border-[#3A4253] shadow-lg">
+            {problems?.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 px-6">
+                <div className="max-w-md mx-auto text-center">
+                  {/* Icon */}
+                  <div className="mb-6 relative">
+                    <div className="w-20 h-20 mx-auto bg-tertiary rounded-2xl flex items-center justify-center relative overflow-hidden">
+                      {/* Subtle gradient background */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6]/10 to-[#06b6d4]/5"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-secondary relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                      </svg>
+                    </div>
+                    {/* Floating dots decoration */}
+                    <div className="absolute -top-2 -right-2 w-3 h-3 bg-[#3b82f6]/30 rounded-full animate-pulse"></div>
+                    <div className="absolute -bottom-1 -left-3 w-2 h-2 bg-[#06b6d4]/40 rounded-full animate-pulse animation-delay-300"></div>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-xl font-semibold text-primary mb-3">
+                    No Problems Yet
+                  </h3>
+                  
+                  {/* Message */}
+                  <p className="text-secondary leading-relaxed mb-6">
+                    This collection doesn&apos;t have any problems yet. Click "Add Problem" to get started!
+                  </p>
+                  
+                  {/* Decorative element */}
+                  <div className="flex items-center justify-center space-x-1 opacity-50">
+                    <div className="w-1 h-1 bg-[#3b82f6] rounded-full animate-pulse"></div>
+                    <div className="w-1 h-1 bg-[#06b6d4] rounded-full animate-pulse animation-delay-300"></div>
+                    <div className="w-1 h-1 bg-[#3b82f6] rounded-full animate-pulse animation-delay-600"></div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-[#343B4A] rounded-xl overflow-hidden border border-[#3A4253] shadow-lg">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -549,7 +612,8 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                   </tbody>
                 </table>
               </div>
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
