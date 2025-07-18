@@ -31,10 +31,38 @@ const NavBar = () => {
             opacity: 0;
           }
         }
+        @keyframes slideDown {
+          from {
+            transform: translateY(-100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
       `}</style>
       
+      {/* Announcement Banner */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-[#000000] text-primary py-2 px-2 sm:px-4 text-center font-medium text-xs sm:text-sm animate-[slideDown_0.5s_ease-out]">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <div className="w-2 h-2 bg-primary rounded-full"></div>
+            <span className="whitespace-nowrap">Repcode.io is now fully open source!</span>
+          </div>
+          <Link
+            href="https://github.com/hussiiii/repcode"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline font-semibold hover:no-underline transition-all duration-200 whitespace-nowrap"
+          >
+            View Repository
+          </Link>
+        </div>
+      </div>
+      
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-12 sm:top-8 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled 
             ? 'bg-[#343B4A]/70 backdrop-blur-md shadow-lg shadow-black/5' 
             : 'bg-transparent'

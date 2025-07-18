@@ -100,13 +100,26 @@ function merge(left, right) {
         </div>
 
         {/* Content */}
-        <div className="relative container mx-auto px-6 pt-32 pb-24">
+        <div className="relative container mx-auto px-6 pt-44 sm:pt-40 pb-24">
           <div className="max-w-5xl mx-auto text-center">
             <div className="inline-flex items-center px-4 py-2 bg-[#343B4A]/80 backdrop-blur-sm rounded-full border border-[#3A4253] mb-8">
               <SparklesIcon className="w-4 h-4 text-easy mr-2" />
               <span className="text-[#B0B7C3]">Welcome to Version 2.0</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+            {/* Mobile heading */}
+            <h1 className="block sm:hidden text-4xl font-bold mb-4 leading-tight">
+              <span className="text-primary">Your Notebook</span>
+              <br />
+              <span
+                className="inline-block bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] bg-clip-text text-transparent leading-tight pb-1"
+                style={{ color: "transparent" }}
+              >
+                For Leetcode
+              </span>
+            </h1>
+
+            {/* Desktop heading */}
+            <h1 className="hidden sm:block sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
               <span className="text-primary">Your personalized notebook</span>
               <br />
               <span
