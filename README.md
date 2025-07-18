@@ -94,11 +94,11 @@ To view the database structure:
 
 Remember that you're using a local dev.db that emulates the structure of the production database, but not the content: it'll start off as empty. And changes you make to this DB won't affect the production DB (and vice versa). But any changes with data fetching/pushing that work on this dev db will work on the production db as well. 
 
-Important note: do NOT use built-in Tailwind utility classes (like blue-500, grey-200, etc.) when styling, as they will not work. Either use the custom ones in @tailwind.config.ts, or hardcode the hex of the color (like this: bg-[#FFFFFF])
+Important note: do NOT use built-in Tailwind utility classes (like blue-500, grey-200, etc.) when using colors for styling, as they will not work. Either use the custom ones in @tailwind.config.ts, or hardcode the hex of the color (like this: bg-[#FFFFFF])
 
 ## Contributing
 
-We welcome contributions! Follow these steps to contribute:
+We welcome contributions! Check out the Issues tab and comment on any issues you want to work on! Follow these steps to contribute:
 
 ### Workflow for Contributors
 
@@ -133,7 +133,7 @@ git push origin feature/your-feature-name
    * Make any requested changes and update the PR.
 
 ### Guidelines
-
+* Feel free to check out the Issues tab and comment on issues you want to work on (or add you own!)
 * Follow the existing code style.
 * Test your changes thoroughly.
 * Write descriptive commit messages.
