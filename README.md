@@ -26,10 +26,10 @@ This project is an open-source platform designed to streamline your Leetcode pra
 
 ## Features
 
-* Organize problems into collections.
-* Review problems with a SuperMemo-based spatial repetition algorithm.
-* Get AI-powered feedback on your solutions.
-* View detailed stats about your problems, to target your weaknesses 
+* Organize problems & add your own notes, solutions, etc. 
+* Review problems with a SuperMemo-based spatial repetition algorithm (same as Anki)
+* Get AI-powered feedback on your solutions
+* View detailed stats about your problems/DS and Algos, to target your weaknesses 
 
 ## Tech Stack
 
@@ -94,6 +94,8 @@ To view the database structure:
 
 Remember that you're using a local dev.db that emulates the structure of the production database, but not the content: it'll start off as empty. And changes you make to this DB won't affect the production DB (and vice versa). But any changes with data fetching/pushing that work on this dev db will work on the production db as well. 
 
+Important note: do NOT use built-in Tailwind utility classes (like blue-500, grey-200, etc.) when styling, as they will not work. Either use the custom ones in @tailwind.config.ts, or hardcode the hex of the color (like this: bg-[#FFFFFF])
+
 ## Contributing
 
 We welcome contributions! Follow these steps to contribute:
@@ -138,4 +140,6 @@ git push origin feature/your-feature-name
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is open-source under the MIT License.  
+You **must provide credit** if you use or distribute this code.
+See the LICENSE file for more details. 

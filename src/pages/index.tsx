@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRightIcon, SparklesIcon, CheckIcon, BrainIcon, CodeIcon, BarChartIcon } from "lucide-react"
+import { ArrowRightIcon, SparklesIcon, CheckIcon, BrainIcon, CodeIcon, BarChartIcon, Github } from "lucide-react"
 import NavBar from '@/components/home/NavBar';
 import ContactForm from '@/components/home/ContactForm';
 import Footer from "@/components/home/Footer";
@@ -137,10 +137,16 @@ function merge(left, right) {
                 <ArrowRightIcon className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
-                href="#features"
-                className="w-full sm:w-auto px-8 py-4 bg-[#343B4A]/80 backdrop-blur-sm text-primary rounded-lg font-medium border border-[#3A4253] hover:bg-[#3A4253] transition-colors duration-200"
+                href="https://github.com/hussiiii/repcode"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative overflow-hidden bg-[#2A303C] backdrop-blur-sm hover:bg-black/90 text-[#ffffff] font-semibold px-8 py-3 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 ease-out hover:scale-105 border border-[#ffffff]/10 w-full sm:w-auto flex items-center justify-center"
               >
-                Learn More
+                <div className="flex items-center gap-3">
+                  <Github className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" />
+                  <span className="text-lg">GitHub</span>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#ffffff]/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
               </Link>
             </div>
           </div>
