@@ -112,23 +112,30 @@ git checkout -b feature/your-feature-name
 3. **Make your changes locally**:
    * Follow the setup instructions under Getting Started to set up the dev environment 
 
-4. **Commit your changes**:
+4. **IMPORTANT: check to see if your changes actually build**: 
+```bash 
+npm run build 
+``` 
+* if there are any build errors, they'll be listed in the terminal, please fix them. If everything builds fine, you're good to go (warnings are fine, but errors must be addressed)
+
+5. **Commit your changes**:
 ```bash
 git add .
 git commit -m "Description of your changes"
 ```
 
-5. **Push your branch to your fork**:
+6. **Push your branch to your fork**:
 ```bash
 git push origin feature/your-feature-name
 ```
 
-6. **Create a Pull Request (PR)**:
+7. **Create a Pull Request (PR)**:
    * Go to the original repository's GitHub page.
    * Click the "Pull Request" tab.
    * Select your branch and submit the PR.
+   * PLEASE include a screenshot if your change was styling-related! 
 
-7. **Wait for Review**:
+8. **Wait for Review**:
    * A maintainer will review your PR.
    * Make any requested changes and update the PR.
 
