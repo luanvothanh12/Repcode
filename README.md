@@ -44,7 +44,7 @@ Below are detailed instructions for how to set up your local development environ
 ### Prerequisites
 
 Ensure you have the following installed:
-* Node.js (v16 or higher recommended)
+* Node.js (v20 or higher REQUIRED)
 * npm or yarn
 * SQLite (for local development)
 
