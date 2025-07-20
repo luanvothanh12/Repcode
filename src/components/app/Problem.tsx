@@ -358,7 +358,6 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
                      icon="open_in_new"
                      label="Run on Leetcode"
                    />
-                 </div>
               </div>
             </div>
             <div className="p-6 bg-base_100">

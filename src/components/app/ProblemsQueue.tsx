@@ -409,7 +409,7 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
           console.error('Error updating problem:', error);
         },
       });
-      await updateContribution(user?.email || '');
+      //await updateContribution(user?.email || '');
       queryClient.invalidateQueries(['userSettings', user?.email]); // for updating the heatmap 
       queryClient.invalidateQueries(['collectionDetails']); // for updating ProblemList
     }
@@ -787,7 +787,7 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
           >
             <div className="h-full border-r border-[#3A4253] bg-base_100 flex flex-col">
               <div className="p-4 border-b border-[#3A4253] flex-shrink-0">
-                <div className="flex gap-2 items-center">
+                <div className="flex flex-wrap gap-2 items-center mb-2">
                   <TabButton 
                     active={content === 'question'} 
                     label="Description" 
@@ -815,7 +815,6 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
                       <div className="h-8 w-px bg-[#3A4253] mx-3"></div>
                       
                       {/* Action buttons */}
-                      <div className="flex items-center gap-1">
                         <ActionButton 
                           onClick={() => setIsEditModalOpen(true)}
                           icon="edit"
@@ -835,7 +834,6 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
                             />
                           </div>
                         )}
-                      </div>
                     </>
                   )}
                 </div>
