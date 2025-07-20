@@ -50,7 +50,7 @@ Ensure you have the following installed:
 
 ### Installation
 
-1. Clone the repository to some folder on your desktop 
+1. Fork the repo, then clone your fork to some folder on your desktop 
 
 2. Install dependencies:
 ```bash
@@ -66,23 +66,27 @@ DATABASE_URL="file:./dev.db"
 4. Update `schema.prisma`:
    * Replace the contents of `schema.prisma` with the contents of `devTemplates/devprisma.txt`
 
-
 5. Delete the folder `prisma/migrations` entirely 
 
+6. Update `firebaseAdmin.js` 
+* Replace the contents of `firebaseAdmin.js` with the contents of `devTemplates/firebaseAdmin.txt`
 
-6. Initialize the SQLite database by running the following commands in the terminal of your code editor: 
+7. Update `src/firebaseConfig.js` 
+* Replace the contents of `src/firebaseConfig.js` with the contents of `devTemplates/firebaseConfig.txt`
+
+8. Initialize the SQLite database by running the following commands in the terminal of your code editor: 
 ```bash
 npx prisma migrate dev --name init
 npx prisma generate
 ```
 
-7. Comment out the following line in `ProblemsQueue.tsx`, on line 412:
+9. Comment out the following line in `ProblemsQueue.tsx`, on line 412:
 ```typescript
 // Comment out the below line to avoid runtime errors in development
 // await updateContribution(user?.email || '');
 ```
 
-8. Start the development server and navigate to the localhost on your browser:
+10. Start the development server and navigate to the localhost on your browser:
 ```bash
 npm run dev
 ```
@@ -134,10 +138,11 @@ git push origin feature/your-feature-name
    * Click the "Pull Request" tab.
    * Select your branch and submit the PR.
    * PLEASE include a screenshot if your change was styling-related! 
+   * PLEASE include any relevent comments on your PR! 
 
 8. **Wait for Review**:
-   * A maintainer will review your PR.
-   * Make any requested changes and update the PR.
+   * A maintainer will review your PR (almost always within 24hrs)
+   * Make any requested changes and update the PR, and include comments please! 
 
 ### Guidelines
 * Feel free to check out the Issues tab and comment on issues you want to work on (or add you own!)
