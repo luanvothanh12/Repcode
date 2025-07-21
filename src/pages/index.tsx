@@ -1,22 +1,38 @@
-// Home page, entry point of the application 
-
-import React, { useEffect } from 'react';
-import Link from "next/link"
-import Image from "next/image"
-import { ArrowRightIcon, SparklesIcon, CheckIcon, BrainIcon, CodeIcon, BarChartIcon, Github } from "lucide-react"
-import NavBar from '@/components/home/NavBar';
-import ContactForm from '@/components/home/ContactForm';
+// Home page, entry point of the application
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import {
+  ArrowRightIcon,
+  SparklesIcon,
+  CheckIcon,
+  BrainIcon,
+  CodeIcon,
+  BarChartIcon,
+  Github,
+  Star,
+} from "lucide-react";
+import NavBar from "@/components/home/NavBar";
+import ContactForm from "@/components/home/ContactForm";
 import Footer from "@/components/home/Footer";
-import FeatureCard from '@/components/home/FeatureCard';
-import ProblemListPreview from '@/components/home/ProblemListPreview';
-import StudyDashboardPreview from '@/components/home/StudyDashboardPreview';
-import CodeEditorPreview from '@/components/home/CodeEditorPreview';
-import UserCounter from '@/components/home/UserCounter';
-import LogoScroller from '@/components/home/LogoScroller';
-import PlatformComparison from '@/components/home/PlatformComparison';
+import FeatureCard from "@/components/home/FeatureCard";
+import ProblemListPreview from "@/components/home/ProblemListPreview";
+import StudyDashboardPreview from "@/components/home/StudyDashboardPreview";
+import CodeEditorPreview from "@/components/home/CodeEditorPreview";
+import UserCounter from "@/components/home/UserCounter";
+import LogoScroller from "@/components/home/LogoScroller";
+import PlatformComparison from "@/components/home/PlatformComparison";
 import "../app/globals.css";
 
 export default function Home() {
+  const [stars, setStars] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/github-stars")
+      .then((res) => res.json())
+      .then((data) => setStars(data.stars));
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#2A303C]">
       <NavBar />
@@ -131,9 +147,14 @@ function merge(left, right) {
             </h1>
 
             <p className="text-lg md:text-xl text-[#B0B7C3] mb-8 max-w-3xl mx-auto">
-              <span className="block md:hidden">Track, organize, and master coding problems the right way!</span>
-              <span className="hidden md:block">Track, organize, and master coding problems with an intelligent platform that adapts to your learning
-              style and helps you retain knowledge longer</span>
+              <span className="block md:hidden">
+                Track, organize, and master coding problems the right way!
+              </span>
+              <span className="hidden md:block">
+                Track, organize, and master coding problems with an intelligent
+                platform that adapts to your learning style and helps you retain
+                knowledge longer
+              </span>
             </p>
 
             {/* User Counter */}
@@ -156,6 +177,14 @@ function merge(left, right) {
                 className="group relative overflow-hidden bg-[#2A303C] backdrop-blur-sm hover:bg-black/90 text-[#ffffff] font-semibold px-8 py-3 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 ease-out hover:scale-105 border border-[#ffffff]/10 w-full sm:w-auto flex items-center justify-center"
               >
                 <div className="flex items-center gap-3">
+                  {stars !== null && (
+                    <span className="-ml-2 text-sm bg-white/10 px-2 py-0.5 rounded-lg">
+                      <span className="flex items-center justify-center gap-1">
+                        <Star className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12 text-learning fill-learning" />{" "}
+                        {stars}
+                      </span>
+                    </span>
+                  )}
                   <Github className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" />
                   <span className="text-lg">GitHub</span>
                 </div>
@@ -164,10 +193,14 @@ function merge(left, right) {
             </div>
           </div>
         </div>
-        
+
         {/* Wave Divider */}
         <div className="absolute bottom-0 left-0 w-full overflow-hidden">
-          <svg className="relative block w-full h-[50px] md:h-[70px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <svg
+            className="relative block w-full h-[50px] md:h-[70px]"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+          >
             <path
               d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C0,0,0,0,0,0z"
               fill="#343B4A"
@@ -179,7 +212,9 @@ function merge(left, right) {
       {/* Company Logos Section */}
       <section className="py-12 bg-[#343B4A] border-y border-[#3A4253]">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-8">Ace the Technical Interview at Top Companies</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-8">
+            Ace the Technical Interview at Top Companies
+          </h2>
           <LogoScroller />
         </div>
       </section>
@@ -188,10 +223,13 @@ function merge(left, right) {
       <section id="features" className="py-20 bg-[#343B4A]">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Supercharge Your Leetcode Practice</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
+              Supercharge Your Leetcode Practice
+            </h2>
             <p className="text-[#B0B7C3] max-w-2xl mx-auto">
-              Repcode combines intelligent tracking, AI assistance, and proven learning techniques to help you master
-              algorithms and data structures.
+              Repcode combines intelligent tracking, AI assistance, and proven
+              learning techniques to help you master algorithms and data
+              structures.
             </p>
           </div>
 
@@ -209,11 +247,11 @@ function merge(left, right) {
             <FeatureCard
               icon={
                 <div className="flex items-center justify-center">
-                  <Image 
-                    src="/leetcode.png" 
-                    alt="LeetCode" 
-                    width={32} 
-                    height={32} 
+                  <Image
+                    src="/leetcode.png"
+                    alt="LeetCode"
+                    width={32}
+                    height={32}
                     className="w-6 h-6 object-contain"
                   />
                 </div>
@@ -250,7 +288,8 @@ function merge(left, right) {
                 Organize and Customize Everything
               </h2>
               <p className="text-[#B0B7C3] mb-8">
-                No more excel spreadsheets! Use our friendly and intuitive UI to store, organize, and customize Leetcode problems
+                No more excel spreadsheets! Use our friendly and intuitive UI to
+                store, organize, and customize Leetcode problems
               </p>
               <ul className="space-y-3 mb-8">
                 {[
@@ -294,8 +333,8 @@ function merge(left, right) {
                 Solve problems with our custom all-in-one interface
               </h2>
               <p className="text-[#B0B7C3] mb-8">
-                Our integrated coding environment makes it easy to understand, solve, and review Leetcode problems all
-                in one place.
+                Our integrated coding environment makes it easy to understand,
+                solve, and review Leetcode problems all in one place.
               </p>
               <ul className="space-y-3 mb-8">
                 {[
@@ -335,9 +374,13 @@ function merge(left, right) {
               <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#343B4A] text-[#B0B7C3] mb-4">
                 TRACK YOUR PROGRESS
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">Spatial Repetition Review</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
+                Spatial Repetition Review
+              </h2>
               <p className="text-[#B0B7C3] mb-8">
-                Each day, solve only the problems you need to so your brain learns new strategies and reinforces key concepts in the most effective way possible. 
+                Each day, solve only the problems you need to so your brain
+                learns new strategies and reinforces key concepts in the most
+                effective way possible.
               </p>
               <ul className="space-y-3 mb-8">
                 {[
@@ -368,9 +411,12 @@ function merge(left, right) {
       <section className="py-20 bg-[#343B4A] relative overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Loved by Developers</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
+              Loved by Developers
+            </h2>
             <p className="text-[#B0B7C3] max-w-2xl mx-auto">
-              See what our users have to say about how Repcode has transformed their coding interview preparation.
+              See what our users have to say about how Repcode has transformed
+              their coding interview preparation.
             </p>
           </div>
 
@@ -413,7 +459,10 @@ function merge(left, right) {
                 title: "TPM @ Google",
               },
             ].map((testimonial, index) => (
-              <div key={index} className="bg-[#2A303C] rounded-xl p-6 border border-[#3A4253] shadow-lg">
+              <div
+                key={index}
+                className="bg-[#2A303C] rounded-xl p-6 border border-[#3A4253] shadow-lg"
+              >
                 <div className="mb-4">
                   {[...Array(5)].map((_, i) => (
                     <span key={i} className="text-[#FACC15] mr-1">
@@ -421,14 +470,20 @@ function merge(left, right) {
                     </span>
                   ))}
                 </div>
-                <p className="text-[#B0B7C3] mb-6 italic">&quot;{testimonial.quote}&quot;</p>
+                <p className="text-[#B0B7C3] mb-6 italic">
+                  &quot;{testimonial.quote}&quot;
+                </p>
                 <div className="flex items-center">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] flex items-center justify-center text-primary font-bold">
                     {testimonial.name.charAt(0)}
                   </div>
                   <div className="ml-3">
-                    <h4 className="text-primary font-medium">{testimonial.name}</h4>
-                    <p className="text-[#B0B7C3] text-sm">{testimonial.title}</p>
+                    <h4 className="text-primary font-medium">
+                      {testimonial.name}
+                    </h4>
+                    <p className="text-[#B0B7C3] text-sm">
+                      {testimonial.title}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -463,5 +518,5 @@ function merge(left, right) {
       {/* Footer */}
       <Footer />
     </div>
-  )
+  );
 }
