@@ -9,8 +9,16 @@ export default function Changelog() {
         month: "July 2025",
         updates: [
           {
+            date: "V 2.6 - July 21st, 2025",
+            changes: [
+              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/27" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #27</a> merged, credit @OmkarSathish </>,
+              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/27" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #27</a> merged, credit @OmkarSathish </>,
+            ],
+          },
+          {
             date: "V 2.5 - July 20th, 2025",
             changes: [
+              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/23" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #23</a> merged, credit @ajinkya8010 </>,
               "➕Added first time user video to guide page (Issue #29, Credit: @poorvijn)", 
               "⚙️Adjusted README/Contributing document to be more detailed for first time contributors",
               "⚙️Adjusted first time user pop-up styling",
@@ -166,7 +174,7 @@ export default function Changelog() {
           {
             date: "V 1.9 - December 17th, 2024",
             changes: [
-              "🌟PR #1 by knownotunknown merged (removed landing page warning text)",
+              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/1" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #1</a> merged, credit @knownotunknown</>,
               "➖Removed limit for only being able to delete collections with under 20 problems", 
             ],
           },
