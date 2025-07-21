@@ -21,8 +21,9 @@ npm run build
 * if there are any build errors, they'll be listed in the terminal, please fix them. If everything builds fine, you're good to go (warnings are fine, but errors must be addressed)
 
 5. **Commit your changes**:
+* Make sure to add/commit ONLY the files that actually relate to the PR: do NOT do `git add .`, as there are several files that are different from prod so that localhost works properly (like firebaseAdmin, firebaseConfig, everything in the Prisma folder, etc.) so you don't want to commit these to prod 
 ```bash
-git add .
+git add [files_you_modified]
 git commit -m "Description of your changes"
 ```
 

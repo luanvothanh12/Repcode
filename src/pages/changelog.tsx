@@ -9,6 +9,14 @@ export default function Changelog() {
         month: "July 2025",
         updates: [
           {
+            date: "V 2.5 - July 20th, 2025",
+            changes: [
+              "➕Added first time user video to guide page (Issue #29, Credit: @poorvijn)", 
+              "⚙️Adjusted README/Contributing document to be more detailed for first time contributors",
+              "⚙️Adjusted first time user pop-up styling",
+            ],
+          },
+          {
             date: "V 2.4 - July 15th, 2025",
             changes: [
               "➕Added platform comparison table on landing page", 

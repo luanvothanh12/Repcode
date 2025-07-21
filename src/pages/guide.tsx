@@ -54,6 +54,26 @@ export default function Guide() {
                     </div>
                 </div>
 
+                {/* Platform Overview Video */}
+                <div className="flex flex-col items-center mb-16">
+                    <div className="w-full max-w-4xl">
+                        <div className="bg-gradient-to-br from-[#2A303C] to-[#252B38] rounded-xl p-6 border border-[#3A4150]/50 shadow-lg">
+                            <h3 className="text-2xl font-semibold text-primary mb-4 text-center">📺 First Time User Video</h3>
+
+                            <div className="relative w-full h-0 pb-[56.25%] rounded-lg overflow-hidden"> {/* 16:9 aspect ratio */}
+                                <iframe
+                                    className="absolute top-0 left-0 w-full h-full"
+                                    src="https://www.youtube.com/embed/Hn4znv8I2a4"
+                                    title="Repcode Platform Overview"
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowFullScreen
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="mb-24" id="what-is-repcode">
                     <h2 className="text-4xl font-bold mb-2 inline-block border-b-2 border-divide text-primary">What is Repcode?</h2>
                     <p className="text-secondary mb-8 text-xl">Repcode is a platform built to empower software engineers to excel in Leetcode-style technical interviews. It helps you achieve this in three main ways: </p>
