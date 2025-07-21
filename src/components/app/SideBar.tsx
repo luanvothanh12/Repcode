@@ -1,21 +1,21 @@
 import React, { useState, useContext } from 'react';
-import { auth } from '../../firebaseConfig'; 
+import { auth } from '../../firebaseConfig';
 import { signOut } from "firebase/auth";
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import "../../app/globals.css"; 
+import "../../app/globals.css";
 // import useDarkMode from '../../../useDarkMode';
-import { useQuery, useMutation, useQueryClient } from 'react-query'; 
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useSidebar } from '../../auth/SidebarContext';
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { AuthContext } from '@/auth/AuthContext';
-import { 
-  FolderIcon, 
-  BookOpenIcon, 
-  Settings as SettingsIcon, 
-  User as UserIcon, 
-  Home as HomeIcon, 
-  HelpCircle as HelpCircleIcon, 
+import {
+  FolderIcon,
+  BookOpenIcon,
+  Settings as SettingsIcon,
+  User as UserIcon,
+  Home as HomeIcon,
+  HelpCircle as HelpCircleIcon,
   LogOut as LogOutIcon,
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon
@@ -48,7 +48,7 @@ function SidebarItem({
       <div className="absolute left-1 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5">
         {icon}
       </div>
-      
+
       {/* Text container with fixed left position */}
       {expanded && (
         <div className="pl-10 whitespace-nowrap transition-opacity duration-200">
@@ -57,13 +57,12 @@ function SidebarItem({
       )}
     </div>
   );
-  
-  const className = `block w-full py-1.5 px-2 rounded-lg transition-all duration-300 ${
-    active 
-      ? "bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] text-primary" 
+
+  const className = `block w-full py-1.5 px-2 rounded-lg transition-all duration-300 ${active
+      ? "bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] text-primary"
       : "text-[#8A94A6] hover:bg-[#343B4A] hover:text-primary"
-  }`;
-  
+    }`;
+
   return (
     <li>
       {href ? (
@@ -71,8 +70,8 @@ function SidebarItem({
           {content}
         </Link>
       ) : (
-        <button 
-          className={className} 
+        <button
+          className={className}
           onClick={onClick}
           {...(!expanded && tooltip ? { 'data-tooltip-id': 'sidebar-tooltip', 'data-tooltip-content': tooltip } : {})}
         >
@@ -91,7 +90,7 @@ const SideBar = () => {
   const queryClient = useQueryClient();
 
   const [masterCollectionsDropdownOpen, setMasterCollectionsDropdownOpen] = useState(false);
-  const [collections, setCollections] = useState<{id: any; title: any; isLoading: boolean; problems:any}[]>([]);
+  const [collections, setCollections] = useState<{ id: any; title: any; isLoading: boolean; problems: any }[]>([]);
   const [expandedCollectionId, setExpandedCollectionId] = useState(null); // Track expanded collection
 
   // User settings query
@@ -138,12 +137,12 @@ const SideBar = () => {
   //       setCollections([]);
   //     }
   //   });
-  
+
   //   // Cleanup subscription on component unmount
   //   return () => unsubscribe();
   // }, []);
 
-  const fetchProblemsForCollection = async (collectionId:any) => {
+  const fetchProblemsForCollection = async (collectionId: any) => {
     // Find collection index
     const collectionIndex = collections.findIndex(c => c.id === collectionId);
     if (collectionIndex === -1) return;
@@ -176,7 +175,7 @@ const SideBar = () => {
       setIsExpanded(true);
     }
   };
-  
+
   const goGuide = () => {
     window.open('/guide', '_blank');
   };
@@ -187,7 +186,7 @@ const SideBar = () => {
       console.log('User logged out successfully');
       // Redirect to login page or root after logging out
       queryClient.clear();
-      router.push('/'); 
+      router.push('/');
     } catch (error) {
       console.error('Logout failed', error);
     }
@@ -224,9 +223,9 @@ const SideBar = () => {
       >
         {isExpanded && (
           <div className="flex items-center gap-3">
-            <img 
-              src="/repcode.png" 
-              alt="Repcode" 
+            <img
+              src="/repcode.png"
+              alt="Repcode"
               className="w-8 h-8 object-contain"
             />
             <h2 className="text-xl font-bold text-primary tracking-tight truncate">
@@ -241,7 +240,7 @@ const SideBar = () => {
           {isExpanded ? <ChevronLeftIcon size={20} /> : <ChevronRightIcon size={20} />}
         </button>
       </div>
-      
+
       <nav className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3">
         <ul className="space-y-2">
           <SidebarItem
@@ -281,7 +280,7 @@ const SideBar = () => {
           />
         </ul>
       </nav>
-      
+
       <div className="p-3 border-t border-[#3A4253] mt-auto overflow-hidden">
         <div
           className={`
@@ -293,7 +292,7 @@ const SideBar = () => {
             <div className="relative">
               {/* Add subtle glow and animation to the avatar */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#06b6d4]/40 to-[#3b82f6]/40 blur-md opacity-70 animate-pulse"></div>
-              
+
               <div className="w-11 h-11 rounded-full overflow-hidden shadow-lg shadow-[#3b82f6]/20 relative">
                 <img
                   src={avatarUrl}
@@ -337,21 +336,25 @@ const SideBar = () => {
                       </div>
                     )}
                   </div>
-                  <button
-                    onClick={logOut}
-                    className="p-1.5 rounded-lg text-[#8A94A6] hover:text-[#ef4444] hover:bg-[#3F475A] transition-colors"
-                    aria-label="Logout"
-                    data-tooltip-id="sidebar-tooltip"
-                    data-tooltip-content="Logout"
-                  >
-                    <LogOutIcon size={16} />
-                  </button>
                 </div>
                 <p className="text-sm text-[#B0B7C3] truncate">{userEmail}</p>
               </div>
             ) : null /* No content for collapsed state - just showing the avatar */}
           </div>
         </div>
+
+        {isExpanded && (
+          <div className="mt-3">
+            <button
+              onClick={logOut}
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-transparent border border-[#ef4444]/30 text-[#ef4444] hover:bg-[#ef4444]/10 hover:border-[#ef4444]/50 hover:text-[#f87171] transition-all duration-200 text-sm font-medium"
+            >
+              <LogOutIcon size={16} />
+              Sign out
+            </button>
+          </div>
+        )}
+
       </div>
 
       <ReactTooltip
