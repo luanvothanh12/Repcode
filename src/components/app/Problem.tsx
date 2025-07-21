@@ -319,7 +319,7 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
         >
           <div className="h-full border-r border-[#3A4253] bg-base_100">
             <div className="p-4 border-b border-[#3A4253]">
-              <div className="flex gap-2 items-center">
+              <div className="flex flex-wrap gap-2 items-center mb-2">
                 <TabButton 
                   active={contentActive === 'question'} 
                   label="Description" 
@@ -343,7 +343,6 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
                 <div className="h-8 w-px bg-[#3A4253] mx-3"></div>
                 
                                  {/* Action buttons */}
-                 <div className="flex items-center gap-1">
                    <ActionButton 
                      onClick={() => setIsEditModalOpen(true)}
                      icon="edit"
@@ -359,7 +358,6 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
                      icon="open_in_new"
                      label="Run on Leetcode"
                    />
-                 </div>
               </div>
             </div>
             <div className="p-6 bg-base_100">
