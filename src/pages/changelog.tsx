@@ -12,7 +12,7 @@ export default function Changelog() {
             date: "V 2.6 - July 21st, 2025",
             changes: [
               <>⭐<a href="https://github.com/hussiiii/Repcode/pull/27" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #27</a> merged, credit @OmkarSathish </>,
-              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/27" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #27</a> merged, credit @OmkarSathish </>,
+              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/30" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #30</a> merged, credit @Pragyan14 </>,
             ],
           },
           {
