@@ -9,7 +9,7 @@ export default async function handler(
     {
       headers: {
         Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        "User-Agent": "repcode-app",
       },
     }
   );
