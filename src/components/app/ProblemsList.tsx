@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import ProblemModal from './ProblemModal';
 import Toast from './Toast';
 import { auth } from '../../firebaseConfig';
@@ -24,7 +24,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   const [toastMessage, setToastMessage] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [visibleMenuId, setVisibleMenuId] = useState(null);
+  const [visibleMenuId, setVisibleMenuId] = useState<number|null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [problemToEdit, setProblemToEdit] = useState(null);
   const [deletingProblems, setDeletingProblems] = useState<Set<number>>(new Set()); // Track deleting problems, so that users cant click inside collection they just deleted 
@@ -35,6 +35,21 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
   const [problemToViewStats, setProblemToViewStats] = useState(null);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setVisibleMenuId(null);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
 
   // Helper function to check if a date is older than 30 days
   const isOlderThanMonth = (date: string | null) => {
@@ -71,6 +86,11 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
     if (!response.ok) throw new Error('Network response was not ok');
     return response.json();
   };
+
+    const toggleMenu = (id: number) => {
+    setVisibleMenuId(prev => (prev === id ? null : id));
+  };
+
 
   const { isLoading: isLoadingUser, data: currentUser, error: userError } = useQuery(
     ['userSettings', user?.email],
@@ -130,10 +150,6 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
       default:
         return 'circle';
     }
-  };
-
-  const toggleMenu = (id: any) => {
-    setVisibleMenuId(visibleMenuId === id ? null : id);
   };
 
   const getProblemCounts = (problems: any[]) => {
@@ -508,15 +524,15 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                 </div>
               </div>
             ) : (
-              <div className="bg-[#343B4A] rounded-xl overflow-hidden border border-[#3A4253] shadow-lg">
-              <div className="overflow-x-auto">
+              <div className="bg-[#343B4A] rounded-xl overflow-visible border border-[#3A4253] shadow-lg">
+              <div className="overflow-visible">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-[#3A4253]">
                       <th className="text-left py-4 px-6 text-[#B0B7C3] font-medium text-sm w-10"></th>
                       <th className="text-left py-4 px-6 text-[#B0B7C3] font-medium text-sm">Problem Name</th>
-                      <th className="text-right py-4 px-6 text-[#B0B7C3] font-medium text-sm">Difficulty</th>
-                      <th className="text-right py-4 px-6 text-[#B0B7C3] font-medium text-sm">Type</th>
+                      <th className="text-right py-4 px-6 pr-7 text-[#B0B7C3] font-medium text-sm">Difficulty</th>
+                      <th className="text-right py-4 px-6 pr-12 text-[#B0B7C3] font-medium text-sm">Type</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -527,7 +543,7 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                       .map((problem: any, index: number) => (
                         <tr
                           key={problem.id}
-                          className={`border-b border-[#3A4253] hover:bg-[#3A4253]/50 transition-colors ${
+                          className={` border-b border-[#3A4253] hover:bg-[#3A4253]/50 transition-colors ${
                             index === problems.length - 1 ? "border-b-0" : ""
                           }`}
                           onClick={() => {
@@ -536,19 +552,21 @@ const ProblemsList = ({ collectionId }: { collectionId: any }) => {
                             }
                           }}
                         >
-                          <td className="py-4 px-6">
-                            <div className="flex items-center relative">
-                              <button
-                                className="p-1.5 rounded-lg hover:bg-[#3F475A] text-[#8A94A6] hover:text-primary transition-colors"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleMenu(problem.id);
-                                }}
-                              >
-                                <span className="material-icons" style={{ fontSize: '18px' }}>more_vert</span>
-                              </button>
+                          <td className="relative py-4 px-6 overflow-visible">
+                            <div className="flex items-center">
+                              <div ref={menuRef} className="relative">
+                                <button
+                                  className="p-1.5 rounded-lg hover:bg-[#3F475A] text-[#8A94A6] hover:text-primary transition-colors"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleMenu(problem.id);
+                                  }}
+                                  >
+                                  <span className="material-icons" style={{ fontSize: '18px' }}>more_vert</span>
+                                </button>
+                              </div>
                               {visibleMenuId === problem.id && (
-                                <div className="absolute top-full left-0 mt-2 w-36 rounded-lg bg-[#343B4A] shadow-lg border border-[#3A4253] py-1 z-10">
+                                <div className="absolute bottom-1/3 left-3/4 w-36 rounded-lg bg-[#343B4A] shadow-lg border border-[#3A4253] py-1">
                                   <button
                                     className="w-full px-4 py-2 text-sm text-hard hover:bg-[#3A4253] hover:hard flex items-center"
                                     onClick={(e) => {
