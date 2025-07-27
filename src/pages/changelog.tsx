@@ -463,17 +463,32 @@ export default function Changelog() {
 
     const legendItems = [
         { emoji: "⭐", description: "PR from a contributor merged" },
-        { emoji: "➕", description: "New feature added" },
         { emoji: "⚙️", description: "Small change/adjustment" },
-        { emoji: "🛠️", description: "Bug fix" },
-        { emoji: "➖", description: "Feature removed" },
         { emoji: "🎉", description: "Major release build" },
+        { emoji: "➕", description: "New feature added" },
+        { emoji: "➖", description: "Feature removed" },
+        { emoji: "🛠️", description: "Bug fix" },
     ];
 
     return (
       <div className="flex flex-col min-h-screen bg-base_100">
           <NavBar />
           <div className="pt-40 sm:pt-24 flex-grow">
+            {/* Top Banner Legend for md screens and smaller */}
+            <div className="lg:hidden w-full max-w-7xl mx-auto px-4 sm:px-6 mb-6">
+              <div className="w-full bg-base_100 border border-divide rounded-lg p-4 shadow-sm">
+                <h3 className="text-primary font-medium mb-3 text-lg text-center">Legend</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {legendItems.map((item) => (
+                        <div key={item.emoji} className="flex items-center bg-base_100 rounded-md p-2 border border-divide">
+                            <span className="text-xl mr-2">{item.emoji}</span>
+                            <span className="text-secondary text-sm">{item.description}</span>
+                        </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+            
             <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
               <div className="flex flex-col lg:flex-row">
                 {/* Main content area with left sidebar */}
@@ -514,8 +529,8 @@ export default function Changelog() {
                   </div>
                   
                   {/* Sticky Legend */}
-                  <div className="hidden lg:block fixed top-32 right-8 w-64 p-4 bg-base_100 border border-divide rounded-lg shadow-sm">
-                    <h3 className="text-primary font-medium mb-3 text-lg">Changelog Legend</h3>
+                  <div className="hidden lg:block fixed top-32 right-8 w-72 p-4 bg-base_100 border border-divide rounded-lg shadow-sm">
+                    <h3 className="text-primary font-medium mb-3 text-lg text-center">Legend</h3>
                     <div className="flex flex-col gap-3">
                         {legendItems.map((item) => (
                             <div key={item.emoji} className="flex items-center bg-base_100 rounded-md p-2 border border-divide">
@@ -526,21 +541,6 @@ export default function Changelog() {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Mobile/Tablet Legend (only visible below lg breakpoint) */}
-          <div className="lg:hidden w-full px-4 py-6 bg-hardbg border-t border-divide">
-            <div className="max-w-md mx-auto">
-              <h3 className="text-primary font-medium mb-3 text-lg">Changelog Legend</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {legendItems.map((item) => (
-                      <div key={item.emoji} className="flex items-center bg-base_100 rounded-md p-2 border border-divide">
-                          <span className="text-xl mr-2">{item.emoji}</span>
-                          <span className="text-secondary text-sm">{item.description}</span>
-                      </div>
-                  ))}
               </div>
             </div>
           </div>
