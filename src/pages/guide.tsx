@@ -21,11 +21,11 @@ export default function Guide() {
             
             <div className="relative max-w-screen-xl mx-auto">
                 {/* Fixed Table of Contents - Desktop */}
-                <div className="hidden lg:block fixed right-4 xl:right-8 top-32 w-96 z-10 max-h-[80vh] overflow-y-auto">
-                    <div className="bg-gradient-to-r from-primary/10 to-blue/10 rounded-xl p-6 border border-primary/20 shadow-md">
+                <div className="hidden lg:block fixed right-4 xl:right-8 top-28 w-96 z-10 max-h-[80vh] overflow-y-auto">
+                    <div className="bg-gradient-to-r from-primary/10 to-blue/10 rounded-xl px-6 py-4 border border-primary/20 shadow-md">
                         <div className="flex items-center mb-4">
-                            <div className="bg-primary/20 rounded-full p-2 mr-3">
-                                <span className="text-xl">📑</span>
+                            <div className="flex items-center justify-center rounded-full bg-primary/20 w-12 h-12 mr-3 p-2">
+                                <span className="text-xl">📌</span>
                             </div>
                             <h2 className="text-xl font-bold text-primary">Guide Contents</h2>
                         </div>
@@ -149,7 +149,7 @@ export default function Guide() {
                     </div>
 
                 {/* Banner */}
-                <div className="mt-24 bg-gradient-to-r from-[#f97316]/20 to-[#eab308]/20 border-l-4 border-[#f97316] mb-8 p-4 rounded-r-lg">
+                <div className="mt-16 bg-gradient-to-r from-[#f97316]/20 to-[#eab308]/20 border-l-4 border-[#f97316] mb-8 p-4 rounded-r-lg">
                     <div className="flex items-start">
                         <div className="flex-shrink-0 mr-3">
                             <div className="w-6 h-6 bg-[#f97316] rounded-full flex items-center justify-center">
@@ -241,7 +241,7 @@ export default function Guide() {
                 <div className="mb-24">
                     <div className="bg-gradient-to-r from-primary/10 to-blue/10 rounded-xl p-6 border border-primary/20 shadow-md">
                         <div className="flex items-center mb-4">
-                            <div className="bg-primary/20 rounded-full p-2 mr-3">
+                            <div className="flex items-center justify-center bg-primary/20 rounded-full w-12 h-12 p-2 mr-3">
                                 <span className="text-2xl">🔑</span>
                             </div>
                             <h2 className="text-2xl font-bold text-primary">Key Takeaways</h2>
@@ -434,7 +434,7 @@ export default function Guide() {
                 <div className="mb-24">
                     <div className="bg-gradient-to-r from-primary/10 to-blue/10 rounded-xl p-6 border border-primary/20 shadow-md">
                         <div className="flex items-center mb-4">
-                            <div className="bg-primary/20 rounded-full p-2 mr-3">
+                            <div className="flex items-center justify-center bg-primary/20 rounded-full w-12 h-12 p-2 mr-3">
                                 <span className="text-2xl">🔑</span>
                             </div>
                             <h2 className="text-2xl font-bold text-primary">Key Takeaways</h2>
@@ -607,7 +607,7 @@ export default function Guide() {
                     <div className="mb-24">
                         <div className="bg-gradient-to-r from-primary/10 to-blue/10 rounded-xl p-6 border border-primary/20 shadow-md">
                             <div className="flex items-center mb-4">
-                                <div className="bg-primary/20 rounded-full p-2 mr-3">
+                                <div className="flex items-center justify-center bg-primary/20 rounded-full w-12 h-12 p-2 mr-3">
                                     <span className="text-2xl">🔑</span>
                                 </div>
                                 <h2 className="text-2xl font-bold text-primary">Key Takeaways</h2>
@@ -756,7 +756,7 @@ export default function Guide() {
                     <div className="mb-24">
                         <div className="bg-gradient-to-r from-primary/10 to-blue/10 rounded-xl p-6 border border-primary/20 shadow-md">
                             <div className="flex items-center mb-4">
-                                <div className="bg-primary/20 rounded-full p-2 mr-3">
+                                <div className="flex items-center justify-center bg-primary/20 rounded-full w-12 h-12 p-2 mr-3">
                                     <span className="text-2xl">🔑</span>
                                 </div>
                                 <h2 className="text-2xl font-bold text-primary">Key Takeaways</h2>
@@ -798,7 +798,7 @@ export default function Guide() {
                 <div className="mb-24">
                     <div className="bg-gradient-to-r from-primary/10 to-blue/10 rounded-xl p-6 border border-primary/20 shadow-md">
                         <div className="flex items-center mb-4">
-                            <div className="bg-primary/20 rounded-full p-2 mr-3">
+                            <div className="flex items-center justify-center bg-primary/20 rounded-full w-12 h-12 p-2 mr-3">
                                 <span className="text-2xl">🔑</span>
                             </div>
                             <h2 className="text-2xl font-bold text-primary">Key Takeaways</h2>
