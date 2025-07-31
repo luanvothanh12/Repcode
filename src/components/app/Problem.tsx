@@ -20,6 +20,7 @@ import ProblemModal from './ProblemModal';
 import ProblemStatsModal from './ProblemStatsModal';
 import Toast from './Toast';
 import Badge from '@/components/ui/Badge';
+import { Whiteboard, DrawingElement } from './WhiteBoard';
 
 // If there's ever a <code> nested within a <pre>, it breaks everything, so we need to check for this and remove it 
 const sanitizeCodeBlocks = (html: string) => {
@@ -109,6 +110,11 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
   const [isToastVisible, setIsToastVisible] = useState(false);
   const queryClient = useQueryClient();
   
+  // Whiteboard state
+  const [whiteboardElements, setWhiteboardElements] = useState<DrawingElement[]>([]);
+  const [whiteboardHistory, setWhiteboardHistory] = useState<DrawingElement[][]>([]);
+  const [whiteboardHistoryIndex, setWhiteboardHistoryIndex] = useState(-1);
+  
   // For resizable panels
   const [panelWidth, setPanelWidth] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
@@ -161,6 +167,14 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
   useEffect(() => {
     hljs.highlightAll();
   }, [contentActive, problem]);
+  
+  // Initialize whiteboard history if it's empty when first accessing whiteboard
+  useEffect(() => {
+    if (contentActive === 'whiteboard' && whiteboardHistory.length === 0) {
+      setWhiteboardHistory([[]]);
+      setWhiteboardHistoryIndex(0);
+    }
+  }, [contentActive, whiteboardHistory.length]);
 
   const showToast = (message: string) => {
     setToastMessage(message);
@@ -239,6 +253,16 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
           }}
         />
       );
+    } else if (contentActive === 'whiteboard') {
+      return <Whiteboard 
+        className="mt-4 h-[800px]"
+        elements={whiteboardElements}
+        setElements={setWhiteboardElements}
+        history={whiteboardHistory}
+        setHistory={setWhiteboardHistory}
+        historyIndex={whiteboardHistoryIndex}
+        setHistoryIndex={setWhiteboardHistoryIndex}
+      />
     } else {
       return <pre className="wrap-text bg-base_100"><code className={`language-${problem.language} mr-5`}>{problem.solution}</code></pre>;
     }
@@ -331,6 +355,12 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
                   label="Notes" 
                   onClick={() => setContentActive('notes')}
                   icon="edit_note"
+                />
+                <TabButton
+                  active={contentActive==='whiteboard'}
+                  label="Whiteboard"
+                  onClick={() => setContentActive('whiteboard')}
+                  icon='dataset'
                 />
                 <TabButton 
                   active={contentActive === 'solution'} 

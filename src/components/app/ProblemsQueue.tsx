@@ -20,6 +20,7 @@ import ProblemStatsModal from './ProblemStatsModal';
 import Toast from './Toast';
 import Badge from '@/components/ui/Badge';
 import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
+import { Whiteboard, DrawingElement } from './WhiteBoard';
 
 // If there's ever a <code> nested within a <pre>, it breaks everything, so we need to check for this and remove it 
 const sanitizeCodeBlocks = (html: string) => {
@@ -86,6 +87,9 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
     const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [isToastVisible, setIsToastVisible] = useState(false);
+    const [whiteboardElements, setWhiteboardElements] = useState<DrawingElement[]>([]);
+    const [whiteboardHistory, setWhiteboardHistory] = useState<DrawingElement[][]>([]);
+    const [whiteboardHistoryIndex, setWhiteboardHistoryIndex] = useState(-1);
 
     // Joyride tour state
     const [runTour, setRunTour] = useState(false);
@@ -836,6 +840,12 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
                     onClick={() => setContent('notes')}
                     icon="edit_note"
                   />
+                  <TabButton
+                    active={content=== 'whiteboard'}
+                    label="Whiteboard"
+                    onClick={() => setContent('whiteboard')}
+                    icon="dataset"
+                  />
                   <div id="solution-tab">
                     <TabButton 
                       active={content === 'solution'} 
@@ -938,7 +948,17 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
                           __html: sanitizeCodeBlocks(dueProblems[0].question)
                         }}
                       />
-                    ) : (
+                    ) : content === 'whiteboard' ? (
+                      <Whiteboard
+                        className='mt-4 h-[800px]'
+                        elements={whiteboardElements}
+                        setElements={setWhiteboardElements}
+                        history={whiteboardHistory}
+                        setHistory={setWhiteboardHistory}
+                        historyIndex={whiteboardHistoryIndex}
+                        setHistoryIndex={setWhiteboardHistoryIndex}
+                      />
+                    ) :(
                       <pre className="wrap-text overflow-auto"><code className={`language-${dueProblems[0].language} mr-5`}>{dueProblems[0].solution}</code></pre>
                     )}
                   </div>
