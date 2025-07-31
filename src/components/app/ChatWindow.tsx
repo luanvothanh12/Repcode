@@ -2,12 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';
 
-const ChatWindow = ({ problem, editorContent, apiKey, onClose, buttonPosition }: { 
+const ChatWindow = ({ problem, editorContent, apiKey, isTab = false }: { 
   problem: any, 
   editorContent: string, 
   apiKey: any, 
-  onClose: () => void,
-  buttonPosition: { x: number, y: number } | null 
+  isTab?: boolean
 }) => {
   const [messages, setMessages] = useState<Array<{ text: string, sender: string }>>([]);
   const [input, setInput] = useState("");
@@ -65,15 +64,6 @@ const ChatWindow = ({ problem, editorContent, apiKey, onClose, buttonPosition }:
     hljs.highlightAll();
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
-
-  // Handle escape key to close chat
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleEscape);
-    return () => window.removeEventListener('keydown', handleEscape);
-  }, [onClose]);
 
   // Hide quick questions after first user message
   useEffect(() => {
@@ -160,22 +150,15 @@ const ChatWindow = ({ problem, editorContent, apiKey, onClose, buttonPosition }:
     "Are there edge cases my code is missing?"
   ];
 
-  // Calculate position based on button location
-  const chatStyle = buttonPosition ? {
-    bottom: `calc(100vh - ${buttonPosition.y}px + 16px)`,
-    right: '16px',
-    transform: 'translateY(0)',
-    opacity: 1
-  } : {};
+  // We don't need any special positioning for tab mode
+  const chatStyle = {};
 
   return (
     <div 
       ref={chatContainerRef}
-      className="fixed z-30 w-96 h-[450px] rounded-lg shadow-2xl flex flex-col overflow-hidden chat-animation"
+      className={`${isTab ? 'w-full h-[800px]' : 'fixed z-30 w-96 h-[450px] chat-animation'} rounded-lg ${!isTab && 'shadow-2xl'} flex flex-col overflow-hidden`}
       style={{
-        ...chatStyle,
         background: 'linear-gradient(to bottom, #343B4A, #2A303C)',
-        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)'
       }}
     >
       {/* Chat header */}
@@ -187,7 +170,7 @@ const ChatWindow = ({ problem, editorContent, apiKey, onClose, buttonPosition }:
       </div>
 
       {/* Chat messages */}
-      <div className="flex-1 overflow-auto p-4 bg-[#2A303C]/60">
+      <div className={`flex-1 overflow-auto p-4 bg-[#2A303C]/60 ${isTab ? 'mt-4' : ''}`}>
         {isAnalyzing ? (
           <div className="flex flex-col items-center justify-center h-full">
             <div className="analysis-animation mb-4">
@@ -252,7 +235,7 @@ const ChatWindow = ({ problem, editorContent, apiKey, onClose, buttonPosition }:
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about your code..."
-            className="flex-1 px-4 py-2 bg-transparent text-primary outline-none placeholder:text-[#B0B7C3]"
+            className="flex-1 px-4 py-2 bg-transparent text-base_100 outline-none placeholder:text-[#B0B7C3]"
             disabled={isAnalyzing || isTyping}
           />
           <button
@@ -264,7 +247,7 @@ const ChatWindow = ({ problem, editorContent, apiKey, onClose, buttonPosition }:
                 : 'text-[#B0B7C3] cursor-not-allowed'
             } transition-colors`}
           >
-            <span className="material-icons transform rotate-90">send</span>
+            <span className="material-icons transform">send</span>
           </button>
         </div>
       </form>
