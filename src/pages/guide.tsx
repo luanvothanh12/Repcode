@@ -198,7 +198,7 @@ export default function Guide() {
                         
                         <div className="p-5 border border-divide/30 rounded-lg bg-base_100/50 shadow-sm hover:shadow-md transition-shadow">
                             <h3 className="text-xl font-bold text-primary mb-3">2. Spatial Repetition Review</h3>
-                            <p className="text-secondary">A built-in spatial repetition algorithm ensures you don't forget what you've learned, intelligently scheduling reviews of past problems to reinforce your understanding.</p>
+                            <p className="text-secondary">A built-in spatial repetition algorithm ensures you don&apos;t forget what you&apos;ve learned, intelligently scheduling reviews of past problems to reinforce your understanding.</p>
                         </div>
                         
                         <div className="p-5 border border-divide/30 rounded-lg bg-base_100/50 shadow-sm hover:shadow-md transition-shadow">
@@ -207,7 +207,7 @@ export default function Guide() {
                         </div>
                     </div>
                     
-                    <p className="text-secondary my-8 text-lg">We will expand on each of these features in more detail below. But first, let's clarify how Repcode is meant to be used and what it is not designed for.</p>
+                    <p className="text-secondary my-8 text-lg">We will expand on each of these features in more detail below. But first, let&apos;s clarify how Repcode is meant to be used and what it is not designed for.</p>
                 </div>
 
                 <div className="mb-24" id="what-repcode-is-not">
@@ -519,7 +519,7 @@ export default function Guide() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                         <div className="border border-[#8B3A3A] rounded-md p-4 text-center bg-[#8B3A3A]/5 hover:bg-[#8B3A3A]/10 transition-colors">
                             <h4 className="text-[#FF6B6B] text-xl font-bold mb-2">Again</h4>
-                            <p className="text-secondary text-sm">For problems you couldn't solve</p>
+                            <p className="text-secondary text-sm">For problems you couldn&apos;t solve</p>
                         </div>
                         
                         <div className="border border-[#8C5E2A] rounded-md p-4 text-center bg-[#8C5E2A]/5 hover:bg-[#8C5E2A]/10 transition-colors">
