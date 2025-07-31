@@ -9,6 +9,14 @@ export default function Changelog() {
         month: "July 2025",
         updates: [
           {
+            date: "V 2.7 - July 30th, 2025",
+            changes: [
+              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/39" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #39</a> merged, credit @ajinkya8010 </>,
+              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/42" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #42</a> merged, credit @OmkarSathish </>,
+              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/40" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #40</a> merged, credit @OmkarSathish </>,
+            ],
+          },
+          {
             date: "V 2.6 - July 21st, 2025",
             changes: [
               <>⭐<a href="https://github.com/hussiiii/Repcode/pull/33" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #33</a> merged, credit @OmkarSathish </>,
