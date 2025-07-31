@@ -2,63 +2,126 @@ import React, { useState, useEffect, useRef } from 'react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';
 
-const ChatWindow = ({ problem, editorContent, apiKey, isTab = false }: { 
+const ChatWindow = ({ 
+  problem, 
+  editorContent, 
+  apiKey, 
+  isTab = false,
+  externalMessages,
+  setExternalMessages,
+  externalInput,
+  setExternalInput,
+  externalIsAnalyzing,
+  setExternalIsAnalyzing,
+  externalIsTyping,
+  setExternalIsTyping,
+  externalShowQuickQuestions,
+  setExternalShowQuickQuestions
+}: { 
   problem: any, 
   editorContent: string, 
   apiKey: any, 
-  isTab?: boolean
+  isTab?: boolean,
+  externalMessages?: Array<{ text: string, sender: string }>,
+  setExternalMessages?: React.Dispatch<React.SetStateAction<Array<{ text: string, sender: string }>>>,
+  externalInput?: string,
+  setExternalInput?: React.Dispatch<React.SetStateAction<string>>,
+  externalIsAnalyzing?: boolean,
+  setExternalIsAnalyzing?: React.Dispatch<React.SetStateAction<boolean>>,
+  externalIsTyping?: boolean,
+  setExternalIsTyping?: React.Dispatch<React.SetStateAction<boolean>>,
+  externalShowQuickQuestions?: boolean,
+  setExternalShowQuickQuestions?: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
-  const [messages, setMessages] = useState<Array<{ text: string, sender: string }>>([]);
-  const [input, setInput] = useState("");
-  const [isAnalyzing, setIsAnalyzing] = useState(true);
-  const [isTyping, setIsTyping] = useState(false);
-  const [showQuickQuestions, setShowQuickQuestions] = useState(true);
+  // Use local state if external state is not provided
+  const [localMessages, setLocalMessages] = useState<Array<{ text: string, sender: string }>>([]);
+  const [localInput, setLocalInput] = useState("");
+  const [localIsAnalyzing, setLocalIsAnalyzing] = useState(true);
+  const [localIsTyping, setLocalIsTyping] = useState(false);
+  const [localShowQuickQuestions, setLocalShowQuickQuestions] = useState(true);
+  
+  // Use either external or local state
+  // External State is used to persist chat window data across tab switches
+  // Internal State is used to provide default values incase external state data is absent
+  const messages = externalMessages !== undefined ? externalMessages : localMessages;
+  const setMessages = setExternalMessages || setLocalMessages;
+  const input = externalInput !== undefined ? externalInput : localInput;
+  const setInput = setExternalInput || setLocalInput;
+  const isAnalyzing = externalIsAnalyzing !== undefined ? externalIsAnalyzing : localIsAnalyzing;
+  const setIsAnalyzing = setExternalIsAnalyzing || setLocalIsAnalyzing;
+  const isTyping = externalIsTyping !== undefined ? externalIsTyping : localIsTyping;
+  const setIsTyping = setExternalIsTyping || setLocalIsTyping;
+  const showQuickQuestions = externalShowQuickQuestions !== undefined ? externalShowQuickQuestions : localShowQuickQuestions;
+  const setShowQuickQuestions = setExternalShowQuickQuestions || setLocalShowQuickQuestions;
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
+  // Reference to track if we're already analyzing to prevent duplicate calls
+  const analysisInProgress = useRef(false);
+  
   // Initial analysis when component mounts
   useEffect(() => {
-    const analyzeCode = async () => {
-      try {
-        const response = await fetch('/api/openai', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            question: problem.question,
-            solution: problem.solution,
-            userSolution: editorContent,
-            userMessage: "analyze", // Special flag to just analyze the code
-            apiKey: apiKey,
-            mode: "analyze" // Tell the API we're just loading context
-          }),
-        });
-        
-        setIsAnalyzing(false);
-        
-        if (response.ok) {
-          // After analysis is complete, show the greeting message
-          setMessages([{ text: "How can I help you with this problem?", sender: "ai" }]);
-        } else {
+
+    // Only run analysis if:
+    // 1. We're using local state (no external state provided) AND local messages are empty
+    // 2. External messages array is empty AND external analyzing state is true
+    // 3. We're not already in the middle of analyzing
+    const shouldAnalyze = 
+      ((externalMessages === undefined && localMessages.length === 0) || 
+       (externalMessages !== undefined && externalMessages.length === 0 && externalIsAnalyzing === true)) &&
+      !analysisInProgress.current;
+    
+    if (shouldAnalyze) {
+      analysisInProgress.current = true;
+      
+      const analyzeCode = async () => {
+        try {
+          const response = await fetch('/api/openai', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              question: problem.question,
+              solution: problem.solution,
+              userSolution: editorContent,
+              userMessage: "analyze", // Special flag to just analyze the code
+              apiKey: apiKey,
+              mode: "analyze" // Tell the API we're just loading context
+            }),
+          });
+          
+          setIsAnalyzing(false);
+          
+          if (response.ok) {
+            // After analysis is complete, show the greeting message
+            setMessages([{ text: "How can I help you with this problem?", sender: "ai" }]);
+          } else {
+            setMessages([{ 
+              text: "Failed to analyze your code. Please make sure you have entered a valid API Key in the Settings page.", 
+              sender: "ai" 
+            }]);
+            setShowQuickQuestions(false);
+          }
+        } catch (error) {
+          setIsAnalyzing(false);
           setMessages([{ 
             text: "Failed to analyze your code. Please make sure you have entered a valid API Key in the Settings page.", 
             sender: "ai" 
           }]);
           setShowQuickQuestions(false);
+        } finally {
+          analysisInProgress.current = false;
         }
-      } catch (error) {
-        setIsAnalyzing(false);
-        setMessages([{ 
-          text: "Failed to analyze your code. Please make sure you have entered a valid API Key in the Settings page.", 
-          sender: "ai" 
-        }]);
-        setShowQuickQuestions(false);
-      }
-    };
-    
-    analyzeCode();
-  }, [problem, editorContent, apiKey]);
+      };
+      
+      analyzeCode();
+    } else if (externalMessages !== undefined && externalMessages.length > 0 && externalIsAnalyzing) {
+      // If we have external messages but external analyzing is still true, set it to false
+      setIsAnalyzing(false);
+    }
+  }, [problem, editorContent, apiKey, externalMessages, externalIsAnalyzing, localMessages.length, setIsAnalyzing, setMessages, setShowQuickQuestions]);
 
   useEffect(() => {
     hljs.highlightAll();
@@ -149,9 +212,6 @@ const ChatWindow = ({ problem, editorContent, apiKey, isTab = false }: {
     "Is my solution correct?",
     "Are there edge cases my code is missing?"
   ];
-
-  // We don't need any special positioning for tab mode
-  const chatStyle = {};
 
   return (
     <div 

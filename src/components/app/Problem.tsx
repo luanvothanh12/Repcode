@@ -114,6 +114,13 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
   const [whiteboardHistory, setWhiteboardHistory] = useState<DrawingElement[][]>([]);
   const [whiteboardHistoryIndex, setWhiteboardHistoryIndex] = useState(-1);
   
+  // State for preserving ChatWindow content
+  const [chatMessages, setChatMessages] = useState<Array<{ text: string, sender: string }>>([]);
+  const [chatInput, setChatInput] = useState("");
+  const [isAnalyzing, setIsAnalyzing] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
+  const [showQuickQuestions, setShowQuickQuestions] = useState(true);
+  
   // For resizable panels
   const [panelWidth, setPanelWidth] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
@@ -152,7 +159,7 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
     return response.json();
   };
 
-  const { isLoading, data, error } = useQuery(['userSettings', user?.email], fetchUserSettings, {
+  const { data } = useQuery(['userSettings', user?.email], fetchUserSettings, {
     enabled: !!user, 
   });
 
@@ -172,6 +179,82 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
       setWhiteboardHistoryIndex(0);
     }
   }, [contentActive, whiteboardHistory.length]);
+
+  // Initialize chat when problem or apiKey changes
+  const currentProblemId = useRef<string | null>(null);
+  
+  // Effect for resetting chat when the problem changes
+  useEffect(() => {
+    if (problem) {
+      const newProblemId = problem.id;
+      
+      // If this is a new problem, reset chat state
+      if (currentProblemId.current !== newProblemId) {
+        currentProblemId.current = newProblemId;
+        
+        // Reset chat state for the new problem
+        setChatMessages([]);
+        setIsAnalyzing(true);
+        setIsTyping(false);
+        setShowQuickQuestions(true);
+      }
+    }
+  }, [problem]);
+  
+  // Effect for handling tab switching to AI assistant
+  useEffect(() => {
+    // When switching to AI assistant tab, make sure we're not stuck in analyzing state
+    if (contentActive === 'ai-assistant' && chatMessages.length > 0) {
+      setIsAnalyzing(false);
+    }
+  }, [contentActive, chatMessages.length]);
+  
+  // Separate effect for actual API call, depending on analyzing state
+  useEffect(() => {
+    // Only proceed if we're in analyzing state and have a problem and API key
+    if (isAnalyzing && problem && data?.apiKey && contentActive === 'ai-assistant') {
+      const analyzeCode = async () => {
+        try {
+          const response = await fetch('/api/openai', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              question: problem.question,
+              solution: problem.solution,
+              userSolution: editorContent,
+              userMessage: "analyze",
+              apiKey: data?.apiKey,
+              mode: "analyze"
+            }),
+          });
+          
+          setIsAnalyzing(false);
+          
+          if (response.ok) {
+            // After analysis is complete, show the greeting message
+            setChatMessages([{ text: "How can I help you with this problem?", sender: "ai" }]);
+          } else {
+            setChatMessages([{ 
+              text: "Failed to analyze your code. Please make sure you have entered a valid API Key in the Settings page.", 
+              sender: "ai" 
+            }]);
+            setShowQuickQuestions(false);
+          }
+        } catch (error) {
+          setIsAnalyzing(false);
+          setChatMessages([{ 
+            text: "Failed to analyze your code. Please make sure you have entered a valid API Key in the Settings page.", 
+            sender: "ai" 
+          }]);
+          setShowQuickQuestions(false);
+        }
+      };
+      
+      analyzeCode();
+    }
+  }, [isAnalyzing, problem, data?.apiKey, editorContent, contentActive]);
 
   const showToast = (message: string) => {
     setToastMessage(message);
@@ -250,6 +333,16 @@ const Problem = ({ problem, contentActive, setContentActive, editorContent, setE
           editorContent={editorContent} 
           apiKey={data?.apiKey}
           isTab={true}
+          externalMessages={chatMessages}
+          setExternalMessages={setChatMessages}
+          externalInput={chatInput}
+          setExternalInput={setChatInput}
+          externalIsAnalyzing={isAnalyzing}
+          setExternalIsAnalyzing={setIsAnalyzing}
+          externalIsTyping={isTyping}
+          setExternalIsTyping={setIsTyping}
+          externalShowQuickQuestions={showQuickQuestions}
+          setExternalShowQuickQuestions={setShowQuickQuestions}
       />
     } else {
       return <pre className="wrap-text bg-base_100"><code className={`language-${problem.language} mr-5`}>{problem.solution}</code></pre>;

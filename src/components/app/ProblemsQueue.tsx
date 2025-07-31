@@ -82,7 +82,6 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
     const [isLoading, setIsLoading] = useState(false); // while we transition from current problem to next in queue   
     const [editorContent, setEditorContent] = useState<any>('');  
     const queryClient = useQueryClient();
-    const [showChat, setShowChat] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
@@ -90,6 +89,13 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
     const [whiteboardElements, setWhiteboardElements] = useState<DrawingElement[]>([]);
     const [whiteboardHistory, setWhiteboardHistory] = useState<DrawingElement[][]>([]);
     const [whiteboardHistoryIndex, setWhiteboardHistoryIndex] = useState(-1);
+    
+    // State for preserving ChatWindow content
+    const [chatMessages, setChatMessages] = useState<Array<{ text: string, sender: string }>>([]);
+    const [chatInput, setChatInput] = useState("");
+    const [isAnalyzing, setIsAnalyzing] = useState(true);
+    const [isTyping, setIsTyping] = useState(false);
+    const [showQuickQuestions, setShowQuickQuestions] = useState(true);
 
     // Joyride tour state
     const [runTour, setRunTour] = useState(false);
@@ -135,8 +141,14 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
     // For resizable panels
     const [panelWidth, setPanelWidth] = useState(50);
     const [isDragging, setIsDragging] = useState(false);
-    const [buttonPosition, setButtonPosition] = useState<{ x: number, y: number } | null>(null);
-    const aiButtonRef = useRef<HTMLButtonElement>(null);
+    
+    // Effect to handle tab switching to AI assistant
+    useEffect(() => {
+      // When switching to AI assistant tab, make sure we're not stuck in analyzing state
+      if (content === 'ai-assistant' && chatMessages.length > 0) {
+        setIsAnalyzing(false);
+      }
+    }, [content, chatMessages.length]);
 
   const fetchUserSettings = async () => {
     if (!user) throw new Error("No user found");
@@ -148,6 +160,73 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
     const { data } = useQuery(['userSettings', user?.email], fetchUserSettings, {
     enabled: !!user, 
     });
+    
+    // Initialize chat only once per problem
+    const currentProblemId = useRef<string | null>(null);
+    
+    // Effect for resetting chat when the problem changes
+    useEffect(() => {
+      if (dueProblems.length > 0) {
+        const newProblemId = dueProblems[0].id;
+        
+        // If this is a new problem, reset chat state
+        if (currentProblemId.current !== newProblemId) {
+          currentProblemId.current = newProblemId;
+          
+          // Only initialize if we need to (empty messages)
+          if (chatMessages.length === 0) {
+            setIsAnalyzing(true); // Set to analyzing state
+          }
+        }
+      }
+    }, [dueProblems]);
+    
+    // Separate effect for actual API call, depending on analyzing state
+    useEffect(() => {
+      // Only proceed if we're in analyzing state and have a problem and API key
+      if (isAnalyzing && dueProblems.length > 0 && data?.apiKey) {
+        const analyzeCode = async () => {
+          try {
+            const response = await fetch('/api/openai', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                question: dueProblems[0].question,
+                solution: dueProblems[0].solution,
+                userSolution: editorContent,
+                userMessage: "analyze",
+                apiKey: data?.apiKey,
+                mode: "analyze"
+              }),
+            });
+            
+            setIsAnalyzing(false);
+            
+            if (response.ok) {
+              // After analysis is complete, show the greeting message
+              setChatMessages([{ text: "How can I help you with this problem?", sender: "ai" }]);
+            } else {
+              setChatMessages([{ 
+                text: "Failed to analyze your code. Please make sure you have entered a valid API Key in the Settings page.", 
+                sender: "ai" 
+              }]);
+              setShowQuickQuestions(false);
+            }
+          } catch (error) {
+            setIsAnalyzing(false);
+            setChatMessages([{ 
+              text: "Failed to analyze your code. Please make sure you have entered a valid API Key in the Settings page.", 
+              sender: "ai" 
+            }]);
+            setShowQuickQuestions(false);
+          }
+        };
+        
+        analyzeCode();
+      }
+    }, [isAnalyzing, dueProblems, data?.apiKey, editorContent]);
 
     const handleMouseDown = () => {
       setIsDragging(true);
@@ -720,22 +799,6 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
     setTimeout(() => setIsToastVisible(false), 3000);
   };
 
-  // Function to toggle chat open/closed
-  const handleToggleChat = () => {
-    if (showChat) {
-      setShowChat(false);
-    } else {
-      if (aiButtonRef.current) {
-        const rect = aiButtonRef.current.getBoundingClientRect();
-        setButtonPosition({ 
-          x: rect.left + rect.width / 2, 
-          y: rect.top 
-        });
-        setShowChat(true);
-      }
-    }
-  };
-
   // Tab button component to match Problem.tsx
   const TabButton = ({ active, label, onClick, icon }: { active: boolean, label: string, onClick: () => void, icon?: string }) => {
     return (
@@ -869,7 +932,7 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
                     active={content=== 'ai-assistant'}
                     label="Repcode AI"
                     onClick={() => setContent('ai-assistant')}
-                    icon="dataset"
+                    icon="bolt"
                   />
                   
                   {/* Vertical divider */}
@@ -981,6 +1044,16 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
                           editorContent={editorContent} 
                           apiKey={data?.apiKey}
                           isTab={true}
+                          externalMessages={chatMessages}
+                          setExternalMessages={setChatMessages}
+                          externalInput={chatInput}
+                          setExternalInput={setChatInput}
+                          externalIsAnalyzing={isAnalyzing}
+                          setExternalIsAnalyzing={setIsAnalyzing}
+                          externalIsTyping={isTyping}
+                          setExternalIsTyping={setIsTyping}
+                          externalShowQuickQuestions={showQuickQuestions}
+                          setExternalShowQuickQuestions={setShowQuickQuestions}
                       />
                     ) :
                     (
