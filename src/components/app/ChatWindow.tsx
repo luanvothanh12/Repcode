@@ -180,7 +180,7 @@ const ChatWindow = ({
     const parts = msg.text.split(codeRegex);
 
     return (
-      <div key={index} className={`message ${msg.sender} animate-fade-in my-2 p-3 rounded-lg ${
+      <div key={index} className={`message ${msg.sender} animate-fade-in my-2 p-3 rounded-lg w-full ${
         msg.sender === "ai" 
           ? "bg-[#343B4A] text-primary border-l-2 border-blue-400" 
           : "bg-gradient-to-r from-[#0891b2] to-[#2563eb] text-primary"
@@ -189,12 +189,14 @@ const ChatWindow = ({
           if (i % 3 === 2) {
             const language = parts[i - 1] || 'plaintext';
             return (
-              <pre key={i} className="mt-2 rounded-md p-0 overflow-auto">
-                <code className={`language-${language} p-2 block`}>{part}</code>
-              </pre>
+              <div key={i} className="mt-2 rounded-md bg-[#1E2430] overflow-hidden w-full">
+                <pre className="overflow-x-auto max-w-full">
+                  <code className={`language-${language} p-3 block text-sm`}>{part}</code>
+                </pre>
+              </div>
             );
           }
-          return part && <p key={i} className="whitespace-pre-wrap">{part}</p>;
+          return part && <p key={i} className="whitespace-pre-wrap break-words mb-2">{part}</p>;
         })}
       </div>
     );
@@ -216,7 +218,7 @@ const ChatWindow = ({
   return (
     <div 
       ref={chatContainerRef}
-      className={`${isTab ? 'w-full h-[800px]' : 'fixed z-30 w-96 h-[450px] chat-animation'} rounded-lg ${!isTab && 'shadow-2xl'} flex flex-col overflow-hidden`}
+      className={`${isTab ? 'w-full h-full min-h-[800px]' : 'fixed z-30 w-96 h-[450px] chat-animation'} rounded-lg ${!isTab && 'shadow-2xl'} flex flex-col overflow-hidden`}
       style={{
         background: 'linear-gradient(to bottom, #343B4A, #2A303C)',
       }}
@@ -230,7 +232,7 @@ const ChatWindow = ({
       </div>
 
       {/* Chat messages */}
-      <div className={`flex-1 overflow-auto p-4 bg-[#2A303C]/60 ${isTab ? 'mt-4' : ''}`}>
+      <div className={`flex-1 overflow-y-auto p-4 bg-[#2A303C]/60 ${isTab ? 'mt-4' : ''} scrollbar-thin scrollbar-thumb-[#4A5267] scrollbar-track-transparent`}>
         {isAnalyzing ? (
           <div className="flex flex-col items-center justify-center h-full">
             <div className="analysis-animation mb-4">
@@ -250,7 +252,9 @@ const ChatWindow = ({
           </div>
         ) : (
           <>
-            {messages.map((msg, index) => renderMessage(msg, index))}
+            <div className="messages-container space-y-3 w-full">
+              {messages.map((msg, index) => renderMessage(msg, index))}
+            </div>
             
             {/* Quick question buttons */}
             {showQuickQuestions && messages.length === 1 && messages[0].sender === 'ai' && (
@@ -336,6 +340,35 @@ const ChatWindow = ({
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .messages-container {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+        
+        .message pre {
+          max-width: 100%;
+        }
+        
+        .message code {
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+        
+        /* Custom scrollbar styling */
+        .scrollbar-thin::-webkit-scrollbar {
+          width: 6px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+          background-color: #4A5267;
+          border-radius: 3px;
         }
         
         .typing-indicator {
