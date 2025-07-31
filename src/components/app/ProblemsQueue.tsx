@@ -12,7 +12,7 @@ import "ace-builds/src-noconflict/mode-c_cpp";
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark-reasonable.css'; // or any other style of your choice
 import { AuthContext } from '@/auth/AuthContext';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import ChatWindow from './ChatWindow';
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import ProblemModal from './ProblemModal';
@@ -137,6 +137,17 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
     const [isDragging, setIsDragging] = useState(false);
     const [buttonPosition, setButtonPosition] = useState<{ x: number, y: number } | null>(null);
     const aiButtonRef = useRef<HTMLButtonElement>(null);
+
+  const fetchUserSettings = async () => {
+    if (!user) throw new Error("No user found");
+    const response = await fetch(`/api/getUserSettings?userEmail=${user.email}`);
+    if (!response.ok) throw new Error("Failed to fetch user settings");
+    return response.json();
+  };
+
+    const { data } = useQuery(['userSettings', user?.email], fetchUserSettings, {
+    enabled: !!user, 
+    });
 
     const handleMouseDown = () => {
       setIsDragging(true);
@@ -854,6 +865,12 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
                       icon="code"
                     />
                   </div>
+                  <TabButton
+                    active={content=== 'ai-assistant'}
+                    label="Repcode AI"
+                    onClick={() => setContent('ai-assistant')}
+                    icon="dataset"
+                  />
                   
                   {/* Vertical divider */}
                   {dueProblems.length > 0 && (
@@ -958,7 +975,15 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
                         historyIndex={whiteboardHistoryIndex}
                         setHistoryIndex={setWhiteboardHistoryIndex}
                       />
-                    ) :(
+                    ) : content === 'ai-assistant' ? (
+                      <ChatWindow
+                          problem={dueProblems[0]} 
+                          editorContent={editorContent} 
+                          apiKey={data?.apiKey}
+                          isTab={true}
+                      />
+                    ) :
+                    (
                       <pre className="wrap-text overflow-auto"><code className={`language-${dueProblems[0].language} mr-5`}>{dueProblems[0].solution}</code></pre>
                     )}
                   </div>
@@ -1025,16 +1050,6 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
             )}
           </div>
         </div>
-
-        {showChat && dueProblems[0] && (
-          <ChatWindow 
-            problem={dueProblems[0]} 
-            editorContent={editorContent} 
-            apiKey={userSettings?.apiKey}
-            onClose={() => setShowChat(false)}
-            buttonPosition={buttonPosition}
-          />
-        )}
         
         <ReactTooltip
           id="my-tooltip-1"
@@ -1110,9 +1125,9 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
           }}
         />
 
-        {/* Skip button - positioned to the left of AI Help */}
+        {/* Skip button */}
         {dueProblems.length > 0 && (
-          <div className="fixed bottom-6 right-36 z-10 group">
+          <div className="fixed bottom-6 right-[1rem] z-10">
             <button 
               onClick={skipProblem}
               className="flex items-center px-4 py-3 bg-gradient-to-r from-[#f59e0b] to-[#f97316] hover:from-[#d97706] hover:to-[#ea580c] text-white rounded-full transition-all duration-200"
@@ -1138,26 +1153,6 @@ const ProblemsQueue = ({ problems, userSettings, refetchProblems }: {problems:an
             </div>
           </div>
         )}
-
-        {/* Floating AI Help button with matching gradient and shadow */}
-        <button 
-          ref={aiButtonRef}
-          onClick={handleToggleChat} 
-          className={`fixed bottom-6 right-6 flex items-center px-4 py-3 bg-gradient-to-r ${
-            showChat 
-              ? "from-[#0891b2] to-[#2563eb]" // Slightly different gradient when active
-              : "from-[#06b6d4] to-[#3b82f6]"
-          } hover:from-[#0891b2] hover:to-[#2563eb] text-primary rounded-full transition-all duration-200 z-10 group`}
-          style={{ 
-            boxShadow: '0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -4px rgba(59, 130, 246, 0.2)'
-          }}
-          onMouseOver={(e) => e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -4px rgba(59, 130, 246, 0.3)'}
-          onMouseOut={(e) => e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -4px rgba(59, 130, 246, 0.2)'}
-        >
-          <span className="material-icons mr-2" style={{ fontSize: '20px' }}>auto_awesome</span>
-          <span className="font-medium">{showChat ? "Close AI" : "AI Help"}</span>
-          <div className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-        </button>
       </div>
     );
   };
