@@ -469,42 +469,90 @@ export default function Changelog() {
       },
     ];
 
+    const legendItems = [
+        { emoji: "⭐", description: "PR from a contributor merged" },
+        { emoji: "⚙️", description: "Small change/adjustment" },
+        { emoji: "🎉", description: "Major release build" },
+        { emoji: "➕", description: "New feature added" },
+        { emoji: "➖", description: "Feature removed" },
+        { emoji: "🛠️", description: "Bug fix" },
+    ];
+
     return (
       <div className="flex flex-col min-h-screen bg-base_100">
           <NavBar />
-          <div className="flex flex-1 pt-40 sm:pt-24">
-              <div className="hidden md:block md:w-1/4 p-4 border-r border-divide overflow-auto">
-                  {changelogData.map((log) => (
-                      <div key={log.month} className="mb-4">
-                          <div className="py-2 px-4 w-full text-left text-primary font-bold">
-                              {log.month}
-                          </div>
-                          <ul className="pl-4">
-                              {log.updates.map((update) => (
-                                  <li key={update.date} className="list-disc text-secondary">{update.date}</li>
-                              ))}
-                          </ul>
-                      </div>
-                  ))}
+          <div className="pt-40 sm:pt-24 flex-grow">
+            {/* Top Banner Legend for md screens and smaller */}
+            <div className="lg:hidden w-full max-w-7xl mx-auto px-4 sm:px-6 mb-6">
+              <div className="w-full bg-base_100 border border-divide rounded-lg p-4 shadow-sm">
+                <h3 className="text-primary font-medium mb-3 text-lg text-center">Legend</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {legendItems.map((item) => (
+                        <div key={item.emoji} className="flex items-center bg-base_100 rounded-md p-2 border border-divide">
+                            <span className="text-xl mr-2">{item.emoji}</span>
+                            <span className="text-secondary text-sm">{item.description}</span>
+                        </div>
+                    ))}
+                </div>
               </div>
-              <div className="w-full md:w-3/4 p-4">
-                  {changelogData.map((log) => (
-                      <div key={log.month} className="mb-12">
-                          <h2 className="inline-block font-bold text-2xl text-primary border-b-2 border-divide mb-2">{log.month}</h2>
-                          {log.updates.map((update) => (
-                              <div key={update.date} className="mb-4">
-                                  <h3 className="font-bold text-xl text-secondary">{update.date}</h3>
-                                  <ul className="pl-5 text-secondary list-none">
-                                      {update.changes.map((change, index) => (
-                                          <li key={index}>{change}</li>
-                                      ))}
-                                  </ul>
+            </div>
+            
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+              <div className="flex flex-col lg:flex-row">
+                {/* Main content area with left sidebar */}
+                <div className="flex flex-1 relative">
+                  {/* Left sidebar (month navigation) */}
+                  <div className="hidden md:block w-1/4 p-4 border-r border-divide overflow-auto">
+                      {changelogData.map((log) => (
+                          <div key={log.month} className="mb-4">
+                              <div className="py-2 px-4 w-full text-left text-primary font-bold">
+                                  {log.month}
                               </div>
-                          ))}
-                      </div>
-                  ))}
+                              <ul className="pl-4">
+                                  {log.updates.map((update) => (
+                                      <li key={update.date} className="list-disc text-secondary">{update.date}</li>
+                                  ))}
+                              </ul>
+                          </div>
+                      ))}
+                  </div>
+                  
+                  {/* Main changelog content */}
+                  <div className="w-full md:w-3/4 p-4 lg:pr-72">
+                      {changelogData.map((log) => (
+                          <div key={log.month} className="mb-12">
+                              <h2 className="inline-block font-bold text-2xl text-primary border-b-2 border-divide mb-2">{log.month}</h2>
+                              {log.updates.map((update) => (
+                                  <div key={update.date} className="mb-4">
+                                      <h3 className="font-bold text-xl text-secondary">{update.date}</h3>
+                                      <ul className="pl-5 text-secondary list-none">
+                                          {update.changes.map((change, index) => (
+                                              <li key={index} className="mb-1">{change}</li>
+                                          ))}
+                                      </ul>
+                                  </div>
+                              ))}
+                          </div>
+                      ))}
+                  </div>
+                  
+                  {/* Sticky Legend */}
+                  <div className="hidden lg:block fixed top-32 right-8 w-72 p-4 bg-base_100 border border-divide rounded-lg shadow-sm">
+                    <h3 className="text-primary font-medium mb-3 text-lg text-center">Legend</h3>
+                    <div className="flex flex-col gap-3">
+                        {legendItems.map((item) => (
+                            <div key={item.emoji} className="flex items-center bg-base_100 rounded-md p-2 border border-divide">
+                                <span className="text-xl mr-2">{item.emoji}</span>
+                                <span className="text-secondary text-sm">{item.description}</span>
+                            </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
           </div>
+          
           <Footer />
       </div>
     );
