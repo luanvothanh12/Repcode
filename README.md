@@ -6,9 +6,10 @@ This is the codebase, it's all hosted online for free though so if you just want
 
 
 ❤️❤️ SPECIAL THANKS TO ALL OUR CONTRIBUTORS: ❤️❤️
-* knownotunknown
 * OmkarSathish
+* knownotunknown
 * Pragyan14 
+* ajinkya801
 * (add a PR to see your name here!) 
 
 
