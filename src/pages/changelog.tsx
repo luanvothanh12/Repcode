@@ -6,6 +6,19 @@ import "../app/globals.css";
 export default function Changelog() {
     const changelogData = [
       {
+        month: "August 2025",
+        updates: [
+          {
+            date: "V 2.8 - August 6th, 2025",
+            changes: [
+              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/44" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #44</a> merged, credit @ZidanCorson </>,
+              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/46" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #46</a> merged, credit @OmkarSathish </>,
+              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/43" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #43</a> merged, credit @OmkarSathish </>,
+            ],
+          },
+        ],
+      },
+      {
         month: "July 2025",
         updates: [
           {
