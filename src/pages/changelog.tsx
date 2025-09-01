@@ -9,6 +9,14 @@ export default function Changelog() {
         month: "August 2025",
         updates: [
           {
+            date: "V 2.9 - August 31st, 2025",
+            changes: [
+              <>⭐<a href="https://github.com/hussiiii/Repcode/pull/62" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #62</a> merged, credit @OmkarSathish </>,
+              "⚙️Adjusted landing page styling",
+              "⚙️Adjusted guide page styling",
+            ],
+          },
+          {
             date: "V 2.8 - August 6th, 2025",
             changes: [
               <>⭐<a href="https://github.com/hussiiii/Repcode/pull/44" target="_blank" rel="noopener noreferrer" className="text-new underline">PR #44</a> merged, credit @ZidanCorson </>,
